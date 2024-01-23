@@ -6,7 +6,7 @@ class EngineCore
 public :
 	// constructer destructer
 	EngineCore();
-	virtual ~EngineCore();
+	~EngineCore();
 
 	// delete Function
 	EngineCore(const EngineCore& _Other) = delete;
