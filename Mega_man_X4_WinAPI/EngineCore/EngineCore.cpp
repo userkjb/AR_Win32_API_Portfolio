@@ -1,4 +1,5 @@
 #include "EngineCore.h"
+#include <Windows.h>
 
 EngineCore::EngineCore()
 {
