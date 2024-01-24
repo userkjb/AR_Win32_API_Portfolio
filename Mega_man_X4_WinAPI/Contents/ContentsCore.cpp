@@ -11,14 +11,14 @@ ContentsCore::~ContentsCore()
 /// <summary>
 /// Game Start
 /// </summary>
-void ContentsCore::EngineStart()
+void ContentsCore::BeginPlay()
 {
 }
 
-void ContentsCore::EngineUpdate()
+void ContentsCore::Tick(float _DeltaTime)
 {
 }
 
-void ContentsCore::EngineEnd()
+void ContentsCore::End()
 {
 }
