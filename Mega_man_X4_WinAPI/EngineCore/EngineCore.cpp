@@ -10,6 +10,15 @@ EngineCore::~EngineCore()
 {
 }
 
+void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
+{
+	EngineCore* Ptr = _UserCore;
+	GEngine = Ptr;
+	Ptr->CoreInit(_hInstance);
+	Ptr->BeginPlay();
+	EngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
+}
+
 void EngineCore::CoreInit(HINSTANCE _HINSTANCE)
 {
 	if (true == EngineInit)
