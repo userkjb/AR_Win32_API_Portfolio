@@ -1,10 +1,11 @@
 #pragma once
+#include <string>
 class NameObject
 {
 public :
 	// constructer destructer
 	NameObject();
-	virtual ~NameObject();
+	~NameObject();
 
 	// delete Function
 	NameObject(const NameObject& _Other) = delete;
@@ -12,9 +13,18 @@ public :
 	NameObject& operator=(const NameObject) = delete;
 	NameObject& operator=(NameObject&& _Other) noexcept = delete;
 
+	void SetName(std::string_view _View)
+	{
+		Name = _View;
+	}
+
+	std::string GetName()
+	{
+		return Name;
+	}
+
 protected :
 
 private :
-
+	std::string Name;
 };
-
