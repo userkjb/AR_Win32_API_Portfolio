@@ -159,9 +159,17 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EngineString.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineDebug.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EngineString.cpp">
       <SubType>
       </SubType>
     </ClCompile>
