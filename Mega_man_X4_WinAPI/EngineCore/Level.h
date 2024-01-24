@@ -14,6 +14,9 @@ public :
 	ULevel& operator=(const ULevel) = delete;
 	ULevel& operator=(ULevel&& _Other) noexcept = delete;
 
+	virtual void BeginPlay() {};
+	virtual void Tick(float _DeltaTime) {};
+
 protected :
 
 private :
