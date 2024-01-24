@@ -39,11 +39,14 @@ public :
 		AllLevel.insert(std::pair<std::string, ULevel*>(Name, NewLevel));
 	}
 
+	void ChangeLevel(std::string_view _Name);
+
 protected :
 
 private :
 	bool EngineInit = false;
 	std::map<std::string, ULevel*> AllLevel;
+	ULevel* CurLevel = nullptr;
 
 	void LevelInit(ULevel* _Level);
 };
