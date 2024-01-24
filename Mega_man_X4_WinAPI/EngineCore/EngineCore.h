@@ -1,5 +1,6 @@
 #pragma once
 #include <EnginePlatform/EngineWindow.h>
+#include <map>
 
 class ULevel;
 
@@ -36,6 +37,7 @@ protected :
 
 private :
 	bool EngineInit = false;
+	std::map<std::string, ULevel*> AllLevel;
 };
 
 #define ENGINESTART(USERCORE) \
