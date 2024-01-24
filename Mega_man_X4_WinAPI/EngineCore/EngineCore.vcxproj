@@ -159,9 +159,17 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="NameObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="NameObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>
