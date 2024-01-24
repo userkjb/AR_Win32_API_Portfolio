@@ -1,9 +1,9 @@
 #include "NameObject.h"
 
-NameObject::NameObject()
+UNameObject::UNameObject()
 {
 }
 
-NameObject::~NameObject()
+UNameObject::~UNameObject()
 {
 }

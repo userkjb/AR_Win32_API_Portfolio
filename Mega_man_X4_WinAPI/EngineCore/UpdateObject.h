@@ -1,16 +1,16 @@
 #pragma once
-class UpdateObject
+class UUpdateObject
 {
 public :
 	// constructer destructer
-	UpdateObject();
-	virtual ~UpdateObject();
+	UUpdateObject();
+	virtual ~UUpdateObject();
 
 	// delete Function
-	UpdateObject(const UpdateObject& _Other) = delete;
-	UpdateObject(UpdateObject&& _Other) noexcept = delete;
-	UpdateObject& operator=(const UpdateObject) = delete;
-	UpdateObject& operator=(UpdateObject&& _Other) noexcept = delete;
+	UUpdateObject(const UUpdateObject& _Other) = delete;
+	UUpdateObject(UUpdateObject&& _Other) noexcept = delete;
+	UUpdateObject& operator=(const UUpdateObject) = delete;
+	UUpdateObject& operator=(UUpdateObject&& _Other) noexcept = delete;
 
 	void On()
 	{

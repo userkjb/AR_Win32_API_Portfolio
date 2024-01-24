@@ -1,9 +1,9 @@
 #include "UpdateObject.h"
 
-UpdateObject::UpdateObject()
+UUpdateObject::UUpdateObject()
 {
 }
 
-UpdateObject::~UpdateObject()
+UUpdateObject::~UUpdateObject()
 {
 }

@@ -1,17 +1,17 @@
 #pragma once
 #include <string>
-class NameObject
+class UNameObject
 {
 public :
 	// constructer destructer
-	NameObject();
-	~NameObject();
+	UNameObject();
+	~UNameObject();
 
 	// delete Function
-	NameObject(const NameObject& _Other) = delete;
-	NameObject(NameObject&& _Other) noexcept = delete;
-	NameObject& operator=(const NameObject) = delete;
-	NameObject& operator=(NameObject&& _Other) noexcept = delete;
+	UNameObject(const UNameObject& _Other) = delete;
+	UNameObject(UNameObject&& _Other) noexcept = delete;
+	UNameObject& operator=(const UNameObject) = delete;
+	UNameObject& operator=(UNameObject&& _Other) noexcept = delete;
 
 	void SetName(std::string_view _View)
 	{
