@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include "Level.h"
 
+EngineCore* GEngine = nullptr;
+
 EngineCore::EngineCore()
 {
 }
