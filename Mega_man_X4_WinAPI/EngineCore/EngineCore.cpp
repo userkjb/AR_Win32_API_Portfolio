@@ -58,6 +58,33 @@ void EngineCore::ChangeLevel(std::string_view _Name)
 	CurLevel = AllLevel[UpperName];
 }
 
+void EngineCore::EngineTick()
+{
+	if (nullptr == GEngine->CurLevel)
+	{
+		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다 치명적인 오류입니다");
+	}
+
+	// 레벨이 먼저 틱을 돌리고
+	GEngine->CurLevel->Tick(0.0f);
+}
+
+void EngineCore::EngineEnd()
+{
+	for (std::pair<const std::string, ULevel*>& _Pair : GEngine->AllLevel)
+	{
+		if (nullptr == _Pair.second)
+		{
+			continue;
+		}
+
+		delete _Pair.second;
+		_Pair.second = nullptr;
+	}
+
+	GEngine->AllLevel.clear();
+}
+
 void EngineCore::LevelInit(ULevel* _Level)
 {
 	_Level->BeginPlay();
