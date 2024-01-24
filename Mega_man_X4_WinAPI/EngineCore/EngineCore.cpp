@@ -1,5 +1,6 @@
 #include "EngineCore.h"
 #include <Windows.h>
+#include "Level.h"
 
 EngineCore::EngineCore()
 {
@@ -32,4 +33,9 @@ void EngineCore::Tick(float _DeltaTime)
 
 void EngineCore::End()
 {
+}
+
+void EngineCore::LevelInit(ULevel* _Level)
+{
+	_Level->BeginPlay();
 }

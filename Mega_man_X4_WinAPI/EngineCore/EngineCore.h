@@ -35,6 +35,7 @@ public :
 			MsgBoxAssert(std::string(_Name) + "이라는 이름의 Level을 또 만들려고 했습니다");
 		}
 		LevelType* NewLevel = new LevelType();
+		LevelInit(NewLevel);
 		AllLevel.insert(std::pair<std::string, ULevel*>(Name, NewLevel));
 	}
 
@@ -43,6 +44,8 @@ protected :
 private :
 	bool EngineInit = false;
 	std::map<std::string, ULevel*> AllLevel;
+
+	void LevelInit(ULevel* _Level);
 };
 
 #define ENGINESTART(USERCORE) \
