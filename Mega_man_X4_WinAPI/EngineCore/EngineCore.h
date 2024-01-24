@@ -1,4 +1,5 @@
 #pragma once
+#include <EngineBase/EngineDebug.h>
 #include <EnginePlatform/EngineWindow.h>
 #include <map>
 
@@ -29,8 +30,12 @@ public :
 	void CreateLevel(std::string_view _Name)
 	{
 		std::string Name = std::string(_Name);
-		
+		if (true == AllLevel.contains(Name));
+		{
+			MsgBoxAssert(std::string(_Name) + "이라는 이름의 Level을 또 만들려고 했습니다");
+		}
 		LevelType* NewLevel = new LevelType();
+		AllLevel.insert(std::pair<std::string, ULevel*>(Name, NewLevel));
 	}
 
 protected :
