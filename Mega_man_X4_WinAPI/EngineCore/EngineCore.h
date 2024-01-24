@@ -1,6 +1,8 @@
 #pragma once
 #include <EnginePlatform/EngineWindow.h>
 
+class ULevel;
+
 class EngineCore
 {
 public :
@@ -21,6 +23,14 @@ public :
 	virtual void BeginPlay();
 	virtual void Tick(float _DeltaTime);
 	virtual void End();
+
+	template<typename LevelType>
+	void CreateLevel(std::string_view _Name)
+	{
+		std::string Name = std::string(_Name);
+		
+		LevelType* NewLevel = new LevelType();
+	}
 
 protected :
 
