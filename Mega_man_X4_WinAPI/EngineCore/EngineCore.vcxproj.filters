@@ -7,6 +7,9 @@
     <Filter Include="Object">
       <UniqueIdentifier>{357275a2-f188-4e0e-b80a-237365bc58ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor">
+      <UniqueIdentifier>{4229ebaa-9ce2-4f2c-b63b-1f6b73d8bc8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -18,6 +21,12 @@
     <ClCompile Include="UpdateObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -28,6 +37,12 @@
     </ClInclude>
     <ClInclude Include="UpdateObject.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Object\Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
