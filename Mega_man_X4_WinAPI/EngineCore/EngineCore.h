@@ -58,9 +58,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
 	_In_ LPWSTR    lpCmdLine, \
 	_In_ int       nCmdShow) \
 { \
+	LeakCheck; \
 	USERCORE NewUserCore; \
-	EngineCore* Ptr = &NewUserCore; \
-	Ptr->CoreInit(hInstance); \
-	Ptr->EngineStart(); \
-	EngineWindow::WindowMessageLoop(); \
+	USERCORE NewUserCore = USERCORE(); \
+	EngineCore::EngineStart(hInstance, &NewUserCore); \
 }
