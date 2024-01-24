@@ -37,14 +37,14 @@ void EngineCore::End()
 
 void EngineCore::ChangeLevel(std::string_view _Name)
 {
-	std::string Name = std::string(_Name);
+	std::string UpperName = EngineString::ToUpper(_Name);
 
-	if (false == AllLevel.contains(Name))
+	if (false == AllLevel.contains(UpperName))
 	{
 		MsgBoxAssert(std::string(_Name) + "라는 존재하지 않는 레벨로 체인지 하려고 했습니다");
 	}
 
-	CurLevel = AllLevel[Name];
+	CurLevel = AllLevel[UpperName];
 }
 
 void EngineCore::LevelInit(ULevel* _Level)
