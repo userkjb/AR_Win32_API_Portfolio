@@ -9,7 +9,7 @@ void EngineWindow::Init(HINSTANCE _hInst)
 	hInstance = _hInst;
 }
 
-unsigned __int64 EngineWindow::WindowMessageLoop()
+unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)())
 {
 	MSG msg = {};
 
@@ -22,6 +22,16 @@ unsigned __int64 EngineWindow::WindowMessageLoop()
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+
+		if (nullptr != _Update)
+		{
+			_Update();
+		}
+	}
+
+	if (nullptr != _End)
+	{
+		_End();
 	}
 
 	return msg.wParam;
