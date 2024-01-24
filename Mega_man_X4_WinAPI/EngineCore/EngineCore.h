@@ -18,9 +18,9 @@ public :
 
 	void CoreInit(HINSTANCE _HINSTANCE);
 
-	virtual void EngineStart();
-	virtual void EngineUpdate();
-	virtual void EngineEnd();
+	virtual void BeginPlay();
+	virtual void Tick(float _DeltaTime);
+	virtual void End();
 
 protected :
 

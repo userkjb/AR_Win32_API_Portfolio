@@ -22,14 +22,14 @@ void EngineCore::CoreInit(HINSTANCE _HINSTANCE)
 	EngineInit = true;
 }
 
-void EngineCore::EngineStart()
+void EngineCore::BeginPlay()
 {
 }
 
-void EngineCore::EngineUpdate()
+void EngineCore::Tick(float _DeltaTime)
 {
 }
 
-void EngineCore::EngineEnd()
+void EngineCore::End()
 {
 }
