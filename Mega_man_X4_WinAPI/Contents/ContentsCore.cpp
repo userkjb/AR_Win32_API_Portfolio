@@ -16,6 +16,9 @@ ContentsCore::~ContentsCore()
 void ContentsCore::BeginPlay()
 {
 	CreateLevel<UTitleLevel>("TitleLevel");
+
+	ChangeLevel("TitleLevel");
+
 }
 
 void ContentsCore::Tick(float _DeltaTime)
