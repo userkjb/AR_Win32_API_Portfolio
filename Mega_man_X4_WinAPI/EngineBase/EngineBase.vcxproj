@@ -159,6 +159,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EngineMath.h" />
     <ClInclude Include="EngineString.h">
       <SubType>
       </SubType>
@@ -169,6 +170,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EngineMath.cpp" />
     <ClCompile Include="EngineString.cpp">
       <SubType>
       </SubType>
