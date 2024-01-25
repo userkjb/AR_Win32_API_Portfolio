@@ -1,5 +1,6 @@
 #include "ContentsCore.h"
-#include "TitleLevel.h"
+//#include "TitleLevel.h"
+#include "IntroLevel.h"
 
 
 ContentsCore::ContentsCore()
@@ -15,10 +16,9 @@ ContentsCore::~ContentsCore()
 /// </summary>
 void ContentsCore::BeginPlay()
 {
-	CreateLevel<UTitleLevel>("TitleLevel");
+	CreateLevel<UIntroLevel>("IntroLevel");
 
-	ChangeLevel("TitleLevel");
-
+	ChangeLevel("IntroLevel");
 }
 
 void ContentsCore::Tick(float _DeltaTime)

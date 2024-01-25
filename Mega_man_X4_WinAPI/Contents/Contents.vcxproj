@@ -170,6 +170,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="IntroLevel.h" />
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
@@ -180,6 +181,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="IntroLevel.cpp" />
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>
