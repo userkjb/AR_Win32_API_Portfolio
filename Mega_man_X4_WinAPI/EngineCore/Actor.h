@@ -1,5 +1,9 @@
 #pragma once
-class AActor
+
+#include "NameObject.h"
+#include "TickObject.h"
+
+class AActor : public UNameObject, public UTickObject
 {
 public :
 	// constructer destructer
