@@ -38,6 +38,9 @@ public :
 		return IsDeathValue;
 	}
 
+	virtual void BeginPlay();
+	virtual void Tick(float _DeltaTime);
+
 protected :
 
 private :
