@@ -12,30 +12,35 @@ public :
 	UTickObject& operator=(const UTickObject) = delete;
 	UTickObject& operator=(UTickObject&& _Other) noexcept = delete;
 
-	void On()
+	void ActiveOn()
 	{
-		IsUpdateValue = true;
+		IsActiveValue = true;
 	}
 
-	void Off()
+	void ActiveOff()
 	{
-		IsUpdateValue = false;
+		IsActiveValue = false;
 	}
 
-	bool IsOn()
+	void SetActive(bool _Active)
 	{
-		return IsUpdateValue && IsDeathValue == false;
+		IsActiveValue = _Active;
+	}
+
+	bool IsActive()
+	{
+		return IsActiveValue && IsDestroyValue == false;
 	}
 
 
-	void Death()
+	void Destroy()
 	{
-		IsDeathValue = true;
+		IsDestroyValue = true;
 	}
 
-	bool IsDeath()
+	bool IsDestroy()
 	{
-		return IsDeathValue;
+		return IsDestroyValue;
 	}
 
 	virtual void BeginPlay();
@@ -44,7 +49,7 @@ public :
 protected :
 
 private :
-	bool IsUpdateValue = true;
-	bool IsDeathValue = false;
+	bool IsActiveValue = true;
+	bool IsDestroyValue = false;
 };
 
