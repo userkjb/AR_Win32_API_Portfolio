@@ -4,9 +4,11 @@
 #include <map>
 
 class AActor;
+class EngineCore;
 
 class ULevel : public UNameObject
 {
+	friend EngineCore;
 public :
 	// constructer destructer
 	ULevel();

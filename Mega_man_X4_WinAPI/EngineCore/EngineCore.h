@@ -54,6 +54,7 @@ private :
 	ULevel* CurLevel = nullptr;
 
 	static void EngineTick();
+	void CoreTick();
 	static void EngineEnd();
 
 	void LevelInit(ULevel* _Level);

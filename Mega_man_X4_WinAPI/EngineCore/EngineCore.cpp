@@ -60,13 +60,20 @@ void EngineCore::ChangeLevel(std::string_view _Name)
 
 void EngineCore::EngineTick()
 {
+	GEngine->CoreTick();
+}
+
+void EngineCore::CoreTick()
+{
 	if (nullptr == GEngine->CurLevel)
 	{
 		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다 치명적인 오류입니다");
 	}
 
 	// 레벨이 먼저 틱을 돌리고
-	GEngine->CurLevel->Tick(0.0f);
+	CurLevel->Tick(0.0f);
+
+	CurLevel->LevelTick(0.0f);
 }
 
 void EngineCore::EngineEnd()
