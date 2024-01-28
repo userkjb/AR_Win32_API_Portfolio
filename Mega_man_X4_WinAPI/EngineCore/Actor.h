@@ -3,6 +3,7 @@
 #include <EngineBase/Transform.h>
 #include "NameObject.h"
 #include "TickObject.h"
+#include "Level.h"
 
 class AActor : public UNameObject, public UTickObject
 {
@@ -42,9 +43,20 @@ public :
 		return Transform;
 	}
 
+	ULevel* GetWorld()
+	{
+		return World;
+	}
+
 protected :
 
 private :
+	ULevel* World = nullptr;
 	FTransform Transform = FTransform();
+
+	void SetWorld(ULevel* _Value)
+	{
+		World = _Value;
+	}
 };
 
