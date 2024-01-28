@@ -14,7 +14,9 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
-protected :
+protected:
+	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
 
 private :
 
