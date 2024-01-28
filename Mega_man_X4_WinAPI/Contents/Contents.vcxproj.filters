@@ -4,10 +4,12 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="TitleLevel.h" />
     <ClInclude Include="IntroLevel.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="TitleLevel.cpp" />
     <ClCompile Include="IntroLevel.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
 </Project>
