@@ -1,5 +1,9 @@
 #pragma once
 #include "NameObject.h"
+#include <list>
+#include <map>
+
+class AActor;
 
 class ULevel : public UNameObject
 {
@@ -17,9 +21,21 @@ public :
 	virtual void BeginPlay() {};
 	virtual void Tick(float _DeltaTime) {};
 
+	template<typename ActorType>
+	ActorType* SpawnActor(int _Order = 0)
+	{
+		ActorType* NewActor = new ActorType();
+		ActorInit(NewActor);
+		AllActor[_Order].push_back(NewActor);
+		return NewActor;
+	}
+
 protected :
 
 private :
+	void ActorInit(AActor* _NewActor);
+	void LevelTick(float _DeltaTime);
 
+	std::map<int, std::list<AActor*>> AllActor;
 };
 

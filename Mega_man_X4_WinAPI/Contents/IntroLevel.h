@@ -15,6 +15,7 @@ public :
 	UIntroLevel& operator=(UIntroLevel&& _Other) noexcept = delete;
 
 protected :
+	void BeginPlay() override;
 
 private :
 

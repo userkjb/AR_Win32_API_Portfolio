@@ -7,6 +7,8 @@
 
 class AActor : public UNameObject, public UTickObject
 {
+	friend ULevel;
+
 public :
 	// constructer destructer
 	AActor();
