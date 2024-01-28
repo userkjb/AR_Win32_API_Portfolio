@@ -14,6 +14,28 @@ struct float4
 	float Z; // 3D
 	float W; // 3D
 
+public:
+	float hX()
+	{
+		return X * 0.5f;
+	}
+
+	float hY()
+	{
+		return Y * 0.5f;
+	}
+
+
+	int ihY()
+	{
+		return static_cast<int>(hY());
+	}
+
+	int ihX()
+	{
+		return static_cast<int>(hX());
+	}
+
 	float4 operator+(const float4& _Other)
 	{
 		float4 Result = *this;
