@@ -28,6 +28,40 @@ public :
 		return Position;
 	}
 
+	float Left()
+	{
+		return Position.X - Scale.hX();
+	}
+	float Right()
+	{
+		return Position.X + Scale.hX();
+	}
+	float Top()
+	{
+		return Position.Y - Scale.hY();
+	}
+	float Bottom()
+	{
+		return Position.Y + Scale.hY();
+	}
+
+	int iLeft()
+	{
+		return static_cast<int>(Left());
+	}
+	int iRight()
+	{
+		return static_cast<int>(Right());
+	}
+	int iTop()
+	{
+		return static_cast<int>(Top());
+	}
+	int iBottom()
+	{
+		return static_cast<int>(Bottom());
+	}
+
 private :
 	FVector Scale;
 	FVector Position;
