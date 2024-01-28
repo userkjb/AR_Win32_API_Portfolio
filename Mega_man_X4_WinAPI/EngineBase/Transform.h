@@ -8,6 +8,7 @@ public :
 	~FTransform();
 
 
-
+private :
+	FVector Scale;
+	FVector Position;
 };
-
