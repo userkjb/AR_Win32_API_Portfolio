@@ -1,5 +1,6 @@
 #pragma once
 
+#include <EngineBase/Transform.h>
 #include "NameObject.h"
 #include "TickObject.h"
 
@@ -16,9 +17,34 @@ public :
 	AActor& operator=(const AActor) = delete;
 	AActor& operator=(AActor&& _Other) noexcept = delete;
 
+	FVector GetActorLocation()
+	{
+		return Transform.GetPosition();
+	}
+
+	void SetActorLocation(FVector _Value)
+	{
+		Transform.SetPosition(_Value);
+	}
+
+	void AddActorLocation(FVector _Value)
+	{
+		Transform.AddPosition(_Value);
+	}
+
+	void SetActorScale(FVector _Value)
+	{
+		Transform.SetScale(_Value);
+	}
+
+	FTransform GetTransform()
+	{
+		return Transform;
+	}
+
 protected :
 
 private :
-
+	FTransform Transform = FTransform();
 };
 
