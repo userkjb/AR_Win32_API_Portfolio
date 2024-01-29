@@ -1,9 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="EngineWindow.h" />
+    <Filter Include="Window">
+      <UniqueIdentifier>{081d4e6e-48ac-4b49-bb52-82e4ff2a1f85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{c0f9a282-b10f-4da2-8618-db6d2d80e587}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EngineWindow.cpp" />
+    <ClInclude Include="EngineWindow.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineInput.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EngineWindow.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineInput.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
