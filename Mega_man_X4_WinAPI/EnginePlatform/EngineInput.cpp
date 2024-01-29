@@ -7,3 +7,7 @@ EngineInput::EngineInput()
 EngineInput::~EngineInput()
 {
 }
+
+void EngineInput::InputInit()
+{
+}
