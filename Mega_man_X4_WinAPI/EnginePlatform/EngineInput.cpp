@@ -11,6 +11,19 @@ EngineInput::~EngineInput()
 {
 }
 
+/// <summary>
+/// EngineCore->Tick 에서 돌고 있음.
+/// </summary>
+/// <param name="_DeltaTime"></param>
+void EngineInput::KeyCheckTick(float _DeltaTime)
+{
+	for (std::pair<const int, EngineKey>& Key : AllKeys)
+	{
+		EngineKey& CurKey = Key.second;
+		CurKey.KeyCheck();
+	}
+}
+
 void EngineInput::InputInit()
 {
 	AllKeys[VK_LBUTTON] = EngineKey(VK_LBUTTON);
@@ -119,6 +132,47 @@ void EngineInput::InputInit()
 	}
 }
 
+/// <summary>
+/// KeyCheckTick() 에서 호출
+/// </summary>
 void EngineInput::EngineKey::KeyCheck()
 {
+	if (GetAsyncKeyState(Key) != 0)
+	{
+		if (true == Free)
+		{
+			// 이전까지 이 키는 눌리고 있지 않았다
+			Down = true;
+			Press = true;
+			Up = false;
+			Free = false;
+		}
+		else if (true == Down)
+		{
+			// 이전까지 이 키는 눌리고 있었다.
+			Down = false;
+			Press = true;
+			Up = false;
+			Free = false;
+		}
+	}
+	else
+	{
+		if (true == Press)
+		{
+			// 이전까지 이 키는 눌리고 있었다.
+			Down = false;
+			Press = false;
+			Up = true;
+			Free = false;
+		}
+		else if (true == Up)
+		{
+			// 이전까지 이 키는 안눌리고 있었고 앞으로도 안눌릴거다.
+			Down = false;
+			Press = false;
+			Up = false;
+			Free = true;
+		}
+	}
 }
