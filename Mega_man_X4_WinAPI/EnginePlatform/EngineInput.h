@@ -37,6 +37,7 @@ public :
 	EngineInput& operator=(const EngineInput) = delete;
 	EngineInput& operator=(EngineInput&& _Other) noexcept = delete;
 
+	// 외부에서 사용할 함수들.
 	static bool IsDown(int _Key);
 	static bool IsPress(int _Key);
 	static bool IsUp(int _Key);
