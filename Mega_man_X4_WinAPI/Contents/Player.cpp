@@ -19,8 +19,8 @@ void Player::BeginPlay()
 void Player::Tick(float _DeltaTime)
 {
 	HDC WindowDC = GEngine->MainWindow.GetWindowDC();
-	//FVector Pos = GetActorLocation();
 
+	// Move
 	if (EngineInput::IsDown(37) == true)
 	{
 		AddActorLocation(FVector::Left);
@@ -41,8 +41,22 @@ void Player::Tick(float _DeltaTime)
 		AddActorLocation(FVector::Down);
 	}
 
+	// Action
+	if (EngineInput::IsDown('Z') == true)
+	{
+		
+	}
 
-	//SetActorLocation(Pos);
+	if (EngineInput::IsDown('X') == true)
+	{
+		
+	}
+
+	if (EngineInput::IsDown('C') == true)
+	{
+		
+	}
+
 	FTransform Trans = GetTransform();
 	Rectangle(WindowDC, Trans.iLeft(), Trans.iTop(), Trans.iRight(), Trans.iBottom());
 }
