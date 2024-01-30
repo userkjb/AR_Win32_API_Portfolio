@@ -1,6 +1,7 @@
 #include "EngineCore.h"
 #include <Windows.h>
 #include "Level.h"
+#include <EnginePlatform/EngineInput.h>
 
 EngineCore* GEngine = nullptr;
 
@@ -69,6 +70,8 @@ void EngineCore::CoreTick()
 	{
 		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다 치명적인 오류입니다");
 	}
+
+	EngineInput::KeyCheckTick(0.0f);
 
 	// 레벨이 먼저 틱을 돌리고
 	CurLevel->Tick(0.0f);
