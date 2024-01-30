@@ -5,6 +5,8 @@
 
 class EngineInput
 {
+	// 초기화를 위한 class friend.
+	friend class InputInitCreator;
 
 private:
 	class EngineKey

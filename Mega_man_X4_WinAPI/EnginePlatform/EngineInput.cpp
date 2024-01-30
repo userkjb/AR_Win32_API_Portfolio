@@ -176,3 +176,15 @@ void EngineInput::EngineKey::KeyCheck()
 		}
 	}
 }
+
+class InputInitCreator
+{
+public :
+	InputInitCreator()
+	{
+		EngineInput::InputInit();
+	}
+};
+
+// 데이터 영역
+InputInitCreator CreateValue = InputInitCreator();
