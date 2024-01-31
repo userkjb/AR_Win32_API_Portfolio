@@ -12,6 +12,7 @@ ContentsCore::~ContentsCore()
 }
 
 /// <summary>
+/// EngineCore -- 
 /// Game Start
 /// </summary>
 void ContentsCore::BeginPlay()

@@ -171,7 +171,9 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="IntroLevel.h" />
+    <ClInclude Include="LodingLevel.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SelectPlayerLevel.h" />
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
@@ -183,7 +185,9 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="IntroLevel.cpp" />
+    <ClCompile Include="LodingLevel.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SelectPlayerLevel.cpp" />
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>

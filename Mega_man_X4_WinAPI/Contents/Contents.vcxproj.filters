@@ -1,23 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="ContentsCore.h" />
-    <ClInclude Include="TitleLevel.h" />
-    <ClInclude Include="IntroLevel.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="ContentsCore.h">
+      <Filter>00_Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>02_Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>01_Level\01_Title</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroLevel.h">
+      <Filter>01_Level\03_Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectPlayerLevel.h">
+      <Filter>01_Level\02_Select_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="LodingLevel.h">
+      <Filter>01_Level\00_GlobalLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ContentsCore.cpp" />
-    <ClCompile Include="TitleLevel.cpp" />
-    <ClCompile Include="IntroLevel.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ContentsCore.cpp">
+      <Filter>00_Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>02_Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>01_Level\01_Title</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroLevel.cpp">
+      <Filter>01_Level\03_Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectPlayerLevel.cpp">
+      <Filter>01_Level\02_Select_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="LodingLevel.cpp">
+      <Filter>01_Level\00_GlobalLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Object">
+    <Filter Include="00_Core">
+      <UniqueIdentifier>{df0a9ce0-7996-42fa-b188-31b3b61bbe10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actor">
       <UniqueIdentifier>{e2ec54cb-21cf-4ae8-831a-a98f95f7306c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Level">
+    <Filter Include="02_Actor\Character">
+      <UniqueIdentifier>{1ad538e0-8060-4a57-ad2e-4ae81969d55d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level">
       <UniqueIdentifier>{f9d21301-ef25-4a1d-ba43-aa18328c030b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\01_Title">
+      <UniqueIdentifier>{65e48a7b-8692-4c09-9a37-251f36dfe868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actor\Bosses">
+      <UniqueIdentifier>{d59e79fd-3bf4-4b78-8b48-84fb01560629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actor\MapObject">
+      <UniqueIdentifier>{3d3718b8-26b1-491e-ae18-17c6a96c19d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\03_Intro">
+      <UniqueIdentifier>{08a58ad5-a9c6-4b78-a39b-904e95bb4573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\02_Select_Player">
+      <UniqueIdentifier>{18132db3-2b28-465a-a3f0-749955d9c2bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\00_GlobalLevel">
+      <UniqueIdentifier>{976d572d-674d-434c-b114-cfcbc471b582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actor\Enemies">
+      <UniqueIdentifier>{d6209e2c-229d-4654-824c-274ab1d10482}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
