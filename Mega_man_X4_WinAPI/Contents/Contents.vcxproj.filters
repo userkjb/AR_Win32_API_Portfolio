@@ -12,4 +12,12 @@
     <ClCompile Include="IntroLevel.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object">
+      <UniqueIdentifier>{e2ec54cb-21cf-4ae8-831a-a98f95f7306c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level">
+      <UniqueIdentifier>{f9d21301-ef25-4a1d-ba43-aa18328c030b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>
