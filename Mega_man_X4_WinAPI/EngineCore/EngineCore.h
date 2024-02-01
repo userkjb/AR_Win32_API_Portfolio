@@ -23,7 +23,7 @@ public :
 	EngineWindow MainWindow;
 	EngineTime MainTimer;
 
-	void EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore);
+	void EngineStart(HINSTANCE _hInstance);
 
 	void CoreInit(HINSTANCE _HINSTANCE);
 

@@ -13,13 +13,12 @@ EngineCore::~EngineCore()
 {
 }
 
-void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
+void EngineCore::EngineStart(HINSTANCE _hInstance)
 {
-	EngineCore* Ptr = _UserCore;
+	GEngine = this;
 	MainTimer.TimeCheckStart();
-	GEngine = Ptr;
-	Ptr->CoreInit(_hInstance);
-	Ptr->BeginPlay();
+	CoreInit(_hInstance);
+	BeginPlay();
 	EngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
 }
 
