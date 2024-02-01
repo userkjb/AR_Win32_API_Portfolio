@@ -33,9 +33,28 @@ public :
 	}
 
 
-	void Destroy()
+	virtual void Destroy(float _DestroyTime = 0.0f)
 	{
-		IsDestroyValue = true;
+		IsDestroyUpdate = true;
+		DestroyTime = _DestroyTime;
+		if (0.0f >= _DestroyTime)
+		{
+			this->IsDestroyValue = true;
+		}
+	}
+
+	virtual void DestroyUpdate(float _DeltaTime)
+	{
+		if (false == IsDestroyUpdate)
+		{
+			return;
+		}
+
+		DestroyTime -= _DeltaTime;
+		if (0.0f >= DestroyTime)
+		{
+			Destroy(0.0f);
+		}
 	}
 
 	bool IsDestroy()
@@ -51,5 +70,7 @@ protected :
 private :
 	bool IsActiveValue = true;
 	bool IsDestroyValue = false;
+	bool IsDestroyUpdate = false;
+	float DestroyTime = 0.0f;
 };
 
