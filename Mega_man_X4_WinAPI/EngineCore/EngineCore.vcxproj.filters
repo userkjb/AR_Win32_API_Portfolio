@@ -15,9 +15,6 @@
     <ClCompile Include="EngineCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="NameObject.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="TickObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -31,9 +28,6 @@
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NameObject.h">
-      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="TickObject.h">
       <Filter>Object</Filter>

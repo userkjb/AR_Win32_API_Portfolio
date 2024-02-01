@@ -167,10 +167,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="NameObject.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="TickObject.h">
       <SubType>
       </SubType>
@@ -186,10 +182,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Level.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="NameObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>

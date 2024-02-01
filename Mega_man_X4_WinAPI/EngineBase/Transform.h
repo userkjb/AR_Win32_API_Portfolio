@@ -63,6 +63,6 @@ public :
 	}
 
 private :
-	FVector Scale;
 	FVector Position;
+	FVector Scale;
 };

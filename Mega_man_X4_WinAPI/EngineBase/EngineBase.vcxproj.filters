@@ -16,6 +16,9 @@
     <ClInclude Include="EngineTime.h">
       <Filter>Time</Filter>
     </ClInclude>
+    <ClInclude Include="..\EngineCore\NameObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineDebug.cpp">
@@ -33,6 +36,9 @@
     <ClCompile Include="EngineTime.cpp">
       <Filter>Time</Filter>
     </ClCompile>
+    <ClCompile Include="..\EngineCore\NameObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">
@@ -46,6 +52,9 @@
     </Filter>
     <Filter Include="Time">
       <UniqueIdentifier>{67997bf7-1311-4ac1-a4a9-a26963e1f085}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{e6f80511-55c7-4c23-91c0-9cbbdd881691}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
