@@ -1,5 +1,6 @@
 #include "Level.h"
 #include "Actor.h"
+#include <EngineBase/EngineDebug.h>
 
 ULevel::ULevel()
 {
@@ -29,6 +30,42 @@ void ULevel::LevelTick(float _DeltaTime)
 
 			//Actor->DestroyUpdate(_DeltaTime);
 			Actor->Tick(_DeltaTime);
+		}
+	}
+}
+
+void ULevel::LevelRelease(float _DeltaTime)
+{
+	// Render Release
+
+
+	// Actor Release
+	for (std::pair<const int, std::list<AActor*>>& OrderListPair : AllActor)
+	{
+		std::list<AActor*>& ActorList = OrderListPair.second;
+
+		std::list<AActor*>::iterator StartIter = ActorList.begin();
+		std::list<AActor*>::iterator EndIter = ActorList.end();
+
+		for (; StartIter != EndIter;)
+		{
+			AActor* Actor = StartIter.operator*();
+
+			if (nullptr == Actor)
+			{
+				MsgBoxAssert("Actor가 nullptr인 경우가 존재했습니다");
+				return;
+			}
+
+			if (false == Actor->IsDestroy())
+			{
+				++StartIter;
+				continue;
+			}
+
+			delete Actor;
+			Actor = nullptr;
+			StartIter = ActorList.erase(StartIter);
 		}
 	}
 }

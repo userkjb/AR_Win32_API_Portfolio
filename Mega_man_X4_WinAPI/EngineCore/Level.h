@@ -37,6 +37,7 @@ protected :
 private :
 	void ActorInit(AActor* _NewActor);
 	void LevelTick(float _DeltaTime);
+	void LevelRelease(float _DeltaTime);
 
 	std::map<int, std::list<AActor*>> AllActor;
 };
