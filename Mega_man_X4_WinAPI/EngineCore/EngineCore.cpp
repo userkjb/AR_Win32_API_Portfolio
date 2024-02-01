@@ -89,8 +89,11 @@ void EngineCore::CoreTick()
 
 	// 레벨이 먼저 틱을 돌리고
 	CurLevel->Tick(DeltaTime);
-
+	// Actor와 부가적인 Object들의 Tick을 돌린다. => 행동한다.
 	CurLevel->LevelTick(DeltaTime);
+
+	// 정리한다.(파괴할 오브젝트들을 다 파괴한다.)
+	CurLevel->LevelRelease(DeltaTime);
 }
 
 void EngineCore::EngineEnd()
