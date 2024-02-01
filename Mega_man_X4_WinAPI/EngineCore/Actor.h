@@ -50,7 +50,23 @@ public :
 		return World;
 	}
 
+	/// <summary>
+	/// UTickObject
+	/// </summary>
+	/// <param name="_DestroyTime"></param>
+	void Destroy(float _DestroyTime) override;
+	/// <summary>
+	/// UTickObject
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void DestroyUpdate(float _DeltaTime) override;
+
 protected :
+	/// <summary>
+	/// UTickObject
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void Tick(float _DeltaTime) override;
 
 private :
 	ULevel* World = nullptr;
