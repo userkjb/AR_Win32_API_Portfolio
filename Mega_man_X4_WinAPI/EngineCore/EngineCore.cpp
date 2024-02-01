@@ -16,6 +16,7 @@ EngineCore::~EngineCore()
 void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
 {
 	EngineCore* Ptr = _UserCore;
+	MainTimer.TimeCheckStart();
 	GEngine = Ptr;
 	Ptr->CoreInit(_hInstance);
 	Ptr->BeginPlay();
@@ -36,16 +37,13 @@ void EngineCore::CoreInit(HINSTANCE _HINSTANCE)
 }
 
 void EngineCore::BeginPlay()
-{
-}
+{}
 
 void EngineCore::Tick(float _DeltaTime)
-{
-}
+{}
 
 void EngineCore::End()
-{
-}
+{}
 
 void EngineCore::ChangeLevel(std::string_view _Name)
 {
@@ -66,12 +64,29 @@ void EngineCore::EngineTick()
 
 void EngineCore::CoreTick()
 {
+	float DeltaTime = MainTimer.TimeCheck();
+	double dDeltaTime = MainTimer.GetDeltaTime();
+
+	if (1 <= Frame)
+	{
+		CurFrameTime += DeltaTime;
+
+		if (CurFrameTime <= FrameTime)
+		{
+			return;
+		}
+
+		CurFrameTime -= FrameTime;
+		DeltaTime = FrameTime;
+	}
+
+	EngineInput::KeyCheckTick(0.0f);
+
 	if (nullptr == GEngine->CurLevel)
 	{
 		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다 치명적인 오류입니다");
 	}
 
-	EngineInput::KeyCheckTick(0.0f);
 
 	// 레벨이 먼저 틱을 돌리고
 	CurLevel->Tick(0.0f);

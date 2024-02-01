@@ -2,6 +2,7 @@
 #include <EngineBase/EngineDebug.h>
 #include <EnginePlatform/EngineWindow.h>
 #include <EngineBase/EngineString.h>
+#include <EngineBase/EngineTime.h>
 #include <map>
 
 class ULevel;
@@ -20,8 +21,9 @@ public :
 	EngineCore& operator=(EngineCore&& _Other) noexcept = delete;
 
 	EngineWindow MainWindow;
+	EngineTime MainTimer;
 
-	static void EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore);
+	void EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore);
 
 	void CoreInit(HINSTANCE _HINSTANCE);
 
@@ -48,6 +50,9 @@ protected :
 	EngineCore();
 
 private :
+	int Frame = -1;
+	float FrameTime = 0.0f;
+	float CurFrameTime = 0.0f;
 	bool EngineInit = false;
 
 	std::map<std::string, ULevel*> AllLevel;
