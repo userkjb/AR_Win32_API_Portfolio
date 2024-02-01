@@ -74,7 +74,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
 	_In_ int       nCmdShow) \
 { \
 	LeakCheck; \
-	USERCORE NewUserCore; \
-	USERCORE NewUserCore = USERCORE(); \
-	EngineCore::EngineStart(hInstance, &NewUserCore); \
+	ContentsCore NewUserCore = ContentsCore(); \
+	NewUserCore.EngineStart(hInstance); \
 }
