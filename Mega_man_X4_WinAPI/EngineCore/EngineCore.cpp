@@ -80,7 +80,7 @@ void EngineCore::CoreTick()
 		DeltaTime = FrameTime;
 	}
 
-	EngineInput::KeyCheckTick(0.0f);
+	EngineInput::KeyCheckTick(DeltaTime);
 
 	if (nullptr == GEngine->CurLevel)
 	{
@@ -89,9 +89,9 @@ void EngineCore::CoreTick()
 
 
 	// 레벨이 먼저 틱을 돌리고
-	CurLevel->Tick(0.0f);
+	CurLevel->Tick(DeltaTime);
 
-	CurLevel->LevelTick(0.0f);
+	CurLevel->LevelTick(DeltaTime);
 }
 
 void EngineCore::EngineEnd()
