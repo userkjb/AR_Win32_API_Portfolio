@@ -1,6 +1,6 @@
 #include "EngineString.h"
 
-std::string EngineString::ToUpper(std::string_view View)
+std::string UEngineString::ToUpper(std::string_view View)
 {
     std::string Name = View.data();
 
@@ -12,10 +12,10 @@ std::string EngineString::ToUpper(std::string_view View)
     return Name;
 }
 
-EngineString::EngineString()
+UEngineString::UEngineString()
 {
 }
 
-EngineString::~EngineString()
+UEngineString::~UEngineString()
 {
 }
