@@ -12,6 +12,13 @@ public :
 	UEngineResourcesManager& operator=(const UEngineResourcesManager& _Other) = delete;
 	UEngineResourcesManager& operator=(UEngineResourcesManager&& _Other) noexcept = delete;
 
+	// ΩÃ±€≈Ê
+	static UEngineResourcesManager& GetInst()
+	{
+		static UEngineResourcesManager Inst = UEngineResourcesManager();
+		return Inst;
+	}
+
 private :
 	UEngineResourcesManager();
 	~UEngineResourcesManager();
