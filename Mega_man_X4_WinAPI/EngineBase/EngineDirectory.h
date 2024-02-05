@@ -8,6 +8,11 @@ class UEngineDirectory : public UEnginePath
 {
 public :
 	UEngineDirectory();
+	/// <summary>
+	/// 경로를 UEnginePath에 넘기는 생성자.
+	/// </summary>
+	/// <param name="_Path">폴더 경로</param>
+	UEngineDirectory(const UEnginePath& _Path);
 	~UEngineDirectory();
 
 	/// <summary>
@@ -21,6 +26,7 @@ public :
 		bool _Recursive = false);
 
 private :
+
 	/// <summary>
 	/// 클래스 내부에서 진짜로 파일을 찾는 함수.
 	/// 찾아서 List(UEngineFile)에 담음.
