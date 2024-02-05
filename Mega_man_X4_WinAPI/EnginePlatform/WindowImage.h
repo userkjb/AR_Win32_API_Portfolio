@@ -1,6 +1,16 @@
 #pragma once
 
 
+enum class EWindowImageType
+{
+	IMG_NONE,
+	IMG_BMP,
+	IMG_PNG
+};
+
+/// <summary>
+/// DC ц╔юсюз.
+/// </summary>
 class UWindowImage
 {
 public:
