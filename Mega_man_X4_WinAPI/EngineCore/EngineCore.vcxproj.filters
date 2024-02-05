@@ -10,6 +10,9 @@
     <Filter Include="Object\Actor">
       <UniqueIdentifier>{4229ebaa-9ce2-4f2c-b63b-1f6b73d8bc8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{da3cfa62-e67f-484e-a366-18b6bc0acfb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -24,6 +27,9 @@
     <ClCompile Include="Actor.cpp">
       <Filter>Object\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="EngineResourcesManager.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -37,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineResourcesManager.h">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
