@@ -34,7 +34,7 @@ public :
 	template<typename LevelType>
 	void CreateLevel(std::string_view _Name)
 	{
-		std::string UpperName = EngineString::ToUpper(_Name);
+		std::string UpperName = UEngineString::ToUpper(_Name);
 		if (true == AllLevel.contains(UpperName))
 		{
 			MsgBoxAssert(std::string(UpperName) + "이라는 이름의 Level을 또 만들려고 했습니다");
