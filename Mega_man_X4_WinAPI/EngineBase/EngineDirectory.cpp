@@ -17,6 +17,7 @@ UEngineDirectory::~UEngineDirectory()
 
 std::list<UEngineFile> UEngineDirectory::AllFile(std::vector<std::string> _Ext, bool _Recursive)
 {
+	// 읽은 파일 명들 전부 해당 List에 넣는다.
 	std::list<UEngineFile> Result;
 	
 	for (size_t i = 0; i < _Ext.size(); i++)
