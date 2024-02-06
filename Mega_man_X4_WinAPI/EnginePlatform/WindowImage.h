@@ -1,5 +1,6 @@
 #pragma once
 
+#include <EngineBase/PathObject.h>
 
 enum class EWindowImageType
 {
@@ -11,7 +12,7 @@ enum class EWindowImageType
 /// <summary>
 /// DC ц╔юсюз.
 /// </summary>
-class UWindowImage
+class UWindowImage : public UPathObject
 {
 public:
 	// constrcuter destructer
