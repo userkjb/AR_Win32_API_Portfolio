@@ -39,5 +39,8 @@ public:
 
 private :
 	std::vector<ImageInfo> Infos;
+
+	// ∫Ò∆Æ∏ 
+	HBITMAP hBitMap = 0;
 };
 
