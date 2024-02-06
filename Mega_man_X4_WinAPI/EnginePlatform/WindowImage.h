@@ -35,6 +35,8 @@ public:
 	UWindowImage& operator=(const UWindowImage& _Other) = delete;
 	UWindowImage& operator=(UWindowImage&& _Other) noexcept = delete;
 
+	bool Load(UWindowImage* _Image);
+
 private :
 	std::vector<ImageInfo> Infos;
 };
