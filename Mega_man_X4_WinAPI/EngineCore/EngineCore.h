@@ -7,18 +7,18 @@
 
 class ULevel;
 
-class EngineCore
+class UEngineCore
 {
 public :
 	// constructer destructer
 	
-	~EngineCore();
+	~UEngineCore();
 
 	// delete Function
-	EngineCore(const EngineCore& _Other) = delete;
-	EngineCore(EngineCore&& _Other) noexcept = delete;
-	EngineCore& operator=(const EngineCore) = delete;
-	EngineCore& operator=(EngineCore&& _Other) noexcept = delete;
+	UEngineCore(const UEngineCore& _Other) = delete;
+	UEngineCore(UEngineCore&& _Other) noexcept = delete;
+	UEngineCore& operator=(const UEngineCore) = delete;
+	UEngineCore& operator=(UEngineCore&& _Other) noexcept = delete;
 
 	EngineWindow MainWindow;
 	EngineTime MainTimer;
@@ -47,7 +47,7 @@ public :
 	void ChangeLevel(std::string_view _Name);
 
 protected :
-	EngineCore();
+	UEngineCore();
 
 private :
 	int Frame = -1;
@@ -65,7 +65,7 @@ private :
 	void LevelInit(ULevel* _Level);
 };
 
-extern EngineCore* GEngine;
+extern UEngineCore* GEngine;
 
 #define ENGINESTART(USERCORE) \
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \

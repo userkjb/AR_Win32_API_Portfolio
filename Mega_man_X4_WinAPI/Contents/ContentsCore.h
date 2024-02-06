@@ -1,7 +1,7 @@
 #pragma once
 #include <EngineCore/EngineCore.h>
 
-class ContentsCore : public EngineCore
+class ContentsCore : public UEngineCore
 {
 public :
 	// constructer destructer
