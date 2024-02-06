@@ -159,10 +159,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\EngineCore\NameObject.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="EngineDebug.h">
       <SubType>
       </SubType>
@@ -176,6 +172,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EngineTime.h" />
+    <ClInclude Include="NameObject.h" />
     <ClInclude Include="PathObject.h">
       <SubType>
       </SubType>
@@ -183,10 +180,6 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\EngineCore\NameObject.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="EngineDebug.cpp">
       <SubType>
       </SubType>
@@ -200,6 +193,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="EngineTime.cpp" />
+    <ClCompile Include="NameObject.cpp" />
     <ClCompile Include="PathObject.cpp">
       <SubType>
       </SubType>

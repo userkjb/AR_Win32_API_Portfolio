@@ -1,5 +1,6 @@
 #pragma once
 
+#include "NameObject.h"
 
 class UPathObject
 {
