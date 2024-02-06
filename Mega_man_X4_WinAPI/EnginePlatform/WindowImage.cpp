@@ -1,7 +1,10 @@
 #include "WindowImage.h"
 #include <EngineBase/EngineString.h>
 
+// png 파일 처리.
 #pragma comment(lib, "Msimg32.lib")
+#include <objidl.h>
+#include <gdiplus.h>
 
 UWindowImage::UWindowImage()
 {
@@ -28,7 +31,10 @@ bool UWindowImage::Load(UWindowImage* _Image)
     }
     else if(".PNG" == UpperExt)
     {
+        ULONG_PTR gdiplusToken = 0;
 
+        Gdiplus::GdiplusStartupInput gdistartupinput;
+        Gdiplus::GdiplusStartup(&gdiplusToken, &gdistartupinput, nullptr);
     }
 
     return false;
