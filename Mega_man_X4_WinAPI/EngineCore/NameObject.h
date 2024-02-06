@@ -1,5 +1,9 @@
 #pragma once
 #include <string>
+
+/// <summary>
+/// 이름만 가지는 Object
+/// </summary>
 class UNameObject
 {
 public :
