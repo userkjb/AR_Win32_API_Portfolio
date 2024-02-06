@@ -31,5 +31,5 @@ private :
 	/// <summary>
 	/// 읽어온 모든 이미지 리소스들을 담는 map
 	/// </summary>
-	std::map<std::string, UWindowImage*> Images
+	std::map<std::string, UWindowImage*> Images;
 };
