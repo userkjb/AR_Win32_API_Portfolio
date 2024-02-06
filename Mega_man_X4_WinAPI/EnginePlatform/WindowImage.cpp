@@ -1,5 +1,6 @@
 #include "WindowImage.h"
 #include <EngineBase/EngineString.h>
+#include <EngineBase/EngineDebug.h>
 
 // png 파일 처리.
 #pragma comment(lib, "Msimg32.lib")
@@ -35,7 +36,21 @@ bool UWindowImage::Load(UWindowImage* _Image)
 
         Gdiplus::GdiplusStartupInput gdistartupinput;
         Gdiplus::GdiplusStartup(&gdiplusToken, &gdistartupinput, nullptr);
+
+        std::wstring wPath = UEngineString::AnsiToUniCode(Path.GetFullPath());
+
+        // 문자열 데이터 확인 코드
+        Gdiplus::Image* pImage = Gdiplus::Image::FromFile(wPath.c_str());
+        Gdiplus::Bitmap* pBitMap = reinterpret_cast<Gdiplus::Bitmap*>(pImage->Clone());
+        Gdiplus::Status stat = pBitMap->GetHBITMAP(Gdiplus::Color(0, 0, 0, 0), &hBitMap);
+
+        if (Gdiplus::Status::Ok != stat)
+        {
+            MsgBoxAssert("Png 파일 리소스 로드에 실패하였습니다.");
+        }
     }
+
+
 
     return false;
 }
