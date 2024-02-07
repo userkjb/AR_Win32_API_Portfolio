@@ -2,9 +2,12 @@
 #include <EngineBase/EngineString.h>
 #include <EngineBase/EngineDebug.h>
 
-// png 파일 처리.
+// 이미지 처리.
 #pragma comment(lib, "Msimg32.lib")
 #include <objidl.h>
+
+// png 파일 처리.
+#pragma comment(lib, "Gdiplus.lib")
 #include <gdiplus.h>
 
 UWindowImage::UWindowImage()
@@ -49,6 +52,29 @@ bool UWindowImage::Load(UWindowImage* _Image)
             MsgBoxAssert("Png 파일 리소스 로드에 실패하였습니다.");
         }
     }
+
+    // DC 설정.
+    
+    // ImageDC를 만들면 내부에서 1,1크기의 HBITMAP을 만든다.
+    ImageDC = CreateCompatibleDC(_Image->ImageDC);
+
+    if (nullptr == ImageDC)
+    {
+        MsgBoxAssert("이미지 생성에 실패했습니다.");
+        return false;
+    }
+
+    
+    // DC, HBITMAP, HBITMAP 이런 상황.
+    // 때문에 일회용 HBITMAP 을 만들고
+    HBITMAP OldBitMap = reinterpret_cast<HBITMAP>(SelectObject(ImageDC, hBitMap));
+    // 지워준다.
+    DeleteObject(OldBitMap);
+
+    
+
+    // 현재 DC와 연결된 비트맵 핸들 값을 얻어와야 한다.
+    // hBitMap에서 
 
 
 

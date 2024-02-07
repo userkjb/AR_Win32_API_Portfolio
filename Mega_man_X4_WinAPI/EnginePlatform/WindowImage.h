@@ -42,5 +42,9 @@ private :
 
 	// 비트맵
 	HBITMAP hBitMap = 0;
+	// DC
+	HDC ImageDC = 0;
+	// 비트맵을 담는 구조체
+	BITMAP BitMapInfo = BITMAP();
 };
 
