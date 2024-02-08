@@ -14,9 +14,10 @@ enum class EWindowImageType
 class ImageInfo
 {
 public:
-	HBITMAP hBitMap;
+	HBITMAP hBitMap = nullptr;
 	HDC ImageDC = nullptr;
 	FTransform CuttingTrans;
+	EWindowImageType ImageType = EWindowImageType::IMG_NONE;
 };
 
 /// <summary>
@@ -35,6 +36,8 @@ public:
 	UWindowImage& operator=(const UWindowImage& _Other) = delete;
 	UWindowImage& operator=(UWindowImage&& _Other) noexcept = delete;
 
+	FVector GetScale();
+
 	bool Load(UWindowImage* _Image);
 
 private :
@@ -46,5 +49,8 @@ private :
 	HDC ImageDC = 0;
 	// 비트맵을 담는 구조체
 	BITMAP BitMapInfo = BITMAP();
+
+	//	이미지 Type
+	EWindowImageType ImageType = EWindowImageType::IMG_NONE;
 };
 

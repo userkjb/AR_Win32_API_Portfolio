@@ -18,6 +18,11 @@ UWindowImage::~UWindowImage()
 {
 }
 
+FVector UWindowImage::GetScale()
+{
+    return FVector(BitMapInfo.bmWidth, BitMapInfo.bmHeight);
+}
+
 bool UWindowImage::Load(UWindowImage* _Image)
 {
     // 이미지 파일 경로
@@ -65,17 +70,27 @@ bool UWindowImage::Load(UWindowImage* _Image)
     }
 
     
-    // DC, HBITMAP, HBITMAP 이런 상황.
-    // 때문에 일회용 HBITMAP 을 만들고
+    // DC, 기본 BITMAP, 만들어둔 BITMAP 이 있는 상황.
+    // DC가 가지고 있는 기본 BITMAP에 위에 만들어 둔 BITMAP을 넣어줘야 하니,
+    // reinterpret_cast<HBITMAP>(SelectObject(ImageDC, hBitMap)) 코드를 사용해서 바꿔준다.
+    // 위 코드의 리턴 값으로 받는 것이 기존의 BITMAP 이다.
+    // 때문에 기본 HBITMAP 을 받을 변수를 만들고
+    // 이 변수에 리턴 값을 받도록 코드를 만들어 주면 다음과 같다.
     HBITMAP OldBitMap = reinterpret_cast<HBITMAP>(SelectObject(ImageDC, hBitMap));
-    // 지워준다.
+    // 리턴 받은 BITMAP은 필요 없으니 지워준다.
     DeleteObject(OldBitMap);
-
     
+    // 현재 DC와 연결된 비트맵 핸들 값을 얻어와야 한다. -> BITMAP 에 대한 정보.(사이즈 같은)
+    // hBitMap에 있는 정보를 sizeof(BITMAP) 만큼 가져와서 &BitMapInfo에 넣어라.
+    GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
-    // 현재 DC와 연결된 비트맵 핸들 값을 얻어와야 한다.
-    // hBitMap에서 
-
+    ImageInfo Info;
+    Info.hBitMap = hBitMap;
+    Info.ImageDC = ImageDC;
+    Info.CuttingTrans.SetPosition({ 0,0 });
+    Info.CuttingTrans.SetScale(GetScale());
+    Info.ImageType = ImageType;
+    Infos.push_back(Info);
 
 
     return false;
