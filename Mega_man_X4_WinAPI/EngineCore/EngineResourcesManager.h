@@ -31,6 +31,12 @@ public :
 	UWindowImage* LoadImg(std::string_view _Path);
 	UWindowImage* LoadImg(std::string_view _Path, std::string_view _Name);
 
+	/// <summary>
+	/// ImageRenderer에서 사용.
+	/// </summary>
+	/// <param name="_Name">찾을 파일 이름</param>
+	/// <returns></returns>
+	UWindowImage* FindImg(std::string_view _Name);
 
 private :
 	/// <summary>

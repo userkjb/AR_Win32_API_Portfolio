@@ -41,3 +41,16 @@ UWindowImage* UEngineResourcesManager::LoadImg(std::string_view _Path, std::stri
 
 	return nullptr;
 }
+
+UWindowImage* UEngineResourcesManager::FindImg(std::string_view _Name)
+{
+	std::string UpperName = UEngineString::ToUpper(_Name);
+
+	if (false == Images.contains(UpperName))
+	{
+		MsgBoxAssert("파일명 : " + std::string(_Name) + "은 존재하지 않는 이미지입니다");
+		return nullptr;
+	}
+
+	return Images[UpperName];
+}
