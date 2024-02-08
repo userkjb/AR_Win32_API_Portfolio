@@ -10,6 +10,10 @@ class UWindowImage;
 /// </summary>
 class UEngineResourcesManager
 {
+private:
+	UEngineResourcesManager();
+	~UEngineResourcesManager();
+
 public :
 	// delete Function
 	UEngineResourcesManager(const UEngineResourcesManager& _Other) = delete;
@@ -24,10 +28,11 @@ public :
 		return Inst;
 	}
 
-private :
-	UEngineResourcesManager();
-	~UEngineResourcesManager();
+	UWindowImage* LoadImg(std::string_view _Path);
+	UWindowImage* LoadImg(std::string_view _Path, std::string_view _Name);
 
+
+private :
 	/// <summary>
 	/// 읽어온 모든 이미지 리소스들을 담는 map
 	/// </summary>
