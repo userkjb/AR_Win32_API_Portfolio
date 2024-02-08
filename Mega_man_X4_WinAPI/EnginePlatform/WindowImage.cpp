@@ -42,6 +42,7 @@ bool UWindowImage::Load(UWindowImage* _Image)
         // 비트맵 제어 핸들(그리는 핸들이 아님. 로드하는 핸들.)
         HANDLE ImageHandle = LoadImageA(nullptr, Path.GetFullPath().c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
         hBitMap = reinterpret_cast<HBITMAP>(ImageHandle);
+        ImageType = EWindowImageType::IMG_BMP;
     }
     else if(".PNG" == UpperExt)
     {
@@ -61,6 +62,8 @@ bool UWindowImage::Load(UWindowImage* _Image)
         {
             MsgBoxAssert("Png 파일 리소스 로드에 실패하였습니다.");
         }
+
+        ImageType = EWindowImageType::IMG_PNG;
     }
 
     // DC 설정.
