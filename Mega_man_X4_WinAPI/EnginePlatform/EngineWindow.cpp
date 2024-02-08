@@ -68,6 +68,11 @@ UEngineWindow::UEngineWindow()
 
 UEngineWindow::~UEngineWindow()
 {
+	if (nullptr != WindowImage)
+	{
+		delete WindowImage;
+		WindowImage = nullptr;
+	}
 }
 
 
