@@ -19,7 +19,7 @@ void UEngineCore::EngineStart(HINSTANCE _hInstance)
 	MainTimer.TimeCheckStart();
 	CoreInit(_hInstance);
 	BeginPlay();
-	EngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
+	UEngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
 }
 
 void UEngineCore::CoreInit(HINSTANCE _HINSTANCE)
@@ -29,7 +29,7 @@ void UEngineCore::CoreInit(HINSTANCE _HINSTANCE)
 		return;
 	}
 
-	EngineWindow::Init(_HINSTANCE);
+	UEngineWindow::Init(_HINSTANCE);
 	MainWindow.Open();
 
 	EngineInit = true;

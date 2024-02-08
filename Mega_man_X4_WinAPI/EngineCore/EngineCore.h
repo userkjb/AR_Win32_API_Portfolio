@@ -20,7 +20,7 @@ public :
 	UEngineCore& operator=(const UEngineCore) = delete;
 	UEngineCore& operator=(UEngineCore&& _Other) noexcept = delete;
 
-	EngineWindow MainWindow;
+	UEngineWindow MainWindow;
 	EngineTime MainTimer;
 
 	void EngineStart(HINSTANCE _hInstance);

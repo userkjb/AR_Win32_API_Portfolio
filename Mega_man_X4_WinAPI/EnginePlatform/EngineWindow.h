@@ -4,18 +4,21 @@
 
 class UWindowImage;
 
-class EngineWindow
+/// <summary>
+/// 엔진에서 사용하는 Window.
+/// </summary>
+class UEngineWindow
 {
 public :
 	// constructer destructer
-	EngineWindow();
-	~EngineWindow();
+	UEngineWindow();
+	~UEngineWindow();
 
 	// delete Function
-	EngineWindow(const EngineWindow& _Other) = delete;
-	EngineWindow(EngineWindow&& _Other) noexcept = delete;
-	EngineWindow& operator=(const EngineWindow) = delete;
-	EngineWindow& operator=(EngineWindow&& _Other) noexcept = delete;
+	UEngineWindow(const UEngineWindow& _Other) = delete;
+	UEngineWindow(UEngineWindow&& _Other) noexcept = delete;
+	UEngineWindow& operator=(const UEngineWindow) = delete;
+	UEngineWindow& operator=(UEngineWindow&& _Other) noexcept = delete;
 
 	void Open(std::string_view _Title = "Title");
 
@@ -27,8 +30,10 @@ public :
 		return WindowImage;
 	}
 
+	// Player에서 호출하는데 이거 삭제 예정.
 	HDC GetWindowDC()
 	{
+		HDC hDC = nullptr;
 		return hDC;
 	}
 
@@ -40,7 +45,7 @@ private :
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 	HWND hWnd = nullptr;
-	HDC hDC = nullptr;
+	//HDC hDC = nullptr;
 
 	// 윈도우와 직접적으로 연결된 DC를 가지고 있는 최종 이미지.
 	UWindowImage* WindowImage = nullptr;

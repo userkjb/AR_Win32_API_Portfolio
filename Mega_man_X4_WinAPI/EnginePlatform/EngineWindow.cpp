@@ -2,15 +2,15 @@
 #include <EngineBase/EngineDebug.h>
 #include "WindowImage.h"
 
-bool EngineWindow::WindowLive = true;
-HINSTANCE EngineWindow::hInstance;
+bool UEngineWindow::WindowLive = true;
+HINSTANCE UEngineWindow::hInstance;
 
-void EngineWindow::Init(HINSTANCE _hInst)
+void UEngineWindow::Init(HINSTANCE _hInst)
 {
 	hInstance = _hInst;
 }
 
-unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)())
+unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)())
 {
 	MSG msg = {};
 
@@ -38,7 +38,7 @@ unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)()
 	return msg.wParam;
 }
 
-LRESULT CALLBACK EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -62,17 +62,17 @@ LRESULT CALLBACK EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 
 
-EngineWindow::EngineWindow()
+UEngineWindow::UEngineWindow()
 {
 }
 
-EngineWindow::~EngineWindow()
+UEngineWindow::~UEngineWindow()
 {
 }
 
 
 
-void EngineWindow::Open(std::string_view _Title)
+void UEngineWindow::Open(std::string_view _Title)
 {
 	WNDCLASSEXA wcex;
 
@@ -101,7 +101,7 @@ void EngineWindow::Open(std::string_view _Title)
 		return;
 	}
 
-	hDC = GetDC(hWnd);
+	HDC hDC = GetDC(hWnd);
 
 	if (nullptr == WindowImage)
 	{

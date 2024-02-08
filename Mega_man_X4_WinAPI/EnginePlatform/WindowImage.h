@@ -21,7 +21,6 @@ public:
 };
 
 class UEngineWindow;
-
 /// <summary>
 /// DC 책임자.
 /// </summary>
@@ -45,6 +44,7 @@ public:
 	bool Load(UWindowImage* _Image);
 
 private :
+	// 읽어온 이미지를 담는 Vector
 	std::vector<ImageInfo> Infos;
 
 	// 비트맵
