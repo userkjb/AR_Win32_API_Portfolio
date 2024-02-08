@@ -173,6 +173,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="SceneComponent.h" />
     <ClInclude Include="TickObject.h">
       <SubType>
       </SubType>
@@ -193,6 +194,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SceneComponent.cpp" />
     <ClCompile Include="TickObject.cpp">
       <SubType>
       </SubType>

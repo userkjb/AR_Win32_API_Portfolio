@@ -36,6 +36,9 @@
     <ClCompile Include="ActorComponent.cpp">
       <Filter>Object\Component</Filter>
     </ClCompile>
+    <ClCompile Include="SceneComponent.cpp">
+      <Filter>Object\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -54,6 +57,9 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="ActorComponent.h">
+      <Filter>Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneComponent.h">
       <Filter>Object\Component</Filter>
     </ClInclude>
   </ItemGroup>
