@@ -20,11 +20,15 @@ public:
 	EWindowImageType ImageType = EWindowImageType::IMG_NONE;
 };
 
+class UEngineWindow;
+
 /// <summary>
 /// DC 책임자.
 /// </summary>
 class UWindowImage : public UPathObject
 {
+	friend UEngineWindow;
+
 public:
 	// constrcuter destructer
 	UWindowImage();
@@ -52,5 +56,8 @@ private :
 
 	//	이미지 Type
 	EWindowImageType ImageType = EWindowImageType::IMG_NONE;
+
+	// DC를 만드는 함수
+	bool Create(HDC _MainDC);
 };
 

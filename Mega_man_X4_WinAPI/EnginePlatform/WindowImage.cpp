@@ -23,6 +23,11 @@ FVector UWindowImage::GetScale()
     return FVector(BitMapInfo.bmWidth, BitMapInfo.bmHeight);
 }
 
+/// <summary>
+/// UEngineResourcesManager LoadImg 에서 호출.
+/// </summary>
+/// <param name="_Image"></param>
+/// <returns></returns>
 bool UWindowImage::Load(UWindowImage* _Image)
 {
     // 이미지 파일 경로
@@ -92,6 +97,16 @@ bool UWindowImage::Load(UWindowImage* _Image)
     Info.ImageType = ImageType;
     Infos.push_back(Info);
 
-
     return false;
+}
+
+bool UWindowImage::Create(HDC _MainDC)
+{
+    ImageDC = _MainDC;
+
+    if (nullptr == ImageDC)
+    {
+        return false;
+    }
+    return true;
 }

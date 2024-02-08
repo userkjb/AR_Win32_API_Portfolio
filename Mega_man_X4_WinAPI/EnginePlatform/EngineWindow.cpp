@@ -1,5 +1,6 @@
 #include "EngineWindow.h"
 #include <EngineBase/EngineDebug.h>
+#include "WindowImage.h"
 
 bool EngineWindow::WindowLive = true;
 HINSTANCE EngineWindow::hInstance;
@@ -101,6 +102,12 @@ void EngineWindow::Open(std::string_view _Title)
 	}
 
 	hDC = GetDC(hWnd);
+
+	if (nullptr == WindowImage)
+	{
+		WindowImage = new UWindowImage();
+		WindowImage->Create(hDC);
+	}
 
 	ShowWindow(hWnd, SW_SHOW);
 	UpdateWindow(hWnd);
