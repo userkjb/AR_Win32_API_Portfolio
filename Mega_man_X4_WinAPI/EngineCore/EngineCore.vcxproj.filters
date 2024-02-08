@@ -16,6 +16,9 @@
     <Filter Include="Object\Component">
       <UniqueIdentifier>{3d15c81d-d0f5-45e5-aabb-7362434c6aaf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Renderer">
+      <UniqueIdentifier>{841780ca-2f28-4ec9-aebf-b82f99a1be48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -39,6 +42,9 @@
     <ClCompile Include="SceneComponent.cpp">
       <Filter>Object\Component</Filter>
     </ClCompile>
+    <ClCompile Include="ImageRenderer.cpp">
+      <Filter>Object\Component\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -61,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="SceneComponent.h">
       <Filter>Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageRenderer.h">
+      <Filter>Object\Component\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
