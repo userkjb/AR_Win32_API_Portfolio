@@ -18,8 +18,27 @@ public :
 	USceneComponent& operator=(const USceneComponent& _Other) = delete;
 	USceneComponent& operator=(USceneComponent&& _Other) noexcept = delete;
 
+	void SetPosition(const FVector& _Value)
+	{
+		Transform.SetPosition(_Value);
+	}
+
+	void SetScale(const FVector& _Value)
+	{
+		Transform.SetScale(_Value);
+	}
+
+	void SetTransform(const FTransform& _Value)
+	{
+		Transform = _Value;
+	}
+
+	FTransform GetTransform()
+	{
+		return Transform;
+	}
 
 private :
-
+	FTransform Transform;
 };
 
