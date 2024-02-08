@@ -106,7 +106,8 @@ void UEngineWindow::Open(std::string_view _Title)
 		return;
 	}
 
-	HDC hDC = GetDC(hWnd);
+	//HDC hDC = GetDC(hWnd);
+	hDC = GetDC(hWnd);
 
 	if (nullptr == WindowImage)
 	{
