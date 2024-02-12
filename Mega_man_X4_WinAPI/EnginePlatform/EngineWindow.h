@@ -59,5 +59,7 @@ private :
 
 	// 더블 버퍼링을 위한 WindowImage.
 	UWindowImage* BackBufferImage = nullptr;
+
+	// 진행[TODO]
 };
 
