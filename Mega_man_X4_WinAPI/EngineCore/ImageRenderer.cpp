@@ -57,9 +57,10 @@ void UImageRenderer::Render(float _DeltaTime)
 		GEngine->MainWindow.GetWindowImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
 		break;
 	case EWindowImageType::IMG_PNG:
-
+		GEngine->MainWindow.GetWindowImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
 		break;
 	default:
+		MsgBoxAssert("특정 색 및 투명 처리가 불가능한 이미지 입니다.");
 		break;
 	}
 }
