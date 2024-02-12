@@ -28,6 +28,11 @@ public :
 		return Inst;
 	}
 
+	/// <summary>
+	/// 호출 되는 LoadImg 함수.
+	/// </summary>
+	/// <param name="_Path"></param>
+	/// <returns></returns>
 	UWindowImage* LoadImg(std::string_view _Path);
 	UWindowImage* LoadImg(std::string_view _Path, std::string_view _Name);
 
