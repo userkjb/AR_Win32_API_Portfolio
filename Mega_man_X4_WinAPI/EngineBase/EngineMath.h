@@ -132,6 +132,63 @@ public:
 	}
 };
 
+class Color8Bit
+{
+public :
+	static const Color8Bit Black;
+	static const Color8Bit Red;
+	static const Color8Bit Green;
+	static const Color8Bit Blue;
+	static const Color8Bit White;
+	static const Color8Bit Magenta;
+
+	static const Color8Bit BlackA;
+	static const Color8Bit RedA;
+	static const Color8Bit GreenA;
+	static const Color8Bit BlueA;
+	static const Color8Bit WhiteA;
+	static const Color8Bit MagentaA;
+
+	// 알파값인 A를 생각해야 하니까
+	// 똑같은 이름 2개를 사용해야 하므로
+	// union 을 사용한다.
+	union
+	{
+		struct
+		{
+			unsigned char R;
+			unsigned char G;
+			unsigned char B;
+			unsigned char A;
+		};
+
+		unsigned char Arr1D[4] = { 0, 0, 0, 255 };
+		unsigned int Color;
+	};
+
+
+	Color8Bit() {}
+
+	Color8Bit(
+		unsigned char _R,
+		unsigned char _G,
+		unsigned char _B,
+		unsigned char _A
+		) : R(_R), G(_G), B(_B), A(_A)
+	{}
+
+	// 색상 비교를 위한 operator
+	bool operator==(Color8Bit _Color)
+	{
+		return Color == _Color.Color;
+	}
+
+	Color8Bit ZeroAlphaColor() const
+	{
+		return Color8Bit{ R,G,B,0 };
+	}
+};
+
 using FVector = float4;
 
 class EngineMath
