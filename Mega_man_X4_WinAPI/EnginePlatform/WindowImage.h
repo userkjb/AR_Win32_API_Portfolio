@@ -57,6 +57,15 @@ public:
 	/// <param name="_Color">기본 Black</param>
 	void TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
 
+	/// <summary>
+	/// 사용한 png 파일의 alpha 값을 지운다.
+	/// </summary>
+	/// <param name="_CopyImage"></param>
+	/// <param name="_Trans"></param>
+	/// <param name="_Index"></param>
+	/// <param name="_Color"></param>
+	void AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
+
 private :
 	// 읽어온 이미지를 담는 Vector
 	std::vector<ImageInfo> Infos;

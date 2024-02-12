@@ -57,6 +57,7 @@ void UImageRenderer::Render(float _DeltaTime)
 		GEngine->MainWindow.GetWindowImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
 		break;
 	case EWindowImageType::IMG_PNG:
+
 		break;
 	default:
 		break;
