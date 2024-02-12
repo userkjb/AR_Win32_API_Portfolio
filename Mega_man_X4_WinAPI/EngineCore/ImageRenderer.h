@@ -18,10 +18,17 @@ public:
 
 	void SetImage(std::string_view _Name, int _InfoIndex = 0);
 
+	/// <summary>
+	/// Level -> LevelRender함수에서 호출한다.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
 	void Render(float _DeltaTime);
 
 protected :
-
+	/// <summary>
+	/// USceneComponent
+	/// </summary>
+	void BeginPlay() override;
 
 private :
 	UWindowImage* Image = nullptr;

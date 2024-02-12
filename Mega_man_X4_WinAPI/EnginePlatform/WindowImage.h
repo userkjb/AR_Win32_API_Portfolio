@@ -43,6 +43,11 @@ public:
 
 	bool Load(UWindowImage* _Image);
 
+	EWindowImageType GetImageType()
+	{
+		return ImageType;
+	}
+
 private :
 	// 읽어온 이미지를 담는 Vector
 	std::vector<ImageInfo> Infos;
