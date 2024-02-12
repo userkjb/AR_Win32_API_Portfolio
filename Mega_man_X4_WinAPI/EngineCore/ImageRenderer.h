@@ -30,7 +30,20 @@ protected :
 	/// </summary>
 	void BeginPlay() override;
 
+	void SetTransColor(Color8Bit _Color)
+	{
+		TransColor = _Color;
+	}
+
+	void SetImageCuttingTransform(const FTransform& _Value)
+	{
+		ImageCuttingTransform = _Value;
+	}
+
 private :
-	UWindowImage* Image = nullptr;
+	int InfoIndex = 0; // Index
+	UWindowImage* Image = nullptr; // 이미지
+	FTransform ImageCuttingTransform; // 이미지에서 자를 위치. / Set
+	Color8Bit TransColor; // 자를 색상. / Set
 
 };
