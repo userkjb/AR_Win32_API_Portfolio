@@ -54,7 +54,7 @@ void UImageRenderer::Render(float _DeltaTime)
 		break;
 	}
 	case EWindowImageType::IMG_BMP: // BMP 인 경우 일반적으로 TransCopy로 투명 처리를 한다.
-		GEngine->MainWindow.GetWindowImage()->TransCopy();
+		GEngine->MainWindow.GetWindowImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
 		break;
 	case EWindowImageType::IMG_PNG:
 		break;
