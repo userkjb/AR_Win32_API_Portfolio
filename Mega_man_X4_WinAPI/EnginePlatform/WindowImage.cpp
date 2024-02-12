@@ -103,6 +103,58 @@ bool UWindowImage::Load(UWindowImage* _Image)
     return false;
 }
 
+void UWindowImage::TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color)
+{
+    // 방어 코드
+    if (nullptr == _CopyImage)
+    {
+        MsgBoxAssert("nullptr 인 이미지를 복사할 수 없습니다.");
+    }
+    
+    // 방어 코드
+	if (_Index >= _CopyImage->Infos.size())
+    {
+        MsgBoxAssert(GetName() + "이미지 정보의 인덱스를 오버하여 사용했습니다");
+    }
+
+    // 받은 이미지 설정 가져오기. -> 좌표 가져오기.
+    FTransform& ImageTrans = _CopyImage->Infos[_Index].CuttingTrans;
+
+    // 설명 보충 필요.[TODO]
+    // 기존 좌표.
+    int RenderLeft = _Trans.iLeft();
+    int RenderTop = _Trans.iTop();
+    int RenderScaleX = _Trans.GetScale().iX();
+    int RenderScaleY = _Trans.GetScale().iY();
+
+    // 이미지 좌표.
+    int ImageLeft = ImageTrans.GetPosition().iX();
+    int ImageTop = ImageTrans.GetPosition().iY();
+    int ImageScaleX = ImageTrans.GetScale().iX();
+    int ImageScaleY = ImageTrans.GetScale().iY();
+
+    // 그려줄 Main DC
+    HDC hdc = ImageDC;
+
+    // 이미지 DC 설정
+    HDC hdcSrc = _CopyImage->Infos[_Index].ImageDC;
+    
+    // 설정.
+    TransparentBlt(
+        hdc,
+        RenderLeft,
+        RenderTop,
+        RenderScaleX,
+        RenderScaleY,
+        hdcSrc,
+        ImageLeft,
+        ImageTop,
+        ImageScaleX,
+        ImageScaleY,
+        _Color.Color
+    );
+}
+
 bool UWindowImage::Create(HDC _MainDC)
 {
     ImageDC = _MainDC;

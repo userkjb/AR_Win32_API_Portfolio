@@ -41,12 +41,21 @@ public:
 
 	FVector GetScale();
 
-	bool Load(UWindowImage* _Image);
-
 	EWindowImageType GetImageType()
 	{
 		return ImageType;
 	}
+
+	bool Load(UWindowImage* _Image);
+
+	/// <summary>
+	/// 사용한 bmp 파일의 특정 색을 지운다.
+	/// </summary>
+	/// <param name="_CopyImage"></param>
+	/// <param name="_Trans">읽은 이미지</param>
+	/// <param name="_Index"></param>
+	/// <param name="_Color">기본 Black</param>
+	void TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
 
 private :
 	// 읽어온 이미지를 담는 Vector
