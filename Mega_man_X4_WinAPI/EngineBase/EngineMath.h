@@ -190,6 +190,7 @@ public :
 };
 
 using FVector = float4;
+using FColor = float4;
 
 class EngineMath
 {
