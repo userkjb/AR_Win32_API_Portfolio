@@ -38,14 +38,23 @@ public :
 	}
 
 public:
-	float hX()
+	float hX() const
 	{
 		return X * 0.5f;
 	}
 
-	float hY()
+	float hY() const
 	{
 		return Y * 0.5f;
+	}
+
+	int iX() const
+	{
+		return static_cast<int>(X);
+	}
+	int iY() const
+	{
+		return static_cast<int>(Y);
 	}
 
 
