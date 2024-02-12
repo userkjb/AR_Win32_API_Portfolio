@@ -30,11 +30,18 @@ public :
 		return WindowImage;
 	}
 
+	UWindowImage* GetBackBufferImage()
+	{
+		return BackBufferImage;
+	}
+
 	// Player에서 호출하는데 이거 삭제 예정.
 	HDC GetWindowDC()
 	{
 		return hDC;
 	}
+
+
 
 protected :
 
@@ -50,6 +57,7 @@ private :
 	UWindowImage* WindowImage = nullptr;
 	// -> 윈도우를 오직 1번만 갱신.
 
-
+	// 더블 버퍼링을 위한 WindowImage.
+	UWindowImage* BackBufferImage = nullptr;
 };
 
