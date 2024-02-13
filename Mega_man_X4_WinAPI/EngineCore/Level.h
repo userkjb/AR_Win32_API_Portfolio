@@ -5,6 +5,7 @@
 
 class AActor;
 class UEngineCore;
+class UImageRenderer;
 
 class ULevel : public UNameObject
 {
