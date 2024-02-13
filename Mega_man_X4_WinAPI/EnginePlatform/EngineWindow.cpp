@@ -60,6 +60,15 @@ void UEngineWindow::SetWindowScale(const FVector& _Scale)
 	BackBufferImage = new UWindowImage();
 	BackBufferImage->Create(WindowImage, Scale);
 
+	// 만들어진 윈도우의 메뉴 크기 까지 고려해야 한다.
+	// Ex) 1000, 1000 윈도우 만들어 줘 -> 1000, 1100 수치를 적어줘야 한다.
+	// -> 즉, 윈도우의 부가요소 크기가지 다 포함해서 내부크기가 1000, 1000이 될 수 있도록 해야 한다.
+	RECT Rc = { 0, 0, _Scale.iX(), _Scale.iY() };
+	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
+
+	// SWP_NOMOVE 현재 위치를 유지합니다(X 및 Y 매개 변수 무시).
+	// 크기 조절기능 + 위치조절 다들어가 있다.
+	::SetWindowPos(hWnd, nullptr, 0, 0, Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER | SWP_NOMOVE);
 }
 
 LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
