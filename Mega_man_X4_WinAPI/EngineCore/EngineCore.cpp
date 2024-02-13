@@ -92,6 +92,10 @@ void UEngineCore::CoreTick()
 	// Actor와 부가적인 Object들의 Tick을 돌린다. => 행동한다.
 	CurLevel->LevelTick(DeltaTime);
 
+	// Renderer 들의 Render를 통해서 화면에 그림을 그린다.
+	MainWindow.ScreenClear();
+	CurLevel->LevelRender(DeltaTime);
+
 	// 정리한다.(파괴할 오브젝트들을 다 파괴한다.)
 	CurLevel->LevelRelease(DeltaTime);
 }
