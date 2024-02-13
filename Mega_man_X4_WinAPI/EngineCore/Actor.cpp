@@ -10,7 +10,7 @@ AActor::~AActor()
 {
 }
 
-UImageRenderer* AActor::CreateImageRenderer(int Order = 0)
+UImageRenderer* AActor::CreateImageRenderer(int Order)
 {
 	UImageRenderer* NewRenderer = new UImageRenderer();
 	UActorComponent* ActorCom = NewRenderer;

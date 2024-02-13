@@ -4,8 +4,9 @@
 #include <EngineBase/NameObject.h>
 #include "TickObject.h"
 #include "Level.h"
+#include "ImageRenderer.h"
 
-class UImageRenderer;
+//class UImageRenderer;
 
 class AActor : public UNameObject, public UTickObject
 {
