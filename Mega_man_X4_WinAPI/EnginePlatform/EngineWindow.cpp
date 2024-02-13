@@ -38,6 +38,30 @@ unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)(
 	return msg.wParam;
 }
 
+void UEngineWindow::SetWindowPosition(const FVector& _Pos)
+{
+	Position = _Pos;
+
+	::SetWindowPos(hWnd, nullptr, Position.iX(), Position.iY(), 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+}
+
+void UEngineWindow::SetWindowScale(const FVector& _Scale)
+{
+	Scale = _Scale;
+
+	// 방어코드
+	if (nullptr != BackBufferImage)
+	{
+		delete BackBufferImage;
+		BackBufferImage = nullptr;
+	}
+
+	// Window 크기만한 이미지를 만들어야 한다.
+	BackBufferImage = new UWindowImage();
+	BackBufferImage->Create(WindowImage, Scale);
+
+}
+
 LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
