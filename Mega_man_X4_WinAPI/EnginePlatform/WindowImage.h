@@ -49,6 +49,14 @@ public:
 	bool Load(UWindowImage* _Image);
 
 	/// <summary>
+	/// UWindowImage 이미지를 FTransform 이 위치와 크기로 나에게 카피.
+	/// 이미지를 이미지 크기대로 만 그릴 수 있다.
+	/// </summary>
+	/// <param name="_CopyImage"></param>
+	/// <param name="_Trans"></param>
+	void BitCopy(UWindowImage* _CopyImage, const FTransform& _Trans);
+
+	/// <summary>
 	/// 사용한 bmp 파일의 특정 색을 지운다.
 	/// </summary>
 	/// <param name="_CopyImage"></param>

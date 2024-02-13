@@ -103,6 +103,36 @@ bool UWindowImage::Load(UWindowImage* _Image)
     return false;
 }
 
+void UWindowImage::BitCopy(UWindowImage* _CopyImage, const FTransform& _Trans)
+{
+    // 방어 코드
+    if (nullptr == _CopyImage)
+    {
+        MsgBoxAssert("nullptr 인 이미지를 복사할 수 없습니다");
+    }
+
+    // 이미지 그리기
+
+    // 윈도우
+    HDC hdc = ImageDC;
+
+    // 이미지
+    HDC hdcSrc = _CopyImage->ImageDC;
+
+    // 설정
+    BitBlt(
+        hdc,
+        _Trans.iLeft(),
+        _Trans.iTop(),
+        _Trans.GetScale().iX(),
+        _Trans.GetScale().iY(),
+        hdcSrc,
+        0,
+        0,
+        SRCCOPY // 이미지 그대로 고속 복사를 해라.
+    );
+}
+
 void UWindowImage::TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color)
 {
     // 방어 코드

@@ -80,6 +80,15 @@ void UEngineWindow::ScreenClear()
 	DeleteObject(myBrush);
 }
 
+void UEngineWindow::ScreenUpdate()
+{
+	FTransform CopyTrans;
+	CopyTrans.SetPosition({ Scale.ihX(), Scale.ihY() });
+	CopyTrans.SetScale({ Scale.iX(), Scale.iY() });
+
+	WindowImage->BitCopy(BackBufferImage, CopyTrans);
+}
+
 LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)

@@ -47,6 +47,7 @@ public :
 	void SetWindowScale(const FVector& _Scale);
 
 	void ScreenClear();
+	void ScreenUpdate();
 
 protected :
 
