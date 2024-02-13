@@ -34,6 +34,18 @@ void ULevel::LevelTick(float _DeltaTime)
 	}
 }
 
+void ULevel::LevelRender(float _DeltaTime)
+{
+	for (std::pair<const int, std::list<UImageRenderer*>>& OrderListPair : Renderers)
+	{
+		std::list<UImageRenderer*>& RendererList = OrderListPair.second;
+		for (UImageRenderer* Renderer : RendererList)
+		{
+			Renderer->Render(_DeltaTime);
+		}
+	}
+}
+
 void ULevel::LevelRelease(float _DeltaTime)
 {
 	// Render Release

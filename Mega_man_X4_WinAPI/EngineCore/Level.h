@@ -9,6 +9,8 @@ class UEngineCore;
 class ULevel : public UNameObject
 {
 	friend UEngineCore;
+	friend UImageRenderer;
+
 public :
 	// constructer destructer
 	ULevel();
@@ -49,8 +51,10 @@ protected :
 private :
 	void ActorInit(AActor* _NewActor);
 	void LevelTick(float _DeltaTime);
+	void LevelRender(float _DeltaTime);
 	void LevelRelease(float _DeltaTime);
 
 	std::map<int, std::list<AActor*>> AllActor;
+	std::map<int, std::list<UImageRenderer*>> Renderers; // ImageRenderer에서 Image들을 넣어준다.
 };
 
