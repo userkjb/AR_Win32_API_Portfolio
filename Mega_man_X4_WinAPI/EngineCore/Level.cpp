@@ -8,6 +8,21 @@ ULevel::ULevel()
 
 ULevel::~ULevel()
 {
+	for (std::pair<const int, std::list<AActor*>>& OrderListPair : AllActor)
+	{
+		std::list<AActor*>& ActorList = OrderListPair.second;
+		for (AActor* Actor : ActorList)
+		{
+			if (nullptr == Actor)
+			{
+				continue;
+			}
+
+			delete Actor;
+			Actor = nullptr;
+		}
+	}
+	AllActor.clear();
 }
 
 void ULevel::ActorInit(AActor* _NewActor)
