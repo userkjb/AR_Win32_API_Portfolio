@@ -1,6 +1,9 @@
 #pragma once
 #include "EngineMath.h"
 
+/// <summary>
+/// 위치, 크기 class
+/// </summary>
 class FTransform
 {
 public :
