@@ -12,6 +12,26 @@ UImageRenderer::~UImageRenderer()
 {
 }
 
+void UImageRenderer::SetOrder(int _Order)
+{
+	// 속한 Actor 설정
+	AActor* Owner = GetOwner();
+	// Actor 가 있는 Level 설정.
+	ULevel* Level = Owner->GetWorld();
+
+	std::map<int, std::list<UImageRenderer*>>& Renderers = Level->Renderers;
+
+	// 나의 오더(Actor)가 바뀌기 전에 혹시나 내가 다른 곳에 속했다면
+	// 그 곳을 빠져 나온다.
+	Renderers[GetOrder()].remove(this);
+
+	// 나의 오더(Actor)가 바뀐다.
+	UTickObject::SetOrder(_Order);
+
+	Renderers[GetOrder()].push_back(this);
+
+}
+
 /// <summary>
 /// 인자로 받은 이름의 이미지를 찾아서 설정한다.
 /// UEngineResourcesManager에서 이미지를 찾아 가져온다.

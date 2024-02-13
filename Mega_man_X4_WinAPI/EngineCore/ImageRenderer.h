@@ -16,6 +16,7 @@ public:
 	UImageRenderer& operator=(const UImageRenderer& _Other) = delete;
 	UImageRenderer& operator=(UImageRenderer&& _Other) noexcept = delete;
 
+	void SetOrder(int _Order) override;
 	void SetImage(std::string_view _Name, int _InfoIndex = 0);
 
 	/// <summary>
