@@ -24,12 +24,6 @@ public:
 	/// <param name="_DeltaTime"></param>
 	void Render(float _DeltaTime);
 
-protected :
-	/// <summary>
-	/// USceneComponent
-	/// </summary>
-	void BeginPlay() override;
-
 	void SetTransColor(Color8Bit _Color)
 	{
 		TransColor = _Color;
@@ -44,6 +38,13 @@ protected :
 	{
 		return Image;
 	}
+
+protected :
+	/// <summary>
+	/// USceneComponent
+	/// </summary>
+	void BeginPlay() override;
+
 
 private :
 	int InfoIndex = 0; // Index
