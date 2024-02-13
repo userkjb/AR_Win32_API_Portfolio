@@ -15,7 +15,8 @@ void UTitleLevel::BeginPlay()
 	ULevel::BeginPlay();
 
 	ABackGroundMap* Map = SpawnActor<ABackGroundMap>();
-	Map->SetMapImage("Stage1Map.png");
+	//Map->SetMapImage("Stage1Map.png");
+	Map->SetMapImage("mmx4credits.png");
 }
 
 void UTitleLevel::Tick(float _DeltaTime)
