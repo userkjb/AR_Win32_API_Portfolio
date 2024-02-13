@@ -1,6 +1,8 @@
 #pragma once
 #include <Windows.h>
 #include <string>
+#include <EngineBase\EngineMath.h>
+
 
 class UWindowImage;
 

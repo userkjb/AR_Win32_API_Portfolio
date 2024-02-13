@@ -36,7 +36,13 @@ public :
 	{
 
 	}
+	
+	float4(int _X, int _Y)
+		: X(static_cast<float>(_X)), Y(static_cast<float>(_Y)), Z(0.0f), W(1.0f)
+	{
 
+	}
+	
 public:
 	float hX() const
 	{

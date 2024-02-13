@@ -20,6 +20,10 @@ ContentsCore::~ContentsCore()
 /// </summary>
 void ContentsCore::BeginPlay()
 {
+	// BackBufferImage 설정
+	MainWindow.SetWindowScale({ 256 * 4, 240 * 4 });
+	MainWindow.SetWindowPosition({ 800, 0 });
+
 	// 부모 BeginPlay.
 	UEngineCore::BeginPlay();
 
