@@ -42,6 +42,12 @@ public :
 	{
 
 	}
+
+	float4(float _X, float _Y)
+		: X(_X), Y(_Y), Z(0.0f), W(1.0f)
+	{
+
+	}
 	
 public:
 	float hX() const
@@ -52,6 +58,11 @@ public:
 	float hY() const
 	{
 		return Y * 0.5f;
+	}
+
+	float4 Half2D()
+	{
+		return { hX(), hY() };
 	}
 
 	int iX() const
