@@ -14,9 +14,11 @@ void UTitleLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
 
+	// Back Ground Image
 	ABackGroundMap* Map = SpawnActor<ABackGroundMap>();
-	//Map->SetMapImage("Stage1Map.png");
-	Map->SetMapImage("mmx4credits.png");
+	Map->SetMapImage("TitleScreen.png");
+	//Map->SetLogoImage("ROCKMANX4_Logo.png");
+	
 }
 
 void UTitleLevel::Tick(float _DeltaTime)

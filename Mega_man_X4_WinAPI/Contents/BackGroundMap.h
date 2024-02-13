@@ -20,11 +20,14 @@ public :
 	/// <param name="_MapImageName"></param>
 	void SetMapImage(std::string_view _MapImageName);
 
+	void SetMenuImage(std::string_view _LogoImageName);
+
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private :
 	UImageRenderer* Renderer = nullptr;
+	UImageRenderer* LogoRenderer = nullptr;
 };
 
