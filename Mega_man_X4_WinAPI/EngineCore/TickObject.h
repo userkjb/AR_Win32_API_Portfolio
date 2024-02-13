@@ -43,6 +43,16 @@ public :
 		}
 	}
 
+	int GetOrder()
+	{
+		return Order;
+	}
+
+	virtual void SetOrder(int _Order)
+	{
+		Order = _Order;
+	}
+
 	virtual void DestroyUpdate(float _DeltaTime)
 	{
 		if (false == IsDestroyUpdate)
@@ -68,6 +78,8 @@ public :
 protected :
 
 private :
+	int Order = 0;
+
 	bool IsActiveValue = true;
 	bool IsDestroyValue = false;
 	bool IsDestroyUpdate = false;
