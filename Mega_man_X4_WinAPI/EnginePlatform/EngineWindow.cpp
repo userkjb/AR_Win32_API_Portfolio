@@ -71,6 +71,15 @@ void UEngineWindow::SetWindowScale(const FVector& _Scale)
 	::SetWindowPos(hWnd, nullptr, 0, 0, Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER | SWP_NOMOVE);
 }
 
+void UEngineWindow::ScreenClear()
+{
+	HBRUSH myBrush = (HBRUSH)CreateSolidBrush(ClearColor.Color);
+	HBRUSH oldBrush = (HBRUSH)SelectObject(BackBufferImage->ImageDC, myBrush);
+	Rectangle(BackBufferImage->ImageDC, -1, -1, Scale.iX() + 1, Scale.iY() + 1);
+	SelectObject(BackBufferImage->ImageDC, oldBrush);
+	DeleteObject(myBrush);
+}
+
 LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
@@ -101,6 +110,12 @@ UEngineWindow::UEngineWindow()
 
 UEngineWindow::~UEngineWindow()
 {
+	if (nullptr != BackBufferImage)
+	{
+		delete BackBufferImage;
+		BackBufferImage = nullptr;
+	}
+
 	if (nullptr != WindowImage)
 	{
 		delete WindowImage;

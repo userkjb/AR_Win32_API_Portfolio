@@ -46,12 +46,17 @@ public :
 	void SetWindowPosition(const FVector& _Pos);
 	void SetWindowScale(const FVector& _Scale);
 
+	void ScreenClear();
+
 protected :
 
 private :
 	static bool WindowLive;
 	static HINSTANCE hInstance;
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+
+	// 클리어 색상.
+	Color8Bit ClearColor = Color8Bit::WhiteA;
 
 	HWND hWnd = nullptr;
 	HDC hDC = nullptr;
