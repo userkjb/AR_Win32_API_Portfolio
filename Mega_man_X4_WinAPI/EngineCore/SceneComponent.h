@@ -30,7 +30,7 @@ public :
 
 	void SetTransform(const FTransform& _Value)
 	{
-		Transform = _Value;
+		USceneComponent::Transform = _Value;
 	}
 
 	FTransform GetTransform()
