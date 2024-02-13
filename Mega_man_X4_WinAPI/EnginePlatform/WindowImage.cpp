@@ -16,6 +16,8 @@ UWindowImage::UWindowImage()
 
 UWindowImage::~UWindowImage()
 {
+    DeleteObject(hBitMap);
+    DeleteDC(ImageDC);
 }
 
 FVector UWindowImage::GetScale()
@@ -30,6 +32,8 @@ FVector UWindowImage::GetScale()
 /// <returns></returns>
 bool UWindowImage::Load(UWindowImage* _Image)
 {
+    LoadType = EImageLoadType::IMG_Cutting;
+
     // 이미지 파일 경로
     UEnginePath Path = GetEnginePath();
     

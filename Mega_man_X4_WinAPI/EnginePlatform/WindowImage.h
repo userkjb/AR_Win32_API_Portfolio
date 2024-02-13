@@ -4,6 +4,16 @@
 #include <EngineBase/PathObject.h>
 #include <EngineBase/Transform.h>
 
+/// <summary>
+/// 이미지를 읽어온 Type.
+/// 데이터 정리할 때 사용.
+/// </summary>
+enum class EImageLoadType
+{
+	IMG_Folder,
+	IMG_Cutting,
+};
+
 enum class EWindowImageType
 {
 	IMG_NONE,
@@ -93,5 +103,8 @@ private :
 
 	// DC를 만드는 함수
 	bool Create(HDC _MainDC);
+
+	// 읽어온 방식, 기본은 Cutting
+	EImageLoadType LoadType = EImageLoadType::IMG_Cutting;
 };
 
