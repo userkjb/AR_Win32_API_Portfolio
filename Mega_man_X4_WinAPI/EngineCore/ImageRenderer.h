@@ -40,6 +40,11 @@ protected :
 		ImageCuttingTransform = _Value;
 	}
 
+	UWindowImage* GetImage() const
+	{
+		return Image;
+	}
+
 private :
 	int InfoIndex = 0; // Index
 	UWindowImage* Image = nullptr; // ¿ÃπÃ¡ˆ
