@@ -19,6 +19,11 @@ public:
 	void SetOrder(int _Order) override;
 	void SetImage(std::string_view _Name, int _InfoIndex = 0);
 
+	void SetTransform(const FTransform& _Value)
+	{
+		USceneComponent::SetTransform(_Value);
+	}
+
 	/// <summary>
 	/// Level -> LevelRender함수에서 호출한다.
 	/// </summary>
