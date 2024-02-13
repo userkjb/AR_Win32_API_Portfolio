@@ -10,6 +10,13 @@ UEngineResourcesManager::UEngineResourcesManager()
 
 UEngineResourcesManager::~UEngineResourcesManager()
 {
+	for (std::pair<const std::string, UWindowImage*>& Pair : Images)
+	{
+		delete Pair.second;
+		Pair.second = nullptr;
+	}
+
+	Images.clear();
 }
 
 UWindowImage* UEngineResourcesManager::LoadImg(std::string_view _Path)
