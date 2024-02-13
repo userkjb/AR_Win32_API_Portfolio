@@ -8,6 +8,8 @@ class FTransform
 {
 public :
 	FTransform();
+	FTransform(const FVector& _Pos, const FVector& _Scale)
+		: Position(_Pos), Scale(_Scale){}
 	~FTransform();
 
 	void SetScale(FVector _Value)
