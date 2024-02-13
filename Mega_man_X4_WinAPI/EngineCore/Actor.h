@@ -5,6 +5,8 @@
 #include "TickObject.h"
 #include "Level.h"
 
+class UImageRenderer;
+
 class AActor : public UNameObject, public UTickObject
 {
 	friend ULevel;
@@ -50,6 +52,9 @@ public :
 		return World;
 	}
 
+	UImageRenderer* CreateImageRenderer(int Order = 0);
+
+
 	/// <summary>
 	/// UTickObject
 	/// </summary>
@@ -69,6 +74,8 @@ protected :
 	void Tick(float _DeltaTime) override;
 
 private :
+	std::list<UImageRenderer*> Renderers;
+
 	ULevel* World = nullptr;
 	FTransform Transform = FTransform();
 
