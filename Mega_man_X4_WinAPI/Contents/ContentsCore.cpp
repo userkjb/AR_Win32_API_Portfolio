@@ -1,6 +1,7 @@
 #include "ContentsCore.h"
 //#include "TitleLevel.h"
-#include "IntroLevel.h"
+//#include "IntroLevel.h"
+#include "TitleLevel.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
@@ -42,9 +43,9 @@ void ContentsCore::BeginPlay()
 
 
 
-	CreateLevel<UIntroLevel>("IntroLevel");
+	CreateLevel<UTitleLevel>("TitleLevel");
 
-	ChangeLevel("IntroLevel");
+	ChangeLevel("TitleLevel");
 }
 
 void ContentsCore::Tick(float _DeltaTime)
