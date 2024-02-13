@@ -1,4 +1,6 @@
 #pragma once
+#include <EngineBase/EngineDebug.h>
+
 class UTickObject
 {
 public :

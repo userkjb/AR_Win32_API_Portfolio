@@ -8,6 +8,19 @@ AActor::AActor()
 
 AActor::~AActor()
 {
+	for (UImageRenderer* ImageRenderer : Renderers)
+	{
+		if (nullptr == ImageRenderer)
+		{
+			// TickObject
+			MsgBoxAssert("이미지 랜더러가 nullptr인 상황이 있었습니다");
+		}
+
+		delete ImageRenderer;
+		ImageRenderer = nullptr;
+	}
+
+	Renderers.clear();
 }
 
 UImageRenderer* AActor::CreateImageRenderer(int Order)
