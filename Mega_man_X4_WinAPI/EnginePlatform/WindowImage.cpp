@@ -224,3 +224,35 @@ bool UWindowImage::Create(HDC _MainDC)
     }
     return true;
 }
+
+bool UWindowImage::Create(UWindowImage* _Image, const FVector& _Scale)
+{
+    // HBITMAP 비트맵 이미지의 메모리권한
+    HANDLE ImageHandle = CreateCompatibleBitmap(_Image->ImageDC, _Scale.iX(), _Scale.iY());
+
+    if (nullptr == ImageHandle)
+    {
+        MsgBoxAssert("이미지 생성에 실패했습니다");
+        return false;
+    }
+
+    // 핸들 가져오기
+    hBitMap = reinterpret_cast<HBITMAP>(ImageHandle);
+
+    // 기존 이미지의 DC 가져오기
+    ImageDC = CreateCompatibleDC(_Image->ImageDC);
+    
+    if (nullptr == ImageDC)
+    {
+        MsgBoxAssert("이미지 생성에 실패했습니다");
+        return false;
+    }
+
+    HBITMAP OldBitMap = reinterpret_cast<HBITMAP>(SelectObject(ImageDC, hBitMap));
+    DeleteObject(OldBitMap);
+
+    // hBitMap에서 얻어오겠다.
+    GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
+
+    return true;
+}

@@ -82,5 +82,8 @@ private :
 
 	// DC를 만드는 함수
 	bool Create(HDC _MainDC);
+
+	// BackBufferImage 만드는 함수.
+	bool Create(UWindowImage* _Image, const FVector& _Scale);
 };
 
