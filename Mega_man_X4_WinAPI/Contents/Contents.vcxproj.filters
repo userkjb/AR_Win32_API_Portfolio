@@ -19,6 +19,9 @@
     <ClInclude Include="LodingLevel.h">
       <Filter>01_Level\00_Global_Level</Filter>
     </ClInclude>
+    <ClInclude Include="BackGroundMap.h">
+      <Filter>02_Actor\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -39,6 +42,9 @@
     <ClCompile Include="LodingLevel.cpp">
       <Filter>01_Level\00_Global_Level</Filter>
     </ClCompile>
+    <ClCompile Include="BackGroundMap.cpp">
+      <Filter>02_Actor\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00_Core">
@@ -55,9 +61,6 @@
     </Filter>
     <Filter Include="02_Actor\Bosses">
       <UniqueIdentifier>{d59e79fd-3bf4-4b78-8b48-84fb01560629}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Actor\MapObject">
-      <UniqueIdentifier>{3d3718b8-26b1-491e-ae18-17c6a96c19d8}</UniqueIdentifier>
     </Filter>
     <Filter Include="01_Level\02_Select_Player">
       <UniqueIdentifier>{18132db3-2b28-465a-a3f0-749955d9c2bd}</UniqueIdentifier>
@@ -79,6 +82,9 @@
     </Filter>
     <Filter Include="01_Level\00_Global_Level">
       <UniqueIdentifier>{976d572d-674d-434c-b114-cfcbc471b582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actor\Map">
+      <UniqueIdentifier>{3d3718b8-26b1-491e-ae18-17c6a96c19d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
