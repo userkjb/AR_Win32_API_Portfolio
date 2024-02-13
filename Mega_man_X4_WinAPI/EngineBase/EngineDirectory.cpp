@@ -44,6 +44,7 @@ void UEngineDirectory::AllFileRecursive(const std::string_view _Path, std::list<
 		std::filesystem::path Ext = Entry.path().extension();
 		std::string UpperExt = UEngineString::ToUpper(Ext.string());
 
+		// 폴더가 있다면,
 		if (true == Entry.is_directory())
 		{
 			if (true == _Recursive)
