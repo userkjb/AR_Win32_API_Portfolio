@@ -23,6 +23,18 @@ public :
 	virtual void BeginPlay() {};
 	virtual void Tick(float _DeltaTime) {};
 
+	/// <summary>
+	/// Level 이 시작할 때 실행.
+	/// 이전 Level 이 들어온다.
+	/// </summary>
+	/// <param name="_PrevLevel"></param>
+	virtual void LevelStart(ULevel* _PrevLevel) {};
+	/// <summary>
+	/// 현제 실행되고 있는 Level이 종료되면 실행.
+	/// </summary>
+	/// <param name="_NextLevel"></param>
+	virtual void LevelEnd(ULevel* _NextLevel) {};
+
 	template<typename ActorType>
 	ActorType* SpawnActor(int _Order = 0)
 	{
