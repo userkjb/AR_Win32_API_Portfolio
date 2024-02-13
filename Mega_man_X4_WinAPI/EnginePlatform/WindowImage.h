@@ -74,6 +74,9 @@ public:
 	/// <param name="_Color"></param>
 	void AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
 
+	// BackBufferImage 만드는 함수.
+	bool Create(UWindowImage* _Image, const FVector& _Scale);
+
 private :
 	// 읽어온 이미지를 담는 Vector
 	std::vector<ImageInfo> Infos;
@@ -90,8 +93,5 @@ private :
 
 	// DC를 만드는 함수
 	bool Create(HDC _MainDC);
-
-	// BackBufferImage 만드는 함수.
-	bool Create(UWindowImage* _Image, const FVector& _Scale);
 };
 
