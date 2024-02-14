@@ -56,6 +56,11 @@ public :
 		return World;
 	}
 
+	/// <summary>
+	/// Renderer Component »ý¼º.
+	/// </summary>
+	/// <param name="Order"></param>
+	/// <returns></returns>
 	UImageRenderer* CreateImageRenderer(int Order = 0);
 
 
