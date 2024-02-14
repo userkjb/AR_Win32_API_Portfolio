@@ -24,9 +24,26 @@ public :
 		IsActiveValue = false;
 	}
 
-	void SetActive(bool _Active)
+	/// <summary>
+	/// 화면에 출력 여부 설정.
+	/// </summary>
+	/// <param name="_Active">On(true) / Off(false)</param>
+	/// <param name="_ActiveTime">입력 시간 후 생성.(기본 0초)</param>
+	void SetActive(bool _Active, float _ActiveTime = 0.0f)
 	{
-		IsActiveValue = _Active;
+		ActiveTime = _ActiveTime;
+
+		if (true == _Active && 0.0f == ActiveTime)
+		{
+			IsActiveValue = _Active;
+		}
+
+		if (true == _Active && 0.0f != ActiveTime)
+		{
+			IsActiveUpdate = true;
+		}
+
+		IsActiveValue = false;
 	}
 
 	bool IsActive()

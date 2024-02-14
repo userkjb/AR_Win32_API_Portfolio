@@ -62,12 +62,12 @@ void ABackGroundMap::SwitchDebug()
 {
 	if (true == TitleRenderer->IsActive())
 	{
-		TitleRenderer->SetActive(false);
-		GameStartTextRenderer->SetActive(true);
+		TitleRenderer->SetActive(false, 1.0f);
+		GameStartTextRenderer->SetActive(true, 1.0f);
 	}
 	else
 	{
-		TitleRenderer->SetActive(true);
-		GameStartTextRenderer->SetActive(false);
+		TitleRenderer->SetActive(true, 1.0f);
+		GameStartTextRenderer->SetActive(false, 1.0f);
 	}
 }
