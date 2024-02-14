@@ -101,7 +101,7 @@ public:
 
 private :
 	// 읽어온 이미지를 담는 Vector
-	std::vector<ImageInfo> Infos;
+	std::vector<UImageInfo> Infos;
 
 	// 비트맵
 	HBITMAP hBitMap = 0;

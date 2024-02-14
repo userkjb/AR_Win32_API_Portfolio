@@ -148,7 +148,7 @@ void UWindowImage::TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans,
     // 방어 코드
 	if (_Index >= _CopyImage->Infos.size())
     {
-        MsgBoxAssert(GetName() + "이미지 정보의 인덱스를 오버하여 사용했습니다");
+        MsgBoxAssert(GetName() + "이미지 정보의 인덱스를 오버하여 사용했습니다. Bit");
     }
 
     // 받은 이미지 설정 가져오기. -> 좌표 가져오기.
@@ -200,7 +200,7 @@ void UWindowImage::AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans,
     // 방어 코드
     if (_Index >= _CopyImage->Infos.size())
     {
-        MsgBoxAssert(GetName() + "이미지 정보의 인덱스를 오버하여 사용했습니다");
+        MsgBoxAssert(GetName() + "이미지 정보의 인덱스를 오버하여 사용했습니다. Alpha");
     }
 
     // 받은 이미지 설정 가져오기. -> 좌표 가져오기.

@@ -21,13 +21,16 @@ public :
 	void SetMapImage(std::string_view _MapImageName);
 
 	void SetMenuImage(std::string_view _LogoImageName);
+	
+	void SetGameStartTextImage(std::string_view _ImageName);
 
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private :
-	UImageRenderer* Renderer = nullptr;
-	UImageRenderer* LogoRenderer = nullptr;
+	UImageRenderer* TitleRenderer = nullptr;
+	UImageRenderer* MenuRenderer = nullptr;
+	UImageRenderer* GameStartTextRenderer = nullptr;
 };
 

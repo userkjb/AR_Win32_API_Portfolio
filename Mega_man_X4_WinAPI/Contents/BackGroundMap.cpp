@@ -11,25 +11,34 @@ ABackGroundMap::~ABackGroundMap()
 
 void ABackGroundMap::SetMapImage(std::string_view _MapImageName)
 {
-	Renderer->SetImage(_MapImageName);
-	UWindowImage* Image = Renderer->GetImage();
+	TitleRenderer->SetImage(_MapImageName);
+	UWindowImage* Image = TitleRenderer->GetImage();
 	FVector ImageScale = Image->GetScale();
-	Renderer->SetTransform({ ImageScale*1.25f, ImageScale * 2.5f });
+	TitleRenderer->SetTransform({ ImageScale*1.25f, ImageScale * 2.5f });
 }
 
 void ABackGroundMap::SetMenuImage(std::string_view _LogoImageName)
 {
-	LogoRenderer->SetImage(_LogoImageName);
-	UWindowImage* Image = LogoRenderer->GetImage();
+	MenuRenderer->SetImage(_LogoImageName);
+	UWindowImage* Image = MenuRenderer->GetImage();
 	FVector ImageScale = Image->GetScale();
-	LogoRenderer->SetTransform({ {ImageScale.X + 140, ImageScale.Y + 50}, ImageScale * 2.5f });
+	MenuRenderer->SetTransform({ {ImageScale.X, ImageScale.Y}, ImageScale });
+}
+
+void ABackGroundMap::SetGameStartTextImage(std::string_view _ImageName)
+{
+	GameStartTextRenderer->SetImage(_ImageName);
+	UWindowImage* Image = GameStartTextRenderer->GetImage();
+	FVector ImageScale = Image->GetScale();
+	GameStartTextRenderer->SetTransform({ {ImageScale.X, ImageScale.Y}, ImageScale * 3 });
 }
 
 void ABackGroundMap::BeginPlay()
 {
 	// Render 순서 설정
-	Renderer = CreateImageRenderer(0);
-	//LogoRenderer = CreateImageRenderer(1);
+	TitleRenderer = CreateImageRenderer(0);
+	//MenuRenderer = CreateImageRenderer(1);
+	GameStartTextRenderer = CreateImageRenderer(2);
 }
 
 void ABackGroundMap::Tick(float _DeltaTime)
