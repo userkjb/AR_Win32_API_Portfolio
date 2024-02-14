@@ -92,6 +92,8 @@ void ULevel::LevelRelease(float _DeltaTime)
 
 			delete Actor;
 			Actor = nullptr;
+			// Actor가 지워서 이미 없는데 Level은 그 사실을 모른다.
+			// 그래서 delete 가 아니라 erase를 사용해서 청소를 하는 것이다.
 			StartIter = ActorList.erase(StartIter);
 		}
 	}
