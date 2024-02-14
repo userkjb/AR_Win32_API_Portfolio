@@ -43,16 +43,12 @@ void ABackGroundMap::BeginPlay()
 
 	// Render 순서 설정
 	TitleRenderer = CreateImageRenderer(0);
+	TitleRenderer->SetActive(false);
 	//MenuRenderer = CreateImageRenderer(1);
-	GameStartTextRenderer = CreateImageRenderer(2);
+	//GameStartTextRenderer = CreateImageRenderer(2);
 }
 
 void ABackGroundMap::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
-
-	if (UEngineInput::IsDown('O'))
-	{
-		GameStartTextRenderer->ActiveOff();
-	}
 }

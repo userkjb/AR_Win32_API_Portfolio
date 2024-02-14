@@ -1,6 +1,8 @@
 #pragma once
 #include <EngineCore/Level.h>
 
+class ABackGroundMap;
+
 class UTitleLevel : public ULevel
 {
 public :
@@ -21,6 +23,6 @@ protected :
 	void LevelEnd(ULevel* _Level) override;
 
 private :
-
+	ABackGroundMap* BackGroundActor = nullptr;
 };
 

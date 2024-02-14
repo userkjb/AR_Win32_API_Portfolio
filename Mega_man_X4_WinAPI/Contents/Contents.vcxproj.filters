@@ -20,7 +20,7 @@
       <Filter>01_Level\00_Global_Level</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundMap.h">
-      <Filter>02_Actor\Map</Filter>
+      <Filter>02_Actor\Map\00_Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -43,7 +43,7 @@
       <Filter>01_Level\00_Global_Level</Filter>
     </ClCompile>
     <ClCompile Include="BackGroundMap.cpp">
-      <Filter>02_Actor\Map</Filter>
+      <Filter>02_Actor\Map\00_Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +85,12 @@
     </Filter>
     <Filter Include="02_Actor\Map">
       <UniqueIdentifier>{3d3718b8-26b1-491e-ae18-17c6a96c19d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actor\Map\00_Title">
+      <UniqueIdentifier>{9234db09-5550-4042-a469-0d4d46750843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actor\Map\01_Intro">
+      <UniqueIdentifier>{8a732002-a0f7-45e5-b091-06d82b68fc83}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
