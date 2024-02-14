@@ -2,6 +2,9 @@
 #include <EngineCore/EngineResourcesManager.h>
 #include <EngineBase/EngineDebug.h>
 
+// Helper
+#include <EngineCore/EngineCore.h>
+
 ABackGroundMap::ABackGroundMap()
 {
 }
@@ -47,4 +50,9 @@ void ABackGroundMap::BeginPlay()
 void ABackGroundMap::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	if (UEngineInput::IsDown('O'))
+	{
+		GameStartTextRenderer->ActiveOff();
+	}
 }

@@ -3,6 +3,7 @@
 #include <EnginePlatform/EngineWindow.h>
 #include <EngineBase/EngineString.h>
 #include <EngineBase/EngineTime.h>
+#include <EnginePlatform/EngineInput.h>
 #include <map>
 
 class ULevel;
