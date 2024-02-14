@@ -28,6 +28,8 @@ protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void SwitchDebug();
+
 private :
 	UImageRenderer* TitleRenderer = nullptr;
 	UImageRenderer* MenuRenderer = nullptr;

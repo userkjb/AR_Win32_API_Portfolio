@@ -43,12 +43,31 @@ void ABackGroundMap::BeginPlay()
 
 	// Render 순서 설정
 	TitleRenderer = CreateImageRenderer(0);
-	TitleRenderer->SetActive(false);
 	//MenuRenderer = CreateImageRenderer(1);
-	//GameStartTextRenderer = CreateImageRenderer(2);
+	GameStartTextRenderer = CreateImageRenderer(0);
+	GameStartTextRenderer->SetActive(false);
 }
 
 void ABackGroundMap::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	if (UEngineInput::IsDown('O'))
+	{
+		SwitchDebug();
+	}
+}
+
+void ABackGroundMap::SwitchDebug()
+{
+	if (true == TitleRenderer->IsActive())
+	{
+		TitleRenderer->SetActive(false);
+		GameStartTextRenderer->SetActive(true);
+	}
+	else
+	{
+		TitleRenderer->SetActive(true);
+		GameStartTextRenderer->SetActive(false);
+	}
 }
