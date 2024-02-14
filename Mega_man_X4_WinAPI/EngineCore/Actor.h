@@ -7,6 +7,9 @@
 #include "ImageRenderer.h"
 
 //class UImageRenderer;
+class ULevel;
+class UActorComponent;
+class UImageRenderer;
 
 class AActor : public UNameObject, public UTickObject
 {
