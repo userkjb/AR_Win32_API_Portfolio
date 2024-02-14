@@ -38,6 +38,8 @@ void ULevel::LevelTick(float _DeltaTime)
 		std::list<AActor*>& ActorList = OrderListPair.second;
 		for (AActor* Actor : ActorList)
 		{
+			Actor->ActiveUpdate(_DeltaTime);
+			Actor->DestroyUpdate(_DeltaTime);
 			if (false == Actor->IsActive())
 			{
 				continue;
@@ -56,6 +58,11 @@ void ULevel::LevelRender(float _DeltaTime)
 		std::list<UImageRenderer*>& RendererList = OrderListPair.second;
 		for (UImageRenderer* Renderer : RendererList)
 		{
+			if (false == Renderer->IsActive())
+			{
+				continue;
+			}
+
 			Renderer->Render(_DeltaTime);
 		}
 	}

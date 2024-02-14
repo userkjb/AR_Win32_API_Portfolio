@@ -75,6 +75,12 @@ public :
 	/// <param name="_DeltaTime"></param>
 	void DestroyUpdate(float _DeltaTime) override;
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void ActiveUpdate(float _DeltaTime) override;
+
 protected :
 	/// <summary>
 	/// UTickObject

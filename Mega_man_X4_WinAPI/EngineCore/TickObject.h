@@ -55,6 +55,21 @@ public :
 		Order = _Order;
 	}
 
+	virtual void ActiveUpdate(float _DeltaTime)
+	{
+		ActiveTime -= _DeltaTime;
+
+		if (true == IsActiveUpdate)
+		{
+			if (0.0f >= ActiveTime)
+			{
+				IsActiveUpdate = false;
+				IsActiveValue = true;
+				return;
+			}
+		}
+	}
+
 	virtual void DestroyUpdate(float _DeltaTime)
 	{
 		if (false == IsDestroyUpdate)
@@ -82,9 +97,12 @@ protected :
 private :
 	int Order = 0;
 
-	bool IsActiveValue = true;
-	bool IsDestroyValue = false;
 	bool IsDestroyUpdate = false;
 	float DestroyTime = 0.0f;
+	bool IsDestroyValue = false;
+
+	bool IsActiveUpdate = false;
+	float ActiveTime = 0.0f;
+	bool IsActiveValue = true;
 };
 
