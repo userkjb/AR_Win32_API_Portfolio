@@ -85,7 +85,9 @@ public:
 		return static_cast<int>(hX());
 	}
 
-	float4 operator+(const float4& _Other)
+	// -- operator --
+
+	float4 operator+(const float4& _Other) const
 	{
 		float4 Result = *this;
 		Result.X += _Other.X;
@@ -99,6 +101,24 @@ public:
 		X += _Other.X;
 		Y += _Other.Y;
 		Z += _Other.Z;
+
+		return *this;
+	}
+
+	float4 operator-(const float4& _Other) const
+	{
+		float4 Result = *this;
+		Result.X -= _Other.X;
+		Result.Y -= _Other.Y;
+		Result.Z -= _Other.Z;
+		return Result;
+	}
+
+	float4& operator-=(const float4& _Other)
+	{
+		X -= _Other.X;
+		Y -= _Other.Y;
+		Z -= _Other.Z;
 
 		return *this;
 	}
@@ -135,24 +155,6 @@ public:
 		X *= _Other.X;
 		Y *= _Other.Y;
 		Z *= _Other.Z;
-
-		return *this;
-	}
-
-	float4 operator-(const float4& _Other)
-	{
-		float4 Result = *this;
-		Result.X -= _Other.X;
-		Result.Y -= _Other.Y;
-		Result.Z -= _Other.Z;
-		return Result;
-	}
-
-	float4& operator-=(const float4& _Other)
-	{
-		X -= _Other.X;
-		Y -= _Other.Y;
-		Z -= _Other.Z;
 
 		return *this;
 	}
