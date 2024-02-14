@@ -72,5 +72,5 @@ void UEngineResourcesManager::CuttingImage(std::string_view _Name, int _X, int _
 		MsgBoxAssert("파일명 : " + std::string(_Name) + " 이 존재하지 않습니다.");
 	}
 
-	//FindImage->Cutting(_X, _Y);
+	FindImage->Cutting(_X, _Y);
 }
