@@ -28,11 +28,13 @@ protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void SwitchDebug();
+	void MenuChange();
 
 private :
 	UImageRenderer* TitleRenderer = nullptr;
-	UImageRenderer* MenuRenderer = nullptr;
 	UImageRenderer* GameStartTextRenderer = nullptr;
+	UImageRenderer* MenuRenderer = nullptr;
+
+	bool EnterKey = false;
 };
 

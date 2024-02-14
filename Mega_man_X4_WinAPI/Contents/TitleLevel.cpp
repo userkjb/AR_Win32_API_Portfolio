@@ -18,9 +18,8 @@ void UTitleLevel::BeginPlay()
 	// Back Ground Image Actor
 	BackGroundActor = SpawnActor<ABackGroundMap>();
 	BackGroundActor->SetMapImage("TitleScreen.png");
-	//BackGroundActor->SetMenuImage("Menu.png");
 	BackGroundActor->SetGameStartTextImage("GameStartText.png");
-
+	BackGroundActor->SetMenuImage("Menu.png");
 }
 
 void UTitleLevel::Tick(float _DeltaTime)

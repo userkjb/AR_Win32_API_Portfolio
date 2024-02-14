@@ -42,7 +42,7 @@ void ContentsCore::BeginPlay()
 	}
 
 	// 이미지 이름, 이미지 행렬.
-	//UEngineResourcesManager::GetInst().CuttingImage("Menu.png", 1, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("Menu.png", 3, 1);
 
 
 	CreateLevel<UTitleLevel>("TitleLevel");
@@ -52,8 +52,10 @@ void ContentsCore::BeginPlay()
 
 void ContentsCore::Tick(float _DeltaTime)
 {
+	UEngineCore::Tick(_DeltaTime);
 }
 
 void ContentsCore::End()
 {
+	UEngineCore::End();
 }

@@ -23,10 +23,11 @@ void ABackGroundMap::SetMapImage(std::string_view _MapImageName)
 
 void ABackGroundMap::SetMenuImage(std::string_view _LogoImageName)
 {
+	FVector ShowPosition = { 400, 400 };
 	MenuRenderer->SetImage(_LogoImageName);
 	UWindowImage* Image = MenuRenderer->GetImage();
 	FVector ImageScale = Image->GetScale();
-	MenuRenderer->SetTransform({ {ImageScale.X, ImageScale.Y}, ImageScale });
+	MenuRenderer->SetTransform({ ShowPosition, {ImageScale.X / 3, ImageScale.Y} });
 }
 
 void ABackGroundMap::SetGameStartTextImage(std::string_view _ImageName)
@@ -43,31 +44,40 @@ void ABackGroundMap::BeginPlay()
 
 	// Render 순서 설정
 	TitleRenderer = CreateImageRenderer(0);
-	//MenuRenderer = CreateImageRenderer(1);
-	GameStartTextRenderer = CreateImageRenderer(0);
-	GameStartTextRenderer->SetActive(false);
+	GameStartTextRenderer = CreateImageRenderer(1);
+	GameStartTextRenderer->SetActive(false); // test
+
+	MenuRenderer = CreateImageRenderer(1);
 }
 
 void ABackGroundMap::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	if (UEngineInput::IsDown('O'))
+	if (true == UEngineInput::IsDown('O')) // Enter 키 수정 예정.
 	{
-		SwitchDebug();
+		MenuChange();
+		EnterKey = true;
+	}
+
+	if (EnterKey == true)
+	{
+		if (true == UEngineInput::IsDown(38)) // Up
+		{
+
+		}
+		else if (true == UEngineInput::IsDown(40)) // Down
+		{
+
+		}
 	}
 }
 
-void ABackGroundMap::SwitchDebug()
+void ABackGroundMap::MenuChange()
 {
-	if (true == TitleRenderer->IsActive())
+	if (true == GameStartTextRenderer->IsActive())
 	{
-		TitleRenderer->SetActive(false, 1.0f);
-		GameStartTextRenderer->SetActive(true, 1.0f);
-	}
-	else
-	{
-		TitleRenderer->SetActive(true, 1.0f);
-		GameStartTextRenderer->SetActive(false, 1.0f);
+		GameStartTextRenderer->SetActive(false);
+		MenuRenderer->SetActive(true);
 	}
 }
