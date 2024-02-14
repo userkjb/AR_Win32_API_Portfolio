@@ -36,6 +36,8 @@ void ABackGroundMap::SetGameStartTextImage(std::string_view _ImageName)
 
 void ABackGroundMap::BeginPlay()
 {
+	AActor::BeginPlay();
+
 	// Render 순서 설정
 	TitleRenderer = CreateImageRenderer(0);
 	//MenuRenderer = CreateImageRenderer(1);
@@ -44,4 +46,5 @@ void ABackGroundMap::BeginPlay()
 
 void ABackGroundMap::Tick(float _DeltaTime)
 {
+	AActor::Tick(_DeltaTime);
 }
