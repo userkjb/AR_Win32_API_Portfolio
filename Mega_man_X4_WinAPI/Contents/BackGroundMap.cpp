@@ -1,5 +1,6 @@
 #include "BackGroundMap.h"
 #include <EngineCore/EngineResourcesManager.h>
+#include <EngineBase/EngineDebug.h>
 
 ABackGroundMap::ABackGroundMap()
 {
@@ -30,7 +31,7 @@ void ABackGroundMap::SetGameStartTextImage(std::string_view _ImageName)
 	GameStartTextRenderer->SetImage(_ImageName);
 	UWindowImage* Image = GameStartTextRenderer->GetImage();
 	FVector ImageScale = Image->GetScale();
-	GameStartTextRenderer->SetTransform({ {ImageScale.X, ImageScale.Y}, ImageScale * 3 });
+	GameStartTextRenderer->SetTransform({ {(ImageScale.X * 2.0f) + 100.0f, (ImageScale.Y * 2.0f) + 350.0f}, ImageScale * 2.0f });
 }
 
 void ABackGroundMap::BeginPlay()
