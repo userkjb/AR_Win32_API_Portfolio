@@ -96,7 +96,7 @@ bool UWindowImage::Load(UWindowImage* _Image)
     // hBitMap에 있는 정보를 sizeof(BITMAP) 만큼 가져와서 &BitMapInfo에 넣어라.
     GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
-    ImageInfo Info;
+    UImageInfo Info;
     Info.hBitMap = hBitMap;
     Info.ImageDC = ImageDC;
     Info.CuttingTrans.SetPosition({ 0,0 });
@@ -289,4 +289,32 @@ bool UWindowImage::Create(UWindowImage* _Image, const FVector& _Scale)
     GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
     return true;
+}
+
+void UWindowImage::Cutting(int _X, int _Y)
+{
+    // 한 번 클리어 해준다.
+    Infos.clear();
+
+    // 이미지를 해당 크기 만큼 자를 것이다.
+    FVector CuttingScale = { GetScale().X / _X, GetScale().Y / _Y };
+    // 컷팅 시작점 설정.
+    FVector CuttingPos = { 0, 0 };
+
+    for (int i = 0; i < _Y; i++)
+    {
+        for (int k = 0; k < _X; k++)
+        {
+            UImageInfo Info;
+            Info.ImageDC = ImageDC;
+            Info.CuttingTrans.SetPosition(CuttingPos);
+            Info.CuttingTrans.SetScale(CuttingScale);
+            Infos.push_back(Info);
+
+            CuttingPos.X += CuttingScale.X;
+        }
+
+        CuttingPos.X = 0.0f;
+        CuttingPos.Y += CuttingScale.Y;
+    }
 }
