@@ -61,3 +61,16 @@ UWindowImage* UEngineResourcesManager::FindImg(std::string_view _Name)
 
 	return Images[UpperName];
 }
+
+void UEngineResourcesManager::CuttingImage(std::string_view _Name, int _X, int _Y)
+{
+	// 자를 대상 이미지를 찾는다.
+	UWindowImage* FindImage = FindImg(_Name);
+
+	if (nullptr == FindImage)
+	{
+		MsgBoxAssert("파일명 : " + std::string(_Name) + " 이 존재하지 않습니다.");
+	}
+
+	//FindImage->Cutting(_X, _Y);
+}
