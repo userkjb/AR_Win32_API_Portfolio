@@ -21,38 +21,38 @@ void Player::Tick(float _DeltaTime)
 	HDC WindowDC = GEngine->MainWindow.GetWindowDC();
 
 	// Move
-	if (EngineInput::IsDown(37) == true)
+	if (UEngineInput::IsDown(37) == true)
 	{
 		AddActorLocation(FVector::Left);
 	}
 
-	if (EngineInput::IsDown(39) == true)
+	if (UEngineInput::IsDown(39) == true)
 	{
 		AddActorLocation(FVector::Right);
 	}
 
-	if (EngineInput::IsDown(38) == true)
+	if (UEngineInput::IsDown(38) == true)
 	{
 		AddActorLocation(FVector::Up);
 	}
 
-	if (EngineInput::IsDown(40) == true)
+	if (UEngineInput::IsDown(40) == true)
 	{
 		AddActorLocation(FVector::Down);
 	}
 
 	// Action
-	if (EngineInput::IsDown('Z') == true)
+	if (UEngineInput::IsDown('Z') == true)
 	{
 		
 	}
 
-	if (EngineInput::IsDown('X') == true)
+	if (UEngineInput::IsDown('X') == true)
 	{
 		
 	}
 
-	if (EngineInput::IsDown('C') == true)
+	if (UEngineInput::IsDown('C') == true)
 	{
 		
 	}

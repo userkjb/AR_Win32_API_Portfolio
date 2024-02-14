@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <EngineBase\EngineDebug.h>
 
-class EngineInput
+class UEngineInput
 {
 	// 초기화를 위한 class friend.
 	friend class InputInitCreator;
@@ -31,14 +31,14 @@ private:
 
 public :
 	// constructer destructer
-	EngineInput();
-	virtual ~EngineInput();
+	UEngineInput();
+	virtual ~UEngineInput();
 
 	// delete Function
-	EngineInput(const EngineInput& _Other) = delete;
-	EngineInput(EngineInput&& _Other) noexcept = delete;
-	EngineInput& operator=(const EngineInput) = delete;
-	EngineInput& operator=(EngineInput&& _Other) noexcept = delete;
+	UEngineInput(const UEngineInput& _Other) = delete;
+	UEngineInput(UEngineInput&& _Other) noexcept = delete;
+	UEngineInput& operator=(const UEngineInput) = delete;
+	UEngineInput& operator=(UEngineInput&& _Other) noexcept = delete;
 
 	// 외부에서 사용할 함수들.
 	static bool IsDown(int _Key)

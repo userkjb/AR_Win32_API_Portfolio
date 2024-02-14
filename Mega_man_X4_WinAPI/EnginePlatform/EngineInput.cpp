@@ -1,13 +1,13 @@
 #include "EngineInput.h"
 
 // static
-std::map<int, EngineInput::EngineKey> EngineInput::AllKeys;
+std::map<int, UEngineInput::EngineKey> UEngineInput::AllKeys;
 
-EngineInput::EngineInput()
+UEngineInput::UEngineInput()
 {
 }
 
-EngineInput::~EngineInput()
+UEngineInput::~UEngineInput()
 {
 }
 
@@ -15,7 +15,7 @@ EngineInput::~EngineInput()
 /// EngineCore->Tick 에서 돌고 있음.
 /// </summary>
 /// <param name="_DeltaTime"></param>
-void EngineInput::KeyCheckTick(float _DeltaTime)
+void UEngineInput::KeyCheckTick(float _DeltaTime)
 {
 	for (std::pair<const int, EngineKey>& Key : AllKeys)
 	{
@@ -24,7 +24,7 @@ void EngineInput::KeyCheckTick(float _DeltaTime)
 	}
 }
 
-void EngineInput::InputInit()
+void UEngineInput::InputInit()
 {
 	AllKeys[VK_LBUTTON] = EngineKey(VK_LBUTTON);
 	AllKeys[VK_RBUTTON] = EngineKey(VK_RBUTTON);
@@ -135,7 +135,7 @@ void EngineInput::InputInit()
 /// <summary>
 /// KeyCheckTick() 에서 호출
 /// </summary>
-void EngineInput::EngineKey::KeyCheck()
+void UEngineInput::EngineKey::KeyCheck()
 {
 	if (GetAsyncKeyState(Key) != 0)
 	{
@@ -182,7 +182,7 @@ class InputInitCreator
 public :
 	InputInitCreator()
 	{
-		EngineInput::InputInit();
+		UEngineInput::InputInit();
 	}
 };
 
