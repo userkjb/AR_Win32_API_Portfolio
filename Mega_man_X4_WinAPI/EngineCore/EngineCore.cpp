@@ -53,7 +53,7 @@ void UEngineCore::ChangeLevel(std::string_view _Name)
 		MsgBoxAssert(std::string(_Name) + "라는 존재하지 않는 레벨로 체인지 하려고 했습니다");
 	}
 
-	CurLevel = AllLevel[UpperName];
+	NextLevel = AllLevel[UpperName];
 }
 
 void UEngineCore::EngineTick()
@@ -80,6 +80,24 @@ void UEngineCore::CoreTick()
 	}
 
 	UEngineInput::KeyCheckTick(DeltaTime);
+
+	// 한 프레임 동안 레벨이 절대 변하지 않고,
+	// 프레임이 시작할 때 Level이 변화 한다.
+	// 이를 지키기 위해서 Release 프레임이 실행되는 동안에
+	// 절대로 구조를 바꾸지 않는다.
+	if (nullptr != NextLevel)
+	{
+		// 최초에는 현재 레벨이 존재하지 않는다. = 바꿀 레벨이 있다.
+		if (nullptr != CurLevel)
+		{
+			// 레벨링이 끝났다는 것을 알린다.
+			CurLevel->LevelEnd(NextLevel);
+		}
+
+		NextLevel->LevelStart(CurLevel);
+		CurLevel = NextLevel;
+		NextLevel = nullptr;
+	}
 
 	if (nullptr == GEngine->CurLevel)
 	{
@@ -117,7 +135,8 @@ void UEngineCore::EngineEnd()
 	GEngine->AllLevel.clear();
 }
 
-void UEngineCore::LevelInit(ULevel* _Level)
+void UEngineCore::LevelInit(ULevel* _Level, std::string_view _Name)
 {
+	_Level->SetName(_Name);
 	_Level->BeginPlay();
 }

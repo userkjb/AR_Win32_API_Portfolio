@@ -41,10 +41,14 @@ public :
 			MsgBoxAssert(std::string(UpperName) + "이라는 이름의 Level을 또 만들려고 했습니다");
 		}
 		LevelType* NewLevel = new LevelType();
-		LevelInit(NewLevel);
+		LevelInit(NewLevel, _Name);
 		AllLevel.insert(std::pair<std::string, ULevel*>(UpperName, NewLevel));
 	}
 
+	/// <summary>
+	/// Level 바꾸기 함수.
+	/// </summary>
+	/// <param name="_Name"></param>
 	void ChangeLevel(std::string_view _Name);
 
 protected :
@@ -58,12 +62,13 @@ private :
 
 	std::map<std::string, ULevel*> AllLevel;
 	ULevel* CurLevel = nullptr;
+	ULevel* NextLevel = nullptr; // TODO
 
 	static void EngineTick();
 	void CoreTick();
 	static void EngineEnd();
 
-	void LevelInit(ULevel* _Level);
+	void LevelInit(ULevel* _Level, std::string_view _Name);
 };
 
 extern UEngineCore* GEngine;
