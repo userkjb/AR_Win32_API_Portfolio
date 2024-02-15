@@ -137,6 +137,15 @@ public:
 		return *this;
 	}
 
+	float4 operator-()
+	{
+		float4 Result;
+		Result.X = -X;
+		Result.Y = -Y;
+		Result.Z = -Z;
+		return Result;
+	}
+
 	float4 operator-(const float4& _Other) const
 	{
 		float4 Result = *this;
