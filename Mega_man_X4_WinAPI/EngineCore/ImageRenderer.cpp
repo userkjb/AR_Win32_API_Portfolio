@@ -50,6 +50,12 @@ void UImageRenderer::Render(float _DeltaTime)
 		MsgBoxAssert("이미지가 존재하지 않는 Renderer 입니다.");
 	}
 
+	if (nullptr != CurAnimation)
+	{
+		Image = CurAnimation->Image;
+		InfoIndex = CurAnimation->Update(_DeltaTime);
+	}
+
 	// 순서 중요!
 	FTransform RendererTrans = GetTransform();
 
