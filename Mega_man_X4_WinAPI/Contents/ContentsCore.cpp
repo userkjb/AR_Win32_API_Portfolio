@@ -41,8 +41,12 @@ void ContentsCore::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
-	
+	// Title Map
 	UEngineResourcesManager::GetInst().CuttingImage("Menu.png", 3, 1);
+
+	// Intro Map
+	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Right.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Left.png", 5, 1);
 
 
 	// === Level ===

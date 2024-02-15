@@ -1,6 +1,6 @@
 #include "Player.h"
-#include <EngineCore/EngineCore.h>
-#include <EnginePlatform/EngineInput.h>
+#include <EngineCore/EngineCore.h> // Helper
+//#include <EnginePlatform/EngineInput.h>
 
 APlayer::APlayer()
 {
@@ -12,8 +12,18 @@ APlayer::~APlayer()
 
 void APlayer::BeginPlay()
 {
-	SetActorLocation({ 100, 100 });
-	SetActorScale({ 100, 100 });
+	AActor::BeginPlay();
+
+	Renderer = CreateImageRenderer(5);
+	Renderer->SetImage("x_Idle_Right.png");
+	UWindowImage* Image = Renderer->GetImage();
+	FVector ImageScale = Image->GetScale();// 200 100
+	Renderer->SetTransform({ {0,0}, {35*2, 46*2} });
+
+	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
+	Renderer->CreateAnimation("Idle_Left", "x_Idle_Left.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
+
+	Renderer->ChangeAnimation("Idle_Right");
 }
 
 void APlayer::Tick(float _DeltaTime)
