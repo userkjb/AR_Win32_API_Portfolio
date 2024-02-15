@@ -15,6 +15,15 @@ enum class EPlayerState
 	Jump,
 };
 
+/// <summary>
+/// Actor¿« πÊ«‚.
+/// </summary>
+enum class EActorDir
+{
+	Left,
+	Right,
+};
+
 
 class UContentsGlobalData
 {
