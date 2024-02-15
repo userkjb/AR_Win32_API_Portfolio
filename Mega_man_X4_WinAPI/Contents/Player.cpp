@@ -168,7 +168,7 @@ void APlayer::Idle(float _DeltaTime)
 		return;
 	}
 
-
+	MoveUpdate(_DeltaTime);
 }
 
 void APlayer::Run(float _DeltaTime)
@@ -189,15 +189,83 @@ void APlayer::Run(float _DeltaTime)
 	// 키보드 입력
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
-
+		AddMoveVector(FVector::Left * _DeltaTime);
 	}
 
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
-
+		AddMoveVector(FVector::Right * _DeltaTime);
 	}
+
+	MoveUpdate(_DeltaTime);
 }
 
 void APlayer::Jump(float _DeltaTime)
 {
+}
+
+void APlayer::AddMoveVector(const FVector& _DirDelta)
+{
+	MoveVector += _DirDelta;
+}
+
+void APlayer::CalLastMoveVector(float _DeltaTime)
+{
+	LastMoveVector = FVector::Zero;
+	LastMoveVector = (LastMoveVector + MoveVector) * Speed;
+}
+
+void APlayer::CalMoveVector(float _DeltaTime)
+{
+	// Actor의 위치, 크기 가져오기.
+	FVector CheckPos = GetActorLocation();
+
+	// 좌? 우?
+	switch (DirState)
+	{
+	case EActorDir::Left :
+		CheckPos.X -= 30;
+		break;
+	case EActorDir::Right :
+		CheckPos.X += 30;
+		break;
+	default :
+		break;
+	}
+
+	CheckPos.Y -= 30;
+
+	if (true == UEngineInput::IsFree(VK_LEFT) &&
+		true == UEngineInput::IsFree(VK_RIGHT) &&
+		true == UEngineInput::IsFree(VK_UP) &&
+		true == UEngineInput::IsFree(VK_DOWN))
+	{
+		if (0.001f <= MoveVector.Size2D())
+		{
+			MoveVector += (-MoveVector.Normalize2DReturn()) * _DeltaTime;
+		}
+		else
+		{
+			MoveVector = float4::Zero;
+		}
+	}
+
+	// 최대 속도 체크.
+	if (MoveMaxSpeed <= MoveVector.Size2D())
+	{
+		MoveVector = MoveVector.Normalize2DReturn() * MoveMaxSpeed;
+	}
+}
+
+void APlayer::MoveLastMoveVector(float _DeltaTime)
+{
+	AActor::AddActorLocation(LastMoveVector * _DeltaTime);
+	int a = 0;
+}
+
+void APlayer::MoveUpdate(float _DeltaTime)
+{
+	CalMoveVector(_DeltaTime);
+	CalLastMoveVector(_DeltaTime);
+	MoveLastMoveVector(_DeltaTime);
 }

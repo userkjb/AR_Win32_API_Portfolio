@@ -72,11 +72,53 @@ protected:
 
 	// Player 기본 상태.
 	EPlayerState State = EPlayerState::None;
-	// Player 방향 -> Actor 방향
+	// Player 방향 == Actor 방향
 	EActorDir DirState = EActorDir::Right;
 	// 현재 애니메이션의 이름. -> 애니메이션 이름도 신경 써야 함.
 	std::string CurAnimationName = "None";
 
 private :
+
+	/// <summary>
+	/// Player를 움직이는 함수.(계산은 다른 곳에서.)
+	/// </summary>
+	/// <param name="_DirDelta"></param>
+	void AddMoveVector(const FVector& _DirDelta);
+
+	// === 이동 함수들 ===
+
+	/// <summary>
+	/// 모든 Vector들을 합한다.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void CalLastMoveVector(float _DeltaTime);
+
+	/// <summary>
+	/// 이동 계산 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void CalMoveVector(float _DeltaTime);
+
+	/// <summary>
+	/// 이동 구현 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void MoveLastMoveVector(float _DeltaTime);
+
+	/// <summary>
+	/// 위 이동 함수들을 모아 놓는 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void MoveUpdate(float _DeltaTime);
+
+	// ==========================================
+
 	UImageRenderer* Renderer = nullptr;
+	FVector MoveVector = FVector::Zero;
+	float MoveMaxSpeed = 500.0f;
+	// 모든 방향의 합.
+	FVector LastMoveVector = FVector::Zero;
+
+	// test ==========================================
+	float Speed = 300.0f;
 };
