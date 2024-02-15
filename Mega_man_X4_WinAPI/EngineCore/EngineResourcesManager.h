@@ -47,9 +47,9 @@ public :
 	/// <summary>
 	/// 이미지를 잘라서 사용할 때 사용하는 함수.
 	/// </summary>
-	/// <param name="_Name"></param>
-	/// <param name="_X"></param>
-	/// <param name="_Y"></param>
+	/// <param name="_Name">이미지 이름</param>
+	/// <param name="_X">행</param>
+	/// <param name="_Y">렬</param>
 	void CuttingImage(std::string_view _Name, int _X, int _Y);
 
 private :

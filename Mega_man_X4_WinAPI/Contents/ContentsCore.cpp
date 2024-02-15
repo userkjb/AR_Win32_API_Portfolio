@@ -41,10 +41,11 @@ void ContentsCore::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
-	// 이미지 이름, 이미지 행렬.
+	
 	UEngineResourcesManager::GetInst().CuttingImage("Menu.png", 3, 1);
 
 
+	// === Level ===
 	CreateLevel<UTitleLevel>("TitleLevel");
 
 	ChangeLevel("TitleLevel");
