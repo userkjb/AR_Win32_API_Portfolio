@@ -18,19 +18,21 @@ public:
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
-
-	// Player 기본 상태.
-	EPlayerState State = EPlayerState::None;
-
+		
 	// 방향은 가장 중요하므로 가장 위에.
 
 	/// <summary>
-	/// Player 의 방향을 체크한다.
+	/// <para>Player(Actor)의 방향을 설정한다.</para>
+	/// <para>방향이 다르면 해당 방향에 맞는 Animation으로 바꾼다.</para>
 	/// </summary>
 	void DirCheck();
 
-
-
+	/// <summary>
+	/// 현재 실행중인 Animation의 이름을 가져온다.
+	/// </summary>
+	/// <param name="_Name"></param>
+	/// <returns></returns>
+	std::string GetAnimationName(std::string _Name);
 
 	/// <summary>
 	/// Player 상태 설정 함수.
@@ -65,6 +67,15 @@ protected:
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Jump(float _DeltaTime);
+
+	// ==========================================
+
+	// Player 기본 상태.
+	EPlayerState State = EPlayerState::None;
+	// Player 방향 -> Actor 방향
+	EActorDir DirState = EActorDir::Right;
+	// 현재 애니메이션의 이름. -> 애니메이션 이름도 신경 써야 함.
+	std::string CurAnimationName = "None";
 
 private :
 	UImageRenderer* Renderer = nullptr;
