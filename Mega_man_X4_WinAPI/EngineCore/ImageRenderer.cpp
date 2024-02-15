@@ -93,6 +93,15 @@ void UImageRenderer::CreateAnimation(
 	float _Inter, 
 	bool _Loop)
 {
+	std::vector<int> Indexs;
+	int Size = _End - _Start;
+
+	for (int i = _Start; i <= _End; i++)
+	{
+		Indexs.push_back(i);
+	}
+
+	CreateAnimation(_AnimationName, _ImageName, Indexs, _Inter, _Loop);
 }
 
 void UImageRenderer::CreateAnimation(
