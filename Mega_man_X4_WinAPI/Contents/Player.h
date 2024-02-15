@@ -120,5 +120,5 @@ private :
 	FVector LastMoveVector = FVector::Zero;
 
 	// test ==========================================
-	float Speed = 300.0f;
+	FVector MoveSpeed = FVector::Right * 500.0f;
 };

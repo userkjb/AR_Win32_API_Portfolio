@@ -206,13 +206,13 @@ void APlayer::Jump(float _DeltaTime)
 
 void APlayer::AddMoveVector(const FVector& _DirDelta)
 {
-	MoveVector += _DirDelta;
+	MoveVector += _DirDelta * MoveSpeed;
 }
 
 void APlayer::CalLastMoveVector(float _DeltaTime)
 {
 	LastMoveVector = FVector::Zero;
-	LastMoveVector = (LastMoveVector + MoveVector) * Speed;
+	LastMoveVector = LastMoveVector + MoveVector;
 }
 
 void APlayer::CalMoveVector(float _DeltaTime)
