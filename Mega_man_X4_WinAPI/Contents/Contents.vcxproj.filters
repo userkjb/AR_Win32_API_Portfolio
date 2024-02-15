@@ -25,6 +25,9 @@
     <ClInclude Include="IntroStageMap.h">
       <Filter>02_Actor\Map\02_Intro</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsGlobalData.h">
+      <Filter>00_Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -50,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="IntroStageMap.cpp">
       <Filter>02_Actor\Map\02_Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsGlobalData.cpp">
+      <Filter>00_Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
