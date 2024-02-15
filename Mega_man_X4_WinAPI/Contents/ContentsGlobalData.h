@@ -5,7 +5,7 @@
 #include <EngineCore/ImageRenderer.h>
 
 /// <summary>
-/// Player 상태.
+/// Player 상태. [FSM]
 /// </summary>
 enum class EPlayerState
 {
