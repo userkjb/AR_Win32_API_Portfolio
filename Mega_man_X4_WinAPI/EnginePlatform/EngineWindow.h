@@ -37,12 +37,6 @@ public :
 		return BackBufferImage;
 	}
 
-	// Player에서 호출하는데 이거 삭제 예정. [TODO]
-	HDC GetWindowDC()
-	{
-		return hDC;
-	}
-
 	void SetWindowPosition(const FVector& _Pos);
 	void SetWindowScale(const FVector& _Scale);
 
