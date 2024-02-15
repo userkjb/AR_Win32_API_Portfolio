@@ -174,6 +174,7 @@ void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsFo
 
 void UImageRenderer::AnimationReset()
 {
+	CurAnimation = nullptr;
 }
 
 void UImageRenderer::BeginPlay()
