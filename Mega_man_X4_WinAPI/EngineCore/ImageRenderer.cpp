@@ -111,6 +111,38 @@ void UImageRenderer::CreateAnimation(
 	float _Inter,
 	bool _Loop)
 {
+	UWindowImage* FindImage = UEngineResourcesManager::GetInst().FindImg(_ImageName);
+
+	if (nullptr == FindImage)
+	{
+		MsgBoxAssert(std::string(_ImageName) + "이미지가 존재하지 않습니다.");
+		return;
+	}
+
+	std::string UpperAniName = UEngineString::ToUpper(_AnimationName);
+
+	if (true == AnimationInfos.contains(UpperAniName))
+	{
+		MsgBoxAssert(std::string(UpperAniName) + "라는 이름의 애니메이션이 이미 존재합니다.");
+		return;
+	}
+
+	UAnimationInfo& Info = AnimationInfos[UpperAniName];
+	Info.Name = UpperAniName;
+	Info.Image = FindImage;
+	Info.CurFrame = 0;
+	Info.CurTime = 0.0f;
+	Info.Loop = _Loop;
+
+	//          12         0
+	int Size = static_cast<int>(_Indexs.size());
+	Info.Times.reserve(Size);
+	for (int i = 0; i <= Size; i++)
+	{
+		Info.Times.push_back(_Inter);
+	}
+
+	Info.Indexs = _Indexs;
 }
 
 void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsForce, int _StartIndex, float _Time)
