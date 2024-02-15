@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineBase/NameObject.h>
+#include <EngineBase/EngineMath.h> // FVector
 #include <list>
 #include <map>
 
@@ -47,6 +48,21 @@ public :
 		return NewActor;
 	}
 
+	FVector GetCameraPos()
+	{
+		return CameraPos;
+	}
+
+	void SetCameraPos(FVector _CameraPos)
+	{
+		CameraPos = _CameraPos;
+	}
+
+	void AddCameraPos(FVector _CameraPos)
+	{
+		CameraPos += _CameraPos;
+	}
+
 protected :
 
 private :
@@ -57,5 +73,7 @@ private :
 
 	std::map<int, std::list<AActor*>> AllActor;
 	std::map<int, std::list<UImageRenderer*>> Renderers; // ImageRenderer에서 Image들을 넣어준다.
+
+	FVector CameraPos = FVector::Zero;
 };
 
