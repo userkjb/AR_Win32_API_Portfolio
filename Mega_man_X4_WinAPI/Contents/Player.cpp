@@ -2,21 +2,21 @@
 #include <EngineCore/EngineCore.h>
 #include <EnginePlatform/EngineInput.h>
 
-Player::Player()
+APlayer::APlayer()
 {
 }
 
-Player::~Player()
+APlayer::~APlayer()
 {
 }
 
-void Player::BeginPlay()
+void APlayer::BeginPlay()
 {
 	SetActorLocation({ 100, 100 });
 	SetActorScale({ 100, 100 });
 }
 
-void Player::Tick(float _DeltaTime)
+void APlayer::Tick(float _DeltaTime)
 {
 	HDC WindowDC = GEngine->MainWindow.GetWindowDC();
 
