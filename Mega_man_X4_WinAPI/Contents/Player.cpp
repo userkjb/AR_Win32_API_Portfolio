@@ -24,49 +24,102 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Idle_Left", "x_Idle_Left.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
 
 	Renderer->ChangeAnimation("Idle_Right");
+
+	StateChange(EPlayerState::Idle);
 }
 
 void APlayer::Tick(float _DeltaTime)
 {
-	HDC WindowDC = GEngine->MainWindow.GetWindowDC();
+	AActor::Tick(_DeltaTime);
 
-	// Move
-	if (UEngineInput::IsDown(37) == true)
+	StateUpdate(_DeltaTime);
+}
+
+void APlayer::DirCheck()
+{
+
+}
+
+void APlayer::StateChange(EPlayerState _State)
+{
+	// 현재 상태가 같지 않다 = 상태가 변했다.
+	if (State != _State)
 	{
-		AddActorLocation(FVector::Left);
+		switch (_State)
+		{
+		case EPlayerState::Idle :
+			IdleStart();
+			break;
+		case EPlayerState::Run :
+			RunStart();
+			break;
+		case EPlayerState::Jump :
+			JumpStart();
+			break;
+		default :
+			break;
+		}
 	}
 
-	if (UEngineInput::IsDown(39) == true)
+	State = _State;
+}
+
+void APlayer::StateUpdate(float _DeltaTime)
+{
+	switch (State)
 	{
-		AddActorLocation(FVector::Right);
+	case EPlayerState::Idle :
+		Idle(_DeltaTime);
+		break;
+	case EPlayerState::Run:
+		Run(_DeltaTime);
+		break;
+	case EPlayerState::Jump:
+		Jump(_DeltaTime);
+		break;
+	default :
+		break;
+	}
+}
+
+// === 상태 시작 함수 ===
+
+void APlayer::IdleStart()
+{
+	Renderer->ChangeAnimation("Idle_Right");
+}
+
+void APlayer::RunStart()
+{
+
+}
+
+void APlayer::JumpStart()
+{
+
+}
+
+// ==== 상태 함수 ====
+
+void APlayer::Idle(float _DeltaTime)
+{
+	// 가만히 있는데 뱡향 키가 눌렸을 때.
+	if (true == UEngineInput::IsPress(VK_LEFT) ||
+		true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		StateChange(EPlayerState::Run);
+		return;
 	}
 
-	if (UEngineInput::IsDown(38) == true)
-	{
-		AddActorLocation(FVector::Up);
-	}
 
-	if (UEngineInput::IsDown(40) == true)
-	{
-		AddActorLocation(FVector::Down);
-	}
+}
 
-	// Action
-	if (UEngineInput::IsDown('Z') == true)
-	{
-		
-	}
+void APlayer::Run(float _DeltaTime)
+{
+	// 움직이는데 어느 방향인지 모른다.
 
-	if (UEngineInput::IsDown('X') == true)
-	{
-		
-	}
+}
 
-	if (UEngineInput::IsDown('C') == true)
-	{
-		
-	}
-
-	FTransform Trans = GetTransform();
-	Rectangle(WindowDC, Trans.iLeft(), Trans.iTop(), Trans.iRight(), Trans.iBottom());
+void APlayer::Jump(float _DeltaTime)
+{
 }
