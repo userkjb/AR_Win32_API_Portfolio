@@ -259,8 +259,10 @@ void APlayer::CalMoveVector(float _DeltaTime)
 
 void APlayer::MoveLastMoveVector(float _DeltaTime)
 {
+	// 카메라 추가.
+	GetWorld()->AddCameraPos(MoveVector * _DeltaTime);
+
 	AActor::AddActorLocation(LastMoveVector * _DeltaTime);
-	int a = 0;
 }
 
 void APlayer::MoveUpdate(float _DeltaTime)

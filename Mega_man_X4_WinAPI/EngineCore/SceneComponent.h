@@ -38,6 +38,12 @@ public :
 		return Transform;
 	}
 
+	/// <summary>
+	/// Actor를 기반으로 위치,크기를 가져온다.
+	/// </summary>
+	/// <returns></returns>
+	FTransform GetActorBaseTransform();
+
 private :
 	FTransform Transform;
 };

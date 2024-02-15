@@ -56,15 +56,7 @@ void UImageRenderer::Render(float _DeltaTime)
 		InfoIndex = CurAnimation->Update(_DeltaTime);
 	}
 
-	// 순서 중요!
-	FTransform RendererTrans = GetTransform();
-
-	// Actor
-	FTransform ActorTrans = GetOwner()->GetTransform();
-
-	// Component의 위치는 부모인 Actor에 상대적이다.
-	// 부모 Actor의 위치를 더해줘야 한다.
-	RendererTrans.AddPosition(ActorTrans.GetPosition());
+	FTransform RendererTrans = GetRenderTransForm();
 
 	// TransColor 원리
 	// 특정 색상과 1비트도 차이가 나지 않는 색상은 출력하지 않는다.
@@ -181,6 +173,21 @@ void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsFo
 void UImageRenderer::AnimationReset()
 {
 	CurAnimation = nullptr;
+}
+
+FTransform UImageRenderer::GetRenderTransForm()
+{
+	FTransform RendererTrans = GetActorBaseTransform();
+
+	if (true == CameraEffect)
+	{
+		AActor* Actor = GetOwner();
+		ULevel* World = Actor->GetWorld();
+		FVector CameraPos = World->GetCameraPos();
+		RendererTrans.AddPosition(-CameraPos);
+	}
+
+	return RendererTrans;
 }
 
 void UImageRenderer::BeginPlay()

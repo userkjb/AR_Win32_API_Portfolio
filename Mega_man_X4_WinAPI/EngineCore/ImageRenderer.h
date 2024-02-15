@@ -129,6 +129,8 @@ public:
 		return CurAnimation->CurTime;
 	}
 
+	FTransform GetRenderTransForm();
+
 protected :
 	/// <summary>
 	/// USceneComponent
@@ -141,6 +143,8 @@ private :
 	UWindowImage* Image = nullptr; // 이미지
 	FTransform ImageCuttingTransform; // 이미지에서 자를 위치. / Set
 	Color8Bit TransColor; // 자를 색상. / Set
+
+	bool CameraEffect = true;
 
 	// === Animation ===
 	std::map<std::string, UAnimationInfo> AnimationInfos;
