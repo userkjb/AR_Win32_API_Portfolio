@@ -85,7 +85,72 @@ void UImageRenderer::Render(float _DeltaTime)
 	}
 }
 
+void UImageRenderer::CreateAnimation(
+	std::string_view _AnimationName, 
+	std::string_view _ImageName, 
+	int _Start, 
+	int _End, 
+	float _Inter, 
+	bool _Loop)
+{
+}
+
+void UImageRenderer::CreateAnimation(
+	std::string_view _AnimationName,
+	std::string_view _ImageName,
+	std::vector<int> _Indexs, 
+	float _Inter,
+	bool _Loop)
+{
+}
+
+void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsForce, int _StartIndex, float _Time)
+{
+}
+
+void UImageRenderer::AnimationReset()
+{
+}
+
 void UImageRenderer::BeginPlay()
 {
 	USceneComponent::BeginPlay();
+}
+
+
+// ===== AnimationInfo Class =====
+
+int UAnimationInfo::Update(float _DeltaTime)
+{
+	IsEnd = false;
+	CurTime -= _DeltaTime;
+
+	if (0.0f >= CurTime)
+	{
+		CurTime = Times[CurFrame];
+		++CurFrame;
+	}
+
+	//  6                 6
+	if (Indexs.size() <= CurFrame)
+	{
+		IsEnd = true;
+		if (true == Loop)
+		{
+			// //            0  1  2  3  4  5 
+			//    Indexs => 20 21 22 23 24 25
+			CurFrame = 0;
+		}
+		else
+		{
+			//                               
+			//               0  1  2  3  4  5 
+			//    Indexs => 20 21 22 23 24 25
+			--CurFrame;
+		}
+	}
+
+	int Index = Indexs[CurFrame];
+
+	return Index;
 }
