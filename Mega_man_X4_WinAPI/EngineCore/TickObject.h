@@ -36,6 +36,7 @@ public :
 		if (true == _Active && 0.0f == ActiveTime)
 		{
 			IsActiveValue = _Active;
+			return;
 		}
 
 		if (true == _Active && 0.0f != ActiveTime)
