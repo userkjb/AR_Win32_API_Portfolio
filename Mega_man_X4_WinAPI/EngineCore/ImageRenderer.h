@@ -2,6 +2,7 @@
 #include <string_view>
 #include "SceneComponent.h"
 #include <EnginePlatform/WindowImage.h>
+#include <map>
 
 /// <summary>
 /// Animation 기본 정의 Class
