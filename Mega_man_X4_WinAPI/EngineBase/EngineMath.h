@@ -50,6 +50,38 @@ public :
 	}
 	
 public:
+	/// <summary>
+	/// sqrtf = 제곱근 리턴.
+	/// </summary>
+	/// <returns></returns>
+	float Size2D()
+	{
+		return std::sqrtf((X * X) + (Y + Y));
+	}
+
+	/// <summary>
+	/// 자신의 길이를 1로 변경하는 함수.
+	/// </summary>
+	void Normalize2D()
+	{
+		float Size = Size2D();
+		X /= Size;
+		Y /= Size;
+		Z = 0.0f;
+		W = 0.0f;
+	}
+
+	/// <summary>
+	/// 길이 1로 자신의 방향 벡터를 리턴하는 함수.
+	/// </summary>
+	/// <returns></returns>
+	float4 Normalize2DReturn()
+	{
+		float4 Result = *this;
+		Result.Normalize2D();
+		return Result;
+	}
+
 	float hX() const
 	{
 		return X * 0.5f;
