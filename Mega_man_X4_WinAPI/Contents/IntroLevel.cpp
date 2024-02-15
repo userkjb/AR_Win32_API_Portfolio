@@ -19,7 +19,9 @@ void UIntroLevel::BeginPlay()
 
 
 	// Player
-	//this->SpawnActor<Player>();
+	APlayer* NewPlayer = SpawnActor<APlayer>();
+	NewPlayer->SetActorLocation({ 200, 200 }); // test
+
 	// Enemy
 
 	// Boss 2°³.
