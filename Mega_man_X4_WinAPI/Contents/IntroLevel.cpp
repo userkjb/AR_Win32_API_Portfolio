@@ -1,4 +1,5 @@
 #include "IntroLevel.h"
+#include "IntroStageMap.h"
 #include "Player.h"
 
 UIntroLevel::UIntroLevel()
@@ -11,8 +12,14 @@ UIntroLevel::~UIntroLevel()
 
 void UIntroLevel::BeginPlay()
 {
+	// Actor
+	IntroStageMap = SpawnActor<AIntroStageMap>();
+	IntroStageMap->SetMapImage("IntroStage_1.png");
+	IntroStageMap->SetColMapImage("IntroStage_Col_1.png");
+
+
 	// Player
-	this->SpawnActor<Player>();
+	//this->SpawnActor<Player>();
 	// Enemy
 
 	// Boss 2°³.
@@ -21,4 +28,16 @@ void UIntroLevel::BeginPlay()
 
 	// º® Object
 
+}
+
+void UIntroLevel::Tick(float _DeltaTime)
+{
+}
+
+void UIntroLevel::LevelStart(ULevel* _Level)
+{
+}
+
+void UIntroLevel::LevelEnd(ULevel* _Level)
+{
 }
