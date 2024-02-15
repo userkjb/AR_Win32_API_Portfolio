@@ -20,7 +20,7 @@ public :
 	/// <param name="_MapImageName"></param>
 	void SetMapImage(std::string_view _MapImageName);
 
-	void SetMenuImage(std::string_view _LogoImageName);
+	void SetMenuAnimation(std::string_view _LogoImageName);
 	
 	void SetGameStartTextImage(std::string_view _ImageName);
 
@@ -28,13 +28,12 @@ protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void MenuChange();
-
 private :
 	UImageRenderer* TitleRenderer = nullptr;
 	UImageRenderer* GameStartTextRenderer = nullptr;
 	UImageRenderer* MenuRenderer = nullptr;
 
 	bool EnterKey = false;
+	int KeyCount = 1;
 };
 
