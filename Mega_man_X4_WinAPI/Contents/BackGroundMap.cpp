@@ -61,7 +61,7 @@ void ABackGroundMap::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	if (true == UEngineInput::IsDown('O') && false == EnterKey) // Enter 키 수정 예정.
+	if (true == UEngineInput::IsDown(VK_RETURN) && false == EnterKey) // Enter 키 수정 예정.
 	{
 		GameStartTextRenderer->SetActive(false);
 		MenuRenderer->SetActive(true);
@@ -70,7 +70,7 @@ void ABackGroundMap::Tick(float _DeltaTime)
 
 	if (EnterKey == true)
 	{
-		if (true == UEngineInput::IsDown(38)) // Up
+		if (true == UEngineInput::IsDown(VK_UP)) // Up
 		{
 			KeyCount--;
 			if (KeyCount <= 0)
@@ -78,7 +78,7 @@ void ABackGroundMap::Tick(float _DeltaTime)
 				KeyCount = 1;
 			}
 		}
-		else if (true == UEngineInput::IsDown(40)) // Down
+		else if (true == UEngineInput::IsDown(VK_DOWN)) // Down
 		{
 			KeyCount++;
 			if (KeyCount > 3)
