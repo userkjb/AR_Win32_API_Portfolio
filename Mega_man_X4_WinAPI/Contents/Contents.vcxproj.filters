@@ -22,6 +22,9 @@
     <ClInclude Include="BackGroundMap.h">
       <Filter>02_Actor\Map\00_Title</Filter>
     </ClInclude>
+    <ClInclude Include="IntroStageMap.h">
+      <Filter>02_Actor\Map\02_Intro</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="BackGroundMap.cpp">
       <Filter>02_Actor\Map\00_Title</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroStageMap.cpp">
+      <Filter>02_Actor\Map\02_Intro</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,7 +95,7 @@
     <Filter Include="02_Actor\Map\00_Title">
       <UniqueIdentifier>{9234db09-5550-4042-a469-0d4d46750843}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02_Actor\Map\01_Intro">
+    <Filter Include="02_Actor\Map\02_Intro">
       <UniqueIdentifier>{8a732002-a0f7-45e5-b091-06d82b68fc83}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
