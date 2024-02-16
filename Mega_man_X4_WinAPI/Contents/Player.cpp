@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <EngineCore/EngineCore.h> // Helper
+#include "Buster.h"
 
 APlayer::APlayer()
 {
@@ -359,14 +360,23 @@ void APlayer::JumpEnd(float _DeltaTime)
 
 void APlayer::IdleAttack(float _DeltaTime)
 {
-	
 	// Buster Actor 생성.
-	/* 예시.
-		ABullet* NewBullet = GetWorld()->SpawnActor<ABullet>();
-		NewBullet->SetActorLocation(GetActorLocation());
-		NewBullet->SetDir(FVector::Right);
-	*/
+	/*
+	ABuster* NewBuster = GetWorld()->SpawnActor<ABuster>();
+	NewBuster->SetActorLocation(GetActorLocation());
 
+	if (DirState == EActorDir::Right)
+	{
+		NewBuster->SetDir(FVector::Right);
+	}
+	else
+	{
+		NewBuster->SetDir(FVector::Left);
+	}
+
+	//NewBuster->Destroy(2.0f); // test
+
+	*/
 
 	if (true == Renderer->IsCurAnimationEnd())
 	{
