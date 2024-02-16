@@ -99,6 +99,15 @@ public:
 	/// <param name="_Y"></param>
 	void Cutting(int _X, int _Y);
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="_X"></param>
+	/// <param name="_Y"></param>
+	/// <param name="_DefaultColor"></param>
+	/// <returns></returns>
+	Color8Bit GetColor(int _X, int _Y, Color8Bit _DefaultColor);
+
 private :
 	// 읽어온 이미지를 담는 Vector
 	std::vector<UImageInfo> Infos;
