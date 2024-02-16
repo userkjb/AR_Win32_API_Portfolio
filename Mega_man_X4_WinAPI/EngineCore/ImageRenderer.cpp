@@ -207,12 +207,21 @@ int UAnimationInfo::Update(float _DeltaTime)
 	{
 		CurTime = Times[CurFrame];
 		++CurFrame;
+
+		if (1 == Indexs.size())
+		{
+			IsEnd = true;
+		}
 	}
 
 	//  6                 6
 	if (Indexs.size() <= CurFrame)
 	{
-		IsEnd = true;
+		if (1 < Indexs.size())
+		{
+			IsEnd = true;
+		}
+
 		if (true == Loop)
 		{
 			// //            0  1  2  3  4  5 
