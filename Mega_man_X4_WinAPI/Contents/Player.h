@@ -50,6 +50,7 @@ protected:
 	void RunStart();
 	void JumpStart();
 	void SkyStart();
+	void JumpEndStart();
 
 	// 상태 함수들
 	
@@ -74,6 +75,12 @@ protected:
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Sky(float _DeltaTime);
+
+	/// <summary>
+	/// 착지 처리 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void JumpEnd(float _DeltaTime);
 
 	// ==========================================
 

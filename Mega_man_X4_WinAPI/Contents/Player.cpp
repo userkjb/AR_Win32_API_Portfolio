@@ -32,8 +32,8 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Jump_Start_Left", "x_Jump_Left.png", 0, 7, 0.05f, false);
 	Renderer->CreateAnimation("Jumping_Right", "x_Jump_Right.png", 7, 7, 0.1f, false);
 	Renderer->CreateAnimation("Jumping_Left", "x_Jump_Left.png", 7, 7, 0.1f, false);
-	Renderer->CreateAnimation("JumpEnd_Right", "x_Jump_Right.png", 8, 10, 0.1f, false);
-	Renderer->CreateAnimation("JumpEnd_Left", "x_Jump_Left.png", 8, 10, 0.1f, false);
+	Renderer->CreateAnimation("JumpEnd_Right", "x_Jump_Right.png", 8, 10, 0.005f, false);
+	Renderer->CreateAnimation("JumpEnd_Left", "x_Jump_Left.png", 8, 10, 0.005f, false);
 
 	Renderer->ChangeAnimation("Idle_Right");
 
@@ -119,6 +119,9 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::Sky :
 			SkyStart();
 			break;
+		case EPlayerState::JumpEnd :
+			JumpEndStart();
+			break;
 		default :
 			break;
 		}
@@ -142,6 +145,9 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 		break;
 	case EPlayerState::Sky :
 		Sky(_DeltaTime);
+		break;
+	case EPlayerState::JumpEnd :
+		JumpEnd(_DeltaTime);
 		break;
 	default :
 		break;
@@ -173,6 +179,11 @@ void APlayer::SkyStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Jumping"));
 	DirCheck();
+}
+
+void APlayer::JumpEndStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("JumpEnd"));
 }
 
 // ==== 상태 함수 ====
@@ -279,6 +290,15 @@ void APlayer::Sky(float _DeltaTime)
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		JumpVector = FVector::Zero;
+		StateChange(EPlayerState::JumpEnd);
+		return;
+	}
+}
+
+void APlayer::JumpEnd(float _DeltaTime)
+{
+	if (true == Renderer->IsCurAnimationEnd())
+	{
 		StateChange(EPlayerState::Idle);
 		return;
 	}
