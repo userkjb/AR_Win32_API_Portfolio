@@ -1,6 +1,5 @@
 #include "Player.h"
 #include <EngineCore/EngineCore.h> // Helper
-//#include <EnginePlatform/EngineInput.h>
 
 APlayer::APlayer()
 {
@@ -18,15 +17,15 @@ void APlayer::BeginPlay()
 	Renderer->SetImage("x_Idle_Right.png");
 	UWindowImage* Image = Renderer->GetImage();
 	FVector ImageScale = Image->GetScale();// 200 100
-	Renderer->SetTransform({ {0,0}, {35*2, 46*2} });
+	Renderer->SetTransform({ {0,0}, {35 * 2, 80 * 2} });
 
 	// Idle
 	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
 	Renderer->CreateAnimation("Idle_Left", "x_Idle_Left.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
 
 	// Run
-	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.1f, true);
-	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.1f, true);
+	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
+	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
 
 
 	Renderer->ChangeAnimation("Idle_Right");
@@ -118,7 +117,7 @@ void APlayer::StateChange(EPlayerState _State)
 	State = _State;
 }
 
-void APlayer::StateUpdate(float _DeltaTime)
+void APlayer::StateUpdate(float _DeltaTime) // Tick
 {
 	switch (State)
 	{
@@ -140,7 +139,6 @@ void APlayer::StateUpdate(float _DeltaTime)
 
 void APlayer::IdleStart()
 {
-	//Renderer->ChangeAnimation("Idle_Right");
 	Renderer->ChangeAnimation(GetAnimationName("Idle"));
 	DirCheck();
 }
@@ -189,12 +187,12 @@ void APlayer::Run(float _DeltaTime)
 	// 키보드 입력
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
-		AddMoveVector(FVector::Left * _DeltaTime);
+		AddMoveVector(FVector::Left * MoveSpeed);
 	}
 
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		AddMoveVector(FVector::Right * _DeltaTime);
+		AddMoveVector(FVector::Right * MoveSpeed);
 	}
 
 	MoveUpdate(_DeltaTime);
@@ -206,21 +204,22 @@ void APlayer::Jump(float _DeltaTime)
 
 void APlayer::AddMoveVector(const FVector& _DirDelta)
 {
-	MoveVector += _DirDelta * MoveSpeed;
+	MoveVector = _DirDelta;
 }
 
-void APlayer::CalLastMoveVector(float _DeltaTime)
+void APlayer::CalLastMoveVector()
 {
 	LastMoveVector = FVector::Zero;
 	LastMoveVector = LastMoveVector + MoveVector;
 }
 
-void APlayer::CalMoveVector(float _DeltaTime)
+void APlayer::CalMoveVector()
 {
-	// Actor의 위치, 크기 가져오기.
+	// Actor의 기준점 가져오기.
 	FVector CheckPos = GetActorLocation();
 
-	// 좌? 우?
+	// 충돌을 체크하기 위해
+	// 방향키에 맞춰 Actor의 기준점을 옮긴다. 
 	switch (DirState)
 	{
 	case EActorDir::Left :
@@ -233,41 +232,27 @@ void APlayer::CalMoveVector(float _DeltaTime)
 		break;
 	}
 
-	CheckPos.Y -= 30;
-
+	// 
 	if (true == UEngineInput::IsFree(VK_LEFT) &&
 		true == UEngineInput::IsFree(VK_RIGHT) &&
 		true == UEngineInput::IsFree(VK_UP) &&
 		true == UEngineInput::IsFree(VK_DOWN))
 	{
-		if (0.001f <= MoveVector.Size2D())
-		{
-			MoveVector += (-MoveVector.Normalize2DReturn()) * _DeltaTime;
-		}
-		else
-		{
-			MoveVector = float4::Zero;
-		}
-	}
-
-	// 최대 속도 체크.
-	if (MoveMaxSpeed <= MoveVector.Size2D())
-	{
-		MoveVector = MoveVector.Normalize2DReturn() * MoveMaxSpeed;
+		MoveVector = float4::Zero;
 	}
 }
 
 void APlayer::MoveLastMoveVector(float _DeltaTime)
 {
 	// 카메라 추가.
-	GetWorld()->AddCameraPos(MoveVector * _DeltaTime);
+	GetWorld()->AddCameraPos(LastMoveVector * _DeltaTime);
 
 	AActor::AddActorLocation(LastMoveVector * _DeltaTime);
 }
 
 void APlayer::MoveUpdate(float _DeltaTime)
 {
-	CalMoveVector(_DeltaTime);
-	CalLastMoveVector(_DeltaTime);
-	MoveLastMoveVector(_DeltaTime);
+	CalMoveVector();
+	CalLastMoveVector(); // 모든 Vector 값들을 합친다.
+	MoveLastMoveVector(_DeltaTime); // 함친 Vector 값을 이용해 
 }

@@ -90,14 +90,12 @@ private :
 	/// <summary>
 	/// 모든 Vector들을 합한다.
 	/// </summary>
-	/// <param name="_DeltaTime"></param>
-	void CalLastMoveVector(float _DeltaTime);
+	void CalLastMoveVector();
 
 	/// <summary>
 	/// 이동 계산 함수.
 	/// </summary>
-	/// <param name="_DeltaTime"></param>
-	void CalMoveVector(float _DeltaTime);
+	void CalMoveVector();
 
 	/// <summary>
 	/// 이동 구현 함수.
@@ -114,11 +112,12 @@ private :
 	// ==========================================
 
 	UImageRenderer* Renderer = nullptr;
-	FVector MoveVector = FVector::Zero;
-	float MoveMaxSpeed = 500.0f;
+	FVector MoveVector = FVector::Zero; // 최종 속력
 	// 모든 방향의 합.
-	FVector LastMoveVector = FVector::Zero;
+	FVector LastMoveVector = FVector::Zero; // 모든 Vector들을 함한 Vector
 
 	// test ==========================================
-	FVector MoveSpeed = FVector::Right * 500.0f;
+
+	// 100
+	float MoveSpeed = 500.0f;
 };
