@@ -15,6 +15,10 @@ enum class EPlayerState
 	Jump,
 	Sky,
 	JumpEnd,
+	IdleAttack,
+	IdleAttackWait,
+	IdleAttackEnd,
+	//Hit,
 };
 
 /// <summary>

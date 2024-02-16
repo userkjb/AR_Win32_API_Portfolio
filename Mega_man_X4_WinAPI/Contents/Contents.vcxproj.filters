@@ -104,5 +104,8 @@
     <Filter Include="02_Actor\Map\02_Intro">
       <UniqueIdentifier>{8a732002-a0f7-45e5-b091-06d82b68fc83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02_Actor\Character\X_Buster">
+      <UniqueIdentifier>{abbb251b-c064-4cd4-9a65-555600527f12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
