@@ -51,6 +51,9 @@ protected:
 	void JumpStart();
 	void SkyStart();
 	void JumpEndStart();
+	void IdleAttackStart();
+	void IdleAttackWaitStart();
+	void IdleAttackEndStart();
 
 	// 상태 함수들
 	
@@ -59,11 +62,13 @@ protected:
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Idle(float _DeltaTime);
+
 	/// <summary>
 	/// 움직이고 있을 때 처리 함수.
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Run(float _DeltaTime);
+
 	/// <summary>
 	/// 점프 상황일 때 처리 함수
 	/// </summary>
@@ -81,6 +86,24 @@ protected:
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void JumpEnd(float _DeltaTime);
+
+	/// <summary>
+	/// 공격 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void IdleAttack(float _DeltaTime);
+
+	/// <summary>
+	/// 공격 후 대기 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void IdleAttackWait(float _DeltaTime);
+
+	/// <summary>
+	/// 공격 종료 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void IdleAttackEnd(float _DeltaTime);
 
 	// ==========================================
 

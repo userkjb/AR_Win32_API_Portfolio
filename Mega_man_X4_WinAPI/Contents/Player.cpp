@@ -35,6 +35,15 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("JumpEnd_Right", "x_Jump_Right.png", 8, 10, 0.005f, false);
 	Renderer->CreateAnimation("JumpEnd_Left", "x_Jump_Left.png", 8, 10, 0.005f, false);
 
+	// Attack
+	Renderer->CreateAnimation("Idle_Attack_Right", "x_Idle_Attack_Right.png", 0, 5, 0.05f, false);
+	Renderer->CreateAnimation("Idle_Attack_Left", "x_Idle_Attack_Left.png", 0, 5, 0.05f, false);
+	Renderer->CreateAnimation("Idle_Attack_Wait_Right", "x_Idle_Attack_Right.png", 5, 5, 0.1f, false);
+	Renderer->CreateAnimation("Idle_Attack_Wait_Left", "x_Idle_Attack_Left.png", 5, 5, 0.1f, false);
+	Renderer->CreateAnimation("Idle_Attack_End_Right", "x_Idle_Attack_Right.png", 6, 7, 0.1f, false);
+	Renderer->CreateAnimation("Idle_Attack_End_Left", "x_Idle_Attack_Left.png", 6, 7, 0.1f, false);
+
+
 	Renderer->ChangeAnimation("Idle_Right");
 
 	StateChange(EPlayerState::Idle);
@@ -122,6 +131,15 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::JumpEnd :
 			JumpEndStart();
 			break;
+		case EPlayerState::IdleAttack:
+			IdleAttackStart();
+			break;
+		case EPlayerState::IdleAttackWait:
+			IdleAttackWaitStart();
+			break;
+		case EPlayerState::IdleAttackEnd:
+			IdleAttackEndStart();
+			break;
 		default :
 			break;
 		}
@@ -148,6 +166,15 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 		break;
 	case EPlayerState::JumpEnd :
 		JumpEnd(_DeltaTime);
+		break;
+	case EPlayerState::IdleAttack :
+		IdleAttack(_DeltaTime);
+		break;
+	case EPlayerState::IdleAttackWait :
+		IdleAttackWait(_DeltaTime);
+		break;
+	case EPlayerState::IdleAttackEnd :
+		IdleAttackEnd(_DeltaTime);
 		break;
 	default :
 		break;
@@ -186,6 +213,21 @@ void APlayer::JumpEndStart()
 	Renderer->ChangeAnimation(GetAnimationName("JumpEnd"));
 }
 
+void APlayer::IdleAttackStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Idle_Attack"));
+}
+
+void APlayer::IdleAttackWaitStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Idle_Attack_Wait"));
+}
+
+void APlayer::IdleAttackEndStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
+}
+
 // ==== 상태 함수 ====
 
 void APlayer::Idle(float _DeltaTime)
@@ -204,7 +246,18 @@ void APlayer::Idle(float _DeltaTime)
 		StateChange(EPlayerState::Jump);
 		return;
 	}
-	// 공격 추가 예정
+
+	// Idle Attack
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EPlayerState::IdleAttack);
+		return;
+	}
+	else if (true == UEngineInput::IsPress('X'))
+	{
+		StateChange(EPlayerState::IdleAttackWait);
+		return;
+	}
 
 	MoveUpdate(_DeltaTime);
 }
@@ -304,6 +357,49 @@ void APlayer::JumpEnd(float _DeltaTime)
 	}
 }
 
+void APlayer::IdleAttack(float _DeltaTime)
+{
+	
+	// Buster Actor 생성.
+	/* 예시.
+		ABullet* NewBullet = GetWorld()->SpawnActor<ABullet>();
+		NewBullet->SetActorLocation(GetActorLocation());
+		NewBullet->SetDir(FVector::Right);
+	*/
+
+
+	if (true == Renderer->IsCurAnimationEnd())
+	{
+		StateChange(EPlayerState::IdleAttackWait);
+		return;
+	}
+}
+
+void APlayer::IdleAttackWait(float _DeltaTime)
+{
+	
+	if (true == UEngineInput::IsPress('X'))
+	{
+		StateChange(EPlayerState::IdleAttack);
+		return;
+	}
+	else
+	{
+		//딜레이가 좀 있어야 함.
+		StateChange(EPlayerState::IdleAttackEnd);
+		return;
+	}
+}
+
+void APlayer::IdleAttackEnd(float _DeltaTime)
+{
+	if (true == Renderer->IsCurAnimationEnd())
+	{
+		StateChange(EPlayerState::Idle);
+		return;
+	}
+}
+
 void APlayer::AddMoveVector(const FVector& _DirDelta)
 {
 	MoveVector = _DirDelta;
@@ -346,10 +442,8 @@ void APlayer::CalMoveVector()
 
 
 	// 키보드 입력이 없으면 속도를 Zero로.
-	if (true == UEngineInput::IsFree(VK_LEFT) &&
-		true == UEngineInput::IsFree(VK_RIGHT) &&
-		true == UEngineInput::IsFree(VK_UP) &&
-		true == UEngineInput::IsFree(VK_DOWN))
+	if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT) &&
+		true == UEngineInput::IsFree(VK_UP) && true == UEngineInput::IsFree(VK_DOWN))
 	{
 		MoveVector = float4::Zero;
 	}
