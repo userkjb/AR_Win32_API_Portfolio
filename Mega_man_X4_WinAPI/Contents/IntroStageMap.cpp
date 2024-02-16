@@ -1,5 +1,6 @@
 #include "IntroStageMap.h"
 #include <EngineCore/EngineCore.h>
+#include "ContentsGlobalData.h"
 
 AIntroStageMap::AIntroStageMap()
 {
@@ -21,6 +22,7 @@ void AIntroStageMap::SetColMapImage(std::string_view _MapImageName)
 {
 	ColRenderer->SetImage(_MapImageName);
 	UWindowImage* Image = ColRenderer->GetImage();
+	UContentsGlobalData::ColMapImage = Image;
 	FVector ImageScale = Image->GetScale();
 	ColRenderer->SetTransform({ ImageScale.Half2D(), ImageScale });
 	ColRenderer->SetActive(false);
