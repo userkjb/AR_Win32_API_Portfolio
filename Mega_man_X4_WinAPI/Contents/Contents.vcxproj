@@ -170,6 +170,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Buster.h" />
     <ClInclude Include="ContentsGlobalData.h" />
     <ClInclude Include="IntroStageMap.h" />
     <ClInclude Include="BackGroundMap.h" />
@@ -187,6 +188,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Buster.cpp" />
     <ClCompile Include="ContentsGlobalData.cpp" />
     <ClCompile Include="IntroStageMap.cpp" />
     <ClCompile Include="BackGroundMap.cpp" />
