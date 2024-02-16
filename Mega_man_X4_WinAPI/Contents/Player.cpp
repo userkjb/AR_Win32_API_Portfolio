@@ -17,7 +17,7 @@ void APlayer::BeginPlay()
 	Renderer->SetImage("x_Idle_Right.png");
 	UWindowImage* Image = Renderer->GetImage();
 	FVector ImageScale = Image->GetScale();// 200 100
-	Renderer->SetTransform({ {0,0}, {35 * 2, 80 * 2} });
+	Renderer->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
 
 	// Idle
 	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
@@ -411,6 +411,7 @@ void APlayer::CalLastMoveVector()
 	LastMoveVector = LastMoveVector + MoveVector;
 	LastMoveVector = LastMoveVector + JumpVector;
 	LastMoveVector = LastMoveVector + GravityVector;
+	LastMoveVector + JumpVector;
 }
 
 void APlayer::CalMoveVector()
@@ -423,10 +424,10 @@ void APlayer::CalMoveVector()
 	switch (DirState)
 	{
 	case EActorDir::Left :
-		CheckPos.X -= 30;
+		CheckPos.X -= 40;
 		break;
 	case EActorDir::Right :
-		CheckPos.X += 30;
+		CheckPos.X += 40;
 		break;
 	default :
 		break;
@@ -475,3 +476,6 @@ void APlayer::MoveUpdate(float _DeltaTime)
 	CalLastMoveVector();
 	MoveLastMoveVector(_DeltaTime);
 }
+
+
+// EngineDebug::OutPutDebugText("");

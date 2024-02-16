@@ -23,8 +23,8 @@ void ContentsCore::BeginPlay()
 {
 	// Main Buffer Image 설정
 	//MainWindow.SetWindowScale({ 256 * 4, 240 * 4 });
-	MainWindow.SetWindowScale({ 800, 600 });
-	MainWindow.SetWindowPosition({ 500, 100 });
+	MainWindow.SetWindowPosition({ 500, 100 }); // 출력 위치.
+	MainWindow.SetWindowScale({ 800, 600 }); // 해상도
 
 	// 부모 BeginPlay.
 	UEngineCore::BeginPlay();
