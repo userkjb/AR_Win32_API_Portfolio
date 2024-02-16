@@ -14,6 +14,7 @@ enum class EPlayerState
 	Run,
 	Jump,
 	Sky,
+	JumpEnd,
 };
 
 /// <summary>
