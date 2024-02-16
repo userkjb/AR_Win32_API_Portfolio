@@ -49,7 +49,8 @@ void ContentsCore::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Left.png", 5, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Right.png", 16, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Left.png", 16, 1);
-
+	//UEngineResourcesManager::GetInst().CuttingImage("x_Jump_Right.png", 11, 1);
+	//UEngineResourcesManager::GetInst().CuttingImage("x_Jump_Left.png", 11, 1);
 
 	// === Level ===
 	CreateLevel<UTitleLevel>("TitleLevel");

@@ -98,6 +98,12 @@ private :
 	void CalMoveVector();
 
 	/// <summary>
+	/// 중력 계산 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void CalGravityVector(float _DeltaTime);
+
+	/// <summary>
 	/// 합쳐진 Vector(LastMoveVector)를 이용해서 카메라와 캐릭터를 움직인다.
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
@@ -112,9 +118,16 @@ private :
 	// ==========================================
 
 	UImageRenderer* Renderer = nullptr;
-	FVector MoveVector = FVector::Zero; // 최종 속력
-	// 모든 방향의 합.
-	FVector LastMoveVector = FVector::Zero; // 모든 Vector들을 함한 Vector
+
+	// 최종 속력
+	FVector MoveVector = FVector::Zero;
+	// 모든 Vector들을 함한 Vector
+	FVector LastMoveVector = FVector::Zero;
+
+	// 중력 가속도(500.0f)
+	FVector GravityAcc = FVector::Down * 500.0f;
+	// 중력
+	FVector GravityVector = FVector::Zero;
 
 	// test ==========================================
 

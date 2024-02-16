@@ -27,6 +27,9 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
 	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
 
+	// Jump
+	Renderer->CreateAnimation("Jump_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
+	Renderer->CreateAnimation("Jump_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
 
 	Renderer->ChangeAnimation("Idle_Right");
 
@@ -211,6 +214,7 @@ void APlayer::CalLastMoveVector()
 {
 	LastMoveVector = FVector::Zero;
 	LastMoveVector = LastMoveVector + MoveVector;
+	LastMoveVector = LastMoveVector + GravityVector;
 }
 
 void APlayer::CalMoveVector()
@@ -245,6 +249,11 @@ void APlayer::CalMoveVector()
 	}
 }
 
+void APlayer::CalGravityVector(float _DeltaTime)
+{
+	GravityVector += GravityAcc * _DeltaTime;
+}
+
 void APlayer::MoveLastMoveVector(float _DeltaTime)
 {
 	// 카메라 추가.
@@ -256,6 +265,7 @@ void APlayer::MoveLastMoveVector(float _DeltaTime)
 void APlayer::MoveUpdate(float _DeltaTime)
 {
 	CalMoveVector();
+	CalGravityVector(_DeltaTime);
 	CalLastMoveVector();
 	MoveLastMoveVector(_DeltaTime);
 }
