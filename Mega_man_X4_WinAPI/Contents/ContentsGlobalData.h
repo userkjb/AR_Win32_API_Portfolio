@@ -28,6 +28,7 @@ enum class EActorDir
 class UContentsGlobalData
 {
 public :
+	static UWindowImage* ColMapImage;
 
 private :
 	UContentsGlobalData();
