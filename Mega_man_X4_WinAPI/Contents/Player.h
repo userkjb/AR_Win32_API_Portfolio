@@ -98,7 +98,7 @@ private :
 	void CalMoveVector();
 
 	/// <summary>
-	/// 이동 구현 함수.
+	/// 합쳐진 Vector(LastMoveVector)를 이용해서 카메라와 캐릭터를 움직인다.
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void MoveLastMoveVector(float _DeltaTime);

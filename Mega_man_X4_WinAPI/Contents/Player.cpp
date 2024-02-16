@@ -232,7 +232,10 @@ void APlayer::CalMoveVector()
 		break;
 	}
 
-	// 
+	// 위의 CheckPos를 사용해서 Map의 충돌 체크를 한다.
+
+
+	// 키보드 입력이 없으면 속도를 Zero로.
 	if (true == UEngineInput::IsFree(VK_LEFT) &&
 		true == UEngineInput::IsFree(VK_RIGHT) &&
 		true == UEngineInput::IsFree(VK_UP) &&
@@ -253,6 +256,6 @@ void APlayer::MoveLastMoveVector(float _DeltaTime)
 void APlayer::MoveUpdate(float _DeltaTime)
 {
 	CalMoveVector();
-	CalLastMoveVector(); // 모든 Vector 값들을 합친다.
-	MoveLastMoveVector(_DeltaTime); // 함친 Vector 값을 이용해 
+	CalLastMoveVector();
+	MoveLastMoveVector(_DeltaTime);
 }
