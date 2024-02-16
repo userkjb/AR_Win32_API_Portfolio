@@ -13,6 +13,7 @@ enum class EPlayerState
 	Idle,
 	Run,
 	Jump,
+	Sky,
 };
 
 /// <summary>
