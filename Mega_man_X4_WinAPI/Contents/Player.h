@@ -49,6 +49,7 @@ protected:
 	void IdleStart();
 	void RunStart();
 	void JumpStart();
+	void SkyStart();
 
 	// 상태 함수들
 	
@@ -67,6 +68,12 @@ protected:
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Jump(float _DeltaTime);
+
+	/// <summary>
+	/// 공중 상태인 경우 처리 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void Sky(float _DeltaTime);
 
 	// ==========================================
 
@@ -128,7 +135,7 @@ private :
 	FVector GravityVector = FVector::Zero;
 
 	// 점프 파워
-	FVector JumpPower = FVector::Up * 400.0f;
+	FVector JumpPower = FVector::Up * 450.0f;
 	FVector JumpVector = FVector::Zero;
 
 	// 모든 Vector들을 함한 Vector

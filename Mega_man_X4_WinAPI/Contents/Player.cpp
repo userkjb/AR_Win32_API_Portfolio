@@ -20,16 +20,20 @@ void APlayer::BeginPlay()
 	Renderer->SetTransform({ {0,0}, {35 * 2, 80 * 2} });
 
 	// Idle
-	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.07f, true);
-	Renderer->CreateAnimation("Idle_Left", "x_Idle_Left.png", { 0,1,2,3,4,3,2,1 }, 0.07f, true);
+	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
+	Renderer->CreateAnimation("Idle_Left", "x_Idle_Left.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
 
 	// Run
 	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
 	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
 
 	// Jump
-	Renderer->CreateAnimation("Jump_Right", "x_Jump_Right.png", 0, 10, 0.05f, true);
-	Renderer->CreateAnimation("Jump_Left", "x_Jump_Left.png", 0, 10, 0.05f, true);
+	Renderer->CreateAnimation("Jump_Start_Right", "x_Jump_Right.png", 0, 7, 0.05f, false);
+	Renderer->CreateAnimation("Jump_Start_Left", "x_Jump_Left.png", 0, 7, 0.05f, false);
+	Renderer->CreateAnimation("Jumping_Right", "x_Jump_Right.png", 7, 7, 0.1f, false);
+	Renderer->CreateAnimation("Jumping_Left", "x_Jump_Left.png", 7, 7, 0.1f, false);
+	Renderer->CreateAnimation("JumpEnd_Right", "x_Jump_Right.png", 8, 10, 0.1f, false);
+	Renderer->CreateAnimation("JumpEnd_Left", "x_Jump_Left.png", 8, 10, 0.1f, false);
 
 	Renderer->ChangeAnimation("Idle_Right");
 
@@ -112,6 +116,9 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::Jump :
 			JumpStart();
 			break;
+		case EPlayerState::Sky :
+			SkyStart();
+			break;
 		default :
 			break;
 		}
@@ -132,6 +139,9 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 		break;
 	case EPlayerState::Jump :
 		Jump(_DeltaTime);
+		break;
+	case EPlayerState::Sky :
+		Sky(_DeltaTime);
 		break;
 	default :
 		break;
@@ -155,7 +165,13 @@ void APlayer::RunStart()
 void APlayer::JumpStart()
 {
 	JumpVector = JumpPower;
-	Renderer->ChangeAnimation(GetAnimationName("Jump")); //
+	Renderer->ChangeAnimation(GetAnimationName("Jump_Start"));
+	DirCheck();
+}
+
+void APlayer::SkyStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Jumping"));
 	DirCheck();
 }
 
@@ -177,6 +193,7 @@ void APlayer::Idle(float _DeltaTime)
 		StateChange(EPlayerState::Jump);
 		return;
 	}
+	// 공격 추가 예정
 
 	MoveUpdate(_DeltaTime);
 }
@@ -207,6 +224,14 @@ void APlayer::Run(float _DeltaTime)
 		AddMoveVector(FVector::Right * MoveSpeed);
 	}
 
+	// Run 중에 Jump
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EPlayerState::Jump);
+		return;
+	}
+	// 공격 추가 예정
+
 	MoveUpdate(_DeltaTime);
 }
 
@@ -222,6 +247,31 @@ void APlayer::Jump(float _DeltaTime)
 	{
 		AddMoveVector(FVector::Right * MoveSpeed);
 	}
+	// 공격 추가 예정
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == Renderer->IsCurAnimationEnd())
+	{
+		StateChange(EPlayerState::Sky);
+		return;
+	}
+}
+
+void APlayer::Sky(float _DeltaTime)
+{
+	DirCheck();
+
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		AddMoveVector(FVector::Left * MoveSpeed);
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		AddMoveVector(FVector::Right * MoveSpeed);
+	}
+	// 공격 추가 예정
+
 
 	MoveUpdate(_DeltaTime);
 
