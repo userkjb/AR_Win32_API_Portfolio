@@ -69,6 +69,10 @@ private :
 	void ActorInit(AActor* _NewActor);
 	void LevelTick(float _DeltaTime);
 	void LevelRender(float _DeltaTime);
+	/// <summary>
+	/// 만들어진 Actor, Renderer, Collision 을 지운다 = 메모리는 살아 있다. Actor에서 지워줘야 한다.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
 	void LevelRelease(float _DeltaTime);
 
 	std::map<int, std::list<AActor*>> AllActor;
