@@ -120,14 +120,19 @@ private :
 	UImageRenderer* Renderer = nullptr;
 
 	// 최종 속력
-	FVector MoveVector = FVector::Zero;
-	// 모든 Vector들을 함한 Vector
-	FVector LastMoveVector = FVector::Zero;
+	FVector MoveVector = FVector::Zero;	
 
 	// 중력 가속도(500.0f)
-	FVector GravityAcc = FVector::Down * 500.0f;
+	FVector GravityAcc = FVector::Down * 1000.0f;
 	// 중력
 	FVector GravityVector = FVector::Zero;
+
+	// 점프 파워
+	FVector JumpPower = FVector::Up * 400.0f;
+	FVector JumpVector = FVector::Zero;
+
+	// 모든 Vector들을 함한 Vector
+	FVector LastMoveVector = FVector::Zero;
 
 	// test ==========================================
 

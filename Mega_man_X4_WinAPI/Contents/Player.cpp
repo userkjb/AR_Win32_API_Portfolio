@@ -28,8 +28,8 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
 
 	// Jump
-	Renderer->CreateAnimation("Jump_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
-	Renderer->CreateAnimation("Jump_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
+	Renderer->CreateAnimation("Jump_Right", "x_Jump_Right.png", 0, 10, 0.05f, true);
+	Renderer->CreateAnimation("Jump_Left", "x_Jump_Left.png", 0, 10, 0.05f, true);
 
 	Renderer->ChangeAnimation("Idle_Right");
 
@@ -154,7 +154,9 @@ void APlayer::RunStart()
 
 void APlayer::JumpStart()
 {
-
+	JumpVector = JumpPower;
+	Renderer->ChangeAnimation(GetAnimationName("Jump")); //
+	DirCheck();
 }
 
 // ==== 상태 함수 ====
@@ -166,6 +168,13 @@ void APlayer::Idle(float _DeltaTime)
 		true == UEngineInput::IsPress(VK_RIGHT))
 	{
 		StateChange(EPlayerState::Run);
+		return;
+	}
+
+	// Jump
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EPlayerState::Jump);
 		return;
 	}
 
@@ -203,6 +212,26 @@ void APlayer::Run(float _DeltaTime)
 
 void APlayer::Jump(float _DeltaTime)
 {
+	DirCheck();
+
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		AddMoveVector(FVector::Left * MoveSpeed);
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		AddMoveVector(FVector::Right * MoveSpeed);
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+		StateChange(EPlayerState::Idle);
+		return;
+	}
 }
 
 void APlayer::AddMoveVector(const FVector& _DirDelta)
@@ -214,6 +243,7 @@ void APlayer::CalLastMoveVector()
 {
 	LastMoveVector = FVector::Zero;
 	LastMoveVector = LastMoveVector + MoveVector;
+	LastMoveVector = LastMoveVector + JumpVector;
 	LastMoveVector = LastMoveVector + GravityVector;
 }
 
