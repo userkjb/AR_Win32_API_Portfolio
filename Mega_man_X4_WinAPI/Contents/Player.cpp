@@ -20,8 +20,8 @@ void APlayer::BeginPlay()
 	Renderer->SetTransform({ {0,0}, {35 * 2, 80 * 2} });
 
 	// Idle
-	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
-	Renderer->CreateAnimation("Idle_Left", "x_Idle_Left.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
+	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.07f, true);
+	Renderer->CreateAnimation("Idle_Left", "x_Idle_Left.png", { 0,1,2,3,4,3,2,1 }, 0.07f, true);
 
 	// Run
 	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
@@ -235,8 +235,14 @@ void APlayer::CalMoveVector()
 	default :
 		break;
 	}
+	CheckPos.Y -= 10;
 
 	// 위의 CheckPos를 사용해서 Map의 충돌 체크를 한다.
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		MoveVector = FVector::Zero;
+	}
 
 
 	// 키보드 입력이 없으면 속도를 Zero로.
@@ -252,12 +258,18 @@ void APlayer::CalMoveVector()
 void APlayer::CalGravityVector(float _DeltaTime)
 {
 	GravityVector += GravityAcc * _DeltaTime;
+
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		GravityVector = FVector::Zero;
+	}
 }
 
 void APlayer::MoveLastMoveVector(float _DeltaTime)
 {
 	// 카메라 추가.
-	GetWorld()->AddCameraPos(LastMoveVector * _DeltaTime);
+	GetWorld()->AddCameraPos(MoveVector * _DeltaTime);
 
 	AActor::AddActorLocation(LastMoveVector * _DeltaTime);
 }
