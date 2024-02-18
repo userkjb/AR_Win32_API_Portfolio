@@ -92,7 +92,7 @@ void ABackGroundMap::Tick(float _DeltaTime)
 		case 1 :
 			MenuRenderer->ChangeAnimation("Menu_1");
 			EngineDebug::OutPutDebugText(std::to_string(KeyCount));
-			//GEngine->ChangeLevel("");
+			GEngine->ChangeLevel("IntroLevel"); // test clear
 			break;
 		case 2 :
 			MenuRenderer->ChangeAnimation("Menu_2");
