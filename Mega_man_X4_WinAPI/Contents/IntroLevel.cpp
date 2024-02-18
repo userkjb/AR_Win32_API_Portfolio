@@ -20,7 +20,7 @@ void UIntroLevel::BeginPlay()
 
 	// Player
 	APlayer* NewPlayer = SpawnActor<APlayer>();
-	NewPlayer->SetActorLocation({ 200, 50 }); // test
+	NewPlayer->SetActorLocation({ 200, 0 });
 
 	// Enemy
 
