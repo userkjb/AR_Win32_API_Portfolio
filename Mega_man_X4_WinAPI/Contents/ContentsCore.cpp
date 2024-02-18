@@ -60,7 +60,7 @@ void ContentsCore::BeginPlay()
 	CreateLevel<UTitleLevel>("TitleLevel");
 	CreateLevel<UIntroLevel>("IntroLevel");
 
-	ChangeLevel("IntroLevel");
+	ChangeLevel("TitleLevel");
 }
 
 void ContentsCore::Tick(float _DeltaTime)
