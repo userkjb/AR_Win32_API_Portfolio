@@ -29,38 +29,13 @@ void ContentsCore::BeginPlay()
 	// 부모 BeginPlay.
 	UEngineCore::BeginPlay();
 
-	// Resource 폴더 경로 설정.
-	UEngineDirectory NewDir;
-	NewDir.MoveParent();
-	NewDir.Move("ContentsResources");
-
-	std::list<UEngineFile> NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
-
-	for (UEngineFile& File : NewList)
-	{
-		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
-	}
-
-	// Title Map
-	UEngineResourcesManager::GetInst().CuttingImage("Menu.png", 3, 1);
-
-	// Intro Map
-	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Right.png", 5, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Left.png", 5, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Right.png", 16, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Left.png", 16, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Jump_Right.png", 11, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Jump_Left.png", 11, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Attack_Right.png", 8, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Attack_Left.png", 8, 1);
-
-	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Default_Right.png", 5, 1);
+	// ==========================================================================
 
 	// === Level ===
 	CreateLevel<UTitleLevel>("TitleLevel");
 	CreateLevel<UIntroLevel>("IntroLevel");
 
-	ChangeLevel("TitleLevel");
+	ChangeLevel("IntroLevel");
 }
 
 void ContentsCore::Tick(float _DeltaTime)

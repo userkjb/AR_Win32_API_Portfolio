@@ -1,6 +1,9 @@
 #include "IntroLevel.h"
 #include "IntroStageMap.h"
 #include "Player.h"
+#include <EngineBase/EngineDirectory.h>
+#include <EngineBase/EngineFile.h>
+#include <EngineCore/EngineResourcesManager.h>
 
 UIntroLevel::UIntroLevel()
 {
@@ -12,6 +15,42 @@ UIntroLevel::~UIntroLevel()
 
 void UIntroLevel::BeginPlay()
 {
+	ULevel::BeginPlay();
+
+	// Resource 폴더 경로 설정.
+	UEngineDirectory NewDir;
+	NewDir.MoveParent();
+	NewDir.Move("ContentsResources\\IntroLevel");
+
+	std::list<UEngineFile> NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
+
+	for (UEngineFile& File : NewList)
+	{
+		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
+	}
+
+	NewDir.MoveParent();
+	NewDir.Move("GlobalLevel");
+	
+	NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
+
+	for (UEngineFile& File : NewList)
+	{
+		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
+	}
+
+
+	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Right.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Left.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Right.png", 16, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Left.png", 16, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Jump_Right.png", 11, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Jump_Left.png", 11, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Attack_Right.png", 8, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Attack_Left.png", 8, 1);
+
+	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Default_Right.png", 5, 1);
+
 	// Actor
 	IntroStageMap = SpawnActor<AIntroStageMap>();
 	IntroStageMap->SetMapImage("IntroStage_1.png");
@@ -34,12 +73,15 @@ void UIntroLevel::BeginPlay()
 
 void UIntroLevel::Tick(float _DeltaTime)
 {
+	ULevel::Tick(_DeltaTime);
 }
 
 void UIntroLevel::LevelStart(ULevel* _Level)
 {
+	ULevel::LevelStart(_Level);
 }
 
 void UIntroLevel::LevelEnd(ULevel* _Level)
 {
+	ULevel::LevelEnd(_Level);
 }
