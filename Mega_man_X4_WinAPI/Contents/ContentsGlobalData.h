@@ -10,18 +10,18 @@
 enum class EPlayerState
 {
 	None,
-	Idle,
-	Run,
-	Jump,
-	Sky,
-	JumpEnd,
-	IdleAttack,
-	IdleAttackWait,
-	IdleAttackEnd,
-	DashStart,
-	DashLoop,
-	DashEnd,
-	Charge,
+	Idle,			// 기본
+	Run,			// 움직이기
+	Jump,			// 점프
+	Sky,			// 공중
+	JumpEnd,		// 착지
+	IdleAttack,		// 제자리 공격
+	IdleAttackWait,	// 제자리 공격 중
+	IdleAttackEnd,	// 제자리 공격 끝
+	DashStart,		// 대쉬 시작
+	DashLoop,		// 대쉬 중
+	DashEnd,		// 대쉬 종료
+	Charge,			// 차지.
 	//Hit,
 };
 
