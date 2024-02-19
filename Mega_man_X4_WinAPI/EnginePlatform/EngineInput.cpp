@@ -3,6 +3,11 @@
 // static
 std::map<int, UEngineInput::EngineKey> UEngineInput::AllKeys;
 
+bool UEngineInput::AnykeyDown = false;
+bool UEngineInput::AnykeyPress = false;
+bool UEngineInput::AnykeyUp = false;
+bool UEngineInput::AnykeyFree = true;
+
 UEngineInput::UEngineInput()
 {
 }
@@ -17,10 +22,57 @@ UEngineInput::~UEngineInput()
 /// <param name="_DeltaTime"></param>
 void UEngineInput::KeyCheckTick(float _DeltaTime)
 {
+	bool KeyCheck = false;
+
 	for (std::pair<const int, EngineKey>& Key : AllKeys)
 	{
 		EngineKey& CurKey = Key.second;
-		CurKey.KeyCheck();
+		CurKey.KeyCheck(_DeltaTime);
+
+		if (true == CurKey.Press)
+		{
+			KeyCheck = true;
+		}
+	}
+
+	// 여기로 오면 어떤 키든 눌렸다는 것.
+	if (true == KeyCheck)
+	{
+		if (true == AnykeyFree)
+		{
+			// 이전까지 이 키는 눌리고 있지 않았다
+			AnykeyDown = true;
+			AnykeyPress = true;
+			AnykeyUp = false;
+			AnykeyFree = false;
+		}
+		else if (true == AnykeyDown)
+		{
+			// 이전까지 이 키는 눌리고 있었다.
+			AnykeyDown = false;
+			AnykeyPress = true;
+			AnykeyUp = false;
+			AnykeyFree = false;
+		}
+	}
+	else
+	{
+		if (true == AnykeyPress)
+		{
+			// 이전까지 이 키는 눌리고 있었다.
+			AnykeyDown = false;
+			AnykeyPress = false;
+			AnykeyUp = true;
+			AnykeyFree = false;
+		}
+		else if (true == AnykeyUp)
+		{
+			// 이전까지 이 키는 안눌리고 있었고 앞으로도 안눌릴거다.
+			AnykeyDown = false;
+			AnykeyPress = false;
+			AnykeyUp = false;
+			AnykeyFree = true;
+		}
 	}
 }
 
@@ -133,14 +185,15 @@ void UEngineInput::InputInit()
 }
 
 /// <summary>
-/// KeyCheckTick() 에서 호출
+/// KeyCheckTick() 에서 호출, 눌린 시간 계산을 위한 DeltaTime
 /// </summary>
-void UEngineInput::EngineKey::KeyCheck()
+void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 {
 	if (GetAsyncKeyState(Key) != 0)
 	{
 		if (true == Free)
 		{
+			PressTime = 0.0f;
 			// 이전까지 이 키는 눌리고 있지 않았다
 			Down = true;
 			Press = true;
@@ -149,6 +202,7 @@ void UEngineInput::EngineKey::KeyCheck()
 		}
 		else if (true == Down)
 		{
+			PressTime += _DeltaTime;
 			// 이전까지 이 키는 눌리고 있었다.
 			Down = false;
 			Press = true;
@@ -160,6 +214,7 @@ void UEngineInput::EngineKey::KeyCheck()
 	{
 		if (true == Press)
 		{
+			PressTime = 0.0f;
 			// 이전까지 이 키는 눌리고 있었다.
 			Down = false;
 			Press = false;
@@ -168,6 +223,7 @@ void UEngineInput::EngineKey::KeyCheck()
 		}
 		else if (true == Up)
 		{
+			PressTime = 0.0f;
 			// 이전까지 이 키는 안눌리고 있었고 앞으로도 안눌릴거다.
 			Down = false;
 			Press = false;
