@@ -48,8 +48,8 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("x_Jump_Left.png", 11, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Attack_Right.png", 8, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Attack_Left.png", 8, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Right.png", 5, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Left.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Right.png", 8, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Left.png", 8, 1);
 
 	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Default_Right.png", 5, 1);
 
