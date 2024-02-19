@@ -27,6 +27,9 @@ void APlayer::BeginPlay()
 	// Run
 	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
 	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
+	// Run And Attack
+	Renderer->CreateAnimation("Run_And_Attack_Right", "x_Move_Attack_Right.png", 0, 30, 0.05f, true);
+	Renderer->CreateAnimation("Run_And_Attack_Left", "x_Move_Attack_Left.png", 0, 30, 0.05f, true);
 
 	// Jump
 	Renderer->CreateAnimation("Jump_Start_Right", "x_Jump_Right.png", 0, 7, 0.05f, false);
@@ -157,6 +160,9 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::DashEnd:
 			DashEndStart();
 			break;
+		case EPlayerState::RunAndAttack:
+			RunAndAttackStart();
+			break;
 		default :
 			break;
 		}
@@ -201,6 +207,9 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 		break;
 	case EPlayerState::DashEnd:
 		DashEnd(_DeltaTime);
+		break;
+	case EPlayerState::RunAndAttack:
+		RunAndAttack(_DeltaTime);
 		break;
 	default :
 		break;
@@ -266,6 +275,12 @@ void APlayer::DashLoopStart()
 void APlayer::DashEndStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Dash_End"));
+}
+
+void APlayer::RunAndAttackStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Run_And_Attack"));
+	DirCheck();
 }
 
 #pragma endregion
@@ -356,11 +371,12 @@ void APlayer::Run(float _DeltaTime)
 		return;
 	}
 
-	// 공격 추가 예정	
-	//if (true == UEngineInput::IsPress('X'))
-	//{
-	//	StateChange(EPlayerState::AttackStart);
-	//}
+	// 공격
+	if (true == UEngineInput::IsPress('X'))
+	{
+		StateChange(EPlayerState::RunAndAttack);
+		return;
+	}
 
 	// 대쉬
 	//if (true == UEngineInput::IsPress('Z'))
@@ -562,6 +578,34 @@ void APlayer::DashEnd(float _DeltaTime)
 }
 #pragma endregion
 
+void APlayer::RunAndAttack(float _DeltaTime)
+{
+	DirCheck();
+
+	// 키보드 입력
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		AddMoveVector(FVector::Left * MoveSpeed);
+	}
+
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		AddMoveVector(FVector::Right * MoveSpeed);
+	}
+
+	// 방향키를 땠을 때,
+	if (true == UEngineInput::IsFree(VK_LEFT) &&
+		true == UEngineInput::IsFree(VK_RIGHT) &&
+		true == UEngineInput::IsFree(VK_UP) &&
+		true == UEngineInput::IsFree(VK_DOWN))
+	{
+		StateChange(EPlayerState::IdleAttack);
+		return;
+	}
+	
+	// 추가적인 x키 입력이 없을 때,
+
+}
 
 void APlayer::AddMoveVector(const FVector& _DirDelta)
 {

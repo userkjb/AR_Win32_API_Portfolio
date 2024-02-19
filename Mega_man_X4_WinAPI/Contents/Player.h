@@ -57,6 +57,7 @@ protected:
 	void DashStart();
 	void DashLoopStart();
 	void DashEndStart();
+	void RunAndAttackStart();
 
 	// 상태 함수들
 	
@@ -119,6 +120,9 @@ protected:
 
 
 	void DashEnd(float _DeltaTime);
+
+
+	void RunAndAttack(float _DeltaTime);
 
 	// ==========================================
 
