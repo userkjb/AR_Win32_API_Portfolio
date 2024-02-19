@@ -54,6 +54,9 @@ protected:
 	void IdleAttackStart();
 	void IdleAttackWaitStart();
 	void IdleAttackEndStart();
+	void DashStart();
+	void DashLoopStart();
+	void DashEndStart();
 
 	// 상태 함수들
 	
@@ -105,6 +108,15 @@ protected:
 	/// <param name="_DeltaTime"></param>
 	void IdleAttackEnd(float _DeltaTime);
 
+	
+	void Dash(float _DeltaTime);
+
+
+	void DashLoop(float _DeltaTime);
+
+
+	void DashEnd(float _DeltaTime);
+
 	// ==========================================
 
 	// Player 기본 상태.
@@ -152,9 +164,15 @@ private :
 	/// <param name="_DeltaTime"></param>
 	void MoveUpdate(float _DeltaTime);
 
+	/// <summary>
+	/// 카메라 움직임에 대한 함수.
+	/// </summary>
+	void MoveCameraVector();
+
 	// ==========================================
 
 	UImageRenderer* Renderer = nullptr;
+	//UImageRenderer* ChargeRenderer = nullptr; // 예비
 
 	// 최종 속력
 	FVector RunVector = FVector::Zero;	
@@ -171,8 +189,15 @@ private :
 	// 모든 Vector들을 함한 Vector
 	FVector LastMoveVector = FVector::Zero;
 
-	// test ==========================================
+	// Camera Vector
+	FVector CameraVector = FVector::Zero;
 
-	// 100
+	// test ==========================================
+		
 	float MoveSpeed = 500.0f;
+	float DashSpeed = 5.0f;
+	float DashTime = 0.0f;
+	float ChargTime = 0.0f;
+
+	float ButtonPushTime = 0.0f;
 };

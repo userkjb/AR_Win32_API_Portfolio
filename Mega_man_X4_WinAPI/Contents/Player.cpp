@@ -44,6 +44,13 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Idle_Attack_End_Right", "x_Idle_Attack_Right.png", 6, 7, 0.1f, false);
 	Renderer->CreateAnimation("Idle_Attack_End_Left", "x_Idle_Attack_Left.png", 6, 7, 0.1f, false);
 
+	// Dash
+	Renderer->CreateAnimation("Dash_Start_Right", "x_Dash_Right.png", 0, 1, 1.05f, false);
+	Renderer->CreateAnimation("Dash_Start_Left", "x_Dash_Left.png", 0, 1, 1.05f, false);
+	Renderer->CreateAnimation("Dash_Loop_Right", "x_Dash_Right.png", 2, 3, 1.05f, true);
+	Renderer->CreateAnimation("Dash_Loop_Left", "x_Dash_Left.png", 2, 3, 0.05f, true);
+	Renderer->CreateAnimation("Dash_End_Right", "x_Dash_Right.png", 4, 7, 0.05f, false);
+	Renderer->CreateAnimation("Dash_End_Left", "x_Dash_Left.png", 4, 7, 1.05f, false);
 
 	Renderer->ChangeAnimation("Idle_Right");
 
@@ -141,6 +148,15 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::IdleAttackEnd:
 			IdleAttackEndStart();
 			break;
+		case EPlayerState::DashStart:
+			DashStart();
+			break;
+		case EPlayerState::DashLoop:
+			DashLoopStart();
+			break;
+		case EPlayerState::DashEnd:
+			DashEndStart();
+			break;
 		default :
 			break;
 		}
@@ -176,6 +192,15 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 		break;
 	case EPlayerState::IdleAttackEnd :
 		IdleAttackEnd(_DeltaTime);
+		break;
+	case EPlayerState::DashStart:
+		Dash(_DeltaTime);
+		break;
+	case EPlayerState::DashLoop:
+		DashLoop(_DeltaTime);
+		break;
+	case EPlayerState::DashEnd:
+		DashEnd(_DeltaTime);
 		break;
 	default :
 		break;
@@ -230,6 +255,19 @@ void APlayer::IdleAttackEndStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
 }
+void APlayer::DashStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Dash_Start"));
+}
+void APlayer::DashLoopStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Dash_Loop"));
+}
+void APlayer::DashEndStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Dash_End"));
+}
+
 #pragma endregion
 
 // ==== 상태 함수 ====
@@ -252,14 +290,16 @@ void APlayer::Idle(float _DeltaTime)
 	}
 
 	// Idle Attack
-	if (true == UEngineInput::IsDown('X'))
+	if (true == UEngineInput::IsPress('X'))
 	{
 		StateChange(EPlayerState::IdleAttack);
 		return;
 	}
-	else if (true == UEngineInput::IsPress('X'))
+
+	// Dash
+	if (true == UEngineInput::IsPress('Z') && DashTime == 0.0f)
 	{
-		StateChange(EPlayerState::IdleAttackWait);
+		StateChange(EPlayerState::DashStart);
 		return;
 	}
 
@@ -298,10 +338,23 @@ void APlayer::Run(float _DeltaTime)
 		StateChange(EPlayerState::Jump);
 		return;
 	}
-	// 공격 추가 예정
+
+	// 공격 추가 예정	
+	//if (true == UEngineInput::IsPress('X'))
+	//{
+	//	StateChange(EPlayerState::AttackStart);
+	//}
+
+	// 대쉬
+	//if (true == UEngineInput::IsPress('Z'))
+	//{
+	//	StateChange(EPlayerState::DashStart);
+	//}
 
 	MoveUpdate(_DeltaTime);
 }
+
+#pragma region Jump Function
 
 void APlayer::Jump(float _DeltaTime)
 {
@@ -361,25 +414,34 @@ void APlayer::JumpEnd(float _DeltaTime)
 	}
 }
 
+#pragma endregion
+
+
+#pragma region Attack Function
+
 void APlayer::IdleAttack(float _DeltaTime)
 {
-	// Buster Actor 생성.
 	/*
-	ABuster* NewBuster = GetWorld()->SpawnActor<ABuster>();
-	NewBuster->SetActorLocation(GetActorLocation());
-
-	if (DirState == EActorDir::Right)
-	{
-		NewBuster->SetDir(FVector::Right);
-	}
-	else
-	{
-		NewBuster->SetDir(FVector::Left);
-	}
-
-	//NewBuster->Destroy(2.0f); // test
-
+	* 1. Buster 발싸.
+	* 2. Buster 는 연속 생성 3개.
+	* 3. float x = UEngineInput::GetPressTime('Z'); 여부에 따라 
 	*/
+
+
+	// Buster Actor 생성. -> Actor 자체는 그냥 Player가 만들어 질 때 만들기?
+	
+	//ABuster* NewBuster = GetWorld()->SpawnActor<ABuster>();
+	//NewBuster->SetActorLocation(GetActorLocation());
+
+	//if (DirState == EActorDir::Right)
+	//{
+	//	NewBuster->SetDir(FVector::Right);
+	//}
+	//else
+	//{
+	//	NewBuster->SetDir(FVector::Left);
+	//}
+	//NewBuster->Destroy(2.0f); // test
 
 	if (true == Renderer->IsCurAnimationEnd())
 	{
@@ -391,7 +453,7 @@ void APlayer::IdleAttack(float _DeltaTime)
 void APlayer::IdleAttackWait(float _DeltaTime)
 {
 	
-	if (true == UEngineInput::IsPress('X'))
+	if (true == UEngineInput::IsDown('X'))
 	{
 		StateChange(EPlayerState::IdleAttack);
 		return;
@@ -406,12 +468,92 @@ void APlayer::IdleAttackWait(float _DeltaTime)
 
 void APlayer::IdleAttackEnd(float _DeltaTime)
 {
+	// Wait의 일정 시간이 지난 후...
 	if (true == Renderer->IsCurAnimationEnd())
 	{
 		StateChange(EPlayerState::Idle);
 		return;
 	}
 }
+#pragma endregion
+
+
+#pragma region Dash Function
+
+void APlayer::Dash(float _DeltaTime)
+{
+	if (DirState == EActorDir::Right)
+	{
+		AddMoveVector(FVector::Right * MoveSpeed * DashSpeed);
+
+		// 반대 방향키 대응. TODO
+	}
+	if (DirState == EActorDir::Left)
+	{
+		AddMoveVector(FVector::Left * MoveSpeed * DashSpeed);
+
+		// 반대 방향키 대응. TODO
+	}
+
+	if (true == UEngineInput::IsFree('Z'))
+	{
+		StateChange(EPlayerState::DashEnd);
+		return;
+	}
+	DashTime += UEngineInput::GetPressTime('Z');
+
+	// 점프
+
+	// 어택
+
+
+	MoveUpdate(_DeltaTime);
+	
+	// [TODO]
+	if (0.05f <= DashTime)
+	{
+		StateChange(EPlayerState::DashEnd);
+		return;
+	}
+	if (0.1f <= DashTime)
+	{
+		StateChange(EPlayerState::DashLoop);
+		return;
+	}
+}
+
+void APlayer::DashLoop(float _DeltaTime)
+{
+	DashTime += UEngineInput::GetPressTime('Z');
+
+	// 점프.
+
+	// 어택.
+
+	if (DashTime >= 1.0f || true == UEngineInput::IsFree('Z'))
+	{
+		StateChange(EPlayerState::DashEnd);
+		return;
+	}
+
+
+	MoveUpdate(_DeltaTime);
+}
+
+void APlayer::DashEnd(float _DeltaTime)
+{
+	int a = 0;
+	if (true == UEngineInput::IsFree('Z'))
+	{
+		DashTime = 0.0f;
+		StateChange(EPlayerState::Idle);
+		return;
+	}
+
+	MoveUpdate(_DeltaTime);
+}
+#pragma endregion
+
 
 void APlayer::AddMoveVector(const FVector& _DirDelta)
 {
@@ -437,7 +579,7 @@ void APlayer::CalMoveVector()
 	switch (DirState)
 	{
 	case EActorDir::Left :
-		CheckPos.X -= 40;
+		CheckPos.X -= 100;
 		break;
 	case EActorDir::Right :
 		CheckPos.X += 40;
@@ -477,7 +619,7 @@ void APlayer::CalGravityVector(float _DeltaTime)
 void APlayer::MoveLastMoveVector(float _DeltaTime)
 {
 	// 카메라 추가.
-	GetWorld()->AddCameraPos(RunVector * _DeltaTime);
+	MoveCameraVector();	
 
 	AActor::AddActorLocation(LastMoveVector * _DeltaTime);
 }
@@ -490,5 +632,15 @@ void APlayer::MoveUpdate(float _DeltaTime)
 	MoveLastMoveVector(_DeltaTime);
 }
 
+void APlayer::MoveCameraVector()
+{
+	FVector PlayerPosition = this->GetActorLocation();
+	CameraVector.X = PlayerPosition.X - 100.0f;
+	CameraVector.Y = PlayerPosition.Y - 484.0f;
 
-// EngineDebug::OutPutDebugText("");
+	GetWorld()->SetCameraPos(CameraVector);
+}
+
+
+// EngineDebug::OutPutDebugText("" + std::to_string());
+// float x = UEngineInput::GetPressTime('Z');
