@@ -108,7 +108,10 @@ protected:
 	/// <param name="_DeltaTime"></param>
 	void IdleAttackEnd(float _DeltaTime);
 
-	
+	/// <summary>
+	/// DastStart Function
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
 	void Dash(float _DeltaTime);
 
 
@@ -199,5 +202,5 @@ private :
 	float DashTime = 0.0f;
 	float ChargTime = 0.0f;
 
-	float ButtonPushTime = 0.0f;
+	bool IsDash = false;
 };

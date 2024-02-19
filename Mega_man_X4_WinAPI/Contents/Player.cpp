@@ -281,6 +281,10 @@ void APlayer::Idle(float _DeltaTime)
 		StateChange(EPlayerState::Run);
 		return;
 	}
+	if (true == UEngineInput::IsUp('Z') || true == UEngineInput::IsFree('Z'))
+	{
+		IsDash = false;
+	}
 
 	// Jump
 	if (true == UEngineInput::IsDown('C'))
@@ -297,8 +301,9 @@ void APlayer::Idle(float _DeltaTime)
 	}
 
 	// Dash
-	if (true == UEngineInput::IsPress('Z') && DashTime == 0.0f)
+	if (true == UEngineInput::IsPress('Z') && IsDash == false)
 	{
+		IsDash = true;
 		StateChange(EPlayerState::DashStart);
 		return;
 	}
@@ -482,13 +487,15 @@ void APlayer::IdleAttackEnd(float _DeltaTime)
 
 void APlayer::Dash(float _DeltaTime)
 {
+	DashTime += UEngineInput::GetPressTime('Z');
+
 	if (DirState == EActorDir::Right)
 	{
 		AddMoveVector(FVector::Right * MoveSpeed * DashSpeed);
 
 		// 반대 방향키 대응. TODO
 	}
-	if (DirState == EActorDir::Left)
+	else if (DirState == EActorDir::Left)
 	{
 		AddMoveVector(FVector::Left * MoveSpeed * DashSpeed);
 
@@ -500,23 +507,18 @@ void APlayer::Dash(float _DeltaTime)
 		StateChange(EPlayerState::DashEnd);
 		return;
 	}
-	DashTime += UEngineInput::GetPressTime('Z');
+	
+	MoveUpdate(_DeltaTime);
 
 	// 점프
 
 	// 어택
 
-
-	MoveUpdate(_DeltaTime);
 	
-	// [TODO]
+	// 누른 시간이 x초 이상이면,
 	if (0.05f <= DashTime)
 	{
-		StateChange(EPlayerState::DashEnd);
-		return;
-	}
-	if (0.1f <= DashTime)
-	{
+		DashTime = 0.0f;
 		StateChange(EPlayerState::DashLoop);
 		return;
 	}
@@ -530,7 +532,7 @@ void APlayer::DashLoop(float _DeltaTime)
 
 	// 어택.
 
-	if (DashTime >= 1.0f || true == UEngineInput::IsFree('Z'))
+	if (2.0f <= DashTime || true == UEngineInput::IsFree('Z'))
 	{
 		StateChange(EPlayerState::DashEnd);
 		return;
@@ -542,15 +544,9 @@ void APlayer::DashLoop(float _DeltaTime)
 
 void APlayer::DashEnd(float _DeltaTime)
 {
-	int a = 0;
-	if (true == UEngineInput::IsFree('Z'))
-	{
-		DashTime = 0.0f;
-		StateChange(EPlayerState::Idle);
-		return;
-	}
-
-	MoveUpdate(_DeltaTime);
+	DashTime = 0.0f;
+	StateChange(EPlayerState::Idle);
+	return;
 }
 #pragma endregion
 
@@ -643,4 +639,3 @@ void APlayer::MoveCameraVector()
 
 
 // EngineDebug::OutPutDebugText("" + std::to_string());
-// float x = UEngineInput::GetPressTime('Z');
