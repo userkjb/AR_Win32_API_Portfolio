@@ -21,6 +21,7 @@ enum class EPlayerState
 	DashStart,
 	DashLoop,
 	DashEnd,
+	Charge,
 	//Hit,
 };
 
