@@ -338,6 +338,18 @@ void APlayer::Run(float _DeltaTime)
 	}
 
 	// Run 중에 Jump
+	if (true == UEngineInput::IsUp('Z') || true == UEngineInput::IsFree('Z'))
+	{
+		IsDash = false;
+	}
+	if (true == UEngineInput::IsPress('Z') && IsDash == false)
+	{
+		IsDash = true;
+		StateChange(EPlayerState::DashStart);
+		return;
+	}
+
+
 	if (true == UEngineInput::IsDown('C'))
 	{
 		StateChange(EPlayerState::Jump);
@@ -532,7 +544,7 @@ void APlayer::DashLoop(float _DeltaTime)
 
 	// 어택.
 
-	if (2.0f <= DashTime || true == UEngineInput::IsFree('Z'))
+	if (1.0f <= DashTime || true == UEngineInput::IsFree('Z'))
 	{
 		StateChange(EPlayerState::DashEnd);
 		return;

@@ -198,7 +198,7 @@ private :
 	// test ==========================================
 		
 	float MoveSpeed = 500.0f;
-	float DashSpeed = 5.0f;
+	float DashSpeed = 2.0f;
 	float DashTime = 0.0f;
 	float ChargTime = 0.0f;
 
