@@ -184,6 +184,8 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 
 // === 상태 시작 함수 ===
 
+#pragma region 상태 시작 함수들. [...Start()]
+
 void APlayer::IdleStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Idle"));
@@ -228,6 +230,7 @@ void APlayer::IdleAttackEndStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
 }
+#pragma endregion
 
 // ==== 상태 함수 ====
 
@@ -412,13 +415,13 @@ void APlayer::IdleAttackEnd(float _DeltaTime)
 
 void APlayer::AddMoveVector(const FVector& _DirDelta)
 {
-	MoveVector = _DirDelta;
+	RunVector = _DirDelta;
 }
 
 void APlayer::CalLastMoveVector()
 {
 	LastMoveVector = FVector::Zero;
-	LastMoveVector = LastMoveVector + MoveVector;
+	LastMoveVector = LastMoveVector + RunVector;
 	LastMoveVector = LastMoveVector + JumpVector;
 	LastMoveVector = LastMoveVector + GravityVector;
 	LastMoveVector + JumpVector;
@@ -448,7 +451,7 @@ void APlayer::CalMoveVector()
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
-		MoveVector = FVector::Zero;
+		RunVector = FVector::Zero;
 	}
 
 
@@ -456,7 +459,7 @@ void APlayer::CalMoveVector()
 	if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT) &&
 		true == UEngineInput::IsFree(VK_UP) && true == UEngineInput::IsFree(VK_DOWN))
 	{
-		MoveVector = float4::Zero;
+		RunVector = float4::Zero;
 	}
 }
 
@@ -474,7 +477,7 @@ void APlayer::CalGravityVector(float _DeltaTime)
 void APlayer::MoveLastMoveVector(float _DeltaTime)
 {
 	// 카메라 추가.
-	GetWorld()->AddCameraPos(MoveVector * _DeltaTime);
+	GetWorld()->AddCameraPos(RunVector * _DeltaTime);
 
 	AActor::AddActorLocation(LastMoveVector * _DeltaTime);
 }

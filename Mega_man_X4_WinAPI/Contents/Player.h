@@ -157,7 +157,7 @@ private :
 	UImageRenderer* Renderer = nullptr;
 
 	// 최종 속력
-	FVector MoveVector = FVector::Zero;	
+	FVector RunVector = FVector::Zero;	
 
 	// 중력 가속도(500.0f)
 	FVector GravityAcc = FVector::Down * 1000.0f;
