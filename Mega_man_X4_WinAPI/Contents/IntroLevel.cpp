@@ -55,7 +55,16 @@ void UIntroLevel::BeginPlay()
 
 	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Default_Right.png", 5, 1);
 
-	// Actor
+	UEngineResourcesManager::GetInst().CuttingImage("Spikeball_Left.png", 7, 3);
+
+	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Left.png", 8, 5);
+	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Bullet.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Bomb.png", 1, 1);
+	
+
+	// == Actor ==
+
+	// Map
 	IntroStageMap = SpawnActor<AIntroStageMap>();
 	IntroStageMap->SetMapImage("IntroStage_1.png");
 	IntroStageMap->SetColMapImage("IntroStage_Col_1.png");
