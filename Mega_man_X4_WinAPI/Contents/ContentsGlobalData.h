@@ -18,7 +18,9 @@ enum class EPlayerState
 	IdleAttack,
 	IdleAttackWait,
 	IdleAttackEnd,
-	Dash,
+	DashStart,
+	DashLoop,
+	DashEnd,
 	//Hit,
 };
 
