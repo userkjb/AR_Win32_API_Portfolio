@@ -100,6 +100,19 @@ public:
 	void Cutting(int _X, int _Y);
 
 	/// <summary>
+	/// Collision µð¹ö±ë ¿ë.
+	/// </summary>
+	/// <param name="_Trans"></param>
+	void DrawRectangle(const FTransform& _Trans);
+	/// <summary>
+	/// Collision µð¹ö±ë ¿ë.
+	/// </summary>
+	/// <param name="_Trans"></param>
+	void DrawEllipse(const FTransform& _Trans);
+
+
+
+	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="_X"></param>
