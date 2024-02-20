@@ -10,6 +10,8 @@
 enum class EPlayerState
 {
 	None,
+	Summons,		// 소환.
+	Comeback,		// 복귀.
 	Idle,			// 기본.
 	Run,			// 움직이기.
 	Jump,			// 점프.
@@ -33,6 +35,16 @@ enum class EActorDir
 {
 	Left,
 	Right,
+};
+
+/// <summary>
+/// 렌더 순서.
+/// </summary>
+enum class ERenderOrder
+{
+	Map,
+	Player,
+	MapObject,
 };
 
 
