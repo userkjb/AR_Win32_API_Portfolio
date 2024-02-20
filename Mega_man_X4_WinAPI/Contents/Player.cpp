@@ -23,7 +23,7 @@ void APlayer::BeginPlay()
 
 	// Start Animation
 	Renderer->CreateAnimation("Summon", "x_Start.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("Summon_Loop", "x_Start.png", 1, 16, 0.1f, false); // 이미지 이상함 TODO
+	Renderer->CreateAnimation("Summon_Loop", "x_Start.png", 1, 16, 0.07f, false); // 이미지 이상함 TODO
 
 	// Idle
 	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
@@ -337,7 +337,7 @@ void APlayer::Summon(float _DeltaTime)
 		return;
 	}
 	
-	AddActorLocation(FVector::Down * _DeltaTime * 300.0f);
+	AddActorLocation(FVector::Down * _DeltaTime * 500.0f);
 }
 
 void APlayer::SummonLoop(float _DeltaTime)
@@ -632,7 +632,7 @@ void APlayer::DashLoop(float _DeltaTime)
 	DashTime += UEngineInput::GetPressTime('Z');
 
 	// 점프
-	if (true == UEngineInput::IsDown('C'))
+	if (true == UEngineInput::IsPress('C'))
 	{
 		StateChange(EPlayerState::Jump);
 		return;
@@ -766,21 +766,23 @@ void APlayer::MoveUpdate(float _DeltaTime)
 
 void APlayer::MoveCameraVector()
 {
-	// Player 위치
 	FVector PlayerPos = this->GetActorLocation();
-	//EngineDebug::OutPutDebugText("P X : " + std::to_string(PlayerPos.X) + "  Y : " + std::to_string(PlayerPos.Y));
-	//EngineDebug::OutPutDebugText("C X : " + std::to_string(CameraVector.X) + "  Y : " + std::to_string(CameraVector.Y));
+	FVector CameraPos = GetWorld()->GetCameraPos();
 	
-	CameraVector.X = PlayerPos.X - 400.0f;
-	CameraVector.Y = PlayerPos.Y - 484.0f;
+	CameraPos.X = PlayerPos.X - 400.0f;
+	CameraPos.Y = PlayerPos.Y - 484.0f;
 
-	if (0 >= CameraVector.X)
+	if (0.0f >= CameraPos.X)
 	{
-		CameraVector.X = 0.0f;
+		CameraPos.X = 0.0f;
+	}
+
+	if (0.0f >= CameraPos.Y)
+	{
+		CameraPos.Y = 0.0f;
 	}
 	
-
-	GetWorld()->SetCameraPos(CameraVector);
+	GetWorld()->SetCameraPos(CameraPos);
 }
 
 

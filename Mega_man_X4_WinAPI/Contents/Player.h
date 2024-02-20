@@ -216,7 +216,6 @@ private :
 	FVector LastMoveVector = FVector::Zero;
 
 	// Camera Vector
-	FVector CameraVector = FVector::Zero;
 	FVector CameraCenterPos = { 400, 300 };
 
 	// test ==========================================
