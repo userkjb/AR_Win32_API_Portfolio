@@ -13,6 +13,11 @@ class UCollision : public USceneComponent
 	UCollision& operator=(const UCollision& _Other) = delete;
 	UCollision& operator=(UCollision&& _Other) noexcept = delete;
 
+	void SetColType(ECollisionType _Type)
+	{
+		ColType = _Type;
+	}
+
 	/// <summary>
 	/// 내가 속한 Level 과 Actor 설정.
 	/// </summary>
@@ -23,5 +28,5 @@ protected :
 	void BeginPlay() override;
 
 private :
-
+	ECollisionType ColType = ECollisionType::Rect;
 };
