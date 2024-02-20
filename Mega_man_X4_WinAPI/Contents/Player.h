@@ -224,7 +224,9 @@ private :
 	float DashSpeed = 2.0f;
 	float DashTime = 0.0f;
 	float ChargTime = 0.0f;
-	float Delay = 0.0f;
+	float AttackTime = 0.0f;
 
 	bool IsDash = false;
+
+	ABuster* NewBuster = nullptr;
 };

@@ -379,7 +379,7 @@ void APlayer::Idle(float _DeltaTime)
 	}
 
 	// Idle Attack
-	if (true == UEngineInput::IsPress('X'))
+	if (true == UEngineInput::IsDown('X'))
 	{
 		StateChange(EPlayerState::IdleAttack);
 		return;
@@ -533,7 +533,7 @@ void APlayer::IdleAttack(float _DeltaTime)
 
 	// Buster Actor 생성. -> Actor 자체는 그냥 Player가 만들어 질 때 만들기?
 	
-	//ABuster* NewBuster = GetWorld()->SpawnActor<ABuster>();
+	//NewBuster = GetWorld()->SpawnActor<ABuster>();
 	//NewBuster->SetActorLocation(GetActorLocation());
 
 	//if (DirState == EActorDir::Right)
@@ -555,7 +555,8 @@ void APlayer::IdleAttack(float _DeltaTime)
 
 void APlayer::IdleAttackWait(float _DeltaTime)
 {
-	
+	AttackTime += UEngineInput::GetPressTime('X');
+
 	if (true == UEngineInput::IsDown('X'))
 	{
 		StateChange(EPlayerState::IdleAttack);
@@ -686,6 +687,9 @@ void APlayer::RunAndAttack(float _DeltaTime)
 	// 추가적인 x키 입력이 없을 때,
 
 }
+
+
+// ==== Vector ====
 
 void APlayer::AddMoveVector(const FVector& _DirDelta)
 {
