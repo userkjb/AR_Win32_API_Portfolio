@@ -39,6 +39,7 @@ protected:
 	/// </summary>
 	/// <param name="_State"></param>
 	void StateChange(EPlayerState _State);
+
 	/// <summary>
 	/// 상태에 따른 Update(Tick)
 	/// </summary>
@@ -46,6 +47,7 @@ protected:
 	void StateUpdate(float _DeltaTime);
 
 	// 상태에 대한 시작 함수들
+	void SummonStart();
 	void IdleStart();
 	void RunStart();
 	void JumpStart();
@@ -60,6 +62,12 @@ protected:
 	void RunAndAttackStart();
 
 	// 상태 함수들
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void Summon(float _DeltaTime);
 	
 	/// <summary>
 	/// 가만히 있을 경우 처리 함수.
@@ -128,6 +136,9 @@ protected:
 
 	// Player 기본 상태.
 	EPlayerState State = EPlayerState::None;
+	// Renderer 순서.
+	ERenderOrder Order = ERenderOrder::None;
+
 	// Player 방향 == Actor 방향
 	EActorDir DirState = EActorDir::Right;
 	// 현재 애니메이션의 이름. -> 애니메이션 이름도 신경 써야 함.
@@ -198,6 +209,7 @@ private :
 
 	// Camera Vector
 	FVector CameraVector = FVector::Zero;
+	FVector CameraCenterPos = { 400, 300 };
 
 	// test ==========================================
 		

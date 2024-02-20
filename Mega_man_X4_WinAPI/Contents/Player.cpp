@@ -14,11 +14,16 @@ void APlayer::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	Renderer = CreateImageRenderer(5);
-	Renderer->SetImage("x_Idle_Right.png");
+	Renderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
+	//Renderer->SetImage("x_Idle_Right.png");
+	Renderer->SetImage("x_Start.png");
 	UWindowImage* Image = Renderer->GetImage();
 	FVector ImageScale = Image->GetScale();// 200 100
 	Renderer->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
+
+
+	// Start Animation
+	Renderer->CreateAnimation("Start", "x_Start.png", 1, 5, 0.5f, true);
 
 	// Idle
 	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
@@ -48,16 +53,16 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Idle_Attack_End_Left", "x_Idle_Attack_Left.png", 6, 7, 0.1f, false);
 
 	// Dash
-	Renderer->CreateAnimation("Dash_Start_Right", "x_Dash_Right.png", 0, 1, 1.05f, false);
-	Renderer->CreateAnimation("Dash_Start_Left", "x_Dash_Left.png", 0, 1, 1.05f, false);
-	Renderer->CreateAnimation("Dash_Loop_Right", "x_Dash_Right.png", 2, 3, 1.05f, true);
+	Renderer->CreateAnimation("Dash_Start_Right", "x_Dash_Right.png", 0, 1, 0.05f, false);
+	Renderer->CreateAnimation("Dash_Start_Left", "x_Dash_Left.png", 0, 1, 0.05f, false);
+	Renderer->CreateAnimation("Dash_Loop_Right", "x_Dash_Right.png", 2, 3, 0.05f, true);
 	Renderer->CreateAnimation("Dash_Loop_Left", "x_Dash_Left.png", 2, 3, 0.05f, true);
 	Renderer->CreateAnimation("Dash_End_Right", "x_Dash_Right.png", 4, 7, 0.05f, false);
-	Renderer->CreateAnimation("Dash_End_Left", "x_Dash_Left.png", 4, 7, 1.05f, false);
+	Renderer->CreateAnimation("Dash_End_Left", "x_Dash_Left.png", 4, 7, 0.05f, false);
 
-	Renderer->ChangeAnimation("Idle_Right");
+	Renderer->ChangeAnimation("Start");
 
-	StateChange(EPlayerState::Idle);
+	StateChange(EPlayerState::Summon);
 }
 
 void APlayer::Tick(float _DeltaTime)
@@ -127,6 +132,9 @@ void APlayer::StateChange(EPlayerState _State)
 	{
 		switch (_State)
 		{
+		case EPlayerState::Summon:
+			SummonStart();
+			break;
 		case EPlayerState::Idle :
 			IdleStart();
 			break;
@@ -175,6 +183,9 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 {
 	switch (State)
 	{
+	case EPlayerState::Summon:
+		Summon(_DeltaTime);
+		break;
 	case EPlayerState::Idle :
 		Idle(_DeltaTime);
 		break;
@@ -219,6 +230,11 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 // === 상태 시작 함수 ===
 
 #pragma region 상태 시작 함수들. [...Start()]
+
+void APlayer::SummonStart()
+{
+	Renderer->ChangeAnimation("Start");
+}
 
 void APlayer::IdleStart()
 {
@@ -286,6 +302,20 @@ void APlayer::RunAndAttackStart()
 #pragma endregion
 
 // ==== 상태 함수 ====
+
+void APlayer::Summon(float _DeltaTime)
+{
+	int a = 0;
+
+	AddMoveVector(FVector::Down * MoveSpeed * _DeltaTime);
+
+
+	if (true == Renderer->IsCurAnimationEnd())
+	{
+		StateChange(EPlayerState::Idle);
+		return;
+	}
+}
 
 void APlayer::Idle(float _DeltaTime)
 {
@@ -539,6 +569,11 @@ void APlayer::Dash(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 
 	// 점프
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EPlayerState::Jump);
+		return;
+	}
 
 	// 어택
 
@@ -556,11 +591,16 @@ void APlayer::DashLoop(float _DeltaTime)
 {
 	DashTime += UEngineInput::GetPressTime('Z');
 
-	// 점프.
+	// 점프
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EPlayerState::Jump);
+		return;
+	}
 
 	// 어택.
 
-	if (1.0f <= DashTime || true == UEngineInput::IsFree('Z'))
+	if (0.5f <= DashTime || true == UEngineInput::IsFree('Z'))
 	{
 		StateChange(EPlayerState::DashEnd);
 		return;
@@ -686,9 +726,20 @@ void APlayer::MoveUpdate(float _DeltaTime)
 
 void APlayer::MoveCameraVector()
 {
-	FVector PlayerPosition = this->GetActorLocation();
-	CameraVector.X = PlayerPosition.X - 100.0f;
-	CameraVector.Y = PlayerPosition.Y - 484.0f;
+	// Player 위치
+	FVector PlayerPos = this->GetActorLocation();
+	EngineDebug::OutPutDebugText("P X : " + std::to_string(PlayerPos.X) + "  Y : " + std::to_string(PlayerPos.Y));
+
+	EngineDebug::OutPutDebugText("C X : " + std::to_string(CameraVector.X) + "  Y : " + std::to_string(CameraVector.Y));
+	
+	CameraVector.X = PlayerPos.X - 400.0f;
+	CameraVector.Y = PlayerPos.Y - 484.0f;
+
+	if (0 >= CameraVector.X)
+	{
+		CameraVector.X = 0.0f;
+	}
+	
 
 	GetWorld()->SetCameraPos(CameraVector);
 }
