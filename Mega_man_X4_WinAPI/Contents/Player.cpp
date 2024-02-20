@@ -23,7 +23,7 @@ void APlayer::BeginPlay()
 
 	// Start Animation
 	Renderer->CreateAnimation("Summon", "x_Start.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("Summon_Loop", "x_Start.png", 1, 16, 0.1f, false);
+	Renderer->CreateAnimation("Summon_Loop", "x_Start.png", 1, 16, 0.1f, false); // 이미지 이상함 TODO
 
 	// Idle
 	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
