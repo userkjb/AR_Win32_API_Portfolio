@@ -174,18 +174,20 @@ void UWindowImage::TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans,
     HDC hdcSrc = _CopyImage->Infos[_Index].ImageDC;
     
     // 설정.
+    // 출력할 장소에 공간을 잡고
+    // 이미지를 가져와 자른다음 마련해 둔 공간에 맞춰 넣는다.
     TransparentBlt(
-        hdc,
-        RenderLeft,
-        RenderTop,
-        RenderScaleX,
-        RenderScaleY,
-        hdcSrc,
-        ImageLeft,
-        ImageTop,
-        ImageScaleX,
-        ImageScaleY,
-        _Color.Color
+        hdc,          // 이미지를 출력할 핸들
+        RenderLeft,   // 출력할 X 좌표
+        RenderTop,    // 출력할 Y 좌표
+        RenderScaleX, // 공간의 가로길이(엑자를 생각하면 쉽다.)
+        RenderScaleY, // 공간의 세로길이.
+        hdcSrc,       // 원본 이미지
+        ImageLeft,    // 원하는 이미지 시작점 X
+        ImageTop,     // 원하는 이미지 시작점 Y
+        ImageScaleX,  // 원하는 이미지 자를 만큼의 가로 길이.
+        ImageScaleY,  // 원하는 이미지 자를 만큼의 세로 길이.
+        _Color.Color  // 특정 색을 투명으로 처리.
     );
 }
 
