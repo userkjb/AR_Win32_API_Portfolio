@@ -16,10 +16,25 @@ void APlayer::BeginPlay()
 
 	Renderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
 	Renderer->SetImage("x_Idle_Right.png");
-	UWindowImage* Image = Renderer->GetImage();
-	FVector ImageScale = Image->GetScale();// 200 100
+	//UWindowImage* Image = Renderer->GetImage();
+	//FVector ImageScale = Image->GetScale();// 200 100
 	Renderer->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
 
+	ChargeRender_1 = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
+	ChargeRender_1->SetImage("Charging_1.png");
+	UWindowImage* ChargeImage_1 = ChargeRender_1->GetImage();
+	FVector ChargeScale_1 = ChargeImage_1->GetScale();
+	ChargeRender_1->SetTransform({ { 0, 50 }, ChargeScale_1 });
+	ChargeRender_1->ActiveOff();
+
+	ChargeRender_2 = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
+	ChargeRender_2->SetImage("Charging_2.png");
+	UWindowImage* ChargeImage_2 = ChargeRender_2->GetImage();
+	FVector ChargeScale_2 = ChargeImage_2->GetScale();
+	ChargeRender_2->SetTransform({ { 0, 50 }, ChargeScale_2 });
+	ChargeRender_2->ActiveOff();
+
+	// =================================================================
 
 	// Start Animation
 	Renderer->CreateAnimation("Summon", "x_Start.png", 0, 0, 0.1f, true);

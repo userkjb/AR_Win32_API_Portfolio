@@ -198,7 +198,8 @@ private :
 	// ==========================================
 
 	UImageRenderer* Renderer = nullptr;
-	//UImageRenderer* ChargeRenderer = nullptr; // 예비
+	UImageRenderer* ChargeRender_1 = nullptr;
+	UImageRenderer* ChargeRender_2 = nullptr;
 
 	// 최종 속력
 	FVector RunVector = FVector::Zero;	
