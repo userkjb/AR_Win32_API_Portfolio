@@ -38,6 +38,7 @@ class UCollision : public USceneComponent
 	}
 
 	bool CollisionCheck(int _Order, std::vector<UCollision*>& _Result);
+	void DebugRender(FVector _CameraPos);
 
 protected :
 	void BeginPlay() override;
