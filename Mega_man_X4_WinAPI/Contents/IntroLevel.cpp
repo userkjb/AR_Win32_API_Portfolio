@@ -40,6 +40,8 @@ void UIntroLevel::BeginPlay()
 	}
 
 
+	UEngineResourcesManager::GetInst().CuttingImage("x_Start.png", 9, 2);
+
 	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Right.png", 5, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Left.png", 5, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Right.png", 16, 1);
@@ -72,7 +74,7 @@ void UIntroLevel::BeginPlay()
 
 	// Player
 	APlayer* NewPlayer = SpawnActor<APlayer>();
-	NewPlayer->SetActorLocation({ 200, 0 });
+	NewPlayer->SetActorLocation({ 400, 0 }); // 400 ¿Ã ºæ≈Õ.
 
 	// Enemy
 
