@@ -48,6 +48,8 @@ protected:
 
 	// 상태에 대한 시작 함수들
 	void SummonStart();
+	void SummonLoopStart();
+	void SummonEndStart();
 	void IdleStart();
 	void RunStart();
 	void JumpStart();
@@ -68,6 +70,12 @@ protected:
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Summon(float _DeltaTime);
+
+
+	void SummonLoop(float _DeltaTime);
+
+
+	void SummonEnd(float _DeltaTime);
 	
 	/// <summary>
 	/// 가만히 있을 경우 처리 함수.
@@ -217,6 +225,7 @@ private :
 	float DashSpeed = 2.0f;
 	float DashTime = 0.0f;
 	float ChargTime = 0.0f;
+	float Delay = 0.0f;
 
 	bool IsDash = false;
 };

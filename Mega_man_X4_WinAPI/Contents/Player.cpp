@@ -15,15 +15,15 @@ void APlayer::BeginPlay()
 	AActor::BeginPlay();
 
 	Renderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
-	//Renderer->SetImage("x_Idle_Right.png");
-	Renderer->SetImage("x_Start.png");
+	Renderer->SetImage("x_Idle_Right.png");
 	UWindowImage* Image = Renderer->GetImage();
 	FVector ImageScale = Image->GetScale();// 200 100
 	Renderer->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
 
 
 	// Start Animation
-	Renderer->CreateAnimation("Start", "x_Start.png", 1, 5, 0.5f, true);
+	Renderer->CreateAnimation("Summon", "x_Start.png", 0, 0, 0.1f, true);
+	Renderer->CreateAnimation("Summon_Loop", "x_Start.png", 1, 16, 0.1f, false);
 
 	// Idle
 	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
@@ -60,7 +60,7 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Dash_End_Right", "x_Dash_Right.png", 4, 7, 0.05f, false);
 	Renderer->CreateAnimation("Dash_End_Left", "x_Dash_Left.png", 4, 7, 0.05f, false);
 
-	Renderer->ChangeAnimation("Start");
+	Renderer->ChangeAnimation("Summon");
 
 	StateChange(EPlayerState::Summon);
 }
@@ -135,6 +135,12 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::Summon:
 			SummonStart();
 			break;
+		case EPlayerState::SummonLoop:
+			SummonLoopStart();
+			break;
+		case EPlayerState::SummonEnd:
+			SummonEndStart();
+			break;
 		case EPlayerState::Idle :
 			IdleStart();
 			break;
@@ -186,6 +192,12 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 	case EPlayerState::Summon:
 		Summon(_DeltaTime);
 		break;
+	case EPlayerState::SummonLoop:
+		SummonLoop(_DeltaTime);
+		break;
+	case EPlayerState::SummonEnd:
+		SummonEnd(_DeltaTime);
+		break;
 	case EPlayerState::Idle :
 		Idle(_DeltaTime);
 		break;
@@ -233,7 +245,17 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 
 void APlayer::SummonStart()
 {
-	Renderer->ChangeAnimation("Start");
+	Renderer->ChangeAnimation("Summon");
+}
+
+void APlayer::SummonLoopStart()
+{
+	Renderer->ChangeAnimation("Summon_Loop");
+}
+
+void APlayer::SummonEndStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Idle"));
 }
 
 void APlayer::IdleStart()
@@ -305,16 +327,32 @@ void APlayer::RunAndAttackStart()
 
 void APlayer::Summon(float _DeltaTime)
 {
-	int a = 0;
-
-	AddMoveVector(FVector::Down * MoveSpeed * _DeltaTime);
-
-
-	if (true == Renderer->IsCurAnimationEnd())
+	// Actor의 기준점 가져오기.
+	FVector CheckPos = this->GetActorLocation();
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
 	{
-		StateChange(EPlayerState::Idle);
+		StateChange(EPlayerState::SummonLoop);
 		return;
 	}
+	
+	AddActorLocation(FVector::Down * _DeltaTime * 150.0f);
+}
+
+void APlayer::SummonLoop(float _DeltaTime)
+{
+	if (true == Renderer->IsCurAnimationEnd())
+	{
+		// 딜레이
+		Sleep(500);
+		StateChange(EPlayerState::SummonEnd);
+		return;
+	}
+}
+
+void APlayer::SummonEnd(float _DeltaTime)
+{
+	StateChange(EPlayerState::Idle);
 }
 
 void APlayer::Idle(float _DeltaTime)
@@ -728,9 +766,8 @@ void APlayer::MoveCameraVector()
 {
 	// Player 위치
 	FVector PlayerPos = this->GetActorLocation();
-	EngineDebug::OutPutDebugText("P X : " + std::to_string(PlayerPos.X) + "  Y : " + std::to_string(PlayerPos.Y));
-
-	EngineDebug::OutPutDebugText("C X : " + std::to_string(CameraVector.X) + "  Y : " + std::to_string(CameraVector.Y));
+	//EngineDebug::OutPutDebugText("P X : " + std::to_string(PlayerPos.X) + "  Y : " + std::to_string(PlayerPos.Y));
+	//EngineDebug::OutPutDebugText("C X : " + std::to_string(CameraVector.X) + "  Y : " + std::to_string(CameraVector.Y));
 	
 	CameraVector.X = PlayerPos.X - 400.0f;
 	CameraVector.Y = PlayerPos.Y - 484.0f;
