@@ -7,11 +7,13 @@
 class AActor;
 class UEngineCore;
 class UImageRenderer;
+class UCollision;
 
 class ULevel : public UNameObject
 {
 	friend UEngineCore;
 	friend UImageRenderer;
+	friend UCollision;
 
 public :
 	// constructer destructer
@@ -77,6 +79,7 @@ private :
 
 	std::map<int, std::list<AActor*>> AllActor;
 	std::map<int, std::list<UImageRenderer*>> Renderers; // ImageRenderer에서 Image들을 넣어준다.
+	std::map<int, std::list<UCollision*>> Collisions;
 
 	FVector CameraPos = FVector::Zero;
 };
