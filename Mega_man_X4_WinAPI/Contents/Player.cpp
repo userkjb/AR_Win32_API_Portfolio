@@ -14,25 +14,14 @@ void APlayer::BeginPlay()
 {
 	AActor::BeginPlay();
 
+	ChargeBeginPlay();
+
 	Renderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
 	Renderer->SetImage("x_Idle_Right.png");
 	//UWindowImage* Image = Renderer->GetImage();
 	//FVector ImageScale = Image->GetScale();// 200 100
 	Renderer->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
 
-	ChargeRender_1 = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
-	ChargeRender_1->SetImage("Charging_1.png");
-	UWindowImage* ChargeImage_1 = ChargeRender_1->GetImage();
-	FVector ChargeScale_1 = ChargeImage_1->GetScale();
-	ChargeRender_1->SetTransform({ { 0, 50 }, ChargeScale_1 });
-	ChargeRender_1->ActiveOff();
-
-	ChargeRender_2 = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
-	ChargeRender_2->SetImage("Charging_2.png");
-	UWindowImage* ChargeImage_2 = ChargeRender_2->GetImage();
-	FVector ChargeScale_2 = ChargeImage_2->GetScale();
-	ChargeRender_2->SetTransform({ { 0, 50 }, ChargeScale_2 });
-	ChargeRender_2->ActiveOff();
 
 	// =================================================================
 
@@ -78,6 +67,31 @@ void APlayer::BeginPlay()
 	Renderer->ChangeAnimation("Summon");
 
 	StateChange(EPlayerState::Summon);
+}
+
+void APlayer::ChargeBeginPlay()
+{
+	ChargeRender_1 = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
+	ChargeRender_1->SetImage("Charging_1.png");
+	UWindowImage* ChargeImage_1 = ChargeRender_1->GetImage();
+	FVector ChargeScale_1 = ChargeImage_1->GetScale();
+	ChargeRender_1->SetTransform({ { 0, 0 }, {ChargeScale_1.iX() / 9, ChargeScale_1.iY()}});
+	
+
+	ChargeRender_2 = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
+	ChargeRender_2->SetImage("Charging_2.png");
+	UWindowImage* ChargeImage_2 = ChargeRender_2->GetImage();
+	FVector ChargeScale_2 = ChargeImage_2->GetScale();
+	ChargeRender_2->SetTransform({ { 0, 0 }, {ChargeScale_2.iX() / 4 , ChargeScale_2.iY()}});
+
+	ChargeRender_1->CreateAnimation("Charge_1", "Charging_1.png", 0, 8, 0.05f, true);
+	ChargeRender_2->CreateAnimation("Charge_2", "Charging_2.png", 0, 3, 0.05f, true);
+	
+	ChargeRender_1->ChangeAnimation("Charge_1");
+	ChargeRender_2->ChangeAnimation("Charge_2");
+
+	ChargeRender_1->ActiveOff();
+	ChargeRender_2->ActiveOff();
 }
 
 void APlayer::Tick(float _DeltaTime)

@@ -155,6 +155,11 @@ protected:
 private :
 
 	/// <summary>
+	/// 기존 BeginPlay 함수가 너무 길어져서 Charge 관련 설정들을 따로 뺌.
+	/// </summary>
+	void ChargeBeginPlay();
+
+	/// <summary>
 	/// Player를 움직이는 함수.(계산은 다른 곳에서.)
 	/// </summary>
 	/// <param name="_DirDelta"></param>
