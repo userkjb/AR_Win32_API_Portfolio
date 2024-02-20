@@ -64,6 +64,10 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Bomb.png", 1, 1);
 	
 
+
+	UEngineResourcesManager::GetInst().CuttingImage("Charging_1.png", 9, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Charging_2.png", 4, 1);
+
 	// == Actor ==
 
 	// Map
