@@ -31,7 +31,7 @@ void APlayer::BeginPlay()
 
 	// Run
 	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
-	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
+	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true); // 이미지 이상함 TODO
 	// Run And Attack
 	Renderer->CreateAnimation("Run_And_Attack_Right", "x_Move_Attack_Right.png", 0, 30, 0.05f, true);
 	Renderer->CreateAnimation("Run_And_Attack_Left", "x_Move_Attack_Left.png", 0, 30, 0.05f, true);
@@ -325,6 +325,7 @@ void APlayer::RunAndAttackStart()
 
 // ==== 상태 함수 ====
 
+#pragma region Summon Funcion
 void APlayer::Summon(float _DeltaTime)
 {
 	// Actor의 기준점 가져오기.
@@ -336,7 +337,7 @@ void APlayer::Summon(float _DeltaTime)
 		return;
 	}
 	
-	AddActorLocation(FVector::Down * _DeltaTime * 150.0f);
+	AddActorLocation(FVector::Down * _DeltaTime * 300.0f);
 }
 
 void APlayer::SummonLoop(float _DeltaTime)
@@ -354,6 +355,7 @@ void APlayer::SummonEnd(float _DeltaTime)
 {
 	StateChange(EPlayerState::Idle);
 }
+#pragma endregion
 
 void APlayer::Idle(float _DeltaTime)
 {
