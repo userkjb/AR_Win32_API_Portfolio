@@ -19,6 +19,9 @@
     <Filter Include="Object\Component\Renderer">
       <UniqueIdentifier>{841780ca-2f28-4ec9-aebf-b82f99a1be48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Collision">
+      <UniqueIdentifier>{1008df8d-2bf4-42a1-8124-b8986e10141f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -45,6 +48,9 @@
     <ClCompile Include="ImageRenderer.cpp">
       <Filter>Object\Component\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Object\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -70,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="ImageRenderer.h">
       <Filter>Object\Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Object\Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

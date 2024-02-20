@@ -228,5 +228,5 @@ private :
 
 	bool IsDash = false;
 
-	ABuster* NewBuster = nullptr;
+	//ABuster* NewBuster = nullptr;
 };
