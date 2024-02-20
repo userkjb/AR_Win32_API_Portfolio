@@ -9,11 +9,15 @@ enum class ECollisionType
 	Max,
 };
 
+class CollisionFunctionInit;
+
 /// <summary>
 /// 위치, 크기 class
 /// </summary>
 class FTransform
 {
+	friend CollisionFunctionInit;
+
 private :
 	// Manager를 사용하지 않고 전역으로 사용하기 위한 static
 	static bool (*CollisionFunction[static_cast<int>(ECollisionType::Max)][static_cast<int>(ECollisionType::Max)])(const FTransform& _Left, const FTransform& _Right);
