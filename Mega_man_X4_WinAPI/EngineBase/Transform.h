@@ -1,6 +1,14 @@
 #pragma once
 #include "EngineMath.h"
 
+enum class ECollisionType
+{
+	Point,
+	CirCle,
+	Rect,
+	Max,
+};
+
 /// <summary>
 /// 위치, 크기 class
 /// </summary>
