@@ -57,8 +57,13 @@ bool UCollision::CollisionCheck(int _Order, std::vector<UCollision*>& _Result)
 		FTransform OtherTransform = _OtherCollision->GetActorBaseTransform();
 
 		// 
-		if(true == ThisTransform.Collision())
+		if (true == ThisTransform.Collision(ColType, _OtherCollision->ColType, OtherTransform))
+		{
+			_Result.push_back(_OtherCollision);
+		}
 	}
+
+	return false == _Result.empty();
 }
 
 void UCollision::BeginPlay()
