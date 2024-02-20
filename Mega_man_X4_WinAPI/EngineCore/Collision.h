@@ -24,6 +24,21 @@ class UCollision : public USceneComponent
 	/// <param name="_Order"></param>
 	void SetOrder(int _Order) override;
 
+	/// <summary>
+	/// 다양한 형태의 Collision을 체크해야 하기 때문에 template으로.
+	/// </summary>
+	/// <typeparam name="EnumType"></typeparam>
+	/// <param name="_Order"></param>
+	/// <param name="_Result"></param>
+	/// <returns></returns>
+	template<typename EnumType>
+	bool CollisionCheck(EnumType _Order, std::vector<UCollision*>& _Result)
+	{
+		return CollisionCheck(static_cast<int>(_Order), _Result);
+	}
+
+	bool CollisionCheck(int _Order, std::vector<UCollision*>& _Result);
+
 protected :
 	void BeginPlay() override;
 

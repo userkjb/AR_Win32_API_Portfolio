@@ -27,6 +27,40 @@ void UCollision::SetOrder(int _Order)
 	Collisions[GetOrder()].push_back(this);
 }
 
+bool UCollision::CollisionCheck(int _Order, std::vector<UCollision*>& _Result)
+{
+	if(false == IsActive())
+	{
+		return false;
+	}
+
+	// 나와 특정 개수의 Collision과 충돌해야 한다.
+	AActor* Owner = GetOwner();
+	ULevel* Level = Owner->GetWorld();
+
+	std::list<UCollision*>& Collisions = Level->Collisions[_Order];
+
+	FTransform ThisTransform = GetActorBaseTransform();
+
+	for (UCollision* _OtherCollision : Collisions)
+	{
+		if (this == _OtherCollision)
+		{
+			continue;
+		}
+
+		if (false == _OtherCollision->IsActive())
+		{
+			continue;
+		}
+
+		FTransform OtherTransform = _OtherCollision->GetActorBaseTransform();
+
+		// 
+		if(true == ThisTransform.Collision())
+	}
+}
+
 void UCollision::BeginPlay()
 {
 	USceneComponent::BeginPlay();
