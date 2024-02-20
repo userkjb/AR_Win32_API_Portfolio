@@ -10,8 +10,12 @@
 enum class EPlayerState
 {
 	None,
-	Summons,		// 소환.
-	Comeback,		// 복귀.
+	Summon,			// 소환 이동.(레이저로 내려옴.)
+	SummonLoop,		// 소환 중.(땅에 닿으면 Character로 변화.)
+	SummonEnd,		// 소환 종료.(소환 완료.)
+	Comeback,		// 복귀.(클리어 포즈.)
+	ComebackLeep,	// 복귀 준비.(레이저로 변화.)
+	ComebackEnd,	// 복귀(레이저가 위로 이동.)
 	Idle,			// 기본.
 	Run,			// 움직이기.
 	Jump,			// 점프.
@@ -42,6 +46,7 @@ enum class EActorDir
 /// </summary>
 enum class ERenderOrder
 {
+	None,
 	Map,
 	Player,
 	MapObject,
