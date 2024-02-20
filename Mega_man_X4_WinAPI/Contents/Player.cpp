@@ -20,7 +20,7 @@ void APlayer::BeginPlay()
 	Renderer->SetImage("x_Idle_Right.png");
 	//UWindowImage* Image = Renderer->GetImage();
 	//FVector ImageScale = Image->GetScale();// 200 100
-	Renderer->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
+	Renderer->SetTransform({ {0,0}, {35 * 3, 80 * 3} }); 
 
 
 	// =================================================================

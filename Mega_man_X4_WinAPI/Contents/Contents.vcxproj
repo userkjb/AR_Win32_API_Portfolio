@@ -170,8 +170,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CyberPeacock.h" />
     <ClInclude Include="Buster.h" />
     <ClInclude Include="ContentsGlobalData.h" />
+    <ClInclude Include="CyberSpaceLevel.h" />
+    <ClInclude Include="HoverGunner.h" />
     <ClInclude Include="IntroStageMap.h" />
     <ClInclude Include="BackGroundMap.h" />
     <ClInclude Include="ContentsCore.h">
@@ -180,16 +183,23 @@
     </ClInclude>
     <ClInclude Include="IntroLevel.h" />
     <ClInclude Include="LodingLevel.h" />
+    <ClInclude Include="MiruTorearu.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Protecton.h" />
     <ClInclude Include="SelectPlayerLevel.h" />
+    <ClInclude Include="SpikeMarl.h" />
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TriScan.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CyberPeacock.cpp" />
     <ClCompile Include="Buster.cpp" />
     <ClCompile Include="ContentsGlobalData.cpp" />
+    <ClCompile Include="CyberSpaceLevel.cpp" />
+    <ClCompile Include="HoverGunner.cpp" />
     <ClCompile Include="IntroStageMap.cpp" />
     <ClCompile Include="BackGroundMap.cpp" />
     <ClCompile Include="ContentsCore.cpp">
@@ -198,12 +208,16 @@
     </ClCompile>
     <ClCompile Include="IntroLevel.cpp" />
     <ClCompile Include="LodingLevel.cpp" />
+    <ClCompile Include="MiruTorearu.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Protecton.cpp" />
     <ClCompile Include="SelectPlayerLevel.cpp" />
+    <ClCompile Include="SpikeMarl.cpp" />
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TriScan.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
