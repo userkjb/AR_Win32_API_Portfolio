@@ -14,6 +14,9 @@ enum class ECollisionType
 /// </summary>
 class FTransform
 {
+private :
+	// Manager를 사용하지 않고 전역으로 사용하기 위한 static
+	static bool (*CollisionFunction[static_cast<int>(ECollisionType::Max)][static_cast<int>(ECollisionType::Max)])(const FTransform& _Left, const FTransform& _Right);
 public :
 	FTransform();
 	FTransform(const FVector& _Pos, const FVector& _Scale)
@@ -74,6 +77,10 @@ public :
 	{
 		return static_cast<int>(Bottom());
 	}
+
+
+	// 충돌 여부. - 위치와 크기를 가지고 있기 때문에
+	bool Collision(ECollisionType _ThisType, ECollisionType _OtherType, const FTransform& _Other);
 
 private :
 	FVector Position;
