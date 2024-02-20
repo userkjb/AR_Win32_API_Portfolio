@@ -19,6 +19,8 @@ public:
 	}
 };
 
+CollisionFunctionInit Inst;
+
 
 
 FTransform::FTransform()
