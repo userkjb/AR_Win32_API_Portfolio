@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneComponent.h"
+#include <vector>
 
 class UCollision : public USceneComponent
 {
