@@ -24,7 +24,7 @@ void ABuster::BeginPlay()
 
 	//Renderer->ChangeAnimation("Buster_Default_Right");
 
-	StateChange(EBusterState::None);
+	StateChange(EBusterState::CreateBuster);
 	//Destroy(time);
 }
 

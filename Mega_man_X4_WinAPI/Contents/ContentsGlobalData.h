@@ -33,7 +33,7 @@ enum class EPlayerState
 
 enum class EBusterState
 {
-	None,
+	CreateBuster,
 	Default,
 	MiddleCharge,
 	PullCharge,

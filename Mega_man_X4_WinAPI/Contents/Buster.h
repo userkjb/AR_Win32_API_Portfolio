@@ -34,7 +34,7 @@ protected :
 
 
 	// Buster 상태.
-	EBusterState State = EBusterState::None;
+	EBusterState State = EBusterState::CreateBuster;
 
 	// Render 순서.
 	ERenderOrder Order = ERenderOrder::None;
