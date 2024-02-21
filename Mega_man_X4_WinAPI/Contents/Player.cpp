@@ -386,6 +386,7 @@ void APlayer::SummonLoop(float _DeltaTime)
 void APlayer::SummonEnd(float _DeltaTime)
 {
 	StateChange(EPlayerState::Idle);
+	return;
 }
 #pragma endregion
 
