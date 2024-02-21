@@ -1,11 +1,12 @@
 #include "ContentsCore.h"
-//#include "TitleLevel.h"
-#include "IntroLevel.h"
-#include "TitleLevel.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
 
+//#include "TitleLevel.h"
+#include "IntroLevel.h"
+#include "TitleLevel.h"
+#include "CyberSpaceLevel.h"
 
 ContentsCore::ContentsCore()
 {
@@ -34,8 +35,9 @@ void ContentsCore::BeginPlay()
 	// === Level ===
 	CreateLevel<UTitleLevel>("TitleLevel");
 	CreateLevel<UIntroLevel>("IntroLevel");
+	CreateLevel<UCyberSpaceLevel>("CyberSpaceLevel");
 
-	ChangeLevel("IntroLevel");
+	ChangeLevel("CyberSpaceLevel");
 }
 
 void ContentsCore::Tick(float _DeltaTime)
