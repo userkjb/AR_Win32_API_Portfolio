@@ -371,12 +371,15 @@ void APlayer::Summon(float _DeltaTime)
 
 void APlayer::SummonLoop(float _DeltaTime)
 {
+	DelayTime += _DeltaTime;
 	if (true == Renderer->IsCurAnimationEnd())
 	{
-		// µÙ∑π¿Ã
-		Sleep(500);
-		StateChange(EPlayerState::SummonEnd);
-		return;
+		if (1.5f < DelayTime)
+		{
+			StateChange(EPlayerState::SummonEnd);
+			DelayTime = 0.0f;
+			return;
+		}
 	}
 }
 

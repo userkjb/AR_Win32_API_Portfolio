@@ -35,7 +35,7 @@
       <Filter>02_Actor\Enemies\03_Cyber_Space</Filter>
     </ClInclude>
     <ClInclude Include="CyberSpaceLevel.h">
-      <Filter>01_Level\04_Stage_Level\03_Cyber_Space_Level</Filter>
+      <Filter>01_Level\04_Stages_Level\03_Cyber_Space_Level</Filter>
     </ClInclude>
     <ClInclude Include="CyberPeacock.h">
       <Filter>02_Actor\Bosses\03_Cyber_Peacock</Filter>
@@ -88,7 +88,7 @@
       <Filter>02_Actor\Enemies\03_Cyber_Space</Filter>
     </ClCompile>
     <ClCompile Include="CyberSpaceLevel.cpp">
-      <Filter>01_Level\04_Stage_Level\03_Cyber_Space_Level</Filter>
+      <Filter>01_Level\04_Stages_Level\03_Cyber_Space_Level</Filter>
     </ClCompile>
     <ClCompile Include="CyberPeacock.cpp">
       <Filter>02_Actor\Bosses\03_Cyber_Peacock</Filter>
@@ -152,44 +152,44 @@
     <Filter Include="02_Actor\Character\X_Buster">
       <UniqueIdentifier>{abbb251b-c064-4cd4-9a65-555600527f12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01_Level\04_Stage_Level">
-      <UniqueIdentifier>{232f472f-cc61-4d77-a088-07f90275c1ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01_Level\04_Stage_Level\01_Jungle_Level_X">
-      <UniqueIdentifier>{5dfb84df-b360-4f4b-bb23-0ccbdb1a428a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01_Level\04_Stage_Level\02_Bio_Laboratory_Level_X">
-      <UniqueIdentifier>{833fac92-29f3-4660-8b75-6ee55210e955}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01_Level\04_Stage_Level\04_Air_Force_Level_X">
-      <UniqueIdentifier>{25431e84-d3a1-4c0d-8c4f-60a271f5870b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01_Level\04_Stage_Level\05_Volcano_Level_X">
-      <UniqueIdentifier>{2ff4e462-7a4d-49e1-a1fa-2e543ad01d60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01_Level\04_Stage_Level\06_Snow_Base_Level_X">
-      <UniqueIdentifier>{c7914efa-c95d-4230-b80c-bcba62aea1fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01_Level\04_Stage_Level\07_Marine_Base_Level_X">
-      <UniqueIdentifier>{58718e15-9dc3-4639-a3cf-fe9fd5453e98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01_Level\04_Stage_Level\08_Military_Train_Level_X">
-      <UniqueIdentifier>{f7fc1e95-3639-4c5e-bb18-60471496feac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01_Level\04_Stage_Level\00_Stage_Select_Level_X">
-      <UniqueIdentifier>{b6643657-dda3-4ee1-882d-469dcdbd7846}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02_Actor\Bosses\03_Cyber_Peacock">
       <UniqueIdentifier>{9ddeb58e-38dd-44ae-9cdb-625396612d92}</UniqueIdentifier>
     </Filter>
     <Filter Include="02_Actor\Enemies\03_Cyber_Space">
       <UniqueIdentifier>{3e1e5666-6cad-45ca-9811-3c8f3521365e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01_Level\04_Stage_Level\03_Cyber_Space_Level">
-      <UniqueIdentifier>{e22964ff-cb1f-4d80-a924-53b75cdfd5a7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02_Actor\Map\03_Stage">
       <UniqueIdentifier>{fa29dc26-f233-4304-bdab-62995e6481f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\04_Stages_Level">
+      <UniqueIdentifier>{232f472f-cc61-4d77-a088-07f90275c1ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\04_Stages_Level\01_Jungle_Level_X">
+      <UniqueIdentifier>{5dfb84df-b360-4f4b-bb23-0ccbdb1a428a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\04_Stages_Level\02_Bio_Laboratory_Level_X">
+      <UniqueIdentifier>{833fac92-29f3-4660-8b75-6ee55210e955}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\04_Stages_Level\04_Air_Force_Level_X">
+      <UniqueIdentifier>{25431e84-d3a1-4c0d-8c4f-60a271f5870b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\04_Stages_Level\05_Volcano_Level_X">
+      <UniqueIdentifier>{2ff4e462-7a4d-49e1-a1fa-2e543ad01d60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\04_Stages_Level\06_Snow_Base_Level_X">
+      <UniqueIdentifier>{c7914efa-c95d-4230-b80c-bcba62aea1fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\04_Stages_Level\07_Marine_Base_Level_X">
+      <UniqueIdentifier>{58718e15-9dc3-4639-a3cf-fe9fd5453e98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\04_Stages_Level\08_Military_Train_Level_X">
+      <UniqueIdentifier>{f7fc1e95-3639-4c5e-bb18-60471496feac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\04_Stages_Level\00_Stage_Select_Level_X">
+      <UniqueIdentifier>{b6643657-dda3-4ee1-882d-469dcdbd7846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Level\04_Stages_Level\03_Cyber_Space_Level">
+      <UniqueIdentifier>{e22964ff-cb1f-4d80-a924-53b75cdfd5a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

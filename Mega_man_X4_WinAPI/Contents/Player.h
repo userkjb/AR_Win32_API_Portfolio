@@ -231,6 +231,7 @@ private :
 	float DashTime = 0.0f;
 	float ChargTime = 0.0f;
 	float AttackTime = 0.0f;
+	float DelayTime = 0.0f;
 
 	bool IsDash = false;
 
