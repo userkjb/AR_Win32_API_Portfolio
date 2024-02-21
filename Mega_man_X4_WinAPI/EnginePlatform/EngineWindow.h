@@ -43,6 +43,12 @@ public :
 	void ScreenClear();
 	void ScreenUpdate();
 
+	/// <summary>
+	/// X4 에서 사용 안함.
+	/// </summary>
+	/// <returns></returns>
+	FVector GetMousePosition();
+
 protected :
 
 private :
@@ -54,7 +60,7 @@ private :
 	Color8Bit ClearColor = Color8Bit::WhiteA;
 
 	HWND hWnd = nullptr;
-	HDC hDC = nullptr;
+	//HDC hDC = nullptr;
 
 	// 윈도우와 직접적으로 연결된 DC를 가지고 있는 최종 이미지.
 	UWindowImage* WindowImage = nullptr;

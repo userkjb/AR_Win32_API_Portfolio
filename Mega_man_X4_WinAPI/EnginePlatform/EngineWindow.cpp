@@ -16,8 +16,7 @@ unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)(
 
 	while (WindowLive)
 	{
-		// 기본 메시지 루프입니다:
-		// 10개가 들어있을 
+		// 기본 메시지 루프.
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -29,6 +28,7 @@ unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)(
 			}
 		}
 
+		// 메시지 루프의 '데드 타임' 이라는 곳에서 실행.
 		if (nullptr != _Update)
 		{
 			_Update();
@@ -92,6 +92,15 @@ void UEngineWindow::ScreenUpdate()
 	CopyTrans.SetScale({ Scale.iX(), Scale.iY() });
 
 	WindowImage->BitCopy(BackBufferImage, CopyTrans);
+}
+
+FVector UEngineWindow::GetMousePosition()
+{
+	POINT MousePoint;
+	GetCursorPos(&MousePoint);
+	ScreenToClient(hWnd, &MousePoint);
+
+	return FVector(MousePoint.x, MousePoint.y);
 }
 
 LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -159,7 +168,14 @@ void UEngineWindow::Open(std::string_view _Title)
 
 	RegisterClassExA(&wcex);
 
-	hWnd = CreateWindowA("DefaultWindow", _Title.data(), WS_OVERLAPPEDWINDOW,
+	int Style = WS_OVERLAPPED |
+		WS_CAPTION |
+		WS_SYSMENU |
+		WS_THICKFRAME |
+		WS_MINIMIZEBOX |
+		WS_MAXIMIZEBOX;
+
+	hWnd = CreateWindowA("DefaultWindow", _Title.data(), Style,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
 	if (!hWnd)
@@ -168,8 +184,8 @@ void UEngineWindow::Open(std::string_view _Title)
 		return;
 	}
 
-	//HDC hDC = GetDC(hWnd);
-	hDC = GetDC(hWnd);
+	HDC hDC = GetDC(hWnd);
+	//hDC = GetDC(hWnd);
 
 	if (nullptr == WindowImage)
 	{
