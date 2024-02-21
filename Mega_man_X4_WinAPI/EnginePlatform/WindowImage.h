@@ -59,6 +59,13 @@ public:
 	bool Load(UWindowImage* _Image);
 
 	/// <summary>
+	/// 한 장의 이미지가 아닌 여러장의 이미지들을 하나의 폴더에서 관리하는 경우 사용.
+	/// </summary>
+	/// <param name="_Image"></param>
+	/// <returns></returns>
+	bool LoadFolder(UWindowImage* _Image);
+
+	/// <summary>
 	/// UWindowImage 이미지를 FTransform 이 위치와 크기로 나에게 카피.
 	/// 이미지를 이미지 크기대로 만 그릴 수 있다.
 	/// </summary>

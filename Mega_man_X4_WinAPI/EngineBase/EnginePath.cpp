@@ -50,6 +50,11 @@ void UEnginePath::Move(std::string_view _Path)
 	Path = NextPath;
 }
 
+std::string UEnginePath::AppendPath(std::string_view _Path)
+{
+	return Path.string() + "\\" + std::string(_Path);
+}
+
 std::string UEnginePath::GetFileName() const
 {
 	std::filesystem::path Text = Path.filename();
@@ -62,7 +67,3 @@ std::string UEnginePath::GetExtension() const
 	return Text.string();
 }
 
-std::string UEnginePath::GetFullPath() const
-{
-	return Path.string();
-}
