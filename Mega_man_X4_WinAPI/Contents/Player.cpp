@@ -36,9 +36,6 @@ void APlayer::BeginPlay()
 	// Run
 	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
 	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
-	// Run And Attack
-	Renderer->CreateAnimation("Run_And_Attack_Right", "x_Move_Attack_Right.png", 0, 30, 0.05f, true);
-	Renderer->CreateAnimation("Run_And_Attack_Left", "x_Move_Attack_Left.png", 0, 30, 0.05f, true);
 
 	// Jump
 	Renderer->CreateAnimation("Jump_Start_Right", "x_Jump_Right.png", 0, 7, 0.05f, false);
@@ -49,12 +46,12 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("JumpEnd_Left", "x_Jump_Left.png", 8, 10, 0.005f, false);
 
 	// Attack
-	Renderer->CreateAnimation("Idle_Attack_Right", "x_Idle_Attack_Right.png", 0, 5, 0.05f, false);
-	Renderer->CreateAnimation("Idle_Attack_Left", "x_Idle_Attack_Left.png", 0, 5, 0.05f, false);
-	Renderer->CreateAnimation("Idle_Attack_Wait_Right", "x_Idle_Attack_Right.png", 5, 5, 0.1f, false);
-	Renderer->CreateAnimation("Idle_Attack_Wait_Left", "x_Idle_Attack_Left.png", 5, 5, 0.1f, false);
-	Renderer->CreateAnimation("Idle_Attack_End_Right", "x_Idle_Attack_Right.png", 6, 7, 0.1f, false);
-	Renderer->CreateAnimation("Idle_Attack_End_Left", "x_Idle_Attack_Left.png", 6, 7, 0.1f, false);
+	Renderer->CreateAnimation("Attack_Right", "x_Attack_Right.png", 0, 5, 0.05f, false);
+	Renderer->CreateAnimation("Attack_Left", "x_Attack_Left.png", 0, 5, 0.05f, false);
+	Renderer->CreateAnimation("Attack_Wait_Right", "x_Attack_Right.png", 5, 5, 0.1f, false);
+	Renderer->CreateAnimation("Attack_Wait_Left", "x_Attack_Left.png", 5, 5, 0.1f, false);
+	Renderer->CreateAnimation("Attack_End_Right", "x_Attack_Right.png", 6, 7, 0.1f, false);
+	Renderer->CreateAnimation("Attack_End_Left", "x_Attack_Left.png", 6, 7, 0.1f, false);
 
 	// Dash
 	Renderer->CreateAnimation("Dash_Start_Right", "x_Dash_Right.png", 0, 1, 0.05f, false);
@@ -187,14 +184,14 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::JumpEnd :
 			JumpEndStart();
 			break;
-		case EPlayerState::IdleAttack:
-			IdleAttackStart();
+		case EPlayerState::Attack:
+			AttackStart();
 			break;
-		case EPlayerState::IdleAttackWait:
-			IdleAttackWaitStart();
+		case EPlayerState::AttackWait:
+			AttackWaitStart();
 			break;
-		case EPlayerState::IdleAttackEnd:
-			IdleAttackEndStart();
+		case EPlayerState::AttackEnd:
+			AttackEndStart();
 			break;
 		case EPlayerState::DashStart:
 			DashStart();
@@ -204,9 +201,6 @@ void APlayer::StateChange(EPlayerState _State)
 			break;
 		case EPlayerState::DashEnd:
 			DashEndStart();
-			break;
-		case EPlayerState::RunAndAttack:
-			RunAndAttackStart();
 			break;
 		default :
 			break;
@@ -244,14 +238,14 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 	case EPlayerState::JumpEnd :
 		JumpEnd(_DeltaTime);
 		break;
-	case EPlayerState::IdleAttack :
-		IdleAttack(_DeltaTime);
+	case EPlayerState::Attack :
+		Attack(_DeltaTime);
 		break;
-	case EPlayerState::IdleAttackWait :
-		IdleAttackWait(_DeltaTime);
+	case EPlayerState::AttackWait :
+		AttackWait(_DeltaTime);
 		break;
-	case EPlayerState::IdleAttackEnd :
-		IdleAttackEnd(_DeltaTime);
+	case EPlayerState::AttackEnd :
+		AttackEnd(_DeltaTime);
 		break;
 	case EPlayerState::DashStart:
 		Dash(_DeltaTime);
@@ -261,9 +255,6 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 		break;
 	case EPlayerState::DashEnd:
 		DashEnd(_DeltaTime);
-		break;
-	case EPlayerState::RunAndAttack:
-		RunAndAttack(_DeltaTime);
 		break;
 	default :
 		break;
@@ -319,19 +310,19 @@ void APlayer::JumpEndStart()
 	Renderer->ChangeAnimation(GetAnimationName("JumpEnd"));
 }
 
-void APlayer::IdleAttackStart()
+void APlayer::AttackStart()
 {
-	Renderer->ChangeAnimation(GetAnimationName("Idle_Attack"));
+	Renderer->ChangeAnimation(GetAnimationName("Attack"));
 }
 
-void APlayer::IdleAttackWaitStart()
+void APlayer::AttackWaitStart()
 {
-	Renderer->ChangeAnimation(GetAnimationName("Idle_Attack_Wait"));
+	Renderer->ChangeAnimation(GetAnimationName("Attack_Wait"));
 }
 
-void APlayer::IdleAttackEndStart()
+void APlayer::AttackEndStart()
 {
-	Renderer->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
+	Renderer->ChangeAnimation(GetAnimationName("Attack_End"));
 }
 void APlayer::DashStart()
 {
@@ -344,12 +335,6 @@ void APlayer::DashLoopStart()
 void APlayer::DashEndStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Dash_End"));
-}
-
-void APlayer::RunAndAttackStart()
-{
-	Renderer->ChangeAnimation(GetAnimationName("Run_And_Attack"));
-	DirCheck();
 }
 
 #pragma endregion
@@ -401,10 +386,6 @@ void APlayer::Idle(float _DeltaTime)
 		StateChange(EPlayerState::Run);
 		return;
 	}
-	//if (true == UEngineInput::IsUp('Z') || true == UEngineInput::IsFree('Z'))
-	//{
-	//	IsDash = false;
-	//}
 
 	// Jump
 	if (true == UEngineInput::IsDown('C'))
@@ -416,12 +397,11 @@ void APlayer::Idle(float _DeltaTime)
 	// Idle Attack
 	if (true == UEngineInput::IsDown('X'))
 	{
-		StateChange(EPlayerState::IdleAttack);
+		StateChange(EPlayerState::Attack);
 		return;
 	}
 
 	// Dash
-	//if (true == UEngineInput::IsDown('Z') && IsDash == false)
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		//IsDash = true;
@@ -476,7 +456,7 @@ void APlayer::Run(float _DeltaTime)
 	// Attack
 	if (true == UEngineInput::IsDown('X'))
 	{
-		StateChange(EPlayerState::RunAndAttack);
+		StateChange(EPlayerState::Attack);
 		return;
 	}
 
@@ -549,7 +529,7 @@ void APlayer::JumpEnd(float _DeltaTime)
 
 #pragma region Attack Function
 
-void APlayer::IdleAttack(float _DeltaTime)
+void APlayer::Attack(float _DeltaTime)
 {
 	/*
 	* 1. Buster 발싸.
@@ -575,29 +555,29 @@ void APlayer::IdleAttack(float _DeltaTime)
 
 	if (true == Renderer->IsCurAnimationEnd())
 	{
-		StateChange(EPlayerState::IdleAttackWait);
+		StateChange(EPlayerState::AttackWait);
 		return;
 	}
 }
 
-void APlayer::IdleAttackWait(float _DeltaTime)
+void APlayer::AttackWait(float _DeltaTime)
 {
 	AttackTime += UEngineInput::GetPressTime('X');
 
 	if (true == UEngineInput::IsDown('X'))
 	{
-		StateChange(EPlayerState::IdleAttack);
+		StateChange(EPlayerState::Attack);
 		return;
 	}
 	else
 	{
 		//딜레이가 좀 있어야 함.
-		StateChange(EPlayerState::IdleAttackEnd);
+		StateChange(EPlayerState::AttackEnd);
 		return;
 	}
 }
 
-void APlayer::IdleAttackEnd(float _DeltaTime)
+void APlayer::AttackEnd(float _DeltaTime)
 {
 	// Wait의 일정 시간이 지난 후...
 	if (true == Renderer->IsCurAnimationEnd())
@@ -688,35 +668,6 @@ void APlayer::DashEnd(float _DeltaTime)
 	return;
 }
 #pragma endregion
-
-void APlayer::RunAndAttack(float _DeltaTime)
-{
-	DirCheck();
-
-	// 키보드 입력
-	if (true == UEngineInput::IsPress(VK_LEFT))
-	{
-		AddMoveVector(FVector::Left * MoveSpeed);
-	}
-
-	if (true == UEngineInput::IsPress(VK_RIGHT))
-	{
-		AddMoveVector(FVector::Right * MoveSpeed);
-	}
-
-	// 방향키를 땠을 때,
-	if (true == UEngineInput::IsFree(VK_LEFT) &&
-		true == UEngineInput::IsFree(VK_RIGHT) &&
-		true == UEngineInput::IsFree(VK_UP) &&
-		true == UEngineInput::IsFree(VK_DOWN))
-	{
-		StateChange(EPlayerState::IdleAttack);
-		return;
-	}
-	
-	// 추가적인 x키 입력이 없을 때,
-
-}
 
 
 // ==== Vector ====

@@ -55,13 +55,12 @@ protected:
 	void JumpStart();
 	void SkyStart();
 	void JumpEndStart();
-	void IdleAttackStart();
-	void IdleAttackWaitStart();
-	void IdleAttackEndStart();
+	void AttackStart();
+	void AttackWaitStart();
+	void AttackEndStart();
 	void DashStart();
 	void DashLoopStart();
 	void DashEndStart();
-	void RunAndAttackStart();
 
 	// 상태 함수들
 
@@ -111,19 +110,19 @@ protected:
 	/// 공격 함수.
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
-	void IdleAttack(float _DeltaTime);
+	void Attack(float _DeltaTime);
 
 	/// <summary>
 	/// 공격 후 대기 함수.
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
-	void IdleAttackWait(float _DeltaTime);
+	void AttackWait(float _DeltaTime);
 
 	/// <summary>
 	/// 공격 종료 함수.
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
-	void IdleAttackEnd(float _DeltaTime);
+	void AttackEnd(float _DeltaTime);
 
 	/// <summary>
 	/// DastStart Function
@@ -137,8 +136,6 @@ protected:
 
 	void DashEnd(float _DeltaTime);
 
-
-	void RunAndAttack(float _DeltaTime);
 
 	// ==========================================
 
