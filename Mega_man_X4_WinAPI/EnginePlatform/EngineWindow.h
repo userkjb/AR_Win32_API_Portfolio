@@ -43,11 +43,27 @@ public :
 	void ScreenClear();
 	void ScreenUpdate();
 
+	FVector GetWindowScale()
+	{
+		return Scale;
+	}
+
+	void SetClearColor(Color8Bit _Color)
+	{
+		_Color.A = 0;
+		ClearColor = _Color;
+	}
+
 	/// <summary>
 	/// X4 에서 사용 안함.
 	/// </summary>
 	/// <returns></returns>
 	FVector GetMousePosition();
+
+	void Off()
+	{
+		WindowLive = false;
+	}
 
 protected :
 
