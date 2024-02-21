@@ -37,10 +37,18 @@ void UImageRenderer::SetOrder(int _Order)
 /// UEngineResourcesManager에서 이미지를 찾아 가져온다.
 /// </summary>
 /// <param name="_Name">이미지 이름</param>
-/// <param name="_InfoIndex">렌더 순서</param>
+/// <param name="_InfoIndex">순서 기본값 0</param>
 void UImageRenderer::SetImage(std::string_view _Name, int _InfoIndex)
 {
 	Image = UEngineResourcesManager::GetInst().FindImg(_Name);
+
+	if (nullptr == Image)
+	{
+		MsgBoxAssert(std::string(_Name) + "이미지가 존재하지 않습니다.");
+		return;
+	}
+
+	InfoIndex = _InfoIndex;
 }
 
 void UImageRenderer::Render(float _DeltaTime)
