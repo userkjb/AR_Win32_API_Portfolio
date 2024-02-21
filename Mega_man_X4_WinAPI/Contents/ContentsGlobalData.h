@@ -31,6 +31,14 @@ enum class EPlayerState
 	//Hit,
 };
 
+enum class EBusterState
+{
+	None,
+	Default,
+	MiddleCharge,
+	PullCharge,
+};
+
 /// <summary>
 /// Actor¿« πÊ«‚.
 /// </summary>
@@ -49,6 +57,7 @@ enum class ERenderOrder
 	Map,
 	Player,
 	MapObject,
+	Buster,
 };
 
 

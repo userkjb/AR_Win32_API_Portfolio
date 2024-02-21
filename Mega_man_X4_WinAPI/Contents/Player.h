@@ -2,6 +2,8 @@
 #include <EngineCore/Actor.h>
 #include "ContentsGlobalData.h"
 
+class ABuster;
+
 class APlayer : public AActor
 {
 public:
@@ -233,5 +235,5 @@ private :
 	float AttackTime = 0.0f;
 	float DelayTime = 0.0f;
 
-	//ABuster* NewBuster = nullptr;
+	ABuster* DefaultBuster = nullptr;
 };

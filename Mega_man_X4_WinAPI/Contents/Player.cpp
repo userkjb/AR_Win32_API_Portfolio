@@ -538,20 +538,20 @@ void APlayer::Attack(float _DeltaTime)
 	*/
 
 
-	// Buster Actor 생성. -> Actor 자체는 그냥 Player가 만들어 질 때 만들기?
+	// Buster Actor 생성.
 	
-	//NewBuster = GetWorld()->SpawnActor<ABuster>();
-	//NewBuster->SetActorLocation(GetActorLocation());
+	DefaultBuster = GetWorld()->SpawnActor<ABuster>();
+	DefaultBuster->SetActorLocation(GetActorLocation());
 
-	//if (DirState == EActorDir::Right)
-	//{
-	//	NewBuster->SetDir(FVector::Right);
-	//}
-	//else
-	//{
-	//	NewBuster->SetDir(FVector::Left);
-	//}
-	//NewBuster->Destroy(2.0f); // test
+	if (DirState == EActorDir::Right)
+	{
+		DefaultBuster->SetDir(FVector::Right);
+	}
+	else
+	{
+		DefaultBuster->SetDir(FVector::Left);
+	}
+
 
 	if (true == Renderer->IsCurAnimationEnd())
 	{

@@ -1,5 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include "ContentsGlobalData.h"
+
 
 class ABuster : public AActor
 {
@@ -22,6 +24,20 @@ public :
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
+	void StateChange(EBusterState _State);
+
+	void StateUpdate(float _DeltaTime);
+
+	// 상태 시작 함수.
+	void DefaultBusterStart();
+
+
+	// Buster 상태.
+	EBusterState State = EBusterState::None;
+
+	// Render 순서.
+	ERenderOrder Order = ERenderOrder::None;
 
 private :
 	FVector Dir = FVector::Zero;
