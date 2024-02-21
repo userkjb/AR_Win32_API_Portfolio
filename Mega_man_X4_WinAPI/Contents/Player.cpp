@@ -536,6 +536,7 @@ void APlayer::Sky(float _DeltaTime)
 
 void APlayer::JumpEnd(float _DeltaTime)
 {
+	DashVector = float4::Zero;
 	if (true == Renderer->IsCurAnimationEnd())
 	{
 		StateChange(EPlayerState::Idle);
@@ -631,7 +632,6 @@ void APlayer::DashLoop(float _DeltaTime)
 {
 	DashTime += UEngineInput::GetPressTime('Z');
 
-	DirCheck();
 	// Idle to Dash
 	if (true == UEngineInput::IsFree(VK_RIGHT) || true == UEngineInput::IsFree(VK_LEFT))
 	{
@@ -659,7 +659,7 @@ void APlayer::DashLoop(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 
 	// มกวม
-	if (true == UEngineInput::IsPress('C'))
+	if (true == UEngineInput::IsDown('C'))
 	{
 		StateChange(EPlayerState::Jump);
 		return;

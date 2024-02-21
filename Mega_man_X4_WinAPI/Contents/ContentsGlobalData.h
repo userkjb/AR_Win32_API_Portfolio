@@ -29,6 +29,7 @@ enum class EPlayerState
 	DashEnd,		// 대쉬 종료.
 	Charge,			// 차지.
 	RunAndAttack,	// 움직이는 중 공격.
+	DashAndAttack,	// 대쉬 중 공격.
 	//Hit,
 };
 
