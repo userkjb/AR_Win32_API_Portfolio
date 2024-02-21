@@ -35,7 +35,7 @@ void APlayer::BeginPlay()
 
 	// Run
 	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
-	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true); // 이미지 이상함 TODO
+	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
 	// Run And Attack
 	Renderer->CreateAnimation("Run_And_Attack_Right", "x_Move_Attack_Right.png", 0, 30, 0.05f, true);
 	Renderer->CreateAnimation("Run_And_Attack_Left", "x_Move_Attack_Left.png", 0, 30, 0.05f, true);
@@ -114,9 +114,11 @@ void APlayer::DirCheck()
 		Dir = EActorDir::Right;
 	}
 
-	// 이전 방향과 다르다면,
+	// 이전 방향과 다르다면, 
 	if(Dir != DirState)
 	{
+		// 현재 애니메이션에서 반대되는 애니메이션으로 바꿔줘야 한다.
+		
 		DirState = Dir;
 
 		// Animation을 바꿔줘야 한다.
@@ -399,10 +401,10 @@ void APlayer::Idle(float _DeltaTime)
 		StateChange(EPlayerState::Run);
 		return;
 	}
-	if (true == UEngineInput::IsUp('Z') || true == UEngineInput::IsFree('Z'))
-	{
-		IsDash = false;
-	}
+	//if (true == UEngineInput::IsUp('Z') || true == UEngineInput::IsFree('Z'))
+	//{
+	//	IsDash = false;
+	//}
 
 	// Jump
 	if (true == UEngineInput::IsDown('C'))
@@ -419,9 +421,10 @@ void APlayer::Idle(float _DeltaTime)
 	}
 
 	// Dash
-	if (true == UEngineInput::IsPress('Z') && IsDash == false)
+	//if (true == UEngineInput::IsDown('Z') && IsDash == false)
+	if (true == UEngineInput::IsDown('Z'))
 	{
-		IsDash = true;
+		//IsDash = true;
 		StateChange(EPlayerState::DashStart);
 		return;
 	}
@@ -455,37 +458,27 @@ void APlayer::Run(float _DeltaTime)
 		AddMoveVector(FVector::Right * MoveSpeed);
 	}
 
-	// Run 중에 Jump
-	if (true == UEngineInput::IsUp('Z') || true == UEngineInput::IsFree('Z'))
+	
+
+	if (true == UEngineInput::IsDown('Z'))
 	{
-		IsDash = false;
-	}
-	if (true == UEngineInput::IsPress('Z') && IsDash == false)
-	{
-		IsDash = true;
 		StateChange(EPlayerState::DashStart);
 		return;
 	}
 
-
+	// Jump
 	if (true == UEngineInput::IsDown('C'))
 	{
 		StateChange(EPlayerState::Jump);
 		return;
 	}
 
-	// 공격
-	if (true == UEngineInput::IsPress('X'))
+	// Attack
+	if (true == UEngineInput::IsDown('X'))
 	{
 		StateChange(EPlayerState::RunAndAttack);
 		return;
 	}
-
-	// 대쉬
-	//if (true == UEngineInput::IsPress('Z'))
-	//{
-	//	StateChange(EPlayerState::DashStart);
-	//}
 
 	MoveUpdate(_DeltaTime);
 }
@@ -619,41 +612,14 @@ void APlayer::IdleAttackEnd(float _DeltaTime)
 
 void APlayer::Dash(float _DeltaTime)
 {
-	DashTime += UEngineInput::GetPressTime('Z');
-
-	if (DirState == EActorDir::Right)
-	{
-		AddMoveVector(FVector::Right * MoveSpeed * DashSpeed);
-
-		// 반대 방향키 대응. TODO
-	}
-	else if (DirState == EActorDir::Left)
-	{
-		AddMoveVector(FVector::Left * MoveSpeed * DashSpeed);
-
-		// 반대 방향키 대응. TODO
-	}
-
 	if (true == UEngineInput::IsFree('Z'))
 	{
 		StateChange(EPlayerState::DashEnd);
 		return;
 	}
 	
-	MoveUpdate(_DeltaTime);
-
-	// 점프
-	if (true == UEngineInput::IsDown('C'))
-	{
-		StateChange(EPlayerState::Jump);
-		return;
-	}
-
-	// 어택
-
-	
-	// 누른 시간이 x초 이상이면,
-	if (0.05f <= DashTime)
+	// Down 처리는 했는데 Press 상태이면 넘김.
+	if (true == UEngineInput::IsPress('Z'))
 	{
 		DashTime = 0.0f;
 		StateChange(EPlayerState::DashLoop);
@@ -665,6 +631,33 @@ void APlayer::DashLoop(float _DeltaTime)
 {
 	DashTime += UEngineInput::GetPressTime('Z');
 
+	DirCheck();
+	// Idle to Dash
+	if (true == UEngineInput::IsFree(VK_RIGHT) || true == UEngineInput::IsFree(VK_LEFT))
+	{
+		if (DirState == EActorDir::Right)
+		{
+			DashVector = FVector::Right * MoveSpeed * DashSpeed;
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			DashVector = FVector::Left * MoveSpeed * DashSpeed;
+		}
+	}
+
+
+	// Run to Dash
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+	}
+	else if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
 	// 점프
 	if (true == UEngineInput::IsPress('C'))
 	{
@@ -674,19 +667,23 @@ void APlayer::DashLoop(float _DeltaTime)
 
 	// 어택.
 
-	if (0.5f <= DashTime || true == UEngineInput::IsFree('Z'))
+
+
+
+
+
+	if (0.5f <= DashTime || true == UEngineInput::IsFree('Z') || true == UEngineInput::IsUp('Z'))
 	{
+		DashTime = 0.0f;
 		StateChange(EPlayerState::DashEnd);
 		return;
 	}
-
-
-	MoveUpdate(_DeltaTime);
 }
 
 void APlayer::DashEnd(float _DeltaTime)
 {
 	DashTime = 0.0f;
+	DashVector = float4::Zero;
 	StateChange(EPlayerState::Idle);
 	return;
 }
@@ -735,6 +732,7 @@ void APlayer::CalLastMoveVector()
 	LastMoveVector = LastMoveVector + RunVector;
 	LastMoveVector = LastMoveVector + JumpVector;
 	LastMoveVector = LastMoveVector + GravityVector;
+	LastMoveVector = LastMoveVector + DashVector;
 	LastMoveVector + JumpVector;
 }
 

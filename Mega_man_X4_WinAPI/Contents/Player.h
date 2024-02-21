@@ -155,7 +155,7 @@ protected:
 private :
 
 	/// <summary>
-	/// 기존 BeginPlay 함수가 너무 길어져서 Charge 관련 설정들을 따로 뺌.
+	/// 기존 BeginPlay 함수가 너무 길어져서 Charge(차지) 관련 설정들을 따로 뺌.
 	/// </summary>
 	void ChargeBeginPlay();
 
@@ -203,11 +203,14 @@ private :
 	// ==========================================
 
 	UImageRenderer* Renderer = nullptr;
+	UImageRenderer* Busterflash = nullptr;
 	UImageRenderer* ChargeRender_1 = nullptr;
 	UImageRenderer* ChargeRender_2 = nullptr;
 
-	// 최종 속력
-	FVector RunVector = FVector::Zero;	
+	// Run Vector
+	FVector RunVector = FVector::Zero;
+
+	FVector DashVector = FVector::Zero;
 
 	// 중력 가속도(500.0f)
 	FVector GravityAcc = FVector::Down * 1000.0f;
@@ -232,8 +235,6 @@ private :
 	float ChargTime = 0.0f;
 	float AttackTime = 0.0f;
 	float DelayTime = 0.0f;
-
-	bool IsDash = false;
 
 	//ABuster* NewBuster = nullptr;
 };
