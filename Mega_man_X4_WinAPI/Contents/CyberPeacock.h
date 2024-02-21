@@ -1,6 +1,9 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+/// <summary>
+/// 사이버 공작.
+/// </summary>
 class ACyberPeacock : public AActor
 {
 public :
@@ -13,9 +16,12 @@ public :
 	ACyberPeacock(ACyberPeacock&& _Other) noexcept = delete;
 	ACyberPeacock& operator=(const ACyberPeacock& _Other) = delete;
 	ACyberPeacock& operator=(ACyberPeacock&& _Other) noexcept = delete;
-};
 
-// Hp = 48
+protected :
+
+private :
+	int Hp = 48;
+};
 
 
 /* Attack
