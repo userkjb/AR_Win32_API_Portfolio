@@ -2,6 +2,7 @@
 #include <EngineCore/Level.h>
 
 class ACyberSpaceMap;
+class APlayer;
 
 class UCyberSpaceLevel : public ULevel
 {
@@ -24,5 +25,6 @@ protected :
 
 private :
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
+	APlayer* NewPlayer = nullptr;
 };
 

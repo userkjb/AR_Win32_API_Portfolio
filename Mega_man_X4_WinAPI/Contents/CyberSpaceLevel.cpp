@@ -31,11 +31,12 @@ void UCyberSpaceLevel::BeginPlay()
 
 	// Map
 	CyberSpaceMap = SpawnActor<ACyberSpaceMap>();
+	CyberSpaceMap->SetActorLocation({ 0, 0 });
 	CyberSpaceMap->SetMapImage("CyberPeacock-Area1-1.png");
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
 
-	APlayer* NewPlayer = SpawnActor<APlayer>();
-	NewPlayer->SetActorLocation({ 0, 0 }); // 400 이 센터.
+	NewPlayer = SpawnActor<APlayer>();
+	NewPlayer->SetActorLocation({ 400, 0 }); // 400 이 센터.
 }
 
 void UCyberSpaceLevel::Tick(float _DeltaTime)
