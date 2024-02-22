@@ -26,6 +26,8 @@ void ContentsCore::BeginPlay()
 	//MainWindow.SetWindowScale({ 256 * 4, 240 * 4 });
 	MainWindow.SetWindowPosition({ 500, 100 }); // 윈도우에서 출력 위치.
 	MainWindow.SetWindowScale({ 800, 600 }); // 해상도
+	//MainWindow.SetWindowPosition({ 0, 0 }); // 윈도우에서 출력 위치.
+	//MainWindow.SetWindowScale({ 1920, 1080 }); // 해상도
 
 	// 부모 BeginPlay.
 	UEngineCore::BeginPlay();
