@@ -79,6 +79,11 @@ void UEngineCore::CoreTick()
 		DeltaTime = FrameTime;
 	}
 
+	if (1.0f / 60.0f <= DeltaTime)
+	{
+		DeltaTime = 1.0f / 60.0f;
+	}
+
 	UEngineInput::KeyCheckTick(DeltaTime);
 
 	// 한 프레임 동안 레벨이 절대 변하지 않고,
@@ -97,6 +102,8 @@ void UEngineCore::CoreTick()
 		NextLevel->LevelStart(CurLevel);
 		CurLevel = NextLevel;
 		NextLevel = nullptr;
+		MainTimer.TimeCheckStart();
+		DeltaTime = MainTimer.TimeCheck();
 	}
 
 	if (nullptr == GEngine->CurLevel)
