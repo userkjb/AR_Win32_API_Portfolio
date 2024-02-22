@@ -55,7 +55,7 @@ public :
 	}
 
 	/// <summary>
-	/// X4 에서 사용 안함.
+	/// X4 에서 사용 안함. 좌표 확인용으로 사용.
 	/// </summary>
 	/// <returns></returns>
 	FVector GetMousePosition();
