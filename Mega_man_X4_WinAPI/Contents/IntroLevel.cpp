@@ -77,8 +77,8 @@ void UIntroLevel::BeginPlay()
 
 
 	// Player
-	APlayer* NewPlayer = SpawnActor<APlayer>();
-	NewPlayer->SetActorLocation({ 400, 0 }); // 400 이 센터.
+	//APlayer* NewPlayer = SpawnActor<APlayer>();
+	//NewPlayer->SetActorLocation({ 400, 0 }); // 400 이 센터.
 
 	// Enemy
 
