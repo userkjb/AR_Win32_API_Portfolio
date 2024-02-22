@@ -26,6 +26,8 @@ void ABuster::BeginPlay()
 
 	StateChange(EBusterState::CreateBuster);
 	//Destroy(time);
+
+	//BusterCollision = CreateCollision
 }
 
 void ABuster::Tick(float _DeltaTime)

@@ -40,7 +40,8 @@ protected :
 	ERenderOrder Order = ERenderOrder::None;
 
 private :
-	FVector Dir = FVector::Zero;
-	float BusterSpeed = 1.0f;
+	FVector Dir = FVector::Zero; // 날아가는 방향
+	float BusterSpeed = 1.0f;	 // 발사 속도
+	UCollision* BusterCollision = nullptr;
 };
 
