@@ -10,3 +10,8 @@ UContentsGlobalData::UContentsGlobalData()
 UContentsGlobalData::~UContentsGlobalData()
 {
 }
+
+FVector UContentsGlobalData::GetMousePos()
+{
+	return GEngine->MainWindow.GetMousePosition();
+}

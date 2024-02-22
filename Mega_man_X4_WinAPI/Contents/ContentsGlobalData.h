@@ -66,6 +66,8 @@ class UContentsGlobalData
 public :
 	static UWindowImage* ColMapImage;
 
+	static FVector GetMousePos();
+
 private :
 	UContentsGlobalData();
 	~UContentsGlobalData();
