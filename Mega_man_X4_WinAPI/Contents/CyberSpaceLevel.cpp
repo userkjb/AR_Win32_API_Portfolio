@@ -33,6 +33,9 @@ void UCyberSpaceLevel::BeginPlay()
 	CyberSpaceMap = SpawnActor<ACyberSpaceMap>();
 	CyberSpaceMap->SetMapImage("CyberPeacock-Area1-1.png");
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
+
+	APlayer* NewPlayer = SpawnActor<APlayer>();
+	NewPlayer->SetActorLocation({ 0, 0 }); // 400 ¿Ã ºæ≈Õ.
 }
 
 void UCyberSpaceLevel::Tick(float _DeltaTime)
