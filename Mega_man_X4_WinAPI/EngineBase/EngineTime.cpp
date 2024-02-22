@@ -1,4 +1,5 @@
 #include "EngineTime.h"
+#include <Windows.h>
 
 EngineTime::EngineTime()
 {
@@ -13,10 +14,11 @@ void EngineTime::TimeCheckStart()
 {
 	// 초당 샐 수 있는 값
 	QueryPerformanceFrequency(&Count);
-	dCount = static_cast<double>(Count.QuadPart);
-
+	
 	// 호출 기준 현재 까지 샌 값
 	QueryPerformanceCounter(&PrevTime);
+
+	dCount = static_cast<double>(Count.QuadPart);
 }
 
 float EngineTime::TimeCheck()
