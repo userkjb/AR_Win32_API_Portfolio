@@ -44,8 +44,8 @@ void ACyberSpaceMap::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	MapRenderer = CreateImageRenderer(1);
-	ColRenderer = CreateImageRenderer(0);
+	MapRenderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Map));
+	ColRenderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Map));
 	ColRenderer->SetActive(false);
 }
 
