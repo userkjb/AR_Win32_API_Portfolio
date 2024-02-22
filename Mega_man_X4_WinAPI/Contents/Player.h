@@ -209,6 +209,7 @@ private :
 	// Run Vector
 	FVector RunVector = FVector::Zero;
 
+	// 대쉬
 	FVector DashVector = FVector::Zero;
 
 	// 중력 가속도(500.0f)
@@ -219,6 +220,9 @@ private :
 	// 점프 파워
 	FVector JumpPower = FVector::Up * 450.0f;
 	FVector JumpVector = FVector::Zero;
+
+	// 소환 속도
+	FVector SummonVector = FVector::Zero;
 
 	// 모든 Vector들을 함한 Vector
 	FVector LastMoveVector = FVector::Zero;

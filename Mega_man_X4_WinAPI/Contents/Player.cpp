@@ -15,7 +15,6 @@ void APlayer::BeginPlay()
 	AActor::BeginPlay();
 
 	ChargeBeginPlay();
-
 	Renderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
 	Renderer->SetImage("x_Idle_Right.png");
 	//UWindowImage* Image = Renderer->GetImage();
@@ -26,8 +25,8 @@ void APlayer::BeginPlay()
 	// =================================================================
 
 	// Start Animation
-	Renderer->CreateAnimation("Summon", "x_Start.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("Summon_Loop", "x_Start.png", 1, 16, 0.07f, false); // 이미지 이상함 TODO
+	Renderer->CreateAnimation("Summon_Right", "x_Start.png", 0, 0, 0.1f, true);
+	Renderer->CreateAnimation("Summon_Loop_Right", "x_Start.png", 1, 16, 0.07f, false); // 이미지 이상함 TODO
 
 	// Idle
 	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
@@ -61,7 +60,7 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Dash_End_Right", "x_Dash_Right.png", 4, 7, 0.05f, false);
 	Renderer->CreateAnimation("Dash_End_Left", "x_Dash_Left.png", 4, 7, 0.05f, false);
 
-	Renderer->ChangeAnimation("Summon");
+	Renderer->ChangeAnimation(GetAnimationName("Summon"));
 
 	StateChange(EPlayerState::Summon);
 }
@@ -267,12 +266,12 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 
 void APlayer::SummonStart()
 {
-	Renderer->ChangeAnimation("Summon");
+	Renderer->ChangeAnimation(GetAnimationName("Summon"));
 }
 
 void APlayer::SummonLoopStart()
 {
-	Renderer->ChangeAnimation("Summon_Loop");
+	Renderer->ChangeAnimation(GetAnimationName("Summon_Loop"));
 }
 
 void APlayer::SummonEndStart()
@@ -344,16 +343,18 @@ void APlayer::DashEndStart()
 #pragma region Summon Funcion
 void APlayer::Summon(float _DeltaTime)
 {
+	SummonVector = FVector::Down * 500.0f;
+	MoveUpdate(_DeltaTime);
+
 	// Actor의 기준점 가져오기.
-	FVector CheckPos = this->GetActorLocation();
+	FVector CheckPos = GetActorLocation();
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
+		SummonVector = FVector::Zero;
 		StateChange(EPlayerState::SummonLoop);
 		return;
 	}
-	
-	AddActorLocation(FVector::Down * _DeltaTime * 500.0f);
 }
 
 void APlayer::SummonLoop(float _DeltaTime)
@@ -430,12 +431,12 @@ void APlayer::Run(float _DeltaTime)
 	// 키보드 입력
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
-		AddMoveVector(FVector::Left * MoveSpeed);
+		RunVector = FVector::Left * MoveSpeed;
 	}
 
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		AddMoveVector(FVector::Right * MoveSpeed);
+		RunVector = FVector::Right * MoveSpeed;
 	}
 
 	
@@ -471,11 +472,11 @@ void APlayer::Jump(float _DeltaTime)
 
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
-		AddMoveVector(FVector::Left * MoveSpeed);
+		RunVector = FVector::Left * MoveSpeed;
 	}
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		AddMoveVector(FVector::Right * MoveSpeed);
+		RunVector = FVector::Right * MoveSpeed;
 	}
 	// 공격 추가 예정
 
@@ -494,11 +495,11 @@ void APlayer::Sky(float _DeltaTime)
 
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
-		AddMoveVector(FVector::Left * MoveSpeed);
+		RunVector = FVector::Left * MoveSpeed;
 	}
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		AddMoveVector(FVector::Right * MoveSpeed);
+		RunVector = FVector::Right * MoveSpeed;
 	}
 	// 공격 추가 예정
 
@@ -684,6 +685,7 @@ void APlayer::CalLastMoveVector()
 	LastMoveVector = LastMoveVector + JumpVector;
 	LastMoveVector = LastMoveVector + GravityVector;
 	LastMoveVector = LastMoveVector + DashVector;
+	LastMoveVector = LastMoveVector + SummonVector;
 	LastMoveVector + JumpVector;
 }
 
@@ -713,7 +715,7 @@ void APlayer::CalMoveVector()
 	{
 		RunVector = FVector::Zero;
 	}
-
+	
 
 	// 키보드 입력이 없으면 속도를 Zero로.
 	if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT) &&
@@ -732,12 +734,16 @@ void APlayer::CalGravityVector(float _DeltaTime)
 	{
 		GravityVector = FVector::Zero;
 	}
+	if (State == EPlayerState::Summon)
+	{
+		GravityVector = FVector::Zero;
+	}
 }
 
 void APlayer::MoveLastMoveVector(float _DeltaTime)
 {
 	// 카메라 추가.
-	MoveCameraVector();	
+	MoveCameraVector();
 
 	AActor::AddActorLocation(LastMoveVector * _DeltaTime);
 }
