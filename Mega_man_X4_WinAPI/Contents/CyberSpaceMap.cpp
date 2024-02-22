@@ -26,6 +26,20 @@ void ACyberSpaceMap::SetColMapImage(std::string_view _MapImageName)
 	ColRenderer->SetTransform({ ImageScale.Half2D(), ImageScale });
 }
 
+void ACyberSpaceMap::SwitchDebug()
+{
+	if (true == MapRenderer->IsActive())
+	{
+		MapRenderer->SetActive(false);
+		ColRenderer->SetActive(true);
+	}
+	else
+	{
+		MapRenderer->SetActive(true);
+		ColRenderer->SetActive(false);
+	}
+}
+
 void ACyberSpaceMap::BeginPlay()
 {
 	AActor::BeginPlay();
@@ -38,4 +52,9 @@ void ACyberSpaceMap::BeginPlay()
 void ACyberSpaceMap::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	if (true == UEngineInput::IsDown('O'))
+	{
+		SwitchDebug();
+	}
 }

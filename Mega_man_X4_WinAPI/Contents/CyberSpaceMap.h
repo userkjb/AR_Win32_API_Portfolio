@@ -20,6 +20,8 @@ public :
 	void SetColMapImage(std::string_view _MapImageName);
 
 
+	void SwitchDebug();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
