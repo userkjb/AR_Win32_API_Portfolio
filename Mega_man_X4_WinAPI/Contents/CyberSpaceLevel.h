@@ -5,6 +5,7 @@ class ACyberSpaceMap;
 
 class UCyberSpaceLevel : public ULevel
 {
+public :
 	// constrcuter destructer
 	UCyberSpaceLevel();
 	~UCyberSpaceLevel();

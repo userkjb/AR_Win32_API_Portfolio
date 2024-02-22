@@ -17,12 +17,22 @@ void UCyberSpaceLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
 
+	UEngineDirectory NewDir;
+	NewDir.MoveParent();
+	NewDir.Move("ContentsResources\\CyberSpaceLevel");
+
+	std::list<UEngineFile> NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
+
+	for (UEngineFile& File : NewList)
+	{
+		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
+	}
 
 
 	// Map
 	CyberSpaceMap = SpawnActor<ACyberSpaceMap>();
 	CyberSpaceMap->SetMapImage("CyberPeacock-Area1-1.png");
-	CyberSpaceMap->SetColMapImage("");
+	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
 }
 
 void UCyberSpaceLevel::Tick(float _DeltaTime)

@@ -25,7 +25,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private :
-	UImageRenderer* MapRenderer = nullptr;		// Map 이미지
+	UImageRenderer* MapRenderer = nullptr;	// Map 이미지
 	UImageRenderer* ColRenderer = nullptr;	// ColMap 이미지
 };
 
