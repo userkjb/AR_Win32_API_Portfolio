@@ -241,3 +241,8 @@ private :
 
 	ABuster* DefaultBuster = nullptr;
 };
+
+/*
+* Data
+* https://www.deviantart.com/sesshowmall/art/Mega-Man-X4-Height-Chart-781104089
+*/
