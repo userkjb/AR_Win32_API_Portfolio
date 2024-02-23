@@ -17,11 +17,17 @@ public :
 	ABuster& operator=(ABuster&& _Other) noexcept = delete;
 
 	
+	void SetDir(FVector _Dir)
+	{
+		Dir = _Dir;
+	}
 
 	void SetBusterState(EBusterState _State)
 	{
-		BusterState = _State;
+		E_BusterState = _State;
 	}
+
+	void SetBusterAnimation(std::string_view _Name);
 
 protected :
 	void BeginPlay() override;
@@ -34,22 +40,22 @@ protected :
 	void StateUpdate(float _DeltaTime);
 
 	// 상태 시작 함수. Begin
-	void DefaultBusterStart();
-	void MiddleChargeStart();
-	void PullchargeStart();
 	void BusterCrashStart();
 	void BusterEndStart();
 
 
 	// Buster 상태.
-	EBusterState BusterState = EBusterState::DefaultCharge;
+	EBusterState E_BusterState = EBusterState::CreateBuster;
 
 	// Render 순서.
 	ERenderOrder Order = ERenderOrder::None;
 
 	// Buster 방향.
+	
 
 private :
+
+	FVector Dir = FVector::Zero;
 
 	// 상태 진행 함수.
 	void DefaultBuster(float _DeltaTime);
@@ -64,7 +70,7 @@ private :
 
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BusterCollision = nullptr;
-	const float BusterSpeed = 0.05f; // 발사 속도
+	const float BusterSpeed = 1.0f; // 발사 속도
 
 	float BusterLifeTime = 0.0f;
 };

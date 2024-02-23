@@ -41,7 +41,7 @@ enum class EPlayerState
 
 enum class EBusterState
 {
-	//CreateBuster,
+	CreateBuster,
 	DefaultCharge,	// 기본.
 	MiddleCharge,	// 중 차지.
 	PullCharge,		// 풀 차지.

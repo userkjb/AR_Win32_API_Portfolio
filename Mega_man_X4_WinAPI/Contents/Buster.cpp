@@ -9,6 +9,11 @@ ABuster::~ABuster()
 {
 }
 
+void ABuster::SetBusterAnimation(std::string_view _Name)
+{
+	Renderer->ChangeAnimation(_Name);
+}
+
 void ABuster::BeginPlay()
 {
 	AActor::BeginPlay();
@@ -21,15 +26,12 @@ void ABuster::BeginPlay()
 
 	Renderer->CreateAnimation("Buster_Default_Right", "x_Buster_Default_Right.png", 0, 4, 0.05f, true);
 	Renderer->CreateAnimation("Buster_Default_Left", "x_Buster_Default_Left.png", 0, 4, 0.05f, true);
-
-	//Renderer->ChangeAnimation("Buster_Default_Right");
-
-	
+		
 	//BusterCollision = CreateCollision(ERenderOrder::Buster);
 	//BusterCollision->SetScale(ImageScale);
 	//BusterCollision->SetColType(ECollisionType::CirCle);
 
-	StateChange(EBusterState::DefaultCharge);
+	//StateChange(EBusterState::CreateBuster);
 } // end BeginPlay()
 
 void ABuster::Tick(float _DeltaTime)
@@ -51,19 +53,10 @@ std::string ABuster::GetAnimationName(std::string _Name)
 void ABuster::StateChange(EBusterState _State)
 {
 	// 상태가 변했다면,
-	if (BusterState != _State)
+	if (E_BusterState != _State)
 	{
 		switch (_State)
 		{
-		case EBusterState::DefaultCharge :
-			DefaultBusterStart();
-			break;
-		case EBusterState::MiddleCharge:
-			MiddleChargeStart();
-			break;
-		case EBusterState::PullCharge:
-			PullchargeStart();
-			break;
 		case EBusterState::BusterCrash:
 			BusterCrashStart();
 			break;
@@ -75,13 +68,13 @@ void ABuster::StateChange(EBusterState _State)
 		}
 	}
 
-	BusterState = _State;
+	E_BusterState = _State;
 }
 
 // Tick Functions
 void ABuster::StateUpdate(float _DeltaTime)
 {
-	switch (BusterState)
+	switch (E_BusterState)
 	{
 	case EBusterState::DefaultCharge:
 		DefaultBuster(_DeltaTime);
@@ -106,29 +99,17 @@ void ABuster::StateUpdate(float _DeltaTime)
 
 #pragma region Start Function
 
-void ABuster::DefaultBusterStart()
-{
-	Renderer->ChangeAnimation("Buster_Default_Right");
-}
-
-void ABuster::MiddleChargeStart()
-{
-}
-
-void ABuster::PullchargeStart()
-{
-}
-
 void ABuster::BusterCrashStart()
 {
+	int a = 0;
 }
 
 void ABuster::BusterEndStart()
 {
+	int a = 0;
 }
 
 #pragma endregion
-
 
 
 

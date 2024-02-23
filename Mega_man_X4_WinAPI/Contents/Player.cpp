@@ -313,11 +313,6 @@ void APlayer::JumpEndStart()
 void APlayer::AttackStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Attack"));
-
-	// 만들어지거 전에 정보를 수정해 주고.
-	A_Buster = GetWorld()->SpawnActor<ABuster>();
-	A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-	// 만들어 질 때 해당 Actor에서 만들어진 정보를 가지고 가서 구현.
 }
 
 void APlayer::AttackWaitStart()
@@ -538,10 +533,36 @@ void APlayer::JumpEnd(float _DeltaTime)
 
 void APlayer::Attack(float _DeltaTime)
 {
+	if (TickCount == 0)
+	{
+		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		if (DirState == EActorDir::Right)
+		{
+			A_Buster->SetDir(FVector::Right);
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			A_Buster->SetDir(FVector::Left);
+		}
+		A_Buster->SetBusterState(EBusterState::DefaultCharge);
+		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Default"));
+
+		TickCount++;
+	}
+
 
 	if (true == UEngineInput::IsUp('X'))
 	{
+		TickCount = 0;
 		StateChange(EPlayerState::AttackEnd);
+		return;
+	}
+
+	if (true == UEngineInput::IsPress('X'))
+	{
+		TickCount = 0;
+		StateChange(EPlayerState::AttackWait);
 		return;
 	}
 
@@ -582,13 +603,14 @@ void APlayer::AttackEnd(float _DeltaTime)
 
 	if (1.0f <= AttackTime && AttackTime < 2.0f)
 	{
-		A_Buster = GetWorld()->SpawnActor<ABuster>();
+		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
 		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
 		A_Buster->SetBusterState(EBusterState::MiddleCharge);
+		A_Buster->SetBusterAnimation("");
 	}
 	else if (2.0 < AttackTime)
 	{
-		A_Buster = GetWorld()->SpawnActor<ABuster>();
+		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
 		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
 		A_Buster->SetBusterState(EBusterState::PullCharge);
 	}	
