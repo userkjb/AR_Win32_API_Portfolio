@@ -768,6 +768,10 @@ void APlayer::MoveCameraVector()
 	{
 		CameraPos.X = 0.0f;
 	}
+	if(4077 <= CameraPos.X)
+	{
+		CameraPos.X = 4077;
+	}
 
 	if (0.0f >= CameraPos.Y)
 	{
