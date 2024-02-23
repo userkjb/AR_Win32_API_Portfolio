@@ -41,13 +41,6 @@ void ABuster::Tick(float _DeltaTime)
 	StateUpdate(_DeltaTime);
 }
 
-std::string ABuster::GetAnimationName(std::string _Name)
-{
-	std::string DirName = "";
-
-	return DirName;
-}
-
 
 // BeginPlay Functions
 void ABuster::StateChange(EBusterState _State)
@@ -128,10 +121,12 @@ void ABuster::DefaultBuster(float _DeltaTime)
 
 void ABuster::MiddleCharge(float _DeltaTime)
 {
+	int a = 0;
 }
 
 void ABuster::PullCharge(float _DeltaTime)
 {
+	int a = 0;
 }
 
 void ABuster::BusterCrash(float _DeltaTime)

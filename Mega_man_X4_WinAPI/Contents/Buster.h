@@ -33,8 +33,6 @@ protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	std::string GetAnimationName(std::string _Name);
-
 	void StateChange(EBusterState _State);
 
 	void StateUpdate(float _DeltaTime);
@@ -70,7 +68,7 @@ private :
 
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BusterCollision = nullptr;
-	const float BusterSpeed = 1.0f; // 발사 속도
+	const float BusterSpeed = 0.5f; // 발사 속도
 
 	float BusterLifeTime = 0.0f;
 };
