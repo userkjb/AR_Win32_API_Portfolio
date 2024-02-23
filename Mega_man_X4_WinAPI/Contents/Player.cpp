@@ -67,27 +67,28 @@ void APlayer::BeginPlay()
 
 void APlayer::ChargeBeginPlay()
 {
-	ChargeRender_1 = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
-	ChargeRender_1->SetImage("Charging_1.png");
-	UWindowImage* ChargeImage_1 = ChargeRender_1->GetImage();
+	MiddleChargeRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
+	MiddleChargeRender->SetImage("Charging_1.png");
+	UWindowImage* ChargeImage_1 = MiddleChargeRender->GetImage();
 	FVector ChargeScale_1 = ChargeImage_1->GetScale();
-	ChargeRender_1->SetTransform({ { 0, 0 }, {ChargeScale_1.iX() / 9, ChargeScale_1.iY()}});
+	MiddleChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_1.iX() / 9, ChargeScale_1.iY()}});
 	
-
-	ChargeRender_2 = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
-	ChargeRender_2->SetImage("Charging_2.png");
-	UWindowImage* ChargeImage_2 = ChargeRender_2->GetImage();
+	PullChargeRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
+	PullChargeRender->SetImage("Charging_2.png");
+	UWindowImage* ChargeImage_2 = PullChargeRender->GetImage();
 	FVector ChargeScale_2 = ChargeImage_2->GetScale();
-	ChargeRender_2->SetTransform({ { 0, 0 }, {ChargeScale_2.iX() / 4 , ChargeScale_2.iY()}});
+	PullChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_2.iX() / 4 , ChargeScale_2.iY()}});
 
-	ChargeRender_1->CreateAnimation("Charge_1", "Charging_1.png", 0, 8, 0.05f, true);
-	ChargeRender_2->CreateAnimation("Charge_2", "Charging_2.png", 0, 3, 0.05f, true);
+
+
+	MiddleChargeRender->CreateAnimation("MiddleCharge", "Charging_1.png", 0, 8, 0.05f, true);
+	PullChargeRender->CreateAnimation("PullCharge", "Charging_2.png", 0, 3, 0.05f, true);
 	
-	ChargeRender_1->ChangeAnimation("Charge_1");
-	ChargeRender_2->ChangeAnimation("Charge_2");
+	MiddleChargeRender->ChangeAnimation("MiddleCharge");
+	PullChargeRender->ChangeAnimation("PullCharge");
 
-	ChargeRender_1->ActiveOff();
-	ChargeRender_2->ActiveOff();
+	MiddleChargeRender->ActiveOff();
+	PullChargeRender->ActiveOff();
 }
 
 void APlayer::Tick(float _DeltaTime)
@@ -312,6 +313,11 @@ void APlayer::JumpEndStart()
 void APlayer::AttackStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Attack"));
+
+	// 만들어지거 전에 정보를 수정해 주고.
+	A_Buster = GetWorld()->SpawnActor<ABuster>();
+	A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+	// 만들어 질 때 해당 Actor에서 만들어진 정보를 가지고 가서 구현.
 }
 
 void APlayer::AttackWaitStart()
@@ -532,50 +538,38 @@ void APlayer::JumpEnd(float _DeltaTime)
 
 void APlayer::Attack(float _DeltaTime)
 {
-	/*
-	* 1. Buster 발싸.
-	* 2. Buster 는 연속 생성 3개.
-	* 3. float x = UEngineInput::GetPressTime('Z'); 여부에 따라 
-	*/
 
-
-	// Buster Actor 생성.
-	
-	DefaultBuster = GetWorld()->SpawnActor<ABuster>();
-	DefaultBuster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-	DefaultBuster->SetBusterState(EBusterState::DefaultCharge);
-
-	if (DirState == EActorDir::Right)
+	if (true == UEngineInput::IsUp('X'))
 	{
-		DefaultBuster->SetDir(FVector::Right);
-	}
-	else
-	{
-		DefaultBuster->SetDir(FVector::Left);
-	}
-
-
-
-
-	if (true == Renderer->IsCurAnimationEnd())
-	{
-		StateChange(EPlayerState::AttackWait);
+		StateChange(EPlayerState::AttackEnd);
 		return;
 	}
+
+
+	//if (true == Renderer->IsCurAnimationEnd())
+	//{
+	//	StateChange(EPlayerState::AttackWait);
+	//	return;
+	//}
 }
 
-void APlayer::AttackWait(float _DeltaTime)
+void APlayer::AttackWait(float _DeltaTime) // 차지만.
 {
-	AttackTime += UEngineInput::GetPressTime('X');
+	AttackTime += _DeltaTime;
 
-	if (true == UEngineInput::IsDown('X'))
+	// 차지 이미지
+	if (1.0f <= AttackTime && AttackTime < 2.0f)
 	{
-		StateChange(EPlayerState::Attack);
-		return;
+		MiddleChargeRender->ActiveOn();
 	}
-	else
+	else if (2.0f <= AttackTime)
 	{
-		//딜레이가 좀 있어야 함.
+		PullChargeRender->ActiveOn();
+	}
+
+
+	if (true == UEngineInput::IsUp('X'))
+	{
 		StateChange(EPlayerState::AttackEnd);
 		return;
 	}
@@ -583,9 +577,29 @@ void APlayer::AttackWait(float _DeltaTime)
 
 void APlayer::AttackEnd(float _DeltaTime)
 {
-	// Wait의 일정 시간이 지난 후...
+	MiddleChargeRender->ActiveOff();
+	PullChargeRender->ActiveOff();
+
+	if (1.0f <= AttackTime && AttackTime < 2.0f)
+	{
+		A_Buster = GetWorld()->SpawnActor<ABuster>();
+		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		A_Buster->SetBusterState(EBusterState::MiddleCharge);
+	}
+	else if (2.0 < AttackTime)
+	{
+		A_Buster = GetWorld()->SpawnActor<ABuster>();
+		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		A_Buster->SetBusterState(EBusterState::PullCharge);
+	}	
+
+
+	// 섬광 애니메이션이 끝나면 섬광 애니메이션은 Off
+
+
 	if (true == Renderer->IsCurAnimationEnd())
 	{
+		AttackTime = 0.0f;
 		StateChange(EPlayerState::Idle);
 		return;
 	}
