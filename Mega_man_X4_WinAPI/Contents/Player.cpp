@@ -760,7 +760,10 @@ void APlayer::MoveCameraVector()
 {
 	FVector PlayerPos = this->GetActorLocation();
 	FVector CameraPos = GetWorld()->GetCameraPos();
-	
+
+	FVector WindowScale = GEngine->MainWindow.GetWindowScale(); // 800, 600
+	FVector ImageScale = UContentsGlobalData::ColMapImage->GetScale(); // 4877, 600
+
 	CameraPos.X = PlayerPos.X - 400.0f;
 	CameraPos.Y = PlayerPos.Y - 564.0f;
 
@@ -770,7 +773,7 @@ void APlayer::MoveCameraVector()
 	}
 	if(4077 <= CameraPos.X)
 	{
-		CameraPos.X = 4077;
+		CameraPos.X = ImageScale.X - WindowScale.X;
 	}
 
 	if (0.0f >= CameraPos.Y)
