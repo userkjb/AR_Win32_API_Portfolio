@@ -13,7 +13,7 @@ void ABuster::BeginPlay()
 {
 	AActor::BeginPlay();
 	
-	UImageRenderer* Renderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
+	Renderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	Renderer->SetImage("x_Buster_Default_Right.png");
 	UWindowImage* Image = Renderer->GetImage();
 	FVector ImageScale = Image->GetScale();
@@ -24,12 +24,12 @@ void ABuster::BeginPlay()
 
 	//Renderer->ChangeAnimation("Buster_Default_Right");
 
-	StateChange(EBusterState::CreateBuster);
-	//Destroy(time);
-
+	
 	BusterCollision = CreateCollision(ERenderOrder::Buster);
 	BusterCollision->SetScale(ImageScale);
 	BusterCollision->SetColType(ECollisionType::CirCle);
+
+	StateChange(EBusterState::DefaultCharge);
 }
 
 void ABuster::Tick(float _DeltaTime)
@@ -37,43 +37,56 @@ void ABuster::Tick(float _DeltaTime)
 	AActor::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
-	//AActor::AddActorLocation(Dir * BusterSpeed);
 }
 
-void ABuster::StateChange(EBusterState _State)
+void ABuster::StateChange(EBusterState _State) // BeginPlay
 {
 	// 상태가 변했다면,
-	if (State != _State)
+	if (BusterState != _State)
 	{
 		switch (_State)
 		{
-		case EBusterState::Default :
+		case EBusterState::DefaultCharge :
 			DefaultBusterStart();
 			break;
 		case EBusterState::MiddleCharge:
+			MiddleChargeStart();
 			break;
 		case EBusterState::PullCharge:
+			PullchargeStart();
+			break;
+		case EBusterState::BusterCollision:
+			BusterCrashStart();
+			break;
+		case EBusterState::BusterEnd:
+			BusterEndStart();
 			break;
 		default:
 			break;
 		}
 	}
 
-	State = _State;
+	BusterState = _State;
 }
 
-void ABuster::StateUpdate(float _DeltaTime)
+void ABuster::StateUpdate(float _DeltaTime) // Tick
 {
-	switch (State)
+	switch (BusterState)
 	{
-	case EBusterState::Default:
-
+	case EBusterState::DefaultCharge:
+		DefaultBuster(_DeltaTime);
 		break;
 	case EBusterState::MiddleCharge:
-
+		MiddleCharge(_DeltaTime);
 		break;
 	case EBusterState::PullCharge:
-
+		PullCharge(_DeltaTime);
+		break;
+	case EBusterState::BusterCollision:
+		BusterCrash(_DeltaTime);
+		break;
+	case EBusterState::BusterEnd:
+		BusterEnd(_DeltaTime);
 		break;
 	default:
 		break;
@@ -81,9 +94,61 @@ void ABuster::StateUpdate(float _DeltaTime)
 }
 
 
-
+#pragma region Start Function
 
 void ABuster::DefaultBusterStart()
 {
+	Renderer->ChangeAnimation("Buster_Default_Right");
+}
 
+void ABuster::MiddleChargeStart()
+{
+}
+
+void ABuster::PullchargeStart()
+{
+}
+
+void ABuster::BusterCrashStart()
+{
+}
+
+void ABuster::BusterEndStart()
+{
+}
+
+#pragma endregion
+
+
+
+
+void ABuster::DefaultBuster(float _DeltaTime)
+{
+	BusterLifeTime += _DeltaTime;
+	AActor::AddActorLocation(Dir * BusterSpeed);
+
+	if (BusterLifeTime >= 2.0f)
+	{
+		BusterLifeTime = 0.0f;
+		StateChange(EBusterState::BusterEnd);
+		return;
+	}
+}
+
+void ABuster::MiddleCharge(float _DeltaTime)
+{
+}
+
+void ABuster::PullCharge(float _DeltaTime)
+{
+}
+
+void ABuster::BusterCrash(float _DeltaTime)
+{
+}
+
+void ABuster::BusterEnd(float _DeltaTime)
+{
+	int a = 0;
+	//this->Destroy(0.0f);
 }
