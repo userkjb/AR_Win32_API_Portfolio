@@ -16,10 +16,7 @@ public :
 	ABuster& operator=(const ABuster& _Other) = delete;
 	ABuster& operator=(ABuster&& _Other) noexcept = delete;
 
-	void SetDir(FVector _Dir)
-	{
-		Dir = _Dir;
-	}
+	
 
 	void SetBusterState(EBusterState _State)
 	{
@@ -29,6 +26,8 @@ public :
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
+	std::string GetAnimationName(std::string _Name);
 
 	void StateChange(EBusterState _State);
 
@@ -48,6 +47,8 @@ protected :
 	// Render 순서.
 	ERenderOrder Order = ERenderOrder::None;
 
+	// Buster 방향.
+
 private :
 
 	// 상태 진행 함수.
@@ -63,8 +64,7 @@ private :
 
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BusterCollision = nullptr;
-	FVector Dir = FVector::Zero; // 날아가는 방향
-	const float BusterSpeed = 1.0f;	 // 발사 속도
+	const float BusterSpeed = 0.05f; // 발사 속도
 
 	float BusterLifeTime = 0.0f;
 };

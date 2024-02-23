@@ -12,7 +12,7 @@ ABuster::~ABuster()
 void ABuster::BeginPlay()
 {
 	AActor::BeginPlay();
-	
+
 	Renderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	Renderer->SetImage("x_Buster_Default_Right.png");
 	UWindowImage* Image = Renderer->GetImage();
@@ -25,9 +25,9 @@ void ABuster::BeginPlay()
 	//Renderer->ChangeAnimation("Buster_Default_Right");
 
 	
-	BusterCollision = CreateCollision(ERenderOrder::Buster);
-	BusterCollision->SetScale(ImageScale);
-	BusterCollision->SetColType(ECollisionType::CirCle);
+	//BusterCollision = CreateCollision(ERenderOrder::Buster);
+	//BusterCollision->SetScale(ImageScale);
+	//BusterCollision->SetColType(ECollisionType::CirCle);
 
 	StateChange(EBusterState::DefaultCharge);
 } // end BeginPlay()
@@ -37,6 +37,13 @@ void ABuster::Tick(float _DeltaTime)
 	AActor::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
+}
+
+std::string ABuster::GetAnimationName(std::string _Name)
+{
+	std::string DirName = "";
+
+	return DirName;
 }
 
 
@@ -57,7 +64,7 @@ void ABuster::StateChange(EBusterState _State)
 		case EBusterState::PullCharge:
 			PullchargeStart();
 			break;
-		case EBusterState::BusterCollision:
+		case EBusterState::BusterCrash:
 			BusterCrashStart();
 			break;
 		case EBusterState::BusterEnd:
@@ -85,7 +92,7 @@ void ABuster::StateUpdate(float _DeltaTime)
 	case EBusterState::PullCharge:
 		PullCharge(_DeltaTime);
 		break;
-	case EBusterState::BusterCollision:
+	case EBusterState::BusterCrash:
 		BusterCrash(_DeltaTime);
 		break;
 	case EBusterState::BusterEnd:
@@ -153,5 +160,5 @@ void ABuster::BusterCrash(float _DeltaTime)
 void ABuster::BusterEnd(float _DeltaTime)
 {
 	int a = 0;
-	//this->Destroy(0.0f);
+	this->Destroy(0.0f);
 }
