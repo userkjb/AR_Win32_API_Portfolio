@@ -56,6 +56,7 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Left.png", 8, 4);
 
 	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Default_Right.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Default_Left.png", 5, 1);
 
 	UEngineResourcesManager::GetInst().CuttingImage("Spikeball_Left.png", 7, 3);
 
