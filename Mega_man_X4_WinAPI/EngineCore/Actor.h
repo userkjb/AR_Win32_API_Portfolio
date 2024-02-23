@@ -5,11 +5,13 @@
 #include "TickObject.h"
 #include "Level.h"
 #include "ImageRenderer.h"
+#include "Collision.h"
 
 //class UImageRenderer;
 class ULevel;
 class UActorComponent;
 class UImageRenderer;
+class UCollision;
 
 class AActor : public UNameObject, public UTickObject
 {
@@ -63,10 +65,11 @@ public :
 	/// <param name="Order"></param>
 	/// <returns></returns>
 	template<typename EnumType>
-	UImageRenderer* CreateImageRenderer(int Order = 0)
+	UImageRenderer* CreateImageRenderer(int _Order = 0)
 	{
 		return CreateImageRenderer(static_cast<int>(_Order));
 	}
+
 
 	template<typename EnumType>
 	UCollision* CreateCollision(EnumType _Order = 0)
@@ -103,7 +106,14 @@ protected :
 	void Tick(float _DeltaTime) override;
 
 private :
+	/// <summary>
+	/// Render 된 이미지를 저장.
+	/// </summary>
 	std::list<UImageRenderer*> Renderers;
+	/// <summary>
+	/// Collision 적용을 저장.
+	/// </summary>
+	std::list<UCollision*> Collisions;
 
 	ULevel* World = nullptr;
 	FTransform Transform = FTransform();

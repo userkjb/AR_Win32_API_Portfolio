@@ -34,6 +34,17 @@ UImageRenderer* AActor::CreateImageRenderer(int Order)
 	return NewRenderer;
 }
 
+UCollision* AActor::CreateCollision(int _Order)
+{
+	UCollision* Component = new UCollision();
+	UActorComponent* ActorCom = Component;
+	ActorCom->SetOwner(this);
+	ActorCom->SetOrder(_Order);
+	ActorCom->BeginPlay();
+	Collisions.push_back(Component);
+	return Component;
+}
+
 void AActor::Destroy(float _DestroyTime)
 {
 	// Actor 는 자신을 죽인다.
