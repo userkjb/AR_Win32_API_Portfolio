@@ -59,9 +59,23 @@ public :
 	/// <summary>
 	/// Renderer Component »ý¼º.
 	/// </summary>
+	/// <typeparam name="EnumType"></typeparam>
 	/// <param name="Order"></param>
 	/// <returns></returns>
-	UImageRenderer* CreateImageRenderer(int Order = 0);
+	template<typename EnumType>
+	UImageRenderer* CreateImageRenderer(int Order = 0)
+	{
+		return CreateImageRenderer(static_cast<int>(_Order));
+	}
+
+	template<typename EnumType>
+	UCollision* CreateCollision(EnumType _Order = 0)
+	{
+		return CreateCollision(static_cast<int>(_Order));
+	}
+
+	UImageRenderer* CreateImageRenderer(int _Order = 0);
+	UCollision* CreateCollision(int _Order = 0);
 
 
 	/// <summary>
