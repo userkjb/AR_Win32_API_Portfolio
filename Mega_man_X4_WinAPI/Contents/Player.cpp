@@ -509,7 +509,6 @@ void APlayer::Sky(float _DeltaTime)
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
-		JumpVector = FVector::Zero;
 		StateChange(EPlayerState::JumpEnd);
 		return;
 	}
@@ -517,6 +516,7 @@ void APlayer::Sky(float _DeltaTime)
 
 void APlayer::JumpEnd(float _DeltaTime)
 {
+	JumpVector = FVector::Zero;
 	DashVector = float4::Zero;
 	if (true == Renderer->IsCurAnimationEnd())
 	{
@@ -542,7 +542,8 @@ void APlayer::Attack(float _DeltaTime)
 	// Buster Actor 생성.
 	
 	DefaultBuster = GetWorld()->SpawnActor<ABuster>();
-	DefaultBuster->SetActorLocation(GetActorLocation());
+	DefaultBuster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+	DefaultBuster->SetBusterState(EBusterState::DefaultCharge);
 
 	if (DirState == EActorDir::Right)
 	{
@@ -552,6 +553,8 @@ void APlayer::Attack(float _DeltaTime)
 	{
 		DefaultBuster->SetDir(FVector::Left);
 	}
+
+
 
 
 	if (true == Renderer->IsCurAnimationEnd())
