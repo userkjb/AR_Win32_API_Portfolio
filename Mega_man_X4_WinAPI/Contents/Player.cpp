@@ -762,7 +762,7 @@ void APlayer::MoveCameraVector()
 	FVector CameraPos = GetWorld()->GetCameraPos();
 	
 	CameraPos.X = PlayerPos.X - 400.0f;
-	CameraPos.Y = PlayerPos.Y - 484.0f;
+	CameraPos.Y = PlayerPos.Y - 564.0f;
 
 	if (0.0f >= CameraPos.X)
 	{
