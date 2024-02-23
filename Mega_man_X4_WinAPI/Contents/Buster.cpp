@@ -27,7 +27,9 @@ void ABuster::BeginPlay()
 	StateChange(EBusterState::CreateBuster);
 	//Destroy(time);
 
-	//BusterCollision = CreateCollision
+	BusterCollision = CreateCollision(ERenderOrder::Buster);
+	BusterCollision->SetScale(ImageScale);
+	BusterCollision->SetColType(ECollisionType::CirCle);
 }
 
 void ABuster::Tick(float _DeltaTime)
