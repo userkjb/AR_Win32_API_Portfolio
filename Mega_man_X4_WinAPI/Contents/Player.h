@@ -202,9 +202,9 @@ private :
 	// ==========================================
 
 	UImageRenderer* Renderer = nullptr;
-	UImageRenderer* Busterflash = nullptr;
-	UImageRenderer* ChargeRender_1 = nullptr;
-	UImageRenderer* ChargeRender_2 = nullptr;
+	UImageRenderer* Busterflash = nullptr; // ¹ö½ºÅÍ ÃÑ±¸ ¼¶±¤.
+	UImageRenderer* MiddleChargeRender = nullptr;
+	UImageRenderer* PullChargeRender = nullptr;
 
 	// Run Vector
 	FVector RunVector = FVector::Zero;
@@ -239,7 +239,7 @@ private :
 	float AttackTime = 0.0f;
 	float DelayTime = 0.0f;
 
-	ABuster* DefaultBuster = nullptr;
+	ABuster* A_Buster = nullptr;
 };
 
 /*
