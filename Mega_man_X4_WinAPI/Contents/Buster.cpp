@@ -30,7 +30,7 @@ void ABuster::BeginPlay()
 	BusterCollision->SetColType(ECollisionType::CirCle);
 
 	StateChange(EBusterState::DefaultCharge);
-}
+} // end BeginPlay()
 
 void ABuster::Tick(float _DeltaTime)
 {
@@ -39,7 +39,9 @@ void ABuster::Tick(float _DeltaTime)
 	StateUpdate(_DeltaTime);
 }
 
-void ABuster::StateChange(EBusterState _State) // BeginPlay
+
+// BeginPlay Functions
+void ABuster::StateChange(EBusterState _State)
 {
 	// 상태가 변했다면,
 	if (BusterState != _State)
@@ -69,7 +71,8 @@ void ABuster::StateChange(EBusterState _State) // BeginPlay
 	BusterState = _State;
 }
 
-void ABuster::StateUpdate(float _DeltaTime) // Tick
+// Tick Functions
+void ABuster::StateUpdate(float _DeltaTime)
 {
 	switch (BusterState)
 	{
