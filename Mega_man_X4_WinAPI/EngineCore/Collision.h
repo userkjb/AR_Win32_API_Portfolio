@@ -4,6 +4,7 @@
 
 class UCollision : public USceneComponent
 {
+public :
 	// constrcuter destructer
 	UCollision();
 	~UCollision();
