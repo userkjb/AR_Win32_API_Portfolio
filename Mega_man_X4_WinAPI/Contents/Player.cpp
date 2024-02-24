@@ -344,7 +344,7 @@ void APlayer::DashEndStart()
 #pragma region Summon Funcion
 void APlayer::Summon(float _DeltaTime)
 {
-	SummonVector = FVector::Down * 500.0f;
+	SummonVector = FVector::Down * 1000.0f;
 	MoveUpdate(_DeltaTime);
 
 	// Actor의 기준점 가져오기.
@@ -605,14 +605,32 @@ void APlayer::AttackEnd(float _DeltaTime)
 	{
 		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
 		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		if (DirState == EActorDir::Right)
+		{
+			A_Buster->SetDir(FVector::Right);
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			A_Buster->SetDir(FVector::Left);
+		}
 		A_Buster->SetBusterState(EBusterState::MiddleCharge);
-		A_Buster->SetBusterAnimation("");
+		//A_Buster->SetBusterAnimation("GetAnimationName()");
 	}
 	else if (2.0 < AttackTime)
 	{
 		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
 		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		if (DirState == EActorDir::Right)
+		{
+			A_Buster->SetDir(FVector::Right);
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			A_Buster->SetDir(FVector::Left);
+		}
 		A_Buster->SetBusterState(EBusterState::PullCharge);
+		//A_Buster->SetBusterAnimation("GetAnimationName()");
+
 	}	
 
 
@@ -781,6 +799,8 @@ void APlayer::CalGravityVector(float _DeltaTime)
 
 void APlayer::MoveLastMoveVector(float _DeltaTime)
 {
+	MoveCameraVector();
+
 	AActor::AddActorLocation(LastMoveVector * _DeltaTime);
 }
 
@@ -792,7 +812,7 @@ void APlayer::MoveUpdate(float _DeltaTime)
 	MoveLastMoveVector(_DeltaTime);
 }
 
-/*
+
 void APlayer::MoveCameraVector()
 {
 	FVector PlayerPos = this->GetActorLocation();
@@ -820,6 +840,6 @@ void APlayer::MoveCameraVector()
 	
 	GetWorld()->SetCameraPos(CameraPos);
 }
-*/
+
 
 // EngineDebug::OutPutDebugText("" + std::to_string());
