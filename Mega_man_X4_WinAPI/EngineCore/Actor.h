@@ -98,6 +98,11 @@ public :
 	/// <param name="_DeltaTime"></param>
 	void ActiveUpdate(float _DeltaTime) override;
 
+	/// <summary>
+	/// 자식들이 지워졌는지 확인.(Render, Collision)
+	/// </summary>
+	void CheckReleaseChild();
+
 protected :
 	/// <summary>
 	/// UTickObject
