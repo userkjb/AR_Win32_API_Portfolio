@@ -155,6 +155,16 @@ public:
 		TextColor = _Color;
 	}
 
+
+	/// <summary>
+	/// 카메라 비율 설정 함수.
+	/// </summary>
+	/// <param name="_Ratio"></param>
+	void SetCameraRatio(float _Ratio)
+	{
+		CameraRatio = _Ratio;
+	}
+
 	/// <summary>
 	/// 원하는 렌더의(이미지, 텍스트) 위치, 크기를 가져온다.
 	/// </summary>
@@ -175,6 +185,7 @@ private :
 	Color8Bit TransColor; // 자를 색상. / Set
 
 	bool CameraEffect = true;
+	float CameraRatio = 1.0f;
 
 	// === Animation ===
 	std::map<std::string, UAnimationInfo> AnimationInfos;
