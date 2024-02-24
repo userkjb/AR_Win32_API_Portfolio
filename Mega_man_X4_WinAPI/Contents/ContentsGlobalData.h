@@ -70,6 +70,16 @@ enum class ERenderOrder
 	Buster,
 };
 
+/// <summary>
+/// 콜리전 순서.
+/// </summary>
+enum class ECollisionOrder
+{
+	Player,
+	Weapon,
+	Boss,
+	Enemy,
+};
 
 class UContentsGlobalData
 {
