@@ -91,15 +91,15 @@ void ABackGroundMap::Tick(float _DeltaTime)
 		{
 		case 1 :
 			MenuRenderer->ChangeAnimation("Menu_1");
-			EngineDebug::OutPutDebugText(std::to_string(KeyCount));
+			UEngineDebug::OutPutDebugText(std::to_string(KeyCount));
 			break;
 		case 2 :
 			MenuRenderer->ChangeAnimation("Menu_2");
-			EngineDebug::OutPutDebugText(std::to_string(KeyCount));
+			UEngineDebug::OutPutDebugText(std::to_string(KeyCount));
 			break;
 		case 3 :
 			MenuRenderer->ChangeAnimation("Menu_3");
-			EngineDebug::OutPutDebugText(std::to_string(KeyCount));
+			UEngineDebug::OutPutDebugText(std::to_string(KeyCount));
 			break;
 		default :
 			break;
