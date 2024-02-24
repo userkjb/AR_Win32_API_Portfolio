@@ -197,7 +197,15 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 		GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
 		break;
 	case EWindowImageType::IMG_PNG:
-		GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
+		if (0.0f == Angle)
+		{
+			GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
+		}
+		else
+		{
+			GEngine->MainWindow.GetBackBufferImage()->PlgCopy(Image, RendererTrans, InfoIndex, Angle * UEngineMath::DToR);
+		}
+		
 		break;
 	default:
 		MsgBoxAssert("특정 색 및 투명 처리가 불가능한 이미지 입니다.");

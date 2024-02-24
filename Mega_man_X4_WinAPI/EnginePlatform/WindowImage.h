@@ -92,6 +92,15 @@ public:
 	void AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
 
 	/// <summary>
+	/// 회전을 위한 Copy
+	/// </summary>
+	/// <param name="_CopyImage"></param>
+	/// <param name="_Trans"></param>
+	/// <param name="_Index"></param>
+	/// <param name="_RadAngle"></param>
+	void PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, float _RadAngle);
+
+	/// <summary>
 	/// 텍스트 출력을 위한 데이터 Copy
 	/// </summary>
 	/// <param name="_Text">출력하고자 하는 string</param>
@@ -131,13 +140,22 @@ public:
 
 
 	/// <summary>
-	/// 
+	/// 해당 좌표의 색을 가져온다.
 	/// </summary>
 	/// <param name="_X"></param>
 	/// <param name="_Y"></param>
 	/// <param name="_DefaultColor"></param>
 	/// <returns></returns>
 	Color8Bit GetColor(int _X, int _Y, Color8Bit _DefaultColor);
+
+	/// <summary>
+	/// 회전할 이미지를 설정한다.
+	/// </summary>
+	/// <param name="_RotationMaskImage"></param>
+	void SetRotationMaskImage(UWindowImage* _RotationMaskImage)
+	{
+		RotationMaskImage = _RotationMaskImage;
+	}
 
 private :
 	// 읽어온 이미지를 담는 Vector
@@ -158,5 +176,8 @@ private :
 
 	// 읽어온 방식, 기본은 Cutting
 	EImageLoadType LoadType = EImageLoadType::IMG_Cutting;
+
+	// 회전을 위한 검정색 바탕의 이미지.
+	UWindowImage* RotationMaskImage = nullptr;
 };
 

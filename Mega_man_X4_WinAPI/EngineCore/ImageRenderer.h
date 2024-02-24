@@ -51,6 +51,11 @@ public:
 	/// <param name="_DeltaTime"></param>
 	void Render(float _DeltaTime);
 
+	void SetAngle(float _Angle)
+	{
+		Angle = _Angle;
+	}
+
 	void SetTransColor(Color8Bit _Color)
 	{
 		TransColor = _Color;
@@ -190,6 +195,9 @@ private :
 	// === Animation ===
 	std::map<std::string, UAnimationInfo> AnimationInfos;
 	UAnimationInfo* CurAnimation = nullptr;
+
+	// 회전 변수.
+	float Angle = 0.0f;
 
 	// === Text ===
 	std::string Text = "";
