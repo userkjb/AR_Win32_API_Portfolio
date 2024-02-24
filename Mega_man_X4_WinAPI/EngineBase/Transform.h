@@ -118,6 +118,10 @@ public :
 		return static_cast<int>(Bottom());
 	}
 
+	/// <summary>
+	/// 반지름 설정.
+	/// </summary>
+	/// <param name="_Radius"></param>
 	void SetRadius(float _Radius)
 	{
 		Scale = float4::Zero;
