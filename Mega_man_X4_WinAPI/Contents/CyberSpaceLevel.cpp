@@ -43,6 +43,7 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
 
+	/*
 	FVector Pos = GetCameraPos();
 
 	if (0.0f >= Pos.X)
@@ -62,6 +63,7 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 	}
 
 	SetCameraPos(Pos);
+	*/
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)
