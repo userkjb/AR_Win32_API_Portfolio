@@ -22,6 +22,7 @@ unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)(
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 
+			// Update 함수 호출하지 않고 바로 루프를 나감.
 			if (false == WindowLive)
 			{
 				break;
