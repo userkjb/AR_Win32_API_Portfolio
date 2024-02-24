@@ -58,6 +58,7 @@ bool FTransform::CircleToRect(const FTransform& _Left, const FTransform& _Right)
 		return true;
 	}
 
+	// 왼쪽 상단에 들어갈 원
 	FTransform LeftTopCirCleTransform;
 	LeftTopCirCleTransform.SetPosition(_Right.LeftTop());
 	LeftTopCirCleTransform.SetRadius(_Left.GetRadius());
@@ -67,6 +68,7 @@ bool FTransform::CircleToRect(const FTransform& _Left, const FTransform& _Right)
 		return true;
 	}
 
+	// 오른쪽 상단에 들어갈 원
 	FTransform RightTopCirCleTransform;
 	RightTopCirCleTransform.SetPosition(_Right.RightTop());
 	RightTopCirCleTransform.SetRadius(_Left.GetRadius());
@@ -76,6 +78,7 @@ bool FTransform::CircleToRect(const FTransform& _Left, const FTransform& _Right)
 		return true;
 	}
 
+	// 왼쪽 하단에 들어갈 원
 	FTransform LeftBottomCirCleTransform;
 	LeftBottomCirCleTransform.SetPosition(_Right.LeftBottom());
 	LeftBottomCirCleTransform.SetRadius(_Left.GetRadius());
@@ -85,6 +88,7 @@ bool FTransform::CircleToRect(const FTransform& _Left, const FTransform& _Right)
 		return true;
 	}
 
+	// 오른쪽 하단에 들어갈 원
 	FTransform RightBottomCirCleTransform;
 	RightBottomCirCleTransform.SetPosition(_Right.RightBottom());
 	RightBottomCirCleTransform.SetRadius(_Left.GetRadius());
