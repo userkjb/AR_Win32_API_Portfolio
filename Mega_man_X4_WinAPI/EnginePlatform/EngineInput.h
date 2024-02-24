@@ -45,6 +45,12 @@ public :
 
 	// ===== 외부에서 사용할 함수들. =====
 
+	/// <summary>
+	/// 더블 클릭.
+	/// </summary>
+	/// <param name="_Key">원하는 버튼</param>
+	/// <param name="_ClickTime">설정 시간 안에 두 번 눌러야 한다.</param>
+	/// <returns></returns>
 	static bool IsDoubleClick(int _Key, float _ClickTime)
 	{
 		if (false == AllKeys.contains(_Key))
