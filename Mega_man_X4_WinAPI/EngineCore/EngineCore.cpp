@@ -3,6 +3,7 @@
 #include "Level.h"
 #include <EnginePlatform/EngineInput.h>
 
+bool UEngineCore::IsDebugValue = false;
 UEngineCore* GEngine = nullptr;
 
 UEngineCore::UEngineCore()
