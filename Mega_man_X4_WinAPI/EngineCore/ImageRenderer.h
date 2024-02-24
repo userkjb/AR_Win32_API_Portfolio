@@ -176,6 +176,11 @@ public:
 	/// <returns></returns>
 	FTransform GetRenderTransForm();
 
+	void SetTextEffect(int _Effect = 0)
+	{
+		TextEffect = _Effect;
+	}
+
 protected :
 	/// <summary>
 	/// USceneComponent
@@ -204,4 +209,6 @@ private :
 	std::string Font = "±Ã¼­";
 	float Size = 10.0f;
 	Color8Bit TextColor = Color8Bit::BlackA;
+	Color8Bit TextColor2 = Color8Bit::BlackA; //Ãß°¡
+	int TextEffect = 0;
 };

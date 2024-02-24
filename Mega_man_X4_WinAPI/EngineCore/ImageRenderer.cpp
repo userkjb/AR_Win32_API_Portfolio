@@ -162,7 +162,18 @@ void UImageRenderer::TextRender(float _DeltaTime)
 {
 	FTransform RendererTrans = GetRenderTransForm();
 
-	GEngine->MainWindow.GetBackBufferImage()->TextCopy(Text, Font, Size, RendererTrans, TextColor);
+	switch (TextEffect)
+	{
+	case 1:
+		GEngine->MainWindow.GetBackBufferImage()->TextCopy(Text, Font, Size, RendererTrans, TextColor, TextColor2);
+		break;
+	case 2:
+		GEngine->MainWindow.GetBackBufferImage()->TextCopyBold(Text, Font, Size, RendererTrans, TextColor);
+		break;
+	default:
+		GEngine->MainWindow.GetBackBufferImage()->TextCopy(Text, Font, Size, RendererTrans, TextColor);
+		break;
+	}
 }
 
 void UImageRenderer::ImageRender(float _DeltaTime)
