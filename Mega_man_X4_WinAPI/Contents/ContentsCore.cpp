@@ -2,6 +2,7 @@
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
+#include <EnginePlatform/EngineInput.h>
 
 //#include "TitleLevel.h"
 #include "IntroLevel.h"
@@ -45,6 +46,11 @@ void ContentsCore::BeginPlay()
 void ContentsCore::Tick(float _DeltaTime)
 {
 	UEngineCore::Tick(_DeltaTime);
+
+	if (true == UEngineInput::IsDown(VK_F2))
+	{
+		GEngine->EngineDebugSwitch();
+	}
 }
 
 void ContentsCore::End()
