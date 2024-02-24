@@ -4,6 +4,9 @@
 #include <EngineBase/PathObject.h>
 #include <EngineBase/Transform.h>
 
+#include <objidl.h>
+#include <gdiplus.h>
+
 /// <summary>
 /// 이미지를 읽어온 Type.
 /// 데이터 정리할 때 사용.
@@ -110,6 +113,23 @@ public:
 	/// <param name="_Color">글자 색</param>
 	void TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color);
 
+	/// <summary>
+	/// 출력을 담당.
+	/// </summary>
+	/// <param name="_Text"></param>
+	/// <param name="_Font"></param>
+	/// <param name="stringFormat"></param>
+	/// <param name="_Size"></param>
+	/// <param name="_Trans"></param>
+	/// <param name="_Color"></param>
+	void TextCopyFormat(const std::string& _Text, const std::string& _Font, const Gdiplus::StringFormat& stringFormat, float _Size, const FTransform& _Trans, Color8Bit _Color /*= Color8Bit::Black*/);
+
+	/// <summary>
+	/// 사용 안함.
+	/// </summary>
+	/// <param name="_Text"></param>
+	/// <param name="_Pos"></param>
+	void TextPrint(std::string_view _Text, FVector _Pos);
 
 	/// <summary>
 	/// BackBufferImage 만드는 함수.

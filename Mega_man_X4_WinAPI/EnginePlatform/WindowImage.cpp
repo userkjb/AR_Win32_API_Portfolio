@@ -398,6 +398,15 @@ bool UWindowImage::Create(HDC _MainDC)
 
 void UWindowImage::TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color)
 {
+    Gdiplus::StringFormat stringFormat;
+    stringFormat.SetAlignment(Gdiplus::StringAlignmentCenter);
+    stringFormat.SetLineAlignment(Gdiplus::StringAlignmentCenter);
+
+    TextCopyFormat(_Text, _Font, stringFormat, _Size, _Trans, _Color); //출력
+}
+
+void UWindowImage::TextCopyFormat(const std::string& _Text, const std::string& _Font, const Gdiplus::StringFormat& stringFormat, float _Size, const FTransform& _Trans, Color8Bit _Color)
+{
     // GDI+ 라는 라이브러리를 사용해야 한다.
     Gdiplus::Graphics graphics(ImageDC);
 
@@ -409,15 +418,16 @@ void UWindowImage::TextCopy(const std::string& _Text, const std::string& _Font, 
     //FVector Pos = _Trans.GetPosition();
     //Gdiplus::PointF ptf(Pos.X, Pos.Y);
     Gdiplus::RectF rectF(_Trans.GetPosition().X, _Trans.GetPosition().Y, 0, 0);
-    
-    Gdiplus::StringFormat stringFormat;
-    stringFormat.SetAlignment(Gdiplus::StringAlignmentCenter);
-    stringFormat.SetLineAlignment(Gdiplus::StringAlignmentCenter);
 
     std::wstring WText = UEngineString::AnsiToUniCode(_Text);
 
     //graphics.DrawString(WText.c_str(), -1, &fnt, ptf, &hB);  //출력
     graphics.DrawString(WText.c_str(), -1, &fnt, rectF, &stringFormat, &hB);  //출력
+}
+
+void UWindowImage::TextPrint(std::string_view _Text, FVector _Pos)
+{
+    TextOutA(ImageDC, _Pos.iX(), _Pos.iY(), _Text.data(), static_cast<int>(_Text.size()));
 }
 
 bool UWindowImage::Create(UWindowImage* _Image, const FVector& _Scale)
