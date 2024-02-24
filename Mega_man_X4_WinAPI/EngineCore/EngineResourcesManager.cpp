@@ -49,6 +49,33 @@ UWindowImage* UEngineResourcesManager::LoadImg(std::string_view _Path, std::stri
 	return nullptr;
 }
 
+UWindowImage* UEngineResourcesManager::LoadFolder(std::string_view _Path)
+{
+	UEnginePath NewPath = UEnginePath(std::filesystem::path(_Path));
+	std::string FileName = NewPath.GetFileName();
+	return LoadFolder(_Path, FileName);
+}
+
+UWindowImage* UEngineResourcesManager::LoadFolder(std::string_view _Path, std::string_view _Name)
+{
+	std::string UpperName = UEngineString::ToUpper(_Name);
+
+	if (true == Images.contains(UpperName))
+	{
+		MsgBoxAssert(std::string("경로 : ") + std::string(_Path) + "파일명 : " + std::string(_Name) + "이미 로드한 파일을 또 로드하려고 했습니다");
+		return nullptr;
+	}
+
+	UWindowImage* NewImage = new UWindowImage();
+	NewImage->SetName(UpperName);
+	NewImage->SetPath(_Path);
+	NewImage->LoadFolder(GEngine->MainWindow.GetWindowImage());
+
+	Images[UpperName] = NewImage;
+
+	return NewImage;
+}
+
 UWindowImage* UEngineResourcesManager::FindImg(std::string_view _Name)
 {
 	std::string UpperName = UEngineString::ToUpper(_Name);

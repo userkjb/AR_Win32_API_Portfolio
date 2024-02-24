@@ -29,12 +29,20 @@ public :
 	}
 
 	/// <summary>
-	/// 호출 되는 LoadImg 함수.
+	/// 이미지를 Load 하는 함수.
 	/// </summary>
 	/// <param name="_Path"></param>
 	/// <returns></returns>
 	UWindowImage* LoadImg(std::string_view _Path);
 	UWindowImage* LoadImg(std::string_view _Path, std::string_view _Name);
+
+	/// <summary>
+	/// 이미지들이 있는 폴더를 Load 하는 함수.
+	/// </summary>
+	/// <param name="_Path"></param>
+	/// <returns></returns>
+	UWindowImage* LoadFolder(std::string_view _Path);
+	UWindowImage* LoadFolder(std::string_view _Path, std::string_view _Name);
 
 	/// <summary>
 	/// ImageRenderer, CuttingImage 에서 사용.
