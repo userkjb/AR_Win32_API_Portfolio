@@ -1,6 +1,7 @@
 #include "Level.h"
 #include "Actor.h"
 #include <EngineBase/EngineDebug.h>
+#include "EngineCore.h"
 
 ULevel::ULevel()
 {
@@ -64,6 +65,24 @@ void ULevel::LevelRender(float _DeltaTime)
 			}
 
 			Renderer->Render(_DeltaTime);
+		}
+	}
+	
+	// 디버깅 모드이면 Collision이 보이도록.
+	if (true == GEngine->IsDebug()) // include EngineCore
+	{
+		for (std::pair<const int, std::list<UCollision*>>& OrderListPair : Collisions)
+		{
+			std::list<UCollision*>& CollisionList = OrderListPair.second;
+			for (UCollision* Collision : CollisionList)
+			{
+				if (false == Collision->IsActive())
+				{
+					continue;
+				}
+
+				Collision->DebugRender(CameraPos);
+			}
 		}
 	}
 }
