@@ -103,6 +103,15 @@ public :
 	/// </summary>
 	void CheckReleaseChild();
 
+	/// <summary>
+	/// 해당 Actor에 속한 모든 Render들을 Off 한다.
+	/// </summary>
+	void AllRenderersActiveOff();
+	/// <summary>
+	/// 해당 Actor에 속한 모든 Render들을 On 한다.
+	/// </summary>
+	void AllRenderersActiveOn();
+
 protected :
 	/// <summary>
 	/// UTickObject

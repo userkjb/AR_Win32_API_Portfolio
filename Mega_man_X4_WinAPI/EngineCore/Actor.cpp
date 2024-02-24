@@ -165,6 +165,22 @@ void AActor::CheckReleaseChild()
 	}
 }
 
+void AActor::AllRenderersActiveOff()
+{
+	for (UImageRenderer* Renderer : Renderers)
+	{
+		Renderer->ActiveOff();
+	}
+}
+
+void AActor::AllRenderersActiveOn()
+{
+	for (UImageRenderer* Renderer : Renderers)
+	{
+		Renderer->ActiveOn();
+	}
+}
+
 void AActor::Tick(float _DeltaTime)
 {
 	UTickObject::Tick(_DeltaTime);
