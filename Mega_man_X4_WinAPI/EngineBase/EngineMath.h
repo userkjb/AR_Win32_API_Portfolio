@@ -33,10 +33,25 @@ public :
 	static const float4 Up;
 	static const float4 Down;
 
-	float X; // 2D
-	float Y; // 2D
-	float Z; // 3D
-	float W; // 3D
+	union
+	{
+		struct
+		{
+			float X; // 2D
+			float Y; // 2D
+			float Z; // 3D
+			float W; // 3D
+		};
+
+		struct
+		{
+			float R;
+			float G;
+			float B;
+			float A;
+		};
+	};
+	
 
 	// 생성자를 한번 만들게 되면 리스트 이니셜라이저가 동작하지 않아서
 	// 개인이 생성하는 방식을 다 정의해야 합니다.
