@@ -129,6 +129,36 @@ public:
 		return CurAnimation->CurTime;
 	}
 
+	void TextRender(float _DeltaTime);
+
+	/// <summary>
+	/// 기존의 Render함수에 있던 내용을 옮겨 담음.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
+	void ImageRender(float _DeltaTime);
+
+	void SetText(std::string_view _Text)
+	{
+		Text = _Text;
+	}
+
+	void SetFont(std::string_view _Font)
+	{
+		Font = _Font;
+	}
+	void SetTextSize(float _Value)
+	{
+		Size = _Value;
+	}
+	void SetTextColor(Color8Bit _Color)
+	{
+		TextColor = _Color;
+	}
+
+	/// <summary>
+	/// 원하는 렌더의(이미지, 텍스트) 위치, 크기를 가져온다.
+	/// </summary>
+	/// <returns></returns>
 	FTransform GetRenderTransForm();
 
 protected :
@@ -149,4 +179,10 @@ private :
 	// === Animation ===
 	std::map<std::string, UAnimationInfo> AnimationInfos;
 	UAnimationInfo* CurAnimation = nullptr;
+
+	// === Text ===
+	std::string Text = "";
+	std::string Font = "궁서";
+	float Size = 10.0f;
+	Color8Bit TextColor = Color8Bit::BlackA;
 };

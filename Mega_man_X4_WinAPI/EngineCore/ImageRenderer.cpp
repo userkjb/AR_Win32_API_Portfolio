@@ -53,41 +53,15 @@ void UImageRenderer::SetImage(std::string_view _Name, int _InfoIndex)
 
 void UImageRenderer::Render(float _DeltaTime)
 {
-	if (nullptr == Image)
+	// 이미지와 텍스트를 Render 해야 하기 때문에 기존의 Render는 ImageRender함수로 이동.
+
+	if (false == Text.empty())
 	{
-		MsgBoxAssert("이미지가 존재하지 않는 Renderer 입니다.");
+		TextRender(_DeltaTime);
 	}
-
-	if (nullptr != CurAnimation)
+	else
 	{
-		Image = CurAnimation->Image;
-		InfoIndex = CurAnimation->Update(_DeltaTime);
-	}
-
-	FTransform RendererTrans = GetRenderTransForm();
-
-	// TransColor 원리
-	// 특정 색상과 1비트도 차이가 나지 않는 색상은 출력하지 않는다.
-	// TransCopy에서만.
-	// PNG일 경우에만.
-	EWindowImageType ImageType = Image->GetImageType();
-
-	switch (ImageType)
-	{
-	case EWindowImageType::IMG_NONE:
-	{
-		MsgBoxAssert("이미지 타입이 NONE 입니다.");
-		break;
-	}
-	case EWindowImageType::IMG_BMP: // BMP 인 경우 일반적으로 TransCopy로 투명 처리를 한다.
-		GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
-		break;
-	case EWindowImageType::IMG_PNG:
-		GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
-		break;
-	default:
-		MsgBoxAssert("특정 색 및 투명 처리가 불가능한 이미지 입니다.");
-		break;
+		ImageRender(_DeltaTime);
 	}
 }
 
@@ -181,6 +155,53 @@ void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsFo
 void UImageRenderer::AnimationReset()
 {
 	CurAnimation = nullptr;
+}
+
+void UImageRenderer::TextRender(float _DeltaTime)
+{
+	FTransform RendererTrans = GetRenderTransForm();
+
+	GEngine->MainWindow.GetBackBufferImage()->TextCopy(Text, Font, Size, RendererTrans, TextColor);
+}
+
+void UImageRenderer::ImageRender(float _DeltaTime)
+{
+	if (nullptr == Image)
+	{
+		MsgBoxAssert("이미지가 존재하지 않는 Renderer 입니다.");
+	}
+
+	if (nullptr != CurAnimation)
+	{
+		Image = CurAnimation->Image;
+		InfoIndex = CurAnimation->Update(_DeltaTime);
+	}
+
+	FTransform RendererTrans = GetRenderTransForm();
+
+	// TransColor 원리
+	// 특정 색상과 1비트도 차이가 나지 않는 색상은 출력하지 않는다.
+	// TransCopy에서만.
+	// PNG일 경우에만.
+	EWindowImageType ImageType = Image->GetImageType();
+
+	switch (ImageType)
+	{
+	case EWindowImageType::IMG_NONE:
+	{
+		MsgBoxAssert("이미지 타입이 NONE 입니다.");
+		break;
+	}
+	case EWindowImageType::IMG_BMP: // BMP 인 경우 일반적으로 TransCopy로 투명 처리를 한다.
+		GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
+		break;
+	case EWindowImageType::IMG_PNG:
+		GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
+		break;
+	default:
+		MsgBoxAssert("특정 색 및 투명 처리가 불가능한 이미지 입니다.");
+		break;
+	}
 }
 
 FTransform UImageRenderer::GetRenderTransForm()
