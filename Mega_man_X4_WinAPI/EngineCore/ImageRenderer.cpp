@@ -144,8 +144,9 @@ void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsFo
 	UAnimationInfo& Info = AnimationInfos[UpperAniName];
 	CurAnimation = &Info;
 	CurAnimation->CurFrame = _StartIndex;
-	CurAnimation->CurTime = _Time;
-	if (0.0f >= _Time)
+	//CurAnimation->CurTime = _Time;
+	CurAnimation->CurTime = CurAnimation->Times[_StartIndex];
+	if (0.0f < _Time)
 	{
 		CurAnimation->CurTime = _Time;
 	}
