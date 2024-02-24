@@ -329,6 +329,24 @@ bool UWindowImage::Create(HDC _MainDC)
     return true;
 }
 
+void UWindowImage::TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color)
+{
+    // GDI+ 라는 라이브러리를 사용해야 한다.
+    Gdiplus::Graphics graphics(ImageDC);
+
+    std::wstring WFont = UEngineString::AnsiToUniCode(_Font);
+    Gdiplus::Font fnt(WFont.c_str(), _Size, 0, Gdiplus::UnitPixel);
+
+    Gdiplus::SolidBrush hB(Gdiplus::Color(_Color.R, _Color.G, _Color.B));
+
+    FVector Pos = _Trans.GetPosition();
+    Gdiplus::PointF ptf(Pos.X, Pos.Y);
+
+    std::wstring WText = UEngineString::AnsiToUniCode(_Text);
+
+    graphics.DrawString(WText.c_str(), -1, &fnt, ptf, &hB);  //출력
+}
+
 bool UWindowImage::Create(UWindowImage* _Image, const FVector& _Scale)
 {
     // HBITMAP 비트맵 이미지의 메모리권한

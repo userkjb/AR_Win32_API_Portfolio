@@ -92,6 +92,17 @@ public:
 	void AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
 
 	/// <summary>
+	/// 텍스트 출력을 위한 데이터 Copy
+	/// </summary>
+	/// <param name="_Text">출력하고자 하는 string</param>
+	/// <param name="_Font">Text 폰트</param>
+	/// <param name="_Size">글자 Size</param>
+	/// <param name="_Trans">글자 출력 위치</param>
+	/// <param name="_Color">글자 색</param>
+	void TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color);
+
+
+	/// <summary>
 	/// BackBufferImage 만드는 함수.
 	/// </summary>
 	/// <param name="_Image"></param>
