@@ -22,6 +22,11 @@ public :
 
 	void SwitchDebug();
 
+	FVector GetImageScale()
+	{
+		return ImageScale;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -29,5 +34,6 @@ protected:
 private :
 	UImageRenderer* MapRenderer = nullptr;	// Map 이미지
 	UImageRenderer* ColRenderer = nullptr;	// ColMap 이미지
+	FVector ImageScale;
 };
 

@@ -35,21 +35,45 @@ void UCyberSpaceLevel::BeginPlay()
 	CyberSpaceMap->SetMapImage("CyberPeacock-Area1-1.png");
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
 
-	NewPlayer = SpawnActor<APlayer>();
+	APlayer* NewPlayer = SpawnActor<APlayer>();
 	NewPlayer->SetActorLocation({ 400, 0 }); // 400 이 센터.
 }
 
 void UCyberSpaceLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
+
+	FVector Pos = GetCameraPos();
+
+	if (0.0f >= Pos.X)
+	{
+		Pos.X = 0.0f;
+	}
+	if (0.0f >= Pos.Y)
+	{
+		Pos.Y = 0.0f;
+	}
+
+	FVector ImageScale = CyberSpaceMap->GetImageScale();
+
+	if (Pos.X >= ImageScale.X - GEngine->MainWindow.GetWindowScale().X)
+	{
+		Pos.X = ImageScale.X - GEngine->MainWindow.GetWindowScale().X;
+	}
+
+	SetCameraPos(Pos);
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 {
+	// 리소스 로드.
+	// 액터 생성.
 	ULevel::LevelStart(_Level);
 }
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
 {
+	// 리소스 삭제.
+	// 액터 삭제.
 	ULevel::LevelEnd(_Level);
 }

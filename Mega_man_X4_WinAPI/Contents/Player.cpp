@@ -781,9 +781,6 @@ void APlayer::CalGravityVector(float _DeltaTime)
 
 void APlayer::MoveLastMoveVector(float _DeltaTime)
 {
-	// 카메라 추가.
-	MoveCameraVector();
-
 	AActor::AddActorLocation(LastMoveVector * _DeltaTime);
 }
 
@@ -795,6 +792,7 @@ void APlayer::MoveUpdate(float _DeltaTime)
 	MoveLastMoveVector(_DeltaTime);
 }
 
+/*
 void APlayer::MoveCameraVector()
 {
 	FVector PlayerPos = this->GetActorLocation();
@@ -822,6 +820,6 @@ void APlayer::MoveCameraVector()
 	
 	GetWorld()->SetCameraPos(CameraPos);
 }
-
+*/
 
 // EngineDebug::OutPutDebugText("" + std::to_string());
