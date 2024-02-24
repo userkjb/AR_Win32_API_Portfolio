@@ -127,6 +127,16 @@ public:
 	void TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _OutLineColor, Color8Bit _FillColor);
 
 	/// <summary>
+	/// Text 강조.
+	/// </summary>
+	/// <param name="_Text"></param>
+	/// <param name="_Font"></param>
+	/// <param name="_Size"></param>
+	/// <param name="_Trans"></param>
+	/// <param name="_Color"></param>
+	void TextCopyBold(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color /*= Color8Bit::Black*/);
+
+	/// <summary>
 	/// 출력을 담당.
 	/// </summary>
 	/// <param name="_Text"></param>
