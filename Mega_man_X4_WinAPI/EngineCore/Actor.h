@@ -93,7 +93,7 @@ public :
 	void DestroyUpdate(float _DeltaTime) override;
 
 	/// <summary>
-	/// 
+	/// Active를 설정할 수 있다.
 	/// </summary>
 	/// <param name="_Active"></param>
 	/// <param name="_ActiveTime"></param>
