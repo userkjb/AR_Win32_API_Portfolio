@@ -95,6 +95,12 @@ public :
 	/// <summary>
 	/// 
 	/// </summary>
+	/// <param name="_Active"></param>
+	/// <param name="_ActiveTime"></param>
+	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
+	/// <summary>
+	/// 
+	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void ActiveUpdate(float _DeltaTime) override;
 
