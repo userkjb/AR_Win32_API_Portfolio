@@ -116,6 +116,17 @@ public:
 	void TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color);
 
 	/// <summary>
+	/// 아웃 라인을 설정하는 Text.
+	/// </summary>
+	/// <param name="_Text"></param>
+	/// <param name="_Font"></param>
+	/// <param name="_Size"></param>
+	/// <param name="_Trans"></param>
+	/// <param name="_OutLineColor"></param>
+	/// <param name="_FillColor"></param>
+	void TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _OutLineColor, Color8Bit _FillColor);
+
+	/// <summary>
 	/// 출력을 담당.
 	/// </summary>
 	/// <param name="_Text"></param>
