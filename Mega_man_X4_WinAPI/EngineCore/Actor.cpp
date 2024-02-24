@@ -64,11 +64,32 @@ void AActor::Destroy(float _DestroyTime)
 	// Actor 는 자신을 죽인다.
 	UTickObject::Destroy(_DestroyTime);
 
+	// 자신에게 붙어있는 렌더러들도 죽인다.
+	for (UImageRenderer* Renderer : Renderers)
+	{
+		Renderer->Destroy(_DestroyTime);
+	}
+
+	// 콜리전도 다 죽인다.
+	for (UCollision* Collision : Collisions)
+	{
+		Collision->Destroy(_DestroyTime);
+	}
 }
 
 void AActor::DestroyUpdate(float _DeltaTime)
 {
 	UTickObject::DestroyUpdate(_DeltaTime);
+
+	for (UImageRenderer* Renderer : Renderers)
+	{
+		Renderer->DestroyUpdate(_DeltaTime);
+	}
+
+	for (UCollision* Collision : Collisions)
+	{
+		Collision->DestroyUpdate(_DeltaTime);
+	}
 }
 
 void AActor::ActiveUpdate(float _DeltaTime)
@@ -79,6 +100,11 @@ void AActor::ActiveUpdate(float _DeltaTime)
 	for (UImageRenderer* Renderer : Renderers)
 	{
 		Renderer->ActiveUpdate(_DeltaTime);
+	}
+
+	for (UCollision* Collision : Collisions)
+	{
+		Collision->ActiveUpdate(_DeltaTime);
 	}
 }
 
