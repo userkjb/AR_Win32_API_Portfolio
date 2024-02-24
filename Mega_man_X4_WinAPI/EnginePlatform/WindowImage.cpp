@@ -339,12 +339,18 @@ void UWindowImage::TextCopy(const std::string& _Text, const std::string& _Font, 
 
     Gdiplus::SolidBrush hB(Gdiplus::Color(_Color.R, _Color.G, _Color.B));
 
-    FVector Pos = _Trans.GetPosition();
-    Gdiplus::PointF ptf(Pos.X, Pos.Y);
+    //FVector Pos = _Trans.GetPosition();
+    //Gdiplus::PointF ptf(Pos.X, Pos.Y);
+    Gdiplus::RectF rectF(_Trans.GetPosition().X, _Trans.GetPosition().Y, 0, 0);
+    
+    Gdiplus::StringFormat stringFormat;
+    stringFormat.SetAlignment(Gdiplus::StringAlignmentCenter);
+    stringFormat.SetLineAlignment(Gdiplus::StringAlignmentCenter);
 
     std::wstring WText = UEngineString::AnsiToUniCode(_Text);
 
-    graphics.DrawString(WText.c_str(), -1, &fnt, ptf, &hB);  //출력
+    //graphics.DrawString(WText.c_str(), -1, &fnt, ptf, &hB);  //출력
+    graphics.DrawString(WText.c_str(), -1, &fnt, rectF, &stringFormat, &hB);  //출력
 }
 
 bool UWindowImage::Create(UWindowImage* _Image, const FVector& _Scale)
