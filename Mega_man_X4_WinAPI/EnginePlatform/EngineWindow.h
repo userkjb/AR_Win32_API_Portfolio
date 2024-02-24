@@ -60,6 +60,9 @@ public :
 	/// <returns></returns>
 	FVector GetMousePosition();
 
+	/// <summary>
+	/// 게임 종료. [GEngine->MainWindow.Off()]
+	/// </summary>
 	void Off()
 	{
 		WindowLive = false;
