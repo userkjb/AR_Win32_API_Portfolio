@@ -61,12 +61,6 @@ public :
 
 	}
 	
-	float4(float _X, float _Y, float _Z, float _W)
-		: X(_X), Y(_Y), Z(_Z), W(_W)
-	{
-
-	}
-
 	// 사용하고자 하는 함수 추가.
 	float4(long _X, long _Y)
 		: X(static_cast<float>(_X)), Y(static_cast<float>(_Y)), Z(0.0f), W(1.0f)
@@ -82,6 +76,18 @@ public :
 
 	float4(float _X, float _Y)
 		: X(_X), Y(_Y), Z(0.0f), W(1.0f)
+	{
+
+	}
+
+	float4(int _X, int _Y, int _Z, int _W)
+		: X(static_cast<float>(_X)), Y(static_cast<float>(_Y)), Z(static_cast<float>(_Z)), W(static_cast<float>(_W))
+	{
+
+	}
+
+	float4(float _X, float _Y, float _Z, float _W)
+		: X(_X), Y(_Y), Z(_Z), W(_W)
 	{
 
 	}
@@ -105,6 +111,7 @@ public:
 	{
 		return RadToDir(_Angle * UEngineMath::DToR);
 	}
+
 	static float4 RadToDir(float _Angle)
 	{
 		// 특정 각도에 빗변의 길이가 1인 방향 벡터를 구해줍니다.
@@ -175,16 +182,6 @@ public:
 		return Result;
 	}
 
-	float hX() const
-	{
-		return X * 0.5f;
-	}
-
-	float hY() const
-	{
-		return Y * 0.5f;
-	}
-
 	float4 Half2D()
 	{
 		return { hX(), hY() };
@@ -195,24 +192,34 @@ public:
 		return X == 0.0f && Y == 0.0f;
 	}
 
+	float hX() const
+	{
+		return X * 0.5f;
+	}
+
+	float hY() const
+	{
+		return Y * 0.5f;
+	}
+
 	int iX() const
 	{
-		return static_cast<int>(X);
+		return std::lround(X);
 	}
 	int iY() const
 	{
-		return static_cast<int>(Y);
+		return std::lround(Y);
 	}
 
 
 	int ihY()
 	{
-		return static_cast<int>(hY());
+		return std::lround(hY());
 	}
 
 	int ihX()
 	{
-		return static_cast<int>(hX());
+		return std::lround(hX());
 	}
 
 	// -- operator --
@@ -240,33 +247,6 @@ public:
 		X += _Other.X;
 		Y += _Other.Y;
 		Z += _Other.Z;
-
-		return *this;
-	}
-
-	float4 operator-()
-	{
-		float4 Result;
-		Result.X = -X;
-		Result.Y = -Y;
-		Result.Z = -Z;
-		return Result;
-	}
-
-	float4 operator-(const float4& _Other) const
-	{
-		float4 Result = *this;
-		Result.X -= _Other.X;
-		Result.Y -= _Other.Y;
-		Result.Z -= _Other.Z;
-		return Result;
-	}
-
-	float4& operator-=(const float4& _Other)
-	{
-		X -= _Other.X;
-		Y -= _Other.Y;
-		Z -= _Other.Z;
 
 		return *this;
 	}
@@ -303,6 +283,33 @@ public:
 		X *= _Other.X;
 		Y *= _Other.Y;
 		Z *= _Other.Z;
+
+		return *this;
+	}
+
+	float4 operator-()
+	{
+		float4 Result;
+		Result.X = -X;
+		Result.Y = -Y;
+		Result.Z = -Z;
+		return Result;
+	}
+
+	float4 operator-(const float4& _Other) const
+	{
+		float4 Result = *this;
+		Result.X -= _Other.X;
+		Result.Y -= _Other.Y;
+		Result.Z -= _Other.Z;
+		return Result;
+	}
+
+	float4& operator-=(const float4& _Other)
+	{
+		X -= _Other.X;
+		Y -= _Other.Y;
+		Z -= _Other.Z;
 
 		return *this;
 	}
