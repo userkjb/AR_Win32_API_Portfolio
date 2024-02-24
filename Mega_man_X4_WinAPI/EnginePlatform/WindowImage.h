@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <EngineBase/PathObject.h>
 #include <EngineBase/Transform.h>
+#include <EngineBase/EngineDebug.h>
 
 #include <objidl.h>
 #include <gdiplus.h>
@@ -30,6 +31,7 @@ public:
 	HBITMAP hBitMap = nullptr;
 	HDC ImageDC = nullptr;
 	FTransform CuttingTrans;
+	UImageInfo* RotationMaskImage = nullptr;
 	EWindowImageType ImageType = EWindowImageType::IMG_NONE;
 };
 
@@ -169,12 +171,36 @@ public:
 	Color8Bit GetColor(int _X, int _Y, Color8Bit _DefaultColor);
 
 	/// <summary>
-	/// 회전할 이미지를 설정한다.
+	/// <para>외부에서 사용할 함수.</para>
+	/// <para>UWindowImage* Rot = UEngineResourcesManager::GetInst().FindImg("image")</para>
+	/// <para>UWindowImage* Mask = UEngineResourcesManager::GetInst().FindImg("image")</para>
+	/// <para>Rot->SetRotationMaskImage(0, Mask, 0)</para>
+	/// </summary>
+	/// <param name="_Index"></param>
+	/// <param name="_RotationMaskImage"></param>
+	/// <param name="_MaskIndex"></param>
+	void SetRotationMaskImage(int _Index, UWindowImage* _RotationMaskImage, int _MaskIndex)
+	{
+		UImageInfo& Ref = _RotationMaskImage->Infos[_MaskIndex];
+		Infos[_Index].RotationMaskImage = &Ref;
+	}
+
+	/// <summary>
+	/// 
 	/// </summary>
 	/// <param name="_RotationMaskImage"></param>
-	void SetRotationMaskImage(UWindowImage* _RotationMaskImage)
+	void SetRotationMaskImageFolder(UWindowImage* _RotationMaskImage)
 	{
-		RotationMaskImage = _RotationMaskImage;
+		if (Infos.size() != _RotationMaskImage->Infos.size())
+		{
+			MsgBoxAssert("이미지정보의 크기가 다른 이미지 끼리 매칭을 할수가 없습니다.");
+			return;
+		}
+
+		for (int i = 0; i < static_cast<int>(Infos.size()); i++)
+		{
+			SetRotationMaskImage(i, _RotationMaskImage, i);
+		}
 	}
 
 private :

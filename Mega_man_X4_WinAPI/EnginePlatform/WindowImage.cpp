@@ -330,6 +330,7 @@ void UWindowImage::PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, i
         MsgBoxAssert(GetName() + "이미지 정보의 인덱스를 오버하여 사용했습니다");
     }
 
+    UImageInfo& CurInfo = _CopyImage->Infos[_Index];
 
     FTransform& ImageTrans = _CopyImage->Infos[_Index].CuttingTrans;
 
@@ -361,7 +362,7 @@ void UWindowImage::PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, i
 
     // 원하는 각도만큼 회전 시킨 값을 만들어야 한다.
 
-    if (nullptr == _CopyImage->RotationMaskImage)
+    if (nullptr == CurInfo.RotationMaskImage)
     {
         MsgBoxAssert("이미지를 회전시키려고 했는데 이미지가 없습니다.");
     }
@@ -379,7 +380,7 @@ void UWindowImage::PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, i
         ImageTop,   							// int x1,  
         ImageScaleX, 							// int y1, 
         ImageScaleY, 							// int y1, 
-        _CopyImage->RotationMaskImage->hBitMap, // 검정색 바탕의 그림.
+        CurInfo.RotationMaskImage->hBitMap, // 검정색 바탕의 그림.
         ImageLeft,   							// int y1, 
         ImageTop   							// int x1,  
     );
