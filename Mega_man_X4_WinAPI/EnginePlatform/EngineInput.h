@@ -24,6 +24,7 @@ private:
 		bool Free = true; // 누리지 않으면
 
 		float PressTime = 0.0f;
+		float UpTime = 0.0f;
 
 		int Key = -1; // 기본 키 값.
 
@@ -42,7 +43,26 @@ public :
 	UEngineInput& operator=(const UEngineInput) = delete;
 	UEngineInput& operator=(UEngineInput&& _Other) noexcept = delete;
 
-	// 외부에서 사용할 함수들.
+	// ===== 외부에서 사용할 함수들. =====
+
+	static bool IsDoubleClick(int _Key, float _ClickTime)
+	{
+		if (false == AllKeys.contains(_Key))
+		{
+			MsgBoxAssert("입력 설정이 존재하지 않는 키 입니다.");
+		}
+
+		bool Value = AllKeys[_Key].Down;
+		float Time = AllKeys[_Key].UpTime;
+
+		if (true == AllKeys[_Key].Down && AllKeys[_Key].UpTime < _ClickTime)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	static bool IsDown(int _Key)
 	{
 		if (AllKeys.contains(_Key) == false)
@@ -52,7 +72,6 @@ public :
 
 		return AllKeys[_Key].Down;
 	}
-
 
 	static float GetPressTime(int _Key)
 	{
