@@ -39,13 +39,13 @@ AActor::~AActor()
 
 UImageRenderer* AActor::CreateImageRenderer(int Order)
 {
-	UImageRenderer* NewRenderer = new UImageRenderer();
-	UActorComponent* ActorCom = NewRenderer;
+	UImageRenderer* Component = new UImageRenderer();
+	UActorComponent* ActorCom = Component;
 	ActorCom->SetOwner(this);
 	ActorCom->SetOrder(Order);
 	ActorCom->BeginPlay();
-	Renderers.push_back(NewRenderer);
-	return NewRenderer;
+	Renderers.push_back(Component);
+	return Component;
 }
 
 UCollision* AActor::CreateCollision(int _Order)
