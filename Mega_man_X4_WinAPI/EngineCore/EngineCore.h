@@ -51,6 +51,16 @@ public :
 	/// <param name="_Name"></param>
 	void ChangeLevel(std::string_view _Name);
 
+	/// <summary>
+	/// 프래임 설정 함수.
+	/// </summary>
+	/// <param name="_Frame"></param>
+	void SetFrame(int _Frame)
+	{
+		Frame = _Frame;
+		FrameTime = 1 / static_cast<float>(Frame);
+	}
+
 protected :
 	UEngineCore();
 
