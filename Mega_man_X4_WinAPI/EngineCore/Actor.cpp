@@ -21,6 +21,20 @@ AActor::~AActor()
 	}
 
 	Renderers.clear();
+
+	// Collision도 지워줘야지
+	for (UCollision* Collision : Collisions)
+	{
+		if (nullptr == Collision)
+		{
+			MsgBoxAssert("콜리전이 nullptr인 상황이었습니다.");
+		}
+
+		delete Collision;
+		Collision = nullptr;
+	}
+
+	Collisions.clear();
 }
 
 UImageRenderer* AActor::CreateImageRenderer(int Order)
