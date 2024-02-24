@@ -145,7 +145,7 @@ public:
 	/// <returns></returns>
 	float Size2D()
 	{
-		return std::sqrtf((X * X) + (Y + Y));
+		return std::sqrtf((X * X) + (Y * Y));
 	}
 
 	void RotationZToDeg(float _Angle)
@@ -155,7 +155,7 @@ public:
 
 	void RotationZToRad(float _Angle)
 	{
-		*this->VectorRotationZToRad(*this, _Angle);
+		*this = VectorRotationZToRad(*this, _Angle);
 		return;
 	}
 
