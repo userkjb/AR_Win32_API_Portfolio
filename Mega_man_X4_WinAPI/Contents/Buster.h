@@ -46,10 +46,23 @@ protected :
 	EBusterState E_BusterState = EBusterState::CreateBuster;
 
 	// Render 순서.
-	ERenderOrder Order = ERenderOrder::None;
+	ERenderOrder Order = ERenderOrder::None;	
 
-	// Buster 방향.
-	
+	// Level 에서 대미지 변경 해야 함.
+	void SetDefaultBusterDamage(int _Damage)
+	{
+		DefaultBusterDamage = _Damage;
+	}
+	void SetMiddleBusterDamage(int _Damage)
+	{
+		MiddleBusterDamage = _Damage;
+	}
+	void SetPullBusterDamage(int _Damage)
+	{
+		PullBusterDamage = _Damage;
+	}
+
+
 
 private :
 
@@ -62,14 +75,16 @@ private :
 	void BusterCrash(float _DeltaTime);
 	void BusterEnd(float _DeltaTime);
 
-
-
 	//=============================================
 
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BusterCollision = nullptr;
-	const float BusterSpeed = 0.5f; // 발사 속도
+	const float BusterSpeed = 0.75f; // 발사 속도.
+	int DefaultBusterDamage = 1; // Buster 공격력.
+	int MiddleBusterDamage = 2;
+	int PullBusterDamage = 3;
 
-	float BusterLifeTime = 0.0f;
+	float BusterLifeTime = 0.0f; // Buster 생명 주기.
+	const float BusterLife = 2.0f;
 };
 

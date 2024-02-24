@@ -27,9 +27,9 @@ void ABuster::BeginPlay()
 	Renderer->CreateAnimation("Buster_Default_Right", "x_Buster_Default_Right.png", 0, 4, 0.05f, true);
 	Renderer->CreateAnimation("Buster_Default_Left", "x_Buster_Default_Left.png", 0, 4, 0.05f, true);
 		
-	//BusterCollision = CreateCollision(ERenderOrder::Buster);
-	//BusterCollision->SetScale(ImageScale);
-	//BusterCollision->SetColType(ECollisionType::CirCle);
+	BusterCollision = CreateCollision(ECollisionOrder::Weapon);
+	BusterCollision->SetScale(ImageScale);
+	BusterCollision->SetColType(ECollisionType::CirCle);
 
 	//StateChange(EBusterState::CreateBuster);
 } // end BeginPlay()
@@ -111,7 +111,7 @@ void ABuster::DefaultBuster(float _DeltaTime)
 	BusterLifeTime += _DeltaTime;
 	AActor::AddActorLocation(Dir * BusterSpeed);
 
-	if (BusterLifeTime >= 2.0f)
+	if (BusterLifeTime >= BusterLife)
 	{
 		BusterLifeTime = 0.0f;
 		StateChange(EBusterState::BusterEnd);
@@ -121,14 +121,29 @@ void ABuster::DefaultBuster(float _DeltaTime)
 
 void ABuster::MiddleCharge(float _DeltaTime)
 {
-	int a = 0;
+	BusterLifeTime += _DeltaTime;
+	AActor::AddActorLocation(Dir * BusterSpeed);
+	if (BusterLifeTime >= BusterLife)
+	{
+		BusterLifeTime = 0.0f;
+		StateChange(EBusterState::BusterEnd);
+		return;
+	}
 }
 
 void ABuster::PullCharge(float _DeltaTime)
 {
-	int a = 0;
+	BusterLifeTime += _DeltaTime;
+	AActor::AddActorLocation(Dir * BusterSpeed);
+	if (BusterLifeTime >= BusterLife)
+	{
+		BusterLifeTime = 0.0f;
+		StateChange(EBusterState::BusterEnd);
+		return;
+	}
 }
 
+// Ãæµ¹
 void ABuster::BusterCrash(float _DeltaTime)
 {
 }
