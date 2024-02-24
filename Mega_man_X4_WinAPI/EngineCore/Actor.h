@@ -110,6 +110,7 @@ private :
 	/// Render 된 이미지를 저장.
 	/// </summary>
 	std::list<UImageRenderer*> Renderers;
+
 	/// <summary>
 	/// Collision 적용을 저장.
 	/// </summary>
