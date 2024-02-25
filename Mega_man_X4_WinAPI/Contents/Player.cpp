@@ -614,7 +614,7 @@ void APlayer::AttackEnd(float _DeltaTime)
 			A_Buster->SetDir(FVector::Left);
 		}
 		A_Buster->SetBusterState(EBusterState::MiddleCharge);
-		//A_Buster->SetBusterAnimation("GetAnimationName()");
+		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Middle"));
 	}
 	else if (2.0 < AttackTime)
 	{
@@ -629,9 +629,8 @@ void APlayer::AttackEnd(float _DeltaTime)
 			A_Buster->SetDir(FVector::Left);
 		}
 		A_Buster->SetBusterState(EBusterState::PullCharge);
-		//A_Buster->SetBusterAnimation("GetAnimationName()");
-
-	}	
+		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Pull"));
+	}
 
 
 	// 级堡 局聪皋捞记捞 场唱搁 级堡 局聪皋捞记篮 Off

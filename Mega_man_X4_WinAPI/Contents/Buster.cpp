@@ -26,6 +26,10 @@ void ABuster::BeginPlay()
 
 	Renderer->CreateAnimation("Buster_Default_Right", "x_Buster_Default_Right.png", 0, 4, 0.05f, true);
 	Renderer->CreateAnimation("Buster_Default_Left", "x_Buster_Default_Left.png", 0, 4, 0.05f, true);
+	Renderer->CreateAnimation("Buster_Middle_Right", "x_Middle_Buster_MuzzleFlash_Right.png", 0, 3, 0.05f, true);
+	Renderer->CreateAnimation("Buster_Middle_Left", "x_Middle_Buster_MuzzleFlash_Left.png", 0, 3, 0.05f, true);
+	Renderer->CreateAnimation("Buster_Pull_Right", "x_Buster_Pull_Right.png", 0, 3, 0.05f, true);
+	Renderer->CreateAnimation("Buster_Pull_Left", "x_Buster_Pull_Left.png", 0, 3, 0.05f, true);
 		
 	BusterCollision = CreateCollision(ECollisionOrder::Weapon);
 	BusterCollision->SetScale(ImageScale);

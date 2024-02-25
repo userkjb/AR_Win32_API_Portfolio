@@ -55,8 +55,20 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Right.png", 8, 4);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Left.png", 8, 4);
 
+	// Buster
 	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Default_Right.png", 5, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Default_Left.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Middle_Right.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Middle_Left.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Pull_Right.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Pull_Left.png", 4, 1);
+	
+	// Â÷Áö
+	UEngineResourcesManager::GetInst().CuttingImage("Charging_1.png", 9, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Charging_2.png", 4, 1);
+	// È­¿°
+	UEngineResourcesManager::GetInst().CuttingImage("x_Default_Buster_MuzzleFlash_Right.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Default_Buster_MuzzleFlash_Left.png", 5, 1);
 
 	UEngineResourcesManager::GetInst().CuttingImage("Spikeball_Left.png", 7, 3);
 
@@ -65,9 +77,6 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Bomb.png", 1, 1);
 	
 
-
-	UEngineResourcesManager::GetInst().CuttingImage("Charging_1.png", 9, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("Charging_2.png", 4, 1);
 
 	// == Actor ==
 
