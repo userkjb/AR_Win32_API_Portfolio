@@ -169,6 +169,9 @@ public:
 	/// <param name="_Y"></param>
 	void Cutting(int _X, int _Y);
 
+
+	void SetCuttingTransform(const FTransform& _CuttingTrans, int _Index = 0);
+
 	/// <summary>
 	/// Collision µð¹ö±ë ¿ë.
 	/// </summary>
