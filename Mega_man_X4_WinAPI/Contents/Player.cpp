@@ -603,33 +603,41 @@ void APlayer::AttackEnd(float _DeltaTime)
 
 	if (1.0f <= AttackTime && AttackTime < 2.0f)
 	{
-		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-		if (DirState == EActorDir::Right)
+		if (TickCount == 0)
 		{
-			A_Buster->SetDir(FVector::Right);
+			ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+			if (DirState == EActorDir::Right)
+			{
+				A_Buster->SetDir(FVector::Right);
+			}
+			else if (DirState == EActorDir::Left)
+			{
+				A_Buster->SetDir(FVector::Left);
+			}
+			A_Buster->SetBusterState(EBusterState::MiddleCharge);
+			A_Buster->SetBusterAnimation(GetAnimationName("Buster_Middle"));
+			TickCount++;
 		}
-		else if (DirState == EActorDir::Left)
-		{
-			A_Buster->SetDir(FVector::Left);
-		}
-		A_Buster->SetBusterState(EBusterState::MiddleCharge);
-		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Middle"));
 	}
 	else if (2.0 < AttackTime)
 	{
-		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-		if (DirState == EActorDir::Right)
+		if (TickCount == 0)
 		{
-			A_Buster->SetDir(FVector::Right);
+			ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+			if (DirState == EActorDir::Right)
+			{
+				A_Buster->SetDir(FVector::Right);
+			}
+			else if (DirState == EActorDir::Left)
+			{
+				A_Buster->SetDir(FVector::Left);
+			}
+			A_Buster->SetBusterState(EBusterState::PullCharge);
+			A_Buster->SetBusterAnimation(GetAnimationName("Buster_Pull"));
+			TickCount++;
 		}
-		else if (DirState == EActorDir::Left)
-		{
-			A_Buster->SetDir(FVector::Left);
-		}
-		A_Buster->SetBusterState(EBusterState::PullCharge);
-		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Pull"));
 	}
 
 
@@ -638,6 +646,7 @@ void APlayer::AttackEnd(float _DeltaTime)
 
 	if (true == Renderer->IsCurAnimationEnd())
 	{
+		TickCount = 0;
 		AttackTime = 0.0f;
 		StateChange(EPlayerState::Idle);
 		return;

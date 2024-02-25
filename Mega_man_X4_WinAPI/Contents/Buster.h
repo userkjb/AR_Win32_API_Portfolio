@@ -79,7 +79,7 @@ private :
 
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BusterCollision = nullptr;
-	const float BusterSpeed = 0.75f; // 발사 속도.
+	const float BusterSpeed = 0.0075f; // 발사 속도.
 	int DefaultBusterDamage = 1; // Buster 공격력.
 	int MiddleBusterDamage = 2;
 	int PullBusterDamage = 3;
