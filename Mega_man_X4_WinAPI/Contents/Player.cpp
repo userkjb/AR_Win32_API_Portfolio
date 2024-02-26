@@ -30,6 +30,9 @@ void APlayer::BeginPlay()
 	//FVector ImageScale = Image->GetScale();// 200 100
 	Renderer->SetTransform({ {0,0}, {35 * 3, 80 * 3} }); 
 
+	PlayerCollision = CreateCollision(ECollisionOrder::Player);
+	PlayerCollision->SetScale({ 35 * 3, 80 * 3 });
+	PlayerCollision->SetColType(ECollisionType::Rect);
 
 	// =================================================================
 

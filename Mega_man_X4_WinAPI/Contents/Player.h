@@ -222,6 +222,7 @@ private :
 	// ==========================================
 
 	UImageRenderer* Renderer = nullptr;
+	UCollision* PlayerCollision = nullptr;
 	UImageRenderer* Busterflash = nullptr; // ¹ö½ºÅÍ ÃÑ±¸ ¼¶±¤.
 	UImageRenderer* MiddleChargeRender = nullptr;
 	UImageRenderer* PullChargeRender = nullptr;
