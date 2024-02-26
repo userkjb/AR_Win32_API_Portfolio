@@ -47,8 +47,22 @@ enum class EBusterState
 	DefaultCharge,	// 기본.
 	MiddleCharge,	// 중 차지.
 	PullCharge,		// 풀 차지.
-	BusterCrash,// 충돌.
+	BusterCrash,	// 충돌.
 	BusterEnd,		// 종료.
+};
+
+enum class EBossState
+{
+	None,
+
+	Intro,
+	Ready,
+
+	FeatherAttack,
+	RisingSlash,
+	TrackingShot,
+
+	Death,
 };
 
 /// <summary>
@@ -70,6 +84,7 @@ enum class ERenderOrder
 	Player,
 	MapObject,
 	Buster,
+	Boss,
 };
 
 /// <summary>
