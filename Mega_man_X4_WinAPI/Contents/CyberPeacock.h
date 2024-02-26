@@ -43,7 +43,15 @@ protected :
 	// 상태 Tick 함수들
 	void Intro(float _DeltaTime);
 	void IntroEnd(float _DeltaTime);
+	/// <summary>
+	/// 사라지다.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
 	void Disappear(float _DeltaTime);
+	/// <summary>
+	/// 생기다.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
 	void Appear(float _DeltaTime);
 	void FeatherAttack(float _DeltaTime);
 	void RisingSlash(float _DeltaTime);
@@ -62,7 +70,6 @@ private :
 	float BossPatternTime = 0.0f;
 	int Hp = 48;
 	int HitCount = 0;
-	int PatternNumber = 0;
 
 	int BodyDamage = 5;
 	int FeatherAttackDamage = 9;

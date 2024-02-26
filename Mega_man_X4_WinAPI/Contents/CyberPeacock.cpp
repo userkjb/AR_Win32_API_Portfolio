@@ -163,12 +163,12 @@ void ACyberPeacock::IntroEndStart()
 
 void ACyberPeacock::DisappearStart()
 {
+	RandValue = rand() % 3; // 0 ~ 2
 	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
 }
 
 void ACyberPeacock::AppearStart()
 {
-	RandValue = rand() % 3; // 0 ~ 2
 	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
 }
 
@@ -249,7 +249,6 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 		// Start 에서 RandValue 값을 구함.
 		if (RandValue == 0)
 		{
-			PatternNumber = 0;
 			if (PlayerDir == EActorDir::Right)
 			{
 				this->SetActorLocation({ PlayerPos.iX() - 50, PlayerPos.iY() - 50 });
@@ -261,7 +260,6 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 		}
 		else if (RandValue == 1)
 		{
-			PatternNumber = 1;
 			if (PlayerDir == EActorDir::Right)
 			{
 				this->SetActorLocation({ PlayerPos.iX() - 50, PlayerPos.iY() - 50 });
@@ -273,7 +271,6 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 		}
 		else if (RandValue == 2) // hp 반 조건 넣어야 함.
 		{
-			PatternNumber = 2;
 			// Player 위치에 따라 나타나는 좌표가 2개로 나뉨.
 			if (PlayerDir == EActorDir::Right)
 			{
@@ -300,20 +297,23 @@ void ACyberPeacock::Appear(float _DeltaTime)
 	// 나타남. 나타날 때는 피격 판정이 없음.
 	PeacockRenderer->ActiveOn();
 	
-	if (PatternNumber == 0)
+	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
-		StateChange(ECyberPeacockState::FeatherAttack);
-		return;
-	}
-	else if (PatternNumber == 1)
-	{
-		StateChange(ECyberPeacockState::RisingSlash);
-		return;
-	}
-	else if (PatternNumber == 2)
-	{
-		StateChange(ECyberPeacockState::TrackingShot);
-		return;	
+		if (RandValue == 0)
+		{
+			StateChange(ECyberPeacockState::FeatherAttack);
+			return;
+		}
+		else if (RandValue == 1)
+		{
+			StateChange(ECyberPeacockState::RisingSlash);
+			return;
+		}
+		else if (RandValue == 2)
+		{
+			StateChange(ECyberPeacockState::TrackingShot);
+			return;	
+		}
 	}
 }
 
