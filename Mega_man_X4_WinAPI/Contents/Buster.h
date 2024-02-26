@@ -81,6 +81,8 @@ private :
 
 	//=============================================
 
+	bool CollisionCheck();
+
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BusterCollision = nullptr;
 	const float BusterSpeed = 0.075f; // 발사 속도.

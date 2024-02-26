@@ -98,13 +98,13 @@ void ABuster::StateUpdate(float _DeltaTime)
 
 void ABuster::BusterCrashStart()
 {
-	// 충동시 나오는 임펙트 출력.
+	// 충동시 나오는 임펙트 출력. //================================
 	int a = 0;
 }
 
 void ABuster::BusterEndStart()
 {
-	int a = 0;
+	
 }
 
 #pragma endregion
@@ -115,6 +115,13 @@ void ABuster::DefaultBuster(float _DeltaTime)
 {
 	BusterLifeTime += _DeltaTime;
 	AActor::AddActorLocation(Dir * BusterSpeed);
+	
+	if (true == CollisionCheck())
+	{
+		BusterLifeTime = 0.0f;
+		StateChange(EBusterState::BusterCrash);
+		return;
+	}
 
 	if (BusterLifeTime >= BusterLife)
 	{
@@ -128,6 +135,14 @@ void ABuster::MiddleCharge(float _DeltaTime)
 {
 	BusterLifeTime += _DeltaTime;
 	AActor::AddActorLocation(Dir * BusterSpeed);
+
+	if (true == CollisionCheck())
+	{
+		BusterLifeTime = 0.0f;
+		StateChange(EBusterState::BusterCrash);
+		return;
+	}
+
 	if (BusterLifeTime >= BusterLife)
 	{
 		BusterLifeTime = 0.0f;
@@ -140,6 +155,14 @@ void ABuster::PullCharge(float _DeltaTime)
 {
 	BusterLifeTime += _DeltaTime;
 	AActor::AddActorLocation(Dir * BusterSpeed);
+
+	if (true == CollisionCheck())
+	{
+		BusterLifeTime = 0.0f;
+		StateChange(EBusterState::BusterCrash);
+		return;
+	}
+
 	if (BusterLifeTime >= BusterLife)
 	{
 		BusterLifeTime = 0.0f;
@@ -151,11 +174,30 @@ void ABuster::PullCharge(float _DeltaTime)
 // 충돌
 void ABuster::BusterCrash(float _DeltaTime)
 {
-	// 
+	AActor::AddActorLocation({ 0, 0 });
+
+	if (true == Renderer->IsCurAnimationEnd())
+	{
+		StateChange(EBusterState::BusterEnd);
+		return;
+	}
 }
 
 void ABuster::BusterEnd(float _DeltaTime)
 {
-	int a = 0;
 	this->Destroy(0.0f);
+}
+
+
+bool ABuster::CollisionCheck()
+{
+	std::vector<UCollision*> Result;
+	if (true != BusterCollision->CollisionCheck(ECollisionOrder::Player, Result))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
