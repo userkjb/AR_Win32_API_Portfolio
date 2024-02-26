@@ -1,6 +1,7 @@
 #include "CyberSpaceLevel.h"
 #include "CyberSpaceMap.h"
 #include "Player.h"
+#include "CyberPeacock.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
@@ -28,6 +29,11 @@ void UCyberSpaceLevel::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
+	UEngineResourcesManager::GetInst().CuttingImage("Peacock_Intro.png", 8, 4);
+	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Right.png", 1, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Left.png", 6, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Right.png", 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Left.png", 3, 1);
 
 	// Map
 	CyberSpaceMap = SpawnActor<ACyberSpaceMap>();
@@ -36,7 +42,10 @@ void UCyberSpaceLevel::BeginPlay()
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
 
 	APlayer* NewPlayer = SpawnActor<APlayer>();
-	NewPlayer->SetActorLocation({ 400, 0 }); // 400 이 센터.
+	NewPlayer->SetActorLocation({ 200, 0 }); // 400 이 센터.
+
+	ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
+	NewBoss->SetActorLocation({ 520, 500 });
 }
 
 void UCyberSpaceLevel::Tick(float _DeltaTime)
