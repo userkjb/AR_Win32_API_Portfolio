@@ -254,8 +254,7 @@ private :
 	// Player를 전역으로 빼준다.
 	static APlayer* MainPlayer;
 
-	// test ==========================================
-	
+		
 	float MoveSpeed = 500.0f;
 	float DashSpeed = 2.0f;
 	float DashTime = 0.0f;
@@ -263,6 +262,9 @@ private :
 	float AttackTime = 0.0f;
 	float DelayTime = 0.0f;
 	int TickCount = 0;
+
+	int MaxHp = 0;
+	int Hp = 0;
 };
 
 /*
