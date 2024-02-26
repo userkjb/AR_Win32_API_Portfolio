@@ -195,6 +195,10 @@ void ACyberPeacock::CollisionCheck()
 	std::vector<UCollision*> Result;
 	if (true == PeacockCollision->CollisionCheck(ECollisionOrder::Player, Result))
 	{
-		int a = 0;
+		
+	}
+	else if (true == PeacockCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
+	{
+
 	}
 }
