@@ -37,10 +37,12 @@ enum class EPlayerState
 	DashLoop,		// 대쉬 중.
 	DashEnd,		// 대쉬 종료.
 
-	Charge,			// 차지.
 	//Hit,
 };
 
+/// <summary>
+/// X Buster 상태
+/// </summary>
 enum class EBusterState
 {
 	CreateBuster,
@@ -51,12 +53,15 @@ enum class EBusterState
 	BusterEnd,		// 종료.
 };
 
-enum class EBossState
+enum class ECyberPeacockState
 {
 	None,
 
 	Intro,
-	Ready,
+	IntroEnd,
+
+	Disappear,		// 사라짐.
+	Appear,			// 나타남.
 
 	FeatherAttack,
 	RisingSlash,
