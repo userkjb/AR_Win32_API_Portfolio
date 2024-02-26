@@ -34,7 +34,7 @@ void ContentsCore::BeginPlay()
 	// ºÎ¸ð BeginPlay.
 	UEngineCore::BeginPlay();
 
-	srand(time(0));
+	srand(static_cast<unsigned int>(time(0)));
 
 	// ==========================================================================
 
