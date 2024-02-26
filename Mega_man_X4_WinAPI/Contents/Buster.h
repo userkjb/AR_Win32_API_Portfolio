@@ -49,6 +49,10 @@ protected :
 	ERenderOrder Order = ERenderOrder::None;	
 
 	// Level 에서 대미지 변경 해야 함.
+	int GetDefaultBusterDamage()
+	{
+		return DefaultBusterDamage;
+	}
 	void SetDefaultBusterDamage(int _Damage)
 	{
 		DefaultBusterDamage = _Damage;

@@ -98,6 +98,7 @@ void ABuster::StateUpdate(float _DeltaTime)
 
 void ABuster::BusterCrashStart()
 {
+	// 충동시 나오는 임펙트 출력.
 	int a = 0;
 }
 
@@ -150,6 +151,7 @@ void ABuster::PullCharge(float _DeltaTime)
 // 충돌
 void ABuster::BusterCrash(float _DeltaTime)
 {
+	// 
 }
 
 void ABuster::BusterEnd(float _DeltaTime)
