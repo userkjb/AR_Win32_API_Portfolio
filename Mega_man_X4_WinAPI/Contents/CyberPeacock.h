@@ -55,6 +55,10 @@ private :
 
 	void CollisionCheck();
 
+	int RandValue = 0;
+
+	std::string CurAnimationName = "None";
+
 	float BossPatternTime = 0.0f;
 	int Hp = 48;
 	int HitCount = 0;

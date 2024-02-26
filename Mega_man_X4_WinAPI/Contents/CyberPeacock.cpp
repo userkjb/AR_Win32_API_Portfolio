@@ -31,12 +31,12 @@ void ACyberPeacock::BeginPlay()
 	// Intro
 	PeacockRenderer->CreateAnimation("Peacock_Intro", "Peacock_Intro.png", 0, 30, 0.05f, false);
 
-	PeacockRenderer->CreateAnimation("Fight_Ready_Left_one", "Fight_Ready_Left.png", 0, 6, 1.5f, false);
+	PeacockRenderer->CreateAnimation("Fight_Ready_Left_one", "Fight_Ready_Left.png", 0, 5, 0.05f, false); // 이미지 이슈
 	PeacockRenderer->CreateAnimation("Fight_Ready_Left", "Fight_Ready_Left.png", 6, 6, 1.5f, false);
 	PeacockRenderer->CreateAnimation("Fight_Ready_Right", "Fight_Ready_Right.png", 0, 0, 0.5f, false);
 
-	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 2, 1.0f, true);
-	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 2, 1.0f, true);
+	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 2, 0.05f, true); // 이미지 이슈
+	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 2, 0.05f, true);
 
 	PeacockRenderer->ChangeAnimation("Peacock_Intro");
 
@@ -132,7 +132,23 @@ std::string ACyberPeacock::GetAnimationName(std::string _Name)
 {
 	std::string DirName = "";
 
-	return std::string();
+	APlayer* Player = APlayer::GetMainPlayer();
+	EActorDir PlayerDir = Player->GetActorDir();
+	switch (PlayerDir)
+	{
+	case EActorDir::Left:
+		DirName = "_Left";
+		break;
+	case EActorDir::Right:
+		DirName = "_Right";
+		break;
+	default :
+		break;
+	}
+
+	CurAnimationName = _Name;
+
+	return _Name + DirName;
 }
 
 void ACyberPeacock::IntroStart()
@@ -147,12 +163,13 @@ void ACyberPeacock::IntroEndStart()
 
 void ACyberPeacock::DisappearStart()
 {
-	// GetAnimationName()
-	PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
+	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
 }
 
 void ACyberPeacock::AppearStart()
 {
+	RandValue = rand() % 3; // 0 ~ 2
+	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
 }
 
 void ACyberPeacock::FeatherAttackStart()
@@ -177,65 +194,96 @@ void ACyberPeacock::DeathStart()
 void ACyberPeacock::Intro(float _DeltaTime)
 {
 	// 주와아앙 나오고.
+	BossPatternTime += _DeltaTime;
+	
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
 		// 대사진행.
 
 		// 대사 종료 후 파칭.
-		StateChange(ECyberPeacockState::IntroEnd);
-		return;
+		if (5.0f <= BossPatternTime)
+		{
+			BossPatternTime = 0.0f;
+			StateChange(ECyberPeacockState::IntroEnd);
+			return;
+		}
 	}
 }
 
 void ACyberPeacock::IntroEnd(float _DeltaTime)
 {
 	// 파칭 한 다음
-	
+	BossPatternTime += _DeltaTime;
 
 	// UI 체력바 올라간 다음.
 	
 
 	// 사라짐.
-	PeacockCollision->ActiveOff();
-	StateChange(ECyberPeacockState::Disappear);
-	return;
+	if (true == PeacockRenderer->IsCurAnimationEnd())
+	{
+		BossPatternTime = 0.0f;
+		PeacockCollision->ActiveOff();
+		StateChange(ECyberPeacockState::Disappear);
+		return;
+	}
 }
 
 void ACyberPeacock::Disappear(float _DeltaTime)
 {
-	// 사라졌음.
 	BossPatternTime += _DeltaTime;
 	
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
+		// 사라졌음.
 		PeacockRenderer->ActiveOff();
-	}
-	
-	// 플레이어 위치를 기반으로 나타나야 함.
-	APlayer* Player = APlayer::GetMainPlayer();
-	if (nullptr == Player)
-	{
-		MsgBoxAssert("Player가 없습니다.");
-	}
-	FVector PlayerPos = Player->GetActorLocation();
-	EActorDir PlayerDir = Player->GetActorDir();
-		
-	int RandValue = rand() % 3; // 0 ~ 2
-	if (RandValue == 0)
-	{
-		PatternNumber = 0;
-		this->SetActorLocation({ 0, 0 });
-	}
-	else if (RandValue == 1)
-	{
-		PatternNumber = 1;
-		this->SetActorLocation({ 0, 0 });
-	}
-	else if (RandValue == 2) // hp 반 조건 넣어야 함.
-	{
-		PatternNumber = 2;
-		// Player 위치에 따라 나타나는 좌표가 2개로 나뉨.
-		this->SetActorLocation({ 0, 0 });
+
+		// 플레이어 위치를 기반으로 나타나야 함.
+		APlayer* Player = APlayer::GetMainPlayer();
+		if (nullptr == Player)
+		{
+			MsgBoxAssert("Player가 없습니다.");
+		}
+		FVector PlayerPos = Player->GetActorLocation();
+		EActorDir PlayerDir = Player->GetActorDir();
+
+		// Start 에서 RandValue 값을 구함.
+		if (RandValue == 0)
+		{
+			PatternNumber = 0;
+			if (PlayerDir == EActorDir::Right)
+			{
+				this->SetActorLocation({ PlayerPos.iX() - 50, PlayerPos.iY() - 50 });
+			}
+			else if (PlayerDir == EActorDir::Right)
+			{
+				this->SetActorLocation({ PlayerPos.iX() + 50, PlayerPos.iY() - 50 });
+			}
+		}
+		else if (RandValue == 1)
+		{
+			PatternNumber = 1;
+			if (PlayerDir == EActorDir::Right)
+			{
+				this->SetActorLocation({ PlayerPos.iX() - 50, PlayerPos.iY() - 50 });
+			}
+			else if (PlayerDir == EActorDir::Right)
+			{
+				this->SetActorLocation({ PlayerPos.iX() + 50, PlayerPos.iY() - 50 });
+			}
+		}
+		else if (RandValue == 2) // hp 반 조건 넣어야 함.
+		{
+			PatternNumber = 2;
+			// Player 위치에 따라 나타나는 좌표가 2개로 나뉨.
+			if (PlayerDir == EActorDir::Right)
+			{
+				this->SetActorLocation({ 550, 320 });
+			}
+			else if (PlayerDir == EActorDir::Right)
+			{
+				this->SetActorLocation({ 130, 320 });
+			}
+		}
 	}
 
 	// 2초 후.
@@ -273,17 +321,32 @@ void ACyberPeacock::Appear(float _DeltaTime)
 void ACyberPeacock::FeatherAttack(float _DeltaTime)
 {
 	PeacockCollision->ActiveOn();
+
+	if (true == PeacockRenderer->IsCurAnimationEnd())
+	{
+		int a = 0;
+	}
 }
 
 void ACyberPeacock::RisingSlash(float _DeltaTime)
 {
 	PeacockCollision->ActiveOn();
+
+	if (true == PeacockRenderer->IsCurAnimationEnd())
+	{
+		int a = 0;
+	}
 }
 
 void ACyberPeacock::TrackingShot(float _DeltaTime)
 {
 	PeacockCollision->ActiveOn();
 	// 일정 히트 수 이상, 어느정도 hp가 깎이면 패턴 종료.
+
+	if (true == PeacockRenderer->IsCurAnimationEnd())
+	{
+		int a = 0;
+	}
 }
 
 
