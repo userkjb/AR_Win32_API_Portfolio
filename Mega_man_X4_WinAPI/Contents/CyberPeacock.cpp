@@ -218,7 +218,7 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 		MsgBoxAssert("Player가 없습니다.");
 	}
 	FVector PlayerPos = Player->GetActorLocation();
-	// Player Dir // 방향
+	EActorDir PlayerDir = Player->GetActorDir();
 		
 	int RandValue = rand() % 3; // 0 ~ 2
 	if (RandValue == 0)
@@ -268,6 +268,7 @@ void ACyberPeacock::Appear(float _DeltaTime)
 		return;	
 	}
 }
+
 
 void ACyberPeacock::FeatherAttack(float _DeltaTime)
 {
