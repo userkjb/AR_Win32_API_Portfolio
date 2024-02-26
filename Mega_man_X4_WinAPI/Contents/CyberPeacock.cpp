@@ -1,6 +1,6 @@
 #include "CyberPeacock.h"
 #include <EngineCore/EngineCore.h> // Helper
-
+#include "Player.h"
 
 ACyberPeacock::ACyberPeacock()
 {
@@ -45,6 +45,8 @@ void ACyberPeacock::BeginPlay()
 void ACyberPeacock::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	CollisionCheck();
 
 	StateUpdate(_DeltaTime);
 }
@@ -176,4 +178,23 @@ void ACyberPeacock::TrackingShot(float _DeltaTime)
 
 void ACyberPeacock::Death(float _DeltaTime)
 {
+}
+
+void ACyberPeacock::CollisionCheck()
+{
+	APlayer* Player = APlayer::GetMainPlayer();
+	if (nullptr == Player)
+	{
+		MsgBoxAssert("Player가 없습니다.");
+	}
+
+	FVector PlayerPos = Player->GetActorLocation();
+
+	FVector BossPos = this->GetActorLocation();
+
+	std::vector<UCollision*> Result;
+	if (true == PeacockCollision->CollisionCheck(ECollisionOrder::Player, Result))
+	{
+		int a = 0;
+	}
 }

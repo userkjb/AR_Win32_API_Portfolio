@@ -49,7 +49,6 @@ protected :
 
 private :
 
-	void GetPlayerPos();
 	void CollisionCheck();
 
 	float BossLifeTime = 0.0f;
