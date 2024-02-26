@@ -99,6 +99,7 @@ enum class ECollisionOrder
 {
 	Player,
 	Weapon,
+
 	Boss,
 	Enemy,
 };
