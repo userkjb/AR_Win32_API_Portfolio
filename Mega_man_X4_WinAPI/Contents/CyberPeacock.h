@@ -24,7 +24,7 @@ protected :
 
 	void DirCheck();
 
-	void StateChange(EBossState _State);
+	void StateChange(ECyberPeacockState _State);
 
 	void StateUpdate(float _DeltaTime);
 
@@ -32,7 +32,9 @@ protected :
 
 	// 상태 시작 함수들
 	void IntroStart();
-	void ReadyStart();
+	void IntroEndStart();
+	void DisappearStart();
+	void AppearStart();
 	void FeatherAttackStart();
 	void RisingSlashStart();
 	void TrackingShotStart();
@@ -40,7 +42,9 @@ protected :
 
 	// 상태 Tick 함수들
 	void Intro(float _DeltaTime);
-	void Ready(float _DeltaTime);
+	void IntroEnd(float _DeltaTime);
+	void Disappear(float _DeltaTime);
+	void Appear(float _DeltaTime);
 	void FeatherAttack(float _DeltaTime);
 	void RisingSlash(float _DeltaTime);
 	void TrackingShot(float _DeltaTime);
@@ -51,9 +55,12 @@ private :
 
 	void CollisionCheck();
 
-	float BossLifeTime = 0.0f;
+	float BossPatternTime = 0.0f;
 	int Hp = 48;
+	int HitCount = 0;
+	int PatternNumber = 0;
 
+	int BodyDamage = 5;
 	int FeatherAttackDamage = 9;
 	int RisingSlashDamage = 6;
 	int TrackingShotDamage = 6;
@@ -63,6 +70,6 @@ private :
 
 	EActorDir DirState = EActorDir::Left;
 
-	EBossState State = EBossState::None;
+	ECyberPeacockState State = ECyberPeacockState::None;
 	ERenderOrder Order = ERenderOrder::None;
 };

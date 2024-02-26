@@ -31,15 +31,16 @@ void ACyberPeacock::BeginPlay()
 	// Intro
 	PeacockRenderer->CreateAnimation("Peacock_Intro", "Peacock_Intro.png", 0, 30, 0.05f, false);
 
+	PeacockRenderer->CreateAnimation("Fight_Ready_Left_one", "Fight_Ready_Left.png", 0, 6, 1.5f, false);
+	PeacockRenderer->CreateAnimation("Fight_Ready_Left", "Fight_Ready_Left.png", 6, 6, 1.5f, false);
 	PeacockRenderer->CreateAnimation("Fight_Ready_Right", "Fight_Ready_Right.png", 0, 0, 0.5f, false);
-	PeacockRenderer->CreateAnimation("Fight_Ready_Left", "Fight_Ready_Left.png", 0, 6, 0.5f, false);
 
-	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 2, 0.5f, true);
-	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 2, 0.5f, true);
+	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 2, 1.0f, true);
+	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 2, 1.0f, true);
 
 	PeacockRenderer->ChangeAnimation("Peacock_Intro");
 
-	StateChange(EBossState::Intro);
+	StateChange(ECyberPeacockState::Intro);
 }
 
 void ACyberPeacock::Tick(float _DeltaTime)
@@ -56,28 +57,34 @@ void ACyberPeacock::DirCheck()
 	
 }
 
-void ACyberPeacock::StateChange(EBossState _State)
+void ACyberPeacock::StateChange(ECyberPeacockState _State)
 {
 	if (State != _State)
 	{
 		switch (_State)
 		{
-		case EBossState::Intro :
+		case ECyberPeacockState::Intro:
 			IntroStart();
 			break;
-		case EBossState::Ready:
-			ReadyStart();
+		case ECyberPeacockState::IntroEnd:
+			IntroEndStart();
 			break;
-		case EBossState::FeatherAttack:
+		case ECyberPeacockState::Disappear:
+			DisappearStart();
+			break;
+		case ECyberPeacockState::Appear:
+			AppearStart();
+			break;
+		case ECyberPeacockState::FeatherAttack:
 			FeatherAttackStart();
 			break;
-		case EBossState::RisingSlash:
+		case ECyberPeacockState::RisingSlash:
 			RisingSlashStart();
 			break;
-		case EBossState::TrackingShot:
+		case ECyberPeacockState::TrackingShot:
 			TrackingShotStart();
 			break;
-		case EBossState::Death:
+		case ECyberPeacockState::Death:
 			DeathStart();
 			break;
 		default :
@@ -92,22 +99,28 @@ void ACyberPeacock::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
-	case EBossState::Intro :
+	case ECyberPeacockState::Intro :
 		Intro(_DeltaTime);
 		break;
-	case EBossState::Ready:
-		Ready(_DeltaTime);
+	case ECyberPeacockState::IntroEnd:
+		IntroEnd(_DeltaTime);
 		break;
-	case EBossState::FeatherAttack:
+	case ECyberPeacockState::Disappear:
+		Disappear(_DeltaTime);
+		break;
+	case ECyberPeacockState::Appear:
+		Appear(_DeltaTime);
+		break;
+	case ECyberPeacockState::FeatherAttack:
 		FeatherAttack(_DeltaTime);
 		break;
-	case EBossState::RisingSlash:
+	case ECyberPeacockState::RisingSlash:
 		RisingSlash(_DeltaTime);
 		break;
-	case EBossState::TrackingShot:
+	case ECyberPeacockState::TrackingShot:
 		TrackingShot(_DeltaTime);
 		break;
-	case EBossState::Death:
+	case ECyberPeacockState::Death:
 		Death(_DeltaTime);
 		break;
 	default :
@@ -127,9 +140,19 @@ void ACyberPeacock::IntroStart()
 	
 }
 
-void ACyberPeacock::ReadyStart()
+void ACyberPeacock::IntroEndStart()
 {
-	//PeacockRenderer->ChangeAnimation()
+	PeacockRenderer->ChangeAnimation("Fight_Ready_Left_one");
+}
+
+void ACyberPeacock::DisappearStart()
+{
+	// GetAnimationName()
+	PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
+}
+
+void ACyberPeacock::AppearStart()
+{
 }
 
 void ACyberPeacock::FeatherAttackStart()
@@ -153,45 +176,127 @@ void ACyberPeacock::DeathStart()
 
 void ACyberPeacock::Intro(float _DeltaTime)
 {
+	// 주와아앙 나오고.
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
-		StateChange(EBossState::Ready);
+		// 대사진행.
+
+		// 대사 종료 후 파칭.
+		StateChange(ECyberPeacockState::IntroEnd);
 		return;
 	}
 }
 
-void ACyberPeacock::Ready(float _DeltaTime)
+void ACyberPeacock::IntroEnd(float _DeltaTime)
 {
+	// 파칭 한 다음
+	
+
+	// UI 체력바 올라간 다음.
+	
+
+	// 사라짐.
+	PeacockCollision->ActiveOff();
+	StateChange(ECyberPeacockState::Disappear);
+	return;
 }
 
-void ACyberPeacock::FeatherAttack(float _DeltaTime)
+void ACyberPeacock::Disappear(float _DeltaTime)
 {
-}
-
-void ACyberPeacock::RisingSlash(float _DeltaTime)
-{
-}
-
-void ACyberPeacock::TrackingShot(float _DeltaTime)
-{
-}
-
-void ACyberPeacock::Death(float _DeltaTime)
-{
-}
-
-void ACyberPeacock::CollisionCheck()
-{
+	// 사라졌음.
+	BossPatternTime += _DeltaTime;
+	
+	if (true == PeacockRenderer->IsCurAnimationEnd())
+	{
+		PeacockRenderer->ActiveOff();
+	}
+	
+	// 플레이어 위치를 기반으로 나타나야 함.
 	APlayer* Player = APlayer::GetMainPlayer();
 	if (nullptr == Player)
 	{
 		MsgBoxAssert("Player가 없습니다.");
 	}
-
 	FVector PlayerPos = Player->GetActorLocation();
+	// Player Dir // 방향
+		
+	int RandValue = rand() % 3; // 0 ~ 2
+	if (RandValue == 0)
+	{
+		PatternNumber = 0;
+		this->SetActorLocation({ 0, 0 });
+	}
+	else if (RandValue == 1)
+	{
+		PatternNumber = 1;
+		this->SetActorLocation({ 0, 0 });
+	}
+	else if (RandValue == 2) // hp 반 조건 넣어야 함.
+	{
+		PatternNumber = 2;
+		// Player 위치에 따라 나타나는 좌표가 2개로 나뉨.
+		this->SetActorLocation({ 0, 0 });
+	}
 
-	FVector BossPos = this->GetActorLocation();
+	// 2초 후.
+	if (2.0f <= BossPatternTime)
+	{
+		BossPatternTime = 0.0f;
+		StateChange(ECyberPeacockState::Appear);
+		return;
+	}
+}
 
+void ACyberPeacock::Appear(float _DeltaTime)
+{
+	// 나타남. 나타날 때는 피격 판정이 없음.
+	PeacockRenderer->ActiveOn();
+	
+	if (PatternNumber == 0)
+	{
+		StateChange(ECyberPeacockState::FeatherAttack);
+		return;
+	}
+	else if (PatternNumber == 1)
+	{
+		StateChange(ECyberPeacockState::RisingSlash);
+		return;
+	}
+	else if (PatternNumber == 2)
+	{
+		StateChange(ECyberPeacockState::TrackingShot);
+		return;	
+	}
+}
+
+void ACyberPeacock::FeatherAttack(float _DeltaTime)
+{
+	PeacockCollision->ActiveOn();
+}
+
+void ACyberPeacock::RisingSlash(float _DeltaTime)
+{
+	PeacockCollision->ActiveOn();
+}
+
+void ACyberPeacock::TrackingShot(float _DeltaTime)
+{
+	PeacockCollision->ActiveOn();
+	// 일정 히트 수 이상, 어느정도 hp가 깎이면 패턴 종료.
+}
+
+
+
+void ACyberPeacock::Death(float _DeltaTime)
+{
+	int a = 0;
+	return;
+}
+
+
+
+void ACyberPeacock::CollisionCheck()
+{
 	std::vector<UCollision*> Result;
 	if (true == PeacockCollision->CollisionCheck(ECollisionOrder::Player, Result))
 	{
@@ -199,6 +304,11 @@ void ACyberPeacock::CollisionCheck()
 	}
 	else if (true == PeacockCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
+		HitCount++;
 
+		// buster가 넘겨준 데미지를 가져온다.
+
+
+		//Hp -= ....;
 	}
 }
