@@ -35,6 +35,11 @@ void APlayer::BeginPlay()
 	// Run
 	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
 	Renderer->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
+	// Run And Attack
+	Renderer->CreateAnimation("Run_Attack_Right", "x_Move_Attack_Right.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
+	Renderer->CreateAnimation("Run_Attack_Left", "x_Move_Attack_Left.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
+	Renderer->CreateAnimation("Run_Attack_Shoot_Right", "x_Move_Attack_Right.png", { 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31 }, 0.05f, true);
+	Renderer->CreateAnimation("Run_Attack_Shoot_Left", "x_Move_Attack_Left.png", { 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31 }, 0.05f, true);
 
 	// Jump
 	Renderer->CreateAnimation("Jump_Start_Right", "x_Jump_Right.png", 0, 7, 0.05f, false);
@@ -175,6 +180,12 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::Run :
 			RunStart();
 			break;
+		case EPlayerState::RunAndAttack:
+			RunAndAttackStart();
+			break;
+		case EPlayerState::RunAndCharge:
+			RunAndChargeStart();
+			break;
 		case EPlayerState::Jump :
 			JumpStart();
 			break;
@@ -290,6 +301,16 @@ void APlayer::RunStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Run"));
 	DirCheck();
+}
+
+void APlayer::RunAndAttackStart()
+{
+
+}
+
+void APlayer::RunAndChargeStart()
+{
+
 }
 
 void APlayer::JumpStart()
@@ -441,7 +462,7 @@ void APlayer::Run(float _DeltaTime)
 	}
 
 	
-
+	// Dash
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		StateChange(EPlayerState::DashStart);
@@ -458,11 +479,19 @@ void APlayer::Run(float _DeltaTime)
 	// Attack
 	if (true == UEngineInput::IsDown('X'))
 	{
-		StateChange(EPlayerState::Attack);
+		StateChange(EPlayerState::RunAndAttack);
 		return;
 	}
 
 	MoveUpdate(_DeltaTime);
+}
+
+void APlayer::RunAndAttack(float _DeltaTime)
+{
+}
+
+void APlayer::RunAndCharge(float _DeltaTime)
+{
 }
 
 #pragma region Jump Function

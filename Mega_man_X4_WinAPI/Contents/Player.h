@@ -54,6 +54,8 @@ protected:
 	void SummonEndStart();
 	void IdleStart();
 	void RunStart();
+	void RunAndAttackStart();
+	void RunAndChargeStart();
 	void JumpStart();
 	void SkyStart();
 	void JumpEndStart();
@@ -67,15 +69,21 @@ protected:
 	// 상태 함수들
 
 	/// <summary>
-	/// 
+	/// 소환 상태 함수.
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Summon(float _DeltaTime);
 
-
+	/// <summary>
+	/// 소환 진행 중인 상태 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
 	void SummonLoop(float _DeltaTime);
 
-
+	/// <summary>
+	/// 소환 종료 상태 함수.
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
 	void SummonEnd(float _DeltaTime);
 	
 	/// <summary>
@@ -89,6 +97,10 @@ protected:
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Run(float _DeltaTime);
+
+	void RunAndAttack(float _DeltaTime);
+
+	void RunAndCharge(float _DeltaTime);
 
 	/// <summary>
 	/// 점프 상황일 때 처리 함수
@@ -132,10 +144,16 @@ protected:
 	/// <param name="_DeltaTime"></param>
 	void Dash(float _DeltaTime);
 
-
+	/// <summary>
+	/// 대쉬 중인 상태 함수
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
 	void DashLoop(float _DeltaTime);
 
-
+	/// <summary>
+	/// 대쉬 종료 상태 함수.(감속 있어야 함)
+	/// </summary>
+	/// <param name="_DeltaTime"></param>
 	void DashEnd(float _DeltaTime);
 
 

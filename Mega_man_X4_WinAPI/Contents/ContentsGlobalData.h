@@ -22,6 +22,8 @@ enum class EPlayerState
 	Idle,			// 기본.
 
 	Run,			// 움직이기.
+	RunAndAttack,	// 움직이는 중 공격.
+	RunAndCharge,	// 움직이는 중 차지.
 
 	Jump,			// 점프.
 	Sky,			// 공중.
