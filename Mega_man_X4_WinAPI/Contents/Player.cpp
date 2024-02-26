@@ -10,9 +10,18 @@ APlayer::~APlayer()
 {
 }
 
+APlayer* APlayer::MainPlayer = nullptr;
+
+APlayer* APlayer::GetMainPlayer()
+{
+	return MainPlayer;
+}
+
 void APlayer::BeginPlay()
 {
 	AActor::BeginPlay();
+
+	MainPlayer = this;
 
 	ChargeBeginPlay();
 	Renderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));

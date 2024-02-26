@@ -17,6 +17,8 @@ public:
 	APlayer& operator=(const APlayer& _Other) = delete;
 	APlayer& operator=(APlayer&& _Other) noexcept = delete;
 
+	static APlayer* GetMainPlayer();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -247,6 +249,9 @@ private :
 
 	// Camera Vector
 	FVector CameraCenterPos = { 400, 300 };
+
+	// Player를 전역으로 빼준다.
+	static APlayer* MainPlayer;
 
 	// test ==========================================
 	
