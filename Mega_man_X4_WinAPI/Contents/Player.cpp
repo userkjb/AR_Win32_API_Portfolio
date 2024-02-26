@@ -848,8 +848,6 @@ void APlayer::CalGravityVector(float _DeltaTime)
 
 void APlayer::MoveLastMoveVector(float _DeltaTime)
 {
-	MoveCameraVector();
-
 	AActor::AddActorLocation(LastMoveVector * _DeltaTime);
 }
 
@@ -860,35 +858,5 @@ void APlayer::MoveUpdate(float _DeltaTime)
 	CalLastMoveVector();
 	MoveLastMoveVector(_DeltaTime);
 }
-
-
-void APlayer::MoveCameraVector()
-{
-	FVector PlayerPos = this->GetActorLocation();
-	FVector CameraPos = GetWorld()->GetCameraPos();
-
-	FVector WindowScale = GEngine->MainWindow.GetWindowScale(); // 800, 600
-	FVector ImageScale = UContentsGlobalData::ColMapImage->GetScale(); // 4877, 600
-
-	CameraPos.X = PlayerPos.X - WindowScale.hX();
-	CameraPos.Y = PlayerPos.Y - 564.0f;
-
-	if (0.0f >= CameraPos.X)
-	{
-		CameraPos.X = 0.0f;
-	}
-	if(4077 <= CameraPos.X)
-	{
-		CameraPos.X = ImageScale.X - WindowScale.X;
-	}
-
-	if (0.0f >= CameraPos.Y)
-	{
-		CameraPos.Y = 0.0f;
-	}
-	
-	GetWorld()->SetCameraPos(CameraPos);
-}
-
 
 // EngineDebug::OutPutDebugText("" + std::to_string());

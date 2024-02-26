@@ -2,6 +2,7 @@
 #include <EngineCore/Level.h>
 
 class ACyberSpaceMap;
+class APlayer;
 
 class UCyberSpaceLevel : public ULevel
 {
@@ -23,6 +24,12 @@ protected :
 	void LevelEnd(ULevel* _Level) override;
 
 private :
+	/// <summary>
+	/// 카메라 움직임에 대한 함수.
+	/// </summary>
+	void MoveCameraVector();
+
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
+	APlayer* NewPlayer = nullptr;
 };
 

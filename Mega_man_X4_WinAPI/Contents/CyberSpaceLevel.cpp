@@ -34,27 +34,7 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
 
-	/*
-	FVector Pos = GetCameraPos();
-
-	if (0.0f >= Pos.X)
-	{
-		Pos.X = 0.0f;
-	}
-	if (0.0f >= Pos.Y)
-	{
-		Pos.Y = 0.0f;
-	}
-
-	FVector ImageScale = CyberSpaceMap->GetImageScale();
-
-	if (Pos.X >= ImageScale.X - GEngine->MainWindow.GetWindowScale().X)
-	{
-		Pos.X = ImageScale.X - GEngine->MainWindow.GetWindowScale().X;
-	}
-
-	SetCameraPos(Pos);
-	*/
+	MoveCameraVector();
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)
@@ -76,7 +56,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
 
 	// Actor
-	APlayer* NewPlayer = SpawnActor<APlayer>();
+	NewPlayer = SpawnActor<APlayer>();
 	NewPlayer->SetActorLocation({ 200, 0 }); // 400 이 센터.
 
 	ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
@@ -88,4 +68,31 @@ void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
 	// 리소스 삭제.
 	// 액터 삭제.
 	ULevel::LevelEnd(_Level);
+}
+
+void UCyberSpaceLevel::MoveCameraVector()
+{
+	FVector CameraPos = GetCameraPos();
+	FVector PlayerPos = NewPlayer->GetActorLocation();
+	FVector ImageScale = CyberSpaceMap->GetImageScale();
+	FVector WindowScale = GEngine->MainWindow.GetWindowScale();
+
+	CameraPos.X = PlayerPos.X - WindowScale.hX();
+	CameraPos.Y = PlayerPos.Y - 564.0f;
+
+	if (0.0f >= CameraPos.X)
+	{
+		CameraPos.X = 0.0f;
+	}
+	if (CameraPos.X >= ImageScale.X - WindowScale.X)
+	{
+		CameraPos.X = ImageScale.X - WindowScale.X;
+	}
+
+	if (0.0f >= CameraPos.Y)
+	{
+		CameraPos.Y = 0.0f;
+	}
+
+	SetCameraPos(CameraPos);
 }

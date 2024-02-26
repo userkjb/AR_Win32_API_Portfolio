@@ -214,11 +214,6 @@ private :
 	/// <param name="_DeltaTime"></param>
 	void MoveUpdate(float _DeltaTime);
 
-	/// <summary>
-	/// 카메라 움직임에 대한 함수.
-	/// </summary>
-	void MoveCameraVector();
-
 	// ==========================================
 
 	UImageRenderer* Renderer = nullptr;
