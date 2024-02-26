@@ -19,6 +19,15 @@ public:
 
 	static APlayer* GetMainPlayer();
 
+	/// <summary>
+	/// Player Dir에 대한 Get 함수.
+	/// </summary>
+	/// <returns></returns>
+	EActorDir GetActorDir() const
+	{
+		return DirState;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
