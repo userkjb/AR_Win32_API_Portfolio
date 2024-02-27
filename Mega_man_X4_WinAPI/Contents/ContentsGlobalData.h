@@ -46,6 +46,25 @@ enum class EPlayerState
 	//Hit,
 };
 
+enum class EEgseuState
+{
+	None,
+	Idle,	
+	Idle_Jump,
+	Jump_Attack,
+	Idle_Attack,
+	Idle_Dash,
+	Dash_Attack,
+	Idle_Run,
+	Run_Attack,
+	Run_Dash,
+	Run_Dash_Jump,
+	Run_Dash_Jump_Attack,
+	Run_Jump,
+	Run_Jump_Attack,
+	Hit,
+};
+
 /// <summary>
 /// X Buster ป๓ลย
 /// </summary>
