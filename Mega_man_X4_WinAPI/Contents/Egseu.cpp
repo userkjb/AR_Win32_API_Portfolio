@@ -590,14 +590,17 @@ void AEgseu::RunAttack_EndStart()
 #pragma region RunDash BeginPlay
 void AEgseu::RunDashStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
 }
 
 void AEgseu::RunDash_LoopStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Loop"));
 }
 
 void AEgseu::RunDash_EndStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"));
 }
 #pragma endregion
 
@@ -974,6 +977,11 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	// 공격
 
 	// 대쉬
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		StateChange(EEgseuState::RunDash);
+		return;
+	}
 
 	if (true == UEngineInput::IsFree(VK_LEFT) &&
 		true == UEngineInput::IsFree(VK_RIGHT) &&
@@ -1009,14 +1017,87 @@ void AEgseu::RunAttack_End(float _DeltaTime)
 #pragma region RunDash Tick
 void AEgseu::RunDash(float _DeltaTime)
 {
+	DashTime += _DeltaTime;
+
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+	}
+	else if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsPress('Z'))
+	{
+		StateChange(EEgseuState::RunDash_Loop);
+		return;
+	}
 }
 
 void AEgseu::RunDash_Loop(float _DeltaTime)
 {
+	DashTime += _DeltaTime;
+
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+	}
+	else if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	// 점프
+
+	if (true == UEngineInput::IsUp('Z'))
+	{
+		DashTime = 0.0f;
+		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
+		{
+			DashVector = FVector::Zero;
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::RunDash_End);
+			return;
+		}
+	}
+
+	if (0.5f <= DashTime)
+	{
+		DashTime = 0.0f;
+		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
+		{
+			DashVector = FVector::Zero;
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::RunDash_End);
+			return;
+		}
+	}
 }
 
 void AEgseu::RunDash_End(float _DeltaTime)
 {
+	DashVector = FVector::Zero;
+
+	// 감속 기능 추가하는 디테일.
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 }
 #pragma endregion
 
