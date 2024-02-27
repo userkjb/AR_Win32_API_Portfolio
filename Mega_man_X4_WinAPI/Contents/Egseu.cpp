@@ -874,6 +874,7 @@ void AEgseu::IdleDash_Loop(float _DeltaTime)
 		DashTime = 0.0f;
 		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
 		{
+			DashVector = FVector::Zero;
 			StateChange(EEgseuState::IdleRun_Loop);
 			return;
 		}
@@ -889,6 +890,7 @@ void AEgseu::IdleDash_Loop(float _DeltaTime)
 		DashTime = 0.0f;
 		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
 		{
+			DashVector = FVector::Zero;
 			StateChange(EEgseuState::IdleRun_Loop);
 			return;
 		}
