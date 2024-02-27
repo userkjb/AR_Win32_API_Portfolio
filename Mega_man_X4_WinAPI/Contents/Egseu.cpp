@@ -440,7 +440,7 @@ void AEgseu::StateUpdate(float _DeltaTime)
 
 // Begin
 
-#pragma region Summon Begin
+#pragma region Summon BeginPlay
 void AEgseu::SummonStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Summon"));
@@ -457,7 +457,7 @@ void AEgseu::Summon_EndStart()
 }
 #pragma endregion
 
-#pragma region Comment
+#pragma region IdleStart BeginPlay
 void AEgseu::IdleStart()
 {
 }
@@ -510,6 +510,7 @@ void AEgseu::Summon_End(float _DeltaTime)
 }
 #pragma endregion
 
+#pragma region Idle Tick
 void AEgseu::Idle(float _DeltaTime)
 {
 }
@@ -521,11 +522,176 @@ void AEgseu::Idle_Loop(float _DeltaTime)
 void AEgseu::Idle_End(float _DeltaTime)
 {
 }
+#pragma endregion
+
+#pragma region IdleJump Tick
+void AEgseu::IdleJump(float _DeltaTime)
+{
+}
+
+void AEgseu::IdleJump_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::IdleJump_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region JumpAttack Tick
+void AEgseu::JumpAttack(float _DeltaTime)
+{
+}
+void AEgseu::JumpAttack_Loop(float _DeltaTime)
+{
+}
+void AEgseu::JumpAttack_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region IdleAttack Tick
+void AEgseu::IdleAttack(float _DeltaTime)
+{
+}
+
+void AEgseu::IdleAttack_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::IdleAttack_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region IdleDash Tick
+void AEgseu::IdleDash(float _DeltaTime)
+{
+}
+
+void AEgseu::IdleDash_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::IdleDash_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region DashAttack Tick
+void AEgseu::DashAttack(float _DeltaTime)
+{
+}
+
+void AEgseu::DashAttack_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::DashAttack_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region IdleRun Tick
+void AEgseu::IdleRun(float _DeltaTime)
+{
+}
+
+void AEgseu::IdleRun_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::IdleRun_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region RunAttack Tick
+void AEgseu::RunAttack(float _DeltaTime)
+{
+}
+
+void AEgseu::RunAttack_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::RunAttack_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region RunDash Tick
+void AEgseu::RunDash(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDash_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDash_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region RunDashJump Tick
+void AEgseu::RunDashJump(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDashJump_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDashJump_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region RunDashJumpAttack Tick
+void AEgseu::RunDashJumpAttack(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDashJumpAttack_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDashJumpAttack_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region RunJump Tick
+void AEgseu::RunJump(float _DeltaTime)
+{
+}
+
+void AEgseu::RunJump_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::RunJump_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region RunJumpAttack Tick
+void AEgseu::RunJumpAttack(float _DeltaTime)
+{
+}
+
+void AEgseu::RunJumpAttack_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::RunJumpAttack_End(float _DeltaTime)
+{
+}
+#pragma endregion
 
 
-
-//#pragma region Comment
-//#pragma endregion
+// === Vector =============================================
 
 void AEgseu::CalMoveVector()
 {
