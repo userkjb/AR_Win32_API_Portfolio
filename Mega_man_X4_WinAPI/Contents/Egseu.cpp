@@ -81,8 +81,8 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Idle_Left", "x_Idle_Left.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
 
 	// Run
-	PlayerRender->CreateAnimation("Run_Ready_Right", "x_Move_Right.png", 0, 1, 0.05f, false);
-	PlayerRender->CreateAnimation("Run_Ready_Left", "x_Move_Left.png", 0, 1, 0.05f, false);
+	PlayerRender->CreateAnimation("Run_Ready_Right", "x_Move_Right.png", 0, 1, 0.005f, false);
+	PlayerRender->CreateAnimation("Run_Ready_Left", "x_Move_Left.png", 0, 1, 0.005f, false);
 	PlayerRender->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
 	PlayerRender->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
 
@@ -629,14 +629,21 @@ void AEgseu::RunDashJumpAttack_EndStart()
 #pragma region RunJump BeginPlay
 void AEgseu::RunJumpStart()
 {
+	JumpVector = JumpPower;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	DirCheck();
 }
 
 void AEgseu::RunJump_LoopStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	DirCheck();
 }
 
 void AEgseu::RunJump_EndStart()
 {
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
 }
 #pragma endregion
 
@@ -654,7 +661,7 @@ void AEgseu::RunJumpAttack_EndStart()
 }
 #pragma endregion
 
-// Tick
+// Tick===========================================
 #pragma region Summon Tick
 void AEgseu::Summon(float _DeltaTime)
 {
@@ -874,6 +881,11 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 
 	// Á¡ÇÁ
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EEgseuState::RunJump);
+		return;
+	}
 
 	// °ø°Ý
 
@@ -955,14 +967,57 @@ void AEgseu::RunDashJumpAttack_End(float _DeltaTime)
 #pragma region RunJump Tick
 void AEgseu::RunJump(float _DeltaTime)
 {
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::RunJump_Loop);
+		return;
+	}
 }
 
 void AEgseu::RunJump_Loop(float _DeltaTime)
 {
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	// °ø°Ý
+
+	// ¶¥¿¡ ´êÀ½
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		StateChange(EEgseuState::RunJump_End);
+		return;
+	}
 }
 
 void AEgseu::RunJump_End(float _DeltaTime)
 {
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 }
 #pragma endregion
 
