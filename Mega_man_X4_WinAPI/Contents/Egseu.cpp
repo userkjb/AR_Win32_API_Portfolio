@@ -471,8 +471,6 @@ void AEgseu::Idle_EndStart()
 
 
 //#pragma region IdleStart BeginPlay
-//#pragma endregion
-
 void AEgseu::IdleJumpStart()
 {
 }
@@ -484,7 +482,9 @@ void AEgseu::IdleJump_LoopStart()
 void AEgseu::IdleJump_EndStart()
 {
 }
+//#pragma endregion
 
+//#pragma region JumpAttack BeginPlay
 void AEgseu::JumpAttackStart()
 {
 }
@@ -496,7 +496,9 @@ void AEgseu::JumpAttack_LoopStart()
 void AEgseu::JumpAttack_EndStart()
 {
 }
+#pragma endregion
 
+#pragma region IdleAttack BeginPlay
 void AEgseu::IdleAttackStart()
 {
 }
@@ -508,7 +510,9 @@ void AEgseu::IdleAttack_LoopStart()
 void AEgseu::IdleAttack_EndStart()
 {
 }
+#pragma endregion
 
+#pragma region IdleDash BeginPlay
 void AEgseu::IdleDashStart()
 {
 }
@@ -520,7 +524,9 @@ void AEgseu::IdleDash_LoopStart()
 void AEgseu::IdleDash_EndStart()
 {
 }
+#pragma endregion
 
+#pragma region DashAttack BeginPlay
 void AEgseu::DashAttackStart()
 {
 }
@@ -532,7 +538,9 @@ void AEgseu::DashAttack_LoopStart()
 void AEgseu::DashAttack_EndStart()
 {
 }
+#pragma endregion
 
+#pragma region IdleRun BeginPlay
 void AEgseu::IdleRunStart()
 {
 }
@@ -544,7 +552,9 @@ void AEgseu::IdleRun_LoopStart()
 void AEgseu::IdleRun_EndStart()
 {
 }
+#pragma endregion
 
+#pragma region RunAttack BeginPlay
 void AEgseu::RunAttackStart()
 {
 }
@@ -556,7 +566,9 @@ void AEgseu::RunAttack_LoopStart()
 void AEgseu::RunAttack_EndStart()
 {
 }
+//#pragma endregion
 
+#pragma region RunDash BeginPlay
 void AEgseu::RunDashStart()
 {
 }
@@ -568,7 +580,9 @@ void AEgseu::RunDash_LoopStart()
 void AEgseu::RunDash_EndStart()
 {
 }
+#pragma endregion
 
+#pragma region RunDashJump BeginPlay
 void AEgseu::RunDashJumpStart()
 {
 }
@@ -580,7 +594,9 @@ void AEgseu::RunDashJump_LoopStart()
 void AEgseu::RunDashJump_EndStart()
 {
 }
+#pragma endregion
 
+#pragma region RunDashJumpAttack BeginPlay
 void AEgseu::RunDashJumpAttackStart()
 {
 }
@@ -592,7 +608,9 @@ void AEgseu::RunDashJumpAttack_LoopStart()
 void AEgseu::RunDashJumpAttack_EndStart()
 {
 }
+#pragma endregion
 
+#pragma region RunJump BeginPlay
 void AEgseu::RunJumpStart()
 {
 }
@@ -604,7 +622,9 @@ void AEgseu::RunJump_LoopStart()
 void AEgseu::RunJump_EndStart()
 {
 }
+#pragma endregion
 
+#pragma region RunJumpAttack BeginPlay
 void AEgseu::RunJumpAttackStart()
 {
 }
@@ -616,7 +636,7 @@ void AEgseu::RunJumpAttack_LoopStart()
 void AEgseu::RunJumpAttack_EndStart()
 {
 }
-
+#pragma endregion
 
 // Tick
 #pragma region Summon Tick
