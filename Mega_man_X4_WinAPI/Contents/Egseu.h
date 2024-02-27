@@ -41,8 +41,8 @@ private :
 	void Summon_LoopStart();
 	void Summon_EndStart();
 	void IdleStart();
-	void Idle_LoopStart();
-	void Idle_EndStart();
+	//void Idle_LoopStart();
+	//void Idle_EndStart();
 	void IdleJumpStart();
 	void IdleJump_LoopStart();
 	void IdleJump_EndStart();
@@ -87,8 +87,8 @@ private :
 	void Summon_Loop(float _DeltaTime);
 	void Summon_End(float _DeltaTime);
 	void Idle(float _DeltaTime);
-	void Idle_Loop(float _DeltaTime);
-	void Idle_End(float _DeltaTime);
+	//void Idle_Loop(float _DeltaTime);
+	//void Idle_End(float _DeltaTime);
 	void IdleJump(float _DeltaTime);
 	void IdleJump_Loop(float _DeltaTime);
 	void IdleJump_End(float _DeltaTime);
