@@ -68,7 +68,6 @@ enum class EEgseuState
 
 	IdleAttack,
 	IdleAttack_Loop,
-	IdleAttack_Ready,
 	IdleAttack_End,
 
 	IdleDash,
