@@ -733,7 +733,11 @@ void AEgseu::Idle(float _DeltaTime)
 	}
 	
 	// 공격 X
-
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EEgseuState::IdleAttack);
+		return;
+	}
 
 	// 대쉬 Z
 	if (true == UEngineInput::IsDown('Z'))
