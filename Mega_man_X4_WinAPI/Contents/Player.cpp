@@ -201,7 +201,7 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::Jump :
 			JumpStart();
 			break;
-		case EPlayerState::Sky :
+		case EPlayerState::JumpLoop :
 			SkyStart();
 			break;
 		case EPlayerState::JumpEnd :
@@ -255,7 +255,7 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 	case EPlayerState::Jump :
 		Jump(_DeltaTime);
 		break;
-	case EPlayerState::Sky :
+	case EPlayerState::JumpLoop :
 		Sky(_DeltaTime);
 		break;
 	case EPlayerState::JumpEnd :
@@ -526,7 +526,7 @@ void APlayer::Jump(float _DeltaTime)
 
 	if (true == Renderer->IsCurAnimationEnd())
 	{
-		StateChange(EPlayerState::Sky);
+		StateChange(EPlayerState::JumpLoop);
 		return;
 	}
 }

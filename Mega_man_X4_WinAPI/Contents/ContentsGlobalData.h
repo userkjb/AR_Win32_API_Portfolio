@@ -29,12 +29,18 @@ enum class EPlayerState
 	Run_AttackLoop, // 움직임 자세 공격 루프.
 
 	Jump,			// 점프.
-	Sky,			// 공중.
+	JumpLoop,		// 공중.
 	JumpEnd,		// 착지.
+	Jump_Attack,	//
+	Jump_AttackLoop,//
+	Jump_AttackEnd, //
 
 	DashStart,		// 대쉬 시작.
 	DashLoop,		// 대쉬 중.
 	DashEnd,		// 대쉬 종료.
+	Dash_Attack,	//
+	Dash_AttackLoop,//
+	Dash_AttackEnd,	//
 
 	//Hit,
 };
