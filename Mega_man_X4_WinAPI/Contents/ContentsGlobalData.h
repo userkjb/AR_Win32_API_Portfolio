@@ -27,6 +27,7 @@ enum class EPlayerState
 	Run,			// 움직이기.
 	Run_Attack,		// 움직임 자세 공격 시작.
 	Run_AttackLoop, // 움직임 자세 공격 루프.
+	Run_AttackEnd,	//
 
 	Jump,			// 점프.
 	JumpLoop,		// 공중.

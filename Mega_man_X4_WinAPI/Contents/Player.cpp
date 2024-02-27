@@ -193,10 +193,13 @@ void APlayer::StateChange(EPlayerState _State)
 			RunStart();
 			break;
 		case EPlayerState::Run_Attack:
-			RunAndAttackStart();
+			Run_AttackStart();
 			break;
 		case EPlayerState::Run_AttackLoop:
-			RunAndChargeStart();
+			Run_AttackLoopStart();
+			break;
+		case EPlayerState::Run_AttackEnd:
+			Run_AttackEndStart();
 			break;
 		case EPlayerState::Jump :
 			JumpStart();
@@ -315,14 +318,22 @@ void APlayer::RunStart()
 	DirCheck();
 }
 
-void APlayer::RunAndAttackStart()
+void APlayer::Run_AttackStart()
 {
-
+	Renderer->ChangeAnimation(GetAnimationName("Run_Attack"));
+	DirCheck();
 }
 
-void APlayer::RunAndChargeStart()
+void APlayer::Run_AttackLoopStart()
 {
+	Renderer->ChangeAnimation(GetAnimationName("Run_Attack"));
+	DirCheck();
+}
 
+void APlayer::Run_AttackEndStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Run_Attack"));
+	DirCheck();
 }
 
 void APlayer::JumpStart()
@@ -498,13 +509,26 @@ void APlayer::Run(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 }
 
-void APlayer::RunAndAttack(float _DeltaTime)
+
+#pragma region Run Attack Function
+
+void APlayer::Run_Attack(float _DeltaTime)
 {
+
 }
 
-void APlayer::RunAndCharge(float _DeltaTime)
+void APlayer::Run_AttackLoop(float _DeltaTime)
 {
+
 }
+
+void APlayer::Run_AttackEnd(float _DeltaTime)
+{
+
+}
+
+#pragma endregion
+
 
 #pragma region Jump Function
 

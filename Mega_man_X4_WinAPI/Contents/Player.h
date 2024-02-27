@@ -65,8 +65,9 @@ protected:
 	void SummonEndStart();
 	void IdleStart();
 	void RunStart();
-	void RunAndAttackStart();
-	void RunAndChargeStart();
+	void Run_AttackStart();
+	void Run_AttackLoopStart();
+	void Run_AttackEndStart();
 	void JumpStart();
 	void SkyStart();
 	void JumpEndStart();
@@ -109,9 +110,11 @@ protected:
 	/// <param name="_DeltaTime"></param>
 	void Run(float _DeltaTime);
 
-	void RunAndAttack(float _DeltaTime);
+	void Run_Attack(float _DeltaTime);
 
-	void RunAndCharge(float _DeltaTime);
+	void Run_AttackLoop(float _DeltaTime);
+
+	void Run_AttackEnd(float _DeltaTime);
 
 	/// <summary>
 	/// 점프 상황일 때 처리 함수
