@@ -104,6 +104,14 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Dash_End_Left", "x_Dash_Left.png", 4, 7, 0.05f, false);
 
 
+	// Attack
+	PlayerRender->CreateAnimation("Idle_Attack_Start_Right", "x_Attack_Right.png", 0, 5, 0.05f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_Start_Left", "x_Attack_Left.png", 0, 5, 0.05f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_Loop_Right", "x_Attack_Right.png", 5, 5, 0.05f, true);
+	PlayerRender->CreateAnimation("Idle_Attack_Loop_Left", "x_Attack_Left.png", 5, 5, 0.05f, true);
+	PlayerRender->CreateAnimation("Idle_Attack_End_Right", "x_Attack_Right.png", 5, 7, 0.05f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_End_Left", "x_Attack_Left.png", 5, 7, 0.05f, false);
+
 	// =====================================================================
 
 	PlayerRender->ChangeAnimation("Summon");
@@ -511,14 +519,17 @@ void AEgseu::JumpAttack_EndStart()
 #pragma region IdleAttack BeginPlay
 void AEgseu::IdleAttackStart()
 {
+
 }
 
 void AEgseu::IdleAttack_LoopStart()
 {
+
 }
 
 void AEgseu::IdleAttack_EndStart()
 {
+
 }
 #pragma endregion
 
