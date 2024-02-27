@@ -51,16 +51,16 @@ enum class EEgseuState
 	None,
 
 	Summon,			// 소환 이동.(레이저로 내려옴.)
-	Summon_Loop,		// 소환 중.(땅에 닿으면 Character로 변화.)
+	Summon_Loop,	// 소환 중.(땅에 닿으면 Character로 변화.)
 	Summon_End,		// 소환 종료.(소환 완료.)
 
-	Idle,
-	Idle_Loop,
-	Idle_End,
+	Idle,			// 기본 상태.
+	//Idle_Loop,
+	//Idle_End,
 
-	IdleJump,
-	IdleJump_Loop,
-	IdleJump_End,
+	IdleJump,		// 기본 상태에서 점프.
+	IdleJump_Loop,	// 채공 중.
+	IdleJump_End,	// 착지.
 
 	JumpAttack,
 	JumpAttack_Loop,
