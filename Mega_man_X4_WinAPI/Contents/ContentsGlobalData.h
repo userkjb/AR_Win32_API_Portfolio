@@ -107,6 +107,7 @@ enum class EEgseuState
 	RunJumpAttack_End,
 
 	Hit,
+	¤±¤©¤¤¤·,
 };
 
 /// <summary>
