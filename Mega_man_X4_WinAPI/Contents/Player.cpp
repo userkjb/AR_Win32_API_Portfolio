@@ -192,10 +192,10 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::Run :
 			RunStart();
 			break;
-		case EPlayerState::RunAndAttack:
+		case EPlayerState::Run_Attack:
 			RunAndAttackStart();
 			break;
-		case EPlayerState::RunAndCharge:
+		case EPlayerState::Run_AttackLoop:
 			RunAndChargeStart();
 			break;
 		case EPlayerState::Jump :
@@ -207,13 +207,13 @@ void APlayer::StateChange(EPlayerState _State)
 		case EPlayerState::JumpEnd :
 			JumpEndStart();
 			break;
-		case EPlayerState::Attack:
+		case EPlayerState::Idle_Attack:
 			AttackStart();
 			break;
-		case EPlayerState::AttackWait:
+		case EPlayerState::Idle_AttackLoop:
 			AttackWaitStart();
 			break;
-		case EPlayerState::AttackEnd:
+		case EPlayerState::Idle_AttackEnd:
 			AttackEndStart();
 			break;
 		case EPlayerState::DashStart:
@@ -261,13 +261,13 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 	case EPlayerState::JumpEnd :
 		JumpEnd(_DeltaTime);
 		break;
-	case EPlayerState::Attack :
+	case EPlayerState::Idle_Attack:
 		Attack(_DeltaTime);
 		break;
-	case EPlayerState::AttackWait :
+	case EPlayerState::Idle_AttackLoop :
 		AttackWait(_DeltaTime);
 		break;
-	case EPlayerState::AttackEnd :
+	case EPlayerState::Idle_AttackEnd :
 		AttackEnd(_DeltaTime);
 		break;
 	case EPlayerState::DashStart:
@@ -432,7 +432,7 @@ void APlayer::Idle(float _DeltaTime)
 	// Idle Attack
 	if (true == UEngineInput::IsDown('X'))
 	{
-		StateChange(EPlayerState::Attack);
+		StateChange(EPlayerState::Idle_Attack);
 		return;
 	}
 
@@ -491,7 +491,7 @@ void APlayer::Run(float _DeltaTime)
 	// Attack
 	if (true == UEngineInput::IsDown('X'))
 	{
-		StateChange(EPlayerState::RunAndAttack);
+		StateChange(EPlayerState::Run_Attack);
 		return;
 	}
 
@@ -596,14 +596,14 @@ void APlayer::Attack(float _DeltaTime)
 	if (true == UEngineInput::IsUp('X'))
 	{
 		TickCount = 0;
-		StateChange(EPlayerState::AttackEnd);
+		StateChange(EPlayerState::Idle_AttackEnd);
 		return;
 	}
 
 	if (true == UEngineInput::IsPress('X'))
 	{
 		TickCount = 0;
-		StateChange(EPlayerState::AttackWait);
+		StateChange(EPlayerState::Idle_AttackLoop);
 		return;
 	}
 
@@ -632,7 +632,7 @@ void APlayer::AttackWait(float _DeltaTime) // Â÷Áö¸¸.
 
 	if (true == UEngineInput::IsUp('X'))
 	{
-		StateChange(EPlayerState::AttackEnd);
+		StateChange(EPlayerState::Idle_AttackEnd);
 		return;
 	}
 }
