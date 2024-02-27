@@ -20,18 +20,17 @@ enum class EPlayerState
 	ComebackEnd,	// 복귀(레이저가 위로 이동.)
 
 	Idle,			// 기본.
+	Idle_Attack,	// 기본 자세 공격 시작.
+	Idle_AttackLoop,// 기본 자세 공격 루프.
+	Idle_AttackEnd, // 기본 자세 공격 종료.
 
 	Run,			// 움직이기.
-	RunAndAttack,	// 움직이는 중 공격.
-	RunAndCharge,	// 움직이는 중 차지.
+	Run_Attack,		// 움직임 자세 공격 시작.
+	Run_AttackLoop, // 움직임 자세 공격 루프.
 
 	Jump,			// 점프.
 	Sky,			// 공중.
 	JumpEnd,		// 착지.
-
-	Attack,			// 공격.
-	AttackWait,		// 공격 중.
-	AttackEnd,		// 공격 끝.
 
 	DashStart,		// 대쉬 시작.
 	DashLoop,		// 대쉬 중.
