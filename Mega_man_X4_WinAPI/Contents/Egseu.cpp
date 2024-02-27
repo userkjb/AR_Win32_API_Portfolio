@@ -607,14 +607,21 @@ void AEgseu::RunDash_EndStart()
 #pragma region RunDashJump BeginPlay
 void AEgseu::RunDashJumpStart()
 {
+	JumpVector = JumpPower;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	DirCheck();
 }
 
 void AEgseu::RunDashJump_LoopStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	DirCheck();
 }
 
 void AEgseu::RunDashJump_EndStart()
 {
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
 }
 #pragma endregion
 
@@ -794,6 +801,12 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 
 void AEgseu::IdleJump_End(float _DeltaTime)
 {
+	if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+	{
+		StateChange(EEgseuState::IdleRun_Loop);
+		return;
+	}
+
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::Idle);
@@ -1053,6 +1066,12 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 
 	// Á¡ÇÁ
+	if (true == UEngineInput::IsDown('C'))
+	{
+		DashTime = 0.0f;
+		StateChange(EEgseuState::RunDashJump);
+		return;
+	}
 
 	if (true == UEngineInput::IsUp('Z'))
 	{
@@ -1104,14 +1123,62 @@ void AEgseu::RunDash_End(float _DeltaTime)
 #pragma region RunDashJump Tick
 void AEgseu::RunDashJump(float _DeltaTime)
 {
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::RunDashJump_Loop);
+		return;
+	}
 }
 
 void AEgseu::RunDashJump_Loop(float _DeltaTime)
 {
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	// ¶¥¿¡ ´êÀ½
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		DashVector = FVector::Zero;
+		StateChange(EEgseuState::RunDashJump_End);
+		return;
+	}
 }
 
 void AEgseu::RunDashJump_End(float _DeltaTime)
 {
+	if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+	{
+		StateChange(EEgseuState::IdleRun_Loop);
+		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 }
 #pragma endregion
 
@@ -1178,6 +1245,11 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 
 void AEgseu::RunJump_End(float _DeltaTime)
 {
+	if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+	{
+		StateChange(EEgseuState::IdleRun_Loop);
+		return;
+	}
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::Idle);
