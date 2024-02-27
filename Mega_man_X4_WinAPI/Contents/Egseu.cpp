@@ -187,6 +187,114 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::Idle_End:
 			Idle_EndStart();
 			break;
+		case EEgseuState::IdleJump:
+			IdleJumpStart();
+			break;
+		case EEgseuState::IdleJump_Loop:
+			IdleJump_LoopStart();
+			break;
+		case EEgseuState::IdleJump_End:
+			IdleJump_EndStart();
+			break;
+		case EEgseuState::JumpAttack:
+			JumpAttackStart();
+			break;
+		case EEgseuState::JumpAttack_Loop:
+			JumpAttack_LoopStart();
+			break;
+		case EEgseuState::JumpAttack_End:
+			JumpAttack_EndStart();
+			break;
+		case EEgseuState::IdleAttack:
+			IdleAttackStart();
+			break;
+		case EEgseuState::IdleAttack_Loop:
+			IdleAttack_LoopStart();
+			break;
+		case EEgseuState::IdleAttack_End:
+			IdleAttack_EndStart();
+			break;
+		case EEgseuState::IdleDash:
+			IdleDashStart();
+			break;
+		case EEgseuState::IdleDash_Loop:
+			IdleDash_LoopStart();
+			break;
+		case EEgseuState::IdleDash_End:
+			IdleDash_EndStart();
+			break;
+		case EEgseuState::DashAttack:
+			DashAttackStart();
+			break;
+		case EEgseuState::DashAttack_Loop:
+			DashAttack_LoopStart();
+			break;
+		case EEgseuState::DashAttack_End:
+			DashAttack_EndStart();
+			break;
+		case EEgseuState::IdleRun:
+			IdleRunStart();
+			break;
+		case EEgseuState::IdleRun_Loop:
+			IdleRun_LoopStart();
+			break;
+		case EEgseuState::IdleRun_End:
+			IdleRun_EndStart();
+			break;
+		case EEgseuState::RunAttack:
+			RunAttackStart();
+			break;
+		case EEgseuState::RunAttack_Loop:
+			RunAttack_LoopStart();
+			break;
+		case EEgseuState::RunAttack_End:
+			RunAttack_EndStart();
+			break;
+		case EEgseuState::RunDash:
+			RunDashStart();
+			break;
+		case EEgseuState::RunDash_Loop:
+			RunDash_LoopStart();
+			break;
+		case EEgseuState::RunDash_End:
+			RunDash_EndStart();
+			break;
+		case EEgseuState::RunDashJump:
+			RunDashJumpStart();
+			break;
+		case EEgseuState::RunDashJump_Loop:
+			RunDashJump_LoopStart();
+			break;
+		case EEgseuState::RunDashJump_End:
+			RunDashJump_EndStart();
+			break;
+		case EEgseuState::RunDashJumpAttack:
+			RunDashJumpAttackStart();
+			break;
+		case EEgseuState::RunDashJumpAttack_Loop:
+			RunDashJumpAttack_LoopStart();
+			break;
+		case EEgseuState::RunDashJumpAttack_End:
+			RunDashJumpAttack_EndStart();
+			break;
+		case EEgseuState::RunJump:
+			RunJumpStart();
+			break;
+		case EEgseuState::RunJump_Loop:
+			RunJump_LoopStart();
+			break;
+		case EEgseuState::RunJump_End:
+			RunJump_EndStart();
+			break;
+		case EEgseuState::RunJumpAttack:
+			RunJumpAttackStart();
+			break;
+		case EEgseuState::RunJumpAttack_Loop:
+			RunJumpAttack_LoopStart();
+			break;
+		case EEgseuState::RunJumpAttack_End:
+			RunJumpAttack_EndStart();
+			break;
 		default :
 			break;
 		}
@@ -222,8 +330,6 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	}
 }
 
-
-
 // Begin
 
 #pragma region Summon Begin
@@ -243,6 +349,7 @@ void AEgseu::Summon_EndStart()
 }
 #pragma endregion
 
+#pragma region Comment
 void AEgseu::IdleStart()
 {
 }
@@ -253,6 +360,7 @@ void AEgseu::Idle_LoopStart()
 void AEgseu::Idle_EndStart()
 {
 }
+#pragma endregion
 
 
 // Tick
@@ -305,6 +413,11 @@ void AEgseu::Idle_Loop(float _DeltaTime)
 void AEgseu::Idle_End(float _DeltaTime)
 {
 }
+
+
+
+//#pragma region Comment
+//#pragma endregion
 
 void AEgseu::CalMoveVector()
 {
