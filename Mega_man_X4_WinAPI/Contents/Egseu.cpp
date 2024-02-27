@@ -299,7 +299,6 @@ void AEgseu::StateChange(EEgseuState _State)
 			break;
 		}
 	}
-
 	State = _State;
 }
 
@@ -469,6 +468,154 @@ void AEgseu::Idle_EndStart()
 {
 }
 #pragma endregion
+
+
+//#pragma region IdleStart BeginPlay
+//#pragma endregion
+
+void AEgseu::IdleJumpStart()
+{
+}
+
+void AEgseu::IdleJump_LoopStart()
+{
+}
+
+void AEgseu::IdleJump_EndStart()
+{
+}
+
+void AEgseu::JumpAttackStart()
+{
+}
+
+void AEgseu::JumpAttack_LoopStart()
+{
+}
+
+void AEgseu::JumpAttack_EndStart()
+{
+}
+
+void AEgseu::IdleAttackStart()
+{
+}
+
+void AEgseu::IdleAttack_LoopStart()
+{
+}
+
+void AEgseu::IdleAttack_EndStart()
+{
+}
+
+void AEgseu::IdleDashStart()
+{
+}
+
+void AEgseu::IdleDash_LoopStart()
+{
+}
+
+void AEgseu::IdleDash_EndStart()
+{
+}
+
+void AEgseu::DashAttackStart()
+{
+}
+
+void AEgseu::DashAttack_LoopStart()
+{
+}
+
+void AEgseu::DashAttack_EndStart()
+{
+}
+
+void AEgseu::IdleRunStart()
+{
+}
+
+void AEgseu::IdleRun_LoopStart()
+{
+}
+
+void AEgseu::IdleRun_EndStart()
+{
+}
+
+void AEgseu::RunAttackStart()
+{
+}
+
+void AEgseu::RunAttack_LoopStart()
+{
+}
+
+void AEgseu::RunAttack_EndStart()
+{
+}
+
+void AEgseu::RunDashStart()
+{
+}
+
+void AEgseu::RunDash_LoopStart()
+{
+}
+
+void AEgseu::RunDash_EndStart()
+{
+}
+
+void AEgseu::RunDashJumpStart()
+{
+}
+
+void AEgseu::RunDashJump_LoopStart()
+{
+}
+
+void AEgseu::RunDashJump_EndStart()
+{
+}
+
+void AEgseu::RunDashJumpAttackStart()
+{
+}
+
+void AEgseu::RunDashJumpAttack_LoopStart()
+{
+}
+
+void AEgseu::RunDashJumpAttack_EndStart()
+{
+}
+
+void AEgseu::RunJumpStart()
+{
+}
+
+void AEgseu::RunJump_LoopStart()
+{
+}
+
+void AEgseu::RunJump_EndStart()
+{
+}
+
+void AEgseu::RunJumpAttackStart()
+{
+}
+
+void AEgseu::RunJumpAttack_LoopStart()
+{
+}
+
+void AEgseu::RunJumpAttack_EndStart()
+{
+}
 
 
 // Tick
