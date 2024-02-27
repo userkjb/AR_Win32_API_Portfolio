@@ -883,7 +883,7 @@ void AEgseu::IdleDash_Loop(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
-	// 점프
+	// 점프 (나중에 추가하자. 급한 것은 아니다. 대쉬점프를 참고하면 쉽게 할 수 있다.)
 
 	if (true == UEngineInput::IsUp('Z'))
 	{
@@ -989,6 +989,7 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 
 	// 공격
 
+
 	// 대쉬
 	if (true == UEngineInput::IsDown('Z'))
 	{
@@ -1073,6 +1074,9 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 		return;
 	}
 
+	// 공격
+
+	// 대쉬 끝!
 	if (true == UEngineInput::IsUp('Z'))
 	{
 		DashTime = 0.0f;
@@ -1089,6 +1093,7 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 		}
 	}
 
+	// 대쉬 지속 시간
 	if (0.5f <= DashTime)
 	{
 		DashTime = 0.0f;
@@ -1155,6 +1160,8 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 	}
 
 	MoveUpdate(_DeltaTime);
+
+	// 공격
 
 	// 땅에 닿음
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
