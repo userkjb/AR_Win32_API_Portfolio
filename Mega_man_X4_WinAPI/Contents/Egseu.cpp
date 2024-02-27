@@ -325,6 +325,114 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::Idle_End:
 		Idle_End(_DeltaTime);
 		break;
+	case EEgseuState::IdleJump:
+		IdleJump(_DeltaTime);
+		break;
+	case EEgseuState::IdleJump_Loop:
+		IdleJump_Loop(_DeltaTime);
+		break;
+	case EEgseuState::IdleJump_End:
+		IdleJump_End(_DeltaTime);
+		break;
+	case EEgseuState::JumpAttack:
+		JumpAttack(_DeltaTime);
+		break;
+	case EEgseuState::JumpAttack_Loop:
+		JumpAttack_Loop(_DeltaTime);
+		break;
+	case EEgseuState::JumpAttack_End:
+		JumpAttack_End(_DeltaTime);
+		break;
+	case EEgseuState::IdleAttack:
+		IdleAttack(_DeltaTime);
+		break;
+	case EEgseuState::IdleAttack_Loop:
+		IdleAttack_Loop(_DeltaTime);
+		break;
+	case EEgseuState::IdleAttack_End:
+		IdleAttack_End(_DeltaTime);
+		break;
+	case EEgseuState::IdleDash:
+		IdleDash(_DeltaTime);
+		break;
+	case EEgseuState::IdleDash_Loop:
+		IdleDash_Loop(_DeltaTime);
+		break;
+	case EEgseuState::IdleDash_End:
+		IdleDash_End(_DeltaTime);
+		break;
+	case EEgseuState::DashAttack:
+		DashAttack(_DeltaTime);
+		break;
+	case EEgseuState::DashAttack_Loop:
+		DashAttack_Loop(_DeltaTime);
+		break;
+	case EEgseuState::DashAttack_End:
+		DashAttack_End(_DeltaTime);
+		break;
+	case EEgseuState::IdleRun:
+		IdleRun(_DeltaTime);
+		break;
+	case EEgseuState::IdleRun_Loop:
+		IdleRun_Loop(_DeltaTime);
+		break;
+	case EEgseuState::IdleRun_End:
+		IdleRun_End(_DeltaTime);
+		break;
+	case EEgseuState::RunAttack:
+		RunAttack(_DeltaTime);
+		break;
+	case EEgseuState::RunAttack_Loop:
+		RunAttack_Loop(_DeltaTime);
+		break;
+	case EEgseuState::RunAttack_End:
+		RunAttack_End(_DeltaTime);
+		break;
+	case EEgseuState::RunDash:
+		RunDash(_DeltaTime);
+		break;
+	case EEgseuState::RunDash_Loop:
+		RunDash_Loop(_DeltaTime);
+		break;
+	case EEgseuState::RunDash_End:
+		RunDash_End(_DeltaTime);
+		break;
+	case EEgseuState::RunDashJump:
+		RunDashJump(_DeltaTime);
+		break;
+	case EEgseuState::RunDashJump_Loop:
+		RunDashJump_Loop(_DeltaTime);
+		break;
+	case EEgseuState::RunDashJump_End:
+		RunDashJump_End(_DeltaTime);
+		break;
+	case EEgseuState::RunDashJumpAttack:
+		RunDashJumpAttack(_DeltaTime);
+		break;
+	case EEgseuState::RunDashJumpAttack_Loop:
+		RunDashJumpAttack_Loop(_DeltaTime);
+		break;
+	case EEgseuState::RunDashJumpAttack_End:
+		RunDashJumpAttack_End(_DeltaTime);
+		break;
+	case EEgseuState::RunJump:
+		RunJump(_DeltaTime);
+		break;
+	case EEgseuState::RunJump_Loop:
+		RunJump_Loop(_DeltaTime);
+		break;
+	case EEgseuState::RunJump_End:
+		RunJump_End(_DeltaTime);
+		break;
+	case EEgseuState::RunJumpAttack:
+		RunJumpAttack(_DeltaTime);
+		break;
+	case EEgseuState::RunJumpAttack_Loop:
+		RunJumpAttack_Loop(_DeltaTime);
+		break;
+	case EEgseuState::RunJumpAttack_End:
+		RunJumpAttack_End(_DeltaTime);
+		break;
 	default :
 		break;
 	}
