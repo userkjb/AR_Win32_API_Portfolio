@@ -872,15 +872,31 @@ void AEgseu::IdleDash_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsUp('Z'))
 	{
 		DashTime = 0.0f;
-		StateChange(EEgseuState::IdleDash_End);
-		return;
+		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
+		{
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::IdleDash_End);
+			return;
+		}
 	}
 
 	if (0.5f <= DashTime)
 	{
 		DashTime = 0.0f;
-		StateChange(EEgseuState::IdleDash_End);
-		return;
+		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
+		{
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::IdleDash_End);
+			return;
+		}
 	}
 }
 
