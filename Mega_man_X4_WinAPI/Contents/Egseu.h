@@ -135,6 +135,8 @@ private :
 	void CalLastMoveVector();
 	void MoveUpdate(float _DeltaTime);
 
+	// Buster Charge Time Function
+	void BusterChargeTime(float _DeltaTime);
 
 	// ===========================================================
 
@@ -173,13 +175,14 @@ private :
 	float MoveSpeed = 500.0f;
 	float DashSpeed = 1.5f;
 	float DashTime = 0.0f;
-	float ChargTime = 0.0f;
 	float AttackTime = 0.0f;
-	float DelayTime = 0.0f;
+	float SummonDelayTime = 0.0f;
 	float ReadToBusterTime = 0.0f; // Buster 준비 시간.
 	bool IsBuster = false; // Buster 쐈음?
 
-	int TickCount = 0; // Buster가 1번 생성되도록.
+	float BusterChargTime = 0.0f;
+	float BusterDelayTime = 0.0f;
+	int BusterTickCount = 0; // Buster가 1번 생성되도록.
 
 	int MaxHp = 0;
 	int Hp = 0;

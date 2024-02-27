@@ -33,6 +33,7 @@ void AEgseu::Tick(float _DeltaTime)
 	AActor::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
+	BusterChargeTime(_DeltaTime);
 }
 
 void AEgseu::ChargeBeginPlay()
@@ -105,6 +106,7 @@ void AEgseu::PlayerBeginPlay()
 
 
 	// Attack
+	// x_Attack_Right 이미지가 좋은 이미지가 아니여서 후에 바꿔야 함.
 	PlayerRender->CreateAnimation("Idle_Attack_Start_Right", "x_Attack_Right.png", 0, 5, 0.05f, false);
 	PlayerRender->CreateAnimation("Idle_Attack_Start_Left", "x_Attack_Left.png", 0, 5, 0.05f, false);
 	PlayerRender->CreateAnimation("Idle_Attack_Loop_Right", "x_Attack_Right.png", 5, 5, 0.5f, true);
@@ -705,13 +707,13 @@ void AEgseu::Summon(float _DeltaTime)
 
 void AEgseu::Summon_Loop(float _DeltaTime)
 {
-	DelayTime += _DeltaTime;
+	SummonDelayTime += _DeltaTime;
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
-		if (1.5f < DelayTime)
+		if (1.5f < SummonDelayTime)
 		{
 			StateChange(EEgseuState::Summon_End);
-			DelayTime = 0.0f;
+			SummonDelayTime = 0.0f;
 			return;
 		}
 	}
@@ -747,6 +749,13 @@ void AEgseu::Idle(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		StateChange(EEgseuState::IdleAttack);
+		return;
+	}
+
+	// 발싸!!!
+	if (true == UEngineInput::IsUp('X'))
+	{
+		StateChange(EEgseuState::IdleAttack_End);
 		return;
 	}
 
@@ -845,14 +854,106 @@ void AEgseu::JumpAttack_End(float _DeltaTime)
 #pragma region IdleAttack Tick
 void AEgseu::IdleAttack(float _DeltaTime)
 {
+	if (BusterTickCount == 0)
+	{
+		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		if (DirState == EActorDir::Right)
+		{
+			A_Buster->SetDir(FVector::Right);
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			A_Buster->SetDir(FVector::Left);
+		}
+		A_Buster->SetBusterState(EBusterState::DefaultCharge);
+		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Default"));
+
+		BusterTickCount++;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		BusterTickCount = 0;
+		StateChange(EEgseuState::IdleAttack_Loop);
+		return;
+	}
 }
 
 void AEgseu::IdleAttack_Loop(float _DeltaTime)
 {
+
+	// 이동, 대쉬, 점프 해도 된다.
+	// 상태를 변경해도 BusterChargTime 이 0.0f가 아니면,
+	// MiddleChargeRender, PullChargeRender 의 Active가 계속 On으로 유지되므로,
+	// 각각의 상태에서 X키의 Up일 때 상태를 변경해 주면 된다.
+
+	if (1.0f < BusterChargTime)
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
+
+	// 발싸!!
+	if (true == UEngineInput::IsUp('X'))
+	{
+		StateChange(EEgseuState::IdleAttack_End);
+		return;
+	}
 }
 
 void AEgseu::IdleAttack_End(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+
+	MiddleChargeRender->ActiveOff();
+	PullChargeRender->ActiveOff();
+
+	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+	{
+		if (BusterTickCount == 0)
+		{
+			ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+			if (DirState == EActorDir::Right)
+			{
+				A_Buster->SetDir(FVector::Right);
+			}
+			else if (DirState == EActorDir::Left)
+			{
+				A_Buster->SetDir(FVector::Left);
+			}
+			A_Buster->SetBusterState(EBusterState::MiddleCharge);
+			A_Buster->SetBusterAnimation(GetAnimationName("Buster_Middle"));
+			BusterTickCount++;
+		}
+	}
+	else if (2.0f <= BusterChargTime)
+	{
+		if (BusterTickCount == 0)
+		{
+			ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+			if (DirState == EActorDir::Right)
+			{
+				A_Buster->SetDir(FVector::Right);
+			}
+			else if (DirState == EActorDir::Left)
+			{
+				A_Buster->SetDir(FVector::Left);
+			}
+			A_Buster->SetBusterState(EBusterState::PullCharge);
+			A_Buster->SetBusterAnimation(GetAnimationName("Buster_Pull"));
+			BusterTickCount++;
+		}
+	}
+
+	if (1.0f <= BusterDelayTime)
+	{
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 }
 #pragma endregion
 
@@ -1370,4 +1471,26 @@ void AEgseu::MoveUpdate(float _DeltaTime)
 	CalGravityVector(_DeltaTime);
 	CalLastMoveVector();
 	MoveLastMoveVector(_DeltaTime);
+}
+
+void AEgseu::BusterChargeTime(float _DeltaTime)
+{
+	// 차지 이미지
+	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+	{
+		MiddleChargeRender->ActiveOn();
+	}
+	else if (2.0f <= BusterChargTime)
+	{
+		PullChargeRender->ActiveOn();
+	}
+
+	if (true == UEngineInput::IsFree('X'))
+	{
+		BusterChargTime = 0.0f;
+	}
+	if (true == UEngineInput::IsPress('X'))
+	{
+		BusterChargTime += _DeltaTime;
+	}
 }
