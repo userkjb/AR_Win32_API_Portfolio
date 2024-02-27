@@ -36,7 +36,7 @@ private :
 	void StateChange(EEgseuState _State);
 	void StateUpdate(float _DeltaTime);
 
-	// Start
+	#pragma region Start Function
 	void SummonStart();
 	void Summon_LoopStart();
 	void Summon_EndStart();
@@ -79,16 +79,53 @@ private :
 	void RunJumpAttackStart();
 	void RunJumpAttack_LoopStart();
 	void RunJumpAttack_EndStart();
+	#pragma endregion
 
 
-	// Tick
+	#pragma region Tick Function
 	void Summon(float _DeltaTime);
 	void Summon_Loop(float _DeltaTime);
 	void Summon_End(float _DeltaTime);
 	void Idle(float _DeltaTime);
 	void Idle_Loop(float _DeltaTime);
 	void Idle_End(float _DeltaTime);
-
+	void IdleJump(float _DeltaTime);
+	void IdleJump_Loop(float _DeltaTime);
+	void IdleJump_End(float _DeltaTime);
+	void JumpAttack(float _DeltaTime);
+	void JumpAttack_Loop(float _DeltaTime);
+	void JumpAttack_End(float _DeltaTime);
+	void IdleAttack(float _DeltaTime);
+	void IdleAttack_Loop(float _DeltaTime);
+	void IdleAttack_End(float _DeltaTime);
+	void IdleDash(float _DeltaTime);
+	void IdleDash_Loop(float _DeltaTime);
+	void IdleDash_End(float _DeltaTime);
+	void DashAttack(float _DeltaTime);
+	void DashAttack_Loop(float _DeltaTime);
+	void DashAttack_End(float _DeltaTime);
+	void IdleRun(float _DeltaTime);
+	void IdleRun_Loop(float _DeltaTime);
+	void IdleRun_End(float _DeltaTime);
+	void RunAttack(float _DeltaTime);
+	void RunAttack_Loop(float _DeltaTime);
+	void RunAttack_End(float _DeltaTime);
+	void RunDash(float _DeltaTime);
+	void RunDash_Loop(float _DeltaTime);
+	void RunDash_End(float _DeltaTime);
+	void RunDashJump(float _DeltaTime);
+	void RunDashJump_Loop(float _DeltaTime);
+	void RunDashJump_End(float _DeltaTime);
+	void RunDashJumpAttack(float _DeltaTime);
+	void RunDashJumpAttack_Loop(float _DeltaTime);
+	void RunDashJumpAttack_End(float _DeltaTime);
+	void RunJump(float _DeltaTime);
+	void RunJump_Loop(float _DeltaTime);
+	void RunJump_End(float _DeltaTime);
+	void RunJumpAttack(float _DeltaTime);
+	void RunJumpAttack_Loop(float _DeltaTime);
+	void RunJumpAttack_End(float _DeltaTime);
+	#pragma endregion
 
 	// Vector Funcion
 	

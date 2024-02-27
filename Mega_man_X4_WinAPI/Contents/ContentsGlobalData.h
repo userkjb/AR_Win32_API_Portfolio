@@ -53,7 +53,7 @@ enum class EEgseuState
 	Summon,			// 소환 이동.(레이저로 내려옴.)
 	Summon_Loop,		// 소환 중.(땅에 닿으면 Character로 변화.)
 	Summon_End,		// 소환 종료.(소환 완료.)
-	
+
 	Idle,
 	Idle_Loop,
 	Idle_End,
