@@ -73,8 +73,8 @@ void AEgseu::PlayerBeginPlay()
 
 	// ===== Animation ======================================================
 	// Summon
-	PlayerRender->CreateAnimation("Summon_Right", "x_Start.png", 0, 0, 0.1f, true);
-	PlayerRender->CreateAnimation("Summon_Loop_Right", "x_Start.png", 1, 16, 0.07f, false);
+	PlayerRender->CreateAnimation("Summon", "x_Start.png", 0, 0, 0.1f, true);
+	PlayerRender->CreateAnimation("Summon_Loop", "x_Start.png", 1, 16, 0.07f, false);
 
 	// Idle
 	PlayerRender->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
@@ -89,8 +89,8 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Jump_Start_Left", "x_Jump_Left.png", 0, 7, 0.05f, false);
 	PlayerRender->CreateAnimation("Jumping_Right", "x_Jump_Right.png", 7, 7, 0.1f, false);
 	PlayerRender->CreateAnimation("Jumping_Left", "x_Jump_Left.png", 7, 7, 0.1f, false);
-	PlayerRender->CreateAnimation("JumpEnd_Right", "x_Jump_Right.png", 8, 10, 0.005f, false);
-	PlayerRender->CreateAnimation("JumpEnd_Left", "x_Jump_Left.png", 8, 10, 0.005f, false);
+	PlayerRender->CreateAnimation("Jump_End_Right", "x_Jump_Right.png", 8, 10, 0.005f, false);
+	PlayerRender->CreateAnimation("Jump_End_Left", "x_Jump_Left.png", 8, 10, 0.005f, false);
 
 
 	// Dash
@@ -104,7 +104,7 @@ void AEgseu::PlayerBeginPlay()
 
 	// =====================================================================
 
-	PlayerRender->ChangeAnimation(GetAnimationName("Summon"));
+	PlayerRender->ChangeAnimation("Summon");
 	StateChange(EEgseuState::Summon);
 }
 
@@ -181,12 +181,12 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::Idle:
 			IdleStart();
 			break;
-		case EEgseuState::Idle_Loop:
-			Idle_LoopStart();
-			break;
-		case EEgseuState::Idle_End:
-			Idle_EndStart();
-			break;
+		//case EEgseuState::Idle_Loop:
+		//	Idle_LoopStart();
+		//	break;
+		//case EEgseuState::Idle_End:
+		//	Idle_EndStart();
+		//	break;
 		case EEgseuState::IdleJump:
 			IdleJumpStart();
 			break;
@@ -318,12 +318,12 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::Idle:
 		Idle(_DeltaTime);
 		break;
-	case EEgseuState::Idle_Loop:
-		Idle_Loop(_DeltaTime);
-		break;
-	case EEgseuState::Idle_End:
-		Idle_End(_DeltaTime);
-		break;
+	//case EEgseuState::Idle_Loop:
+	//	Idle_Loop(_DeltaTime);
+	//	break;
+	//case EEgseuState::Idle_End:
+	//	Idle_End(_DeltaTime);
+	//	break;
 	case EEgseuState::IdleJump:
 		IdleJump(_DeltaTime);
 		break;
@@ -442,12 +442,12 @@ void AEgseu::StateUpdate(float _DeltaTime)
 #pragma region Summon BeginPlay
 void AEgseu::SummonStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Summon"));
+	PlayerRender->ChangeAnimation("Summon");
 }
 
 void AEgseu::Summon_LoopStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Summon_Loop"));
+	PlayerRender->ChangeAnimation("Summon_Loop");
 }
 
 void AEgseu::Summon_EndStart()
@@ -459,32 +459,40 @@ void AEgseu::Summon_EndStart()
 #pragma region IdleStart BeginPlay
 void AEgseu::IdleStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
+	DirCheck();
 }
-void AEgseu::Idle_LoopStart()
-{
-}
-
-void AEgseu::Idle_EndStart()
-{
-}
+//void AEgseu::Idle_LoopStart()
+//{
+//}
+//
+//void AEgseu::Idle_EndStart()
+//{
+//}
 #pragma endregion
 
-
-//#pragma region IdleStart BeginPlay
+#pragma region IdleJump BeginPlay
 void AEgseu::IdleJumpStart()
 {
+	JumpVector = JumpPower;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	DirCheck();
 }
 
 void AEgseu::IdleJump_LoopStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	DirCheck();
 }
 
 void AEgseu::IdleJump_EndStart()
 {
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
 }
-//#pragma endregion
+#pragma endregion
 
-//#pragma region JumpAttack BeginPlay
+#pragma region JumpAttack BeginPlay
 void AEgseu::JumpAttackStart()
 {
 }
@@ -566,7 +574,7 @@ void AEgseu::RunAttack_LoopStart()
 void AEgseu::RunAttack_EndStart()
 {
 }
-//#pragma endregion
+#pragma endregion
 
 #pragma region RunDash BeginPlay
 void AEgseu::RunDashStart()
@@ -672,6 +680,7 @@ void AEgseu::Summon_Loop(float _DeltaTime)
 
 void AEgseu::Summon_End(float _DeltaTime)
 {
+	// 딜레이 넣으면 좋은 디테일.
 	StateChange(EEgseuState::Idle);
 	return;
 }
@@ -680,28 +689,91 @@ void AEgseu::Summon_End(float _DeltaTime)
 #pragma region Idle Tick
 void AEgseu::Idle(float _DeltaTime)
 {
+	// 가만히 있는데 뱡향 키가 눌렸을 때.
+	if (true == UEngineInput::IsPress(VK_LEFT) ||
+		true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		StateChange(EEgseuState::IdleRun);
+		return;
+	}
+
+	// 점프 C
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EEgseuState::IdleJump);
+		return;
+	}
+	
+	// 공격 X
+
+
+	// 대쉬 Z
+
+
+	MoveUpdate(_DeltaTime);
 }
 
-void AEgseu::Idle_Loop(float _DeltaTime)
-{
-}
-
-void AEgseu::Idle_End(float _DeltaTime)
-{
-}
+//void AEgseu::Idle_Loop(float _DeltaTime)
+//{
+//}
+//
+//void AEgseu::Idle_End(float _DeltaTime)
+//{
+//}
 #pragma endregion
 
 #pragma region IdleJump Tick
 void AEgseu::IdleJump(float _DeltaTime)
 {
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::IdleJump_Loop);
+		return;
+	}
 }
 
 void AEgseu::IdleJump_Loop(float _DeltaTime)
 {
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	// 땅에 닿음
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		StateChange(EEgseuState::IdleJump_End);
+		return;
+	}
 }
 
 void AEgseu::IdleJump_End(float _DeltaTime)
 {
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 }
 #pragma endregion
 
