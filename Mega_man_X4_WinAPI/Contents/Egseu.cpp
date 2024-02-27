@@ -81,6 +81,8 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Idle_Left", "x_Idle_Left.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
 
 	// Run
+	PlayerRender->CreateAnimation("Run_Ready_Right", "x_Move_Right.png", 0, 1, 0.05f, false);
+	PlayerRender->CreateAnimation("Run_Ready_Left", "x_Move_Left.png", 0, 1, 0.05f, false);
 	PlayerRender->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
 	PlayerRender->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
 
@@ -551,14 +553,20 @@ void AEgseu::DashAttack_EndStart()
 #pragma region IdleRun BeginPlay
 void AEgseu::IdleRunStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Run_Ready"));
+	DirCheck();
 }
 
 void AEgseu::IdleRun_LoopStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Run"));
+	DirCheck();
 }
 
 void AEgseu::IdleRun_EndStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
+	DirCheck();
 }
 #pragma endregion
 
@@ -834,14 +842,57 @@ void AEgseu::DashAttack_End(float _DeltaTime)
 #pragma region IdleRun Tick
 void AEgseu::IdleRun(float _DeltaTime)
 {
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+	MoveUpdate(_DeltaTime);
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::IdleRun_Loop);
+		return;
+	}
 }
 
 void AEgseu::IdleRun_Loop(float _DeltaTime)
 {
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+	MoveUpdate(_DeltaTime);
+
+	// 점프
+
+	// 공격
+
+	// 대쉬
+
+	if (true == UEngineInput::IsFree(VK_LEFT) &&
+		true == UEngineInput::IsFree(VK_RIGHT) &&
+		true == UEngineInput::IsFree(VK_UP) &&
+		true == UEngineInput::IsFree(VK_DOWN))
+	{
+		StateChange(EEgseuState::IdleRun_End);
+		return;
+	}
 }
 
 void AEgseu::IdleRun_End(float _DeltaTime)
 {
+	StateChange(EEgseuState::Idle);
+	return;
 }
 #pragma endregion
 
