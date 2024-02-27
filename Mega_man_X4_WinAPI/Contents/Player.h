@@ -71,9 +71,9 @@ protected:
 	void JumpStart();
 	void SkyStart();
 	void JumpEndStart();
-	void AttackStart();
-	void AttackWaitStart();
-	void AttackEndStart();
+	void Idle_AttackStart();
+	void Idle_AttackLoopStart();
+	void Idle_AttackEndStart();
 	void DashStart();
 	void DashLoopStart();
 	void DashEndStart();
@@ -256,7 +256,7 @@ private :
 	FVector LastMoveVector = FVector::Zero;
 
 	// Camera Vector
-	FVector CameraCenterPos = { 400, 300 };
+	//FVector CameraCenterPos = { 400, 300 };
 
 	// Player를 전역으로 빼준다.
 	static APlayer* MainPlayer;
@@ -268,7 +268,10 @@ private :
 	float ChargTime = 0.0f;
 	float AttackTime = 0.0f;
 	float DelayTime = 0.0f;
-	int TickCount = 0;
+	float ReadToBusterTime = 0.0f; // Buster 준비 시간.
+	bool IsBuster = false; // Buster 쐈음?
+
+	int TickCount = 0; // Buster가 1번 생성되도록.
 
 	int MaxHp = 0;
 	int Hp = 0;

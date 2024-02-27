@@ -43,6 +43,13 @@ void APlayer::BeginPlay()
 	// Idle
 	Renderer->CreateAnimation("Idle_Right", "x_Idle_Right.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
 	Renderer->CreateAnimation("Idle_Left", "x_Idle_Left.png", { 0,1,2,3,4,3,2,1 }, 0.1f, true);
+	// Idle And Attack
+	Renderer->CreateAnimation("Attack_Right", "x_Attack_Right.png", 0, 5, 0.05f, false);
+	Renderer->CreateAnimation("Attack_Left", "x_Attack_Left.png", 0, 5, 0.05f, false);
+	Renderer->CreateAnimation("Attack_Wait_Right", "x_Attack_Right.png", 5, 5, 0.1f, false);
+	Renderer->CreateAnimation("Attack_Wait_Left", "x_Attack_Left.png", 5, 5, 0.1f, false);
+	Renderer->CreateAnimation("Attack_End_Right", "x_Attack_Right.png", 6, 7, 0.1f, false);
+	Renderer->CreateAnimation("Attack_End_Left", "x_Attack_Left.png", 6, 7, 0.1f, false);
 
 	// Run
 	Renderer->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
@@ -50,8 +57,9 @@ void APlayer::BeginPlay()
 	// Run And Attack
 	Renderer->CreateAnimation("Run_Attack_Right", "x_Move_Attack_Right.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
 	Renderer->CreateAnimation("Run_Attack_Left", "x_Move_Attack_Left.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
-	Renderer->CreateAnimation("Run_Attack_Shoot_Right", "x_Move_Attack_Right.png", { 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31 }, 0.05f, true);
-	Renderer->CreateAnimation("Run_Attack_Shoot_Left", "x_Move_Attack_Left.png", { 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31 }, 0.05f, true);
+	//Renderer->CreateAnimation("Run_Attack_Shoot_Right", "x_Move_Attack_Right.png", { 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31 }, 0.05f, true);
+	//Renderer->CreateAnimation("Run_Attack_Shoot_Left", "x_Move_Attack_Left.png", { 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31 }, 0.05f, true);
+
 
 	// Jump
 	Renderer->CreateAnimation("Jump_Start_Right", "x_Jump_Right.png", 0, 7, 0.05f, false);
@@ -60,14 +68,6 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Jumping_Left", "x_Jump_Left.png", 7, 7, 0.1f, false);
 	Renderer->CreateAnimation("JumpEnd_Right", "x_Jump_Right.png", 8, 10, 0.005f, false);
 	Renderer->CreateAnimation("JumpEnd_Left", "x_Jump_Left.png", 8, 10, 0.005f, false);
-
-	// Attack
-	Renderer->CreateAnimation("Attack_Right", "x_Attack_Right.png", 0, 5, 0.05f, false);
-	Renderer->CreateAnimation("Attack_Left", "x_Attack_Left.png", 0, 5, 0.05f, false);
-	Renderer->CreateAnimation("Attack_Wait_Right", "x_Attack_Right.png", 5, 5, 0.1f, false);
-	Renderer->CreateAnimation("Attack_Wait_Left", "x_Attack_Left.png", 5, 5, 0.1f, false);
-	Renderer->CreateAnimation("Attack_End_Right", "x_Attack_Right.png", 6, 7, 0.1f, false);
-	Renderer->CreateAnimation("Attack_End_Left", "x_Attack_Left.png", 6, 7, 0.1f, false);
 
 	// Dash
 	Renderer->CreateAnimation("Dash_Start_Right", "x_Dash_Right.png", 0, 1, 0.05f, false);
@@ -211,13 +211,13 @@ void APlayer::StateChange(EPlayerState _State)
 			JumpEndStart();
 			break;
 		case EPlayerState::Idle_Attack:
-			AttackStart();
+			Idle_AttackStart();
 			break;
 		case EPlayerState::Idle_AttackLoop:
-			AttackWaitStart();
+			Idle_AttackLoopStart();
 			break;
 		case EPlayerState::Idle_AttackEnd:
-			AttackEndStart();
+			Idle_AttackEndStart();
 			break;
 		case EPlayerState::DashStart:
 			DashStart();
@@ -254,6 +254,15 @@ void APlayer::StateUpdate(float _DeltaTime) // Tick
 		break;
 	case EPlayerState::Run :
 		Run(_DeltaTime);
+		break;
+	case EPlayerState::Run_Attack:
+		Run_Attack(_DeltaTime);
+		break;
+	case EPlayerState::Run_AttackLoop:
+		Run_AttackLoop(_DeltaTime);
+		break;
+	case EPlayerState::Run_AttackEnd:
+		Run_AttackEnd(_DeltaTime);
 		break;
 	case EPlayerState::Jump :
 		Jump(_DeltaTime);
@@ -354,17 +363,17 @@ void APlayer::JumpEndStart()
 	Renderer->ChangeAnimation(GetAnimationName("JumpEnd"));
 }
 
-void APlayer::AttackStart()
+void APlayer::Idle_AttackStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Attack"));
 }
 
-void APlayer::AttackWaitStart()
+void APlayer::Idle_AttackLoopStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Attack_Wait"));
 }
 
-void APlayer::AttackEndStart()
+void APlayer::Idle_AttackEndStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Attack_End"));
 }
@@ -473,7 +482,7 @@ void APlayer::Run(float _DeltaTime)
 		return;
 	}
 
-	// 키보드 입력
+	// 키보드 입력 유지 중 이면,
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
 		RunVector = FVector::Left * MoveSpeed;
@@ -514,17 +523,115 @@ void APlayer::Run(float _DeltaTime)
 
 void APlayer::Run_Attack(float _DeltaTime)
 {
+	DirCheck();
+	ReadToBusterTime += _DeltaTime;
+	
+	// Buster 생성.
+	if (TickCount == 0)
+	{
+		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		if (DirState == EActorDir::Right)
+		{
+			A_Buster->SetDir(FVector::Right);
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			A_Buster->SetDir(FVector::Left);
+		}
+		A_Buster->SetBusterState(EBusterState::DefaultCharge);
+		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Default"));
 
+		TickCount++;
+	}
+
+
+	// 키보드 입력 유지 중 이면,
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	// 움직임을 멈췄을 때,
+	if (true == UEngineInput::IsFree(VK_LEFT) &&
+		true == UEngineInput::IsFree(VK_RIGHT) &&
+		true == UEngineInput::IsFree(VK_UP) &&
+		true == UEngineInput::IsFree(VK_DOWN))
+	{
+		StateChange(EPlayerState::Idle);
+		return;
+	}
+
+	if (true == UEngineInput::IsPress('X'))
+	{
+		TickCount = 0;
+		StateChange(EPlayerState::Run_AttackLoop);
+		return;
+	}
+
+	MoveUpdate(_DeltaTime);
 }
 
 void APlayer::Run_AttackLoop(float _DeltaTime)
 {
+	DirCheck();
 
+	ReadToBusterTime += _DeltaTime;
+
+	// 움직임을 멈췄을 때,
+	if (true == UEngineInput::IsFree(VK_LEFT) &&
+		true == UEngineInput::IsFree(VK_RIGHT) &&
+		true == UEngineInput::IsFree(VK_UP) &&
+		true == UEngineInput::IsFree(VK_DOWN))
+	{
+		StateChange(EPlayerState::Idle);
+		return;
+	}
+
+	// 키보드 입력 유지 중 이면,
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+	
+	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EPlayerState::Run_Attack);
+		return;
+	}
+
+	if (1.0f <= ReadToBusterTime && true == UEngineInput::IsPress(VK_LEFT))
+	{
+		ReadToBusterTime = 0.0f;
+		StateChange(EPlayerState::Run);
+		return;
+	}
+
+	if (1.0f <= ReadToBusterTime && true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		ReadToBusterTime = 0.0f;
+		StateChange(EPlayerState::Run);
+		return;
+	}
 }
 
 void APlayer::Run_AttackEnd(float _DeltaTime)
 {
+	DirCheck();
 
+
+
+	MoveUpdate(_DeltaTime);
 }
 
 #pragma endregion
