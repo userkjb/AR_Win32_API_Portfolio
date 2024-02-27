@@ -29,14 +29,40 @@ protected :
 	void Tick(float _DeltaTime) override;
 
 private :
+	void ChargeBeginPlay();
+	void PlayerBeginPlay();
 	void DirCheck();
 	std::string GetAnimationName(std::string _Name);
 	void StateChange(EEgseuState _State);
 	void StateUpdate(float _DeltaTime);
 
 	// Start
+	void SummonStart();
+	void Summon_LoopStart();
+	void Summon_EndStart();
+	void IdleStart();
+	void Idle_LoopStart();
+	void Idle_EndStart();
 
 	// Tick
+	void Summon(float _DeltaTime);
+	void Summon_Loop(float _DeltaTime);
+	void Summon_End(float _DeltaTime);
+	void Idle(float _DeltaTime);
+	void Idle_Loop(float _DeltaTime);
+	void Idle_End(float _DeltaTime);
+
+
+	// Vector Funcion
+	
+	void CalMoveVector();
+	void CalGravityVector(float _DeltaTime);
+ 	void MoveLastMoveVector(float _DeltaTime);
+	void CalLastMoveVector();
+	void MoveUpdate(float _DeltaTime);
+
+
+	// ===========================================================
 
 	EEgseuState State = EEgseuState::None;
 	ERenderOrder Order = ERenderOrder::None;
@@ -44,7 +70,7 @@ private :
 
 	std::string CurAnimationName = "None";
 
-	UImageRenderer* Renderer = nullptr;
+	UImageRenderer* PlayerRender = nullptr;
 	UCollision* PlayerCollision = nullptr;
 	UImageRenderer* Busterflash = nullptr; // ¹ö½ºÅÍ ÃÑ±¸ ¼¶±¤.
 	UImageRenderer* MiddleChargeRender = nullptr; // Áß°£ Â÷Áö

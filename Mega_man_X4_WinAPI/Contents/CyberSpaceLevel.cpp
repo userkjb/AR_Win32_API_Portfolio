@@ -1,6 +1,7 @@
 #include "CyberSpaceLevel.h"
 #include "CyberSpaceMap.h"
 #include "Player.h"
+#include "Egseu.h"
 #include "CyberPeacock.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
@@ -56,8 +57,11 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
 
 	// Actor
-	NewPlayer = SpawnActor<APlayer>();
-	NewPlayer->SetActorLocation({ 200, 0 }); // 400 이 센터.
+	//NewPlayer = SpawnActor<APlayer>();
+	//NewPlayer->SetActorLocation({ 200, 0 }); // 400 이 센터.
+
+	NewX = SpawnActor<AEgseu>();
+	NewX->SetActorLocation({ 200, 0 });
 
 	ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
 	NewBoss->SetActorLocation({ 520, 500 });
@@ -73,7 +77,7 @@ void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
 void UCyberSpaceLevel::MoveCameraVector()
 {
 	FVector CameraPos = GetCameraPos();
-	FVector PlayerPos = NewPlayer->GetActorLocation();
+	FVector PlayerPos = NewX->GetActorLocation();
 	FVector ImageScale = CyberSpaceMap->GetImageScale();
 	FVector WindowScale = GEngine->MainWindow.GetWindowScale();
 

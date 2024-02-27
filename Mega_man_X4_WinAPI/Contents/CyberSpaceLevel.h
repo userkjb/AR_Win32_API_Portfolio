@@ -3,6 +3,7 @@
 
 class ACyberSpaceMap;
 class APlayer;
+class AEgseu;
 
 class UCyberSpaceLevel : public ULevel
 {
@@ -31,5 +32,6 @@ private :
 
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
 	APlayer* NewPlayer = nullptr;
+	AEgseu* NewX = nullptr;
 };
 

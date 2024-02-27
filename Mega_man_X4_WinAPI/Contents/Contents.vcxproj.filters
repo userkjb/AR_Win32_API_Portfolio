@@ -55,6 +55,9 @@
     <ClInclude Include="CyberSpaceMap.h">
       <Filter>02_Actor\Map\03_Stage\03_Cyber_Space</Filter>
     </ClInclude>
+    <ClInclude Include="Egseu.h">
+      <Filter>02_Actor\Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -110,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="CyberSpaceMap.cpp">
       <Filter>02_Actor\Map\03_Stage\03_Cyber_Space</Filter>
+    </ClCompile>
+    <ClCompile Include="Egseu.cpp">
+      <Filter>02_Actor\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

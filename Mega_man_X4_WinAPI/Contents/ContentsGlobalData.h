@@ -49,19 +49,63 @@ enum class EPlayerState
 enum class EEgseuState
 {
 	None,
-	Idle,	
-	Idle_Jump,
-	Jump_Attack,
-	Idle_Attack,
-	Idle_Dash,
-	Dash_Attack,
-	Idle_Run,
-	Run_Attack,
-	Run_Dash,
-	Run_Dash_Jump,
-	Run_Dash_Jump_Attack,
-	Run_Jump,
-	Run_Jump_Attack,
+
+	Summon,			// 소환 이동.(레이저로 내려옴.)
+	Summon_Loop,		// 소환 중.(땅에 닿으면 Character로 변화.)
+	Summon_End,		// 소환 종료.(소환 완료.)
+	
+	Idle,
+	Idle_Loop,
+	Idle_End,
+
+	IdleJump,
+	IdleJump_Loop,
+	IdleJump_End,
+
+	JumpAttack,
+	JumpAttack_Loop,
+	JumpAttack_End,
+
+	IdleAttack,
+	IdleAttack_Loop,
+	IdleAttack_End,
+
+	IdleDash,
+	IdleDash_Loop,
+	IdleDash_End,
+
+	DashAttack,
+	DashAttack_Loop,
+	DashAttack_End,
+
+	IdleRun,
+	IdleRun_Loop,
+	IdleRun_End,
+
+	RunAttack,
+	RunAttack_Loop,
+	RunAttack_End,
+
+	RunDash,
+	RunDash_Loop,
+	RunDash_End,
+
+	RunDashJump,
+	RunDashJump_Loop,
+	RunDashJump_End,
+
+	RunDashJumpAttack,
+	RunDashJumpAttack_Loop,
+	RunDashJumpAttack_End,
+
+	RunJump,
+	RunJump_Loop,
+	RunJump_End,
+
+	RunJumpAttack,
+	RunJumpAttack_Loop,
+	RunJumpAttack_End,
+
 	Hit,
 };
 

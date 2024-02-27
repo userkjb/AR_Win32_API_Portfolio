@@ -1,6 +1,7 @@
 #include "CyberPeacock.h"
 #include <EngineCore/EngineCore.h> // Helper
-#include "Player.h"
+//#include "Player.h"
+#include "Egseu.h"
 
 ACyberPeacock::ACyberPeacock()
 {
@@ -132,7 +133,7 @@ std::string ACyberPeacock::GetAnimationName(std::string _Name)
 {
 	std::string DirName = "";
 
-	APlayer* Player = APlayer::GetMainPlayer();
+	AEgseu* Player = AEgseu::GetMainPlayer();
 	EActorDir PlayerDir = Player->GetActorDir();
 	switch (PlayerDir)
 	{
@@ -238,7 +239,7 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 		PeacockRenderer->ActiveOff();
 
 		// 플레이어 위치를 기반으로 나타나야 함.
-		APlayer* Player = APlayer::GetMainPlayer();
+		AEgseu* Player = AEgseu::GetMainPlayer();
 		if (nullptr == Player)
 		{
 			MsgBoxAssert("Player가 없습니다.");
