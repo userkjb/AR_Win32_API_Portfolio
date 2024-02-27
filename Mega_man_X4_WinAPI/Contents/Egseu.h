@@ -43,6 +43,43 @@ private :
 	void IdleStart();
 	void Idle_LoopStart();
 	void Idle_EndStart();
+	void IdleJumpStart();
+	void IdleJump_LoopStart();
+	void IdleJump_EndStart();
+	void JumpAttackStart();
+	void JumpAttack_LoopStart();
+	void JumpAttack_EndStart();
+	void IdleAttackStart();
+	void IdleAttack_LoopStart();
+	void IdleAttack_EndStart();
+	void IdleDashStart();
+	void IdleDash_LoopStart();
+	void IdleDash_EndStart();
+	void DashAttackStart();
+	void DashAttack_LoopStart();
+	void DashAttack_EndStart();
+	void IdleRunStart();
+	void IdleRun_LoopStart();
+	void IdleRun_EndStart();
+	void RunAttackStart();
+	void RunAttack_LoopStart();
+	void RunAttack_EndStart();
+	void RunDashStart();
+	void RunDash_LoopStart();
+	void RunDash_EndStart();
+	void RunDashJumpStart();
+	void RunDashJump_LoopStart();
+	void RunDashJump_EndStart();
+	void RunDashJumpAttackStart();
+	void RunDashJumpAttack_LoopStart();
+	void RunDashJumpAttack_EndStart();
+	void RunJumpStart();
+	void RunJump_LoopStart();
+	void RunJump_EndStart();
+	void RunJumpAttackStart();
+	void RunJumpAttack_LoopStart();
+	void RunJumpAttack_EndStart();
+
 
 	// Tick
 	void Summon(float _DeltaTime);
