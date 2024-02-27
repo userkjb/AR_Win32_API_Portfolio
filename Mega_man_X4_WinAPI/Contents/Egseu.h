@@ -36,7 +36,7 @@ private :
 	void StateChange(EEgseuState _State);
 	void StateUpdate(float _DeltaTime);
 
-	#pragma region Start Function
+	//#pragma region Start Function
 	void SummonStart();
 	void Summon_LoopStart();
 	void Summon_EndStart();
@@ -79,10 +79,10 @@ private :
 	void RunJumpAttackStart();
 	void RunJumpAttack_LoopStart();
 	void RunJumpAttack_EndStart();
-	#pragma endregion
+	//#pragma endregion
 
 
-	#pragma region Tick Function
+	//#pragma region Tick Function
 	void Summon(float _DeltaTime);
 	void Summon_Loop(float _DeltaTime);
 	void Summon_End(float _DeltaTime);
@@ -125,7 +125,7 @@ private :
 	void RunJumpAttack(float _DeltaTime);
 	void RunJumpAttack_Loop(float _DeltaTime);
 	void RunJumpAttack_End(float _DeltaTime);
-	#pragma endregion
+	//#pragma endregion
 
 	// Vector Funcion
 	
