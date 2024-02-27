@@ -525,14 +525,17 @@ void AEgseu::IdleAttack_EndStart()
 #pragma region IdleDash BeginPlay
 void AEgseu::IdleDashStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
 }
 
 void AEgseu::IdleDash_LoopStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Loop"));
 }
 
 void AEgseu::IdleDash_EndStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"));
 }
 #pragma endregion
 
@@ -723,7 +726,11 @@ void AEgseu::Idle(float _DeltaTime)
 
 
 	// 대쉬 Z
-
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		StateChange(EEgseuState::IdleDash);
+		return;
+	}
 
 	MoveUpdate(_DeltaTime);
 }
@@ -821,14 +828,73 @@ void AEgseu::IdleAttack_End(float _DeltaTime)
 #pragma region IdleDash Tick
 void AEgseu::IdleDash(float _DeltaTime)
 {
+	DashTime += _DeltaTime;
+	switch (DirState)
+	{
+	case EActorDir::Right :
+		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+		break;
+	case EActorDir::Left :
+		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+		break;
+	default:
+		break;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsPress('Z'))
+	{
+		StateChange(EEgseuState::IdleDash_Loop);
+		return; 
+	}
 }
 
 void AEgseu::IdleDash_Loop(float _DeltaTime)
 {
+	DashTime += _DeltaTime;
+	switch (DirState)
+	{
+	case EActorDir::Right:
+		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+		break;
+	case EActorDir::Left:
+		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+		break;
+	default:
+		break;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	// 점프
+
+	if (true == UEngineInput::IsUp('Z'))
+	{
+		DashTime = 0.0f;
+		StateChange(EEgseuState::IdleDash_End);
+		return;
+	}
+
+	if (0.5f <= DashTime)
+	{
+		DashTime = 0.0f;
+		StateChange(EEgseuState::IdleDash_End);
+		return;
+	}
 }
 
 void AEgseu::IdleDash_End(float _DeltaTime)
 {
+	DashVector = FVector::Zero;
+
+	// 감속 기능 추가하는 디테일.
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 }
 #pragma endregion
 
