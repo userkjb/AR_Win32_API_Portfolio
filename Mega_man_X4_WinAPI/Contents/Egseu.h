@@ -150,7 +150,8 @@ private :
 	UImageRenderer* MiddleChargeRender = nullptr; // 중간 차지
 	UImageRenderer* PullChargeRender = nullptr; // 풀 차지
 
-	// Vector
+	//===== Vector ==============
+
 	FVector RunVector = FVector::Zero;
 	FVector DashVector = FVector::Zero;
 	// 중력 가속도(500.0f)
