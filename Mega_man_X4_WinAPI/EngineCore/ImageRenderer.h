@@ -40,6 +40,11 @@ public:
 	void SetOrder(int _Order) override;
 	void SetImage(std::string_view _Name, int _InfoIndex = 0);
 
+	void SetImageIndex(int _InfoIndex)
+	{
+		InfoIndex = _InfoIndex;
+	}
+
 	void SetTransform(const FTransform& _Value)
 	{
 		USceneComponent::SetTransform(_Value);
