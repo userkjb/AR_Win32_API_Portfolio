@@ -215,7 +215,8 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 	case EImageSortType::Left:
 	{
 		const UImageInfo& Info = Image->ImageInfo(InfoIndex);
-		RendererTrans.AddPosition({ Info.CuttingTrans.GetScale().hX() , 0.0f });
+		//RendererTrans.AddPosition({ Info.CuttingTrans.GetScale().hX() , 0.0f });
+		RendererTrans.AddPosition({ RendererTrans.GetScale().hX() , 0.0f });
 		break;
 	}
 	default:
