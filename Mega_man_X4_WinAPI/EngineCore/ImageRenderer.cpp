@@ -209,6 +209,19 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 	// PNG일 경우에만.
 	EWindowImageType ImageType = Image->GetImageType();
 
+	// 이미지 정렬(왼쪽 / 오른쪽 / 중앙)
+	switch (SortType) 
+	{
+	case EImageSortType::Left:
+	{
+		const UImageInfo& Info = Image->ImageInfo(InfoIndex);
+		RendererTrans.AddPosition({ Info.CuttingTrans.GetScale().hX() , 0.0f });
+		break;
+	}
+	default:
+		break;
+	}
+
 	switch (ImageType)
 	{
 	case EWindowImageType::IMG_NONE:

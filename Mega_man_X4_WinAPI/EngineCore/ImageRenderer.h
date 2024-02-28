@@ -5,6 +5,15 @@
 #include <map>
 
 /// <summary>
+/// 이미지 정렬을 위한 enum
+/// </summary>
+enum class EImageSortType
+{
+	Center,
+	Left,
+};
+
+/// <summary>
 /// Animation 기본 정의 Class
 /// </summary>
 class UAnimationInfo
@@ -247,4 +256,7 @@ private :
 	Color8Bit TextColor = Color8Bit::BlackA;
 	Color8Bit TextColor2 = Color8Bit::BlackA; //추가
 	int TextEffect = 0;
+
+	EImageSortType SortType = EImageSortType::Center;
+
 };
