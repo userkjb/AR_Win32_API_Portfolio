@@ -185,7 +185,8 @@ void ABuster::BusterCrash(float _DeltaTime)
 
 void ABuster::BusterEnd(float _DeltaTime)
 {
-	this->Destroy(0.0f);
+	Buster->Destroy(0.0f);
+	Buster = nullptr;
 }
 
 

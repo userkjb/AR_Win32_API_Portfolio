@@ -1032,10 +1032,10 @@ void AEgseu::IdleDash(float _DeltaTime)
 	switch (DirState)
 	{
 	case EActorDir::Right :
-		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+		DashVector = FVector::Right * DashSpeed;
 		break;
 	case EActorDir::Left :
-		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+		DashVector = FVector::Left * DashSpeed;
 		break;
 	default:
 		break;
@@ -1056,10 +1056,10 @@ void AEgseu::IdleDash_Loop(float _DeltaTime)
 	switch (DirState)
 	{
 	case EActorDir::Right:
-		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+		DashVector = FVector::Right * DashSpeed;
 		break;
 	case EActorDir::Left:
-		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+		DashVector = FVector::Left * DashSpeed;
 		break;
 	default:
 		break;
@@ -1180,6 +1180,13 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 		return;
 	}
 
+	// ¹ß½Î!!
+	if (true == UEngineInput::IsUp('X'))
+	{
+		StateChange(EEgseuState::RunAttack_End);
+		return;
+	}
+
 	// ´ë½¬
 	if (true == UEngineInput::IsDown('Z'))
 	{
@@ -1283,6 +1290,18 @@ void AEgseu::RunAttack_End(float _DeltaTime)
 {
 	BusterDelayTime += _DeltaTime;
 
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
 	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 	{
 		if (BusterTickCount == 0)
@@ -1352,14 +1371,20 @@ void AEgseu::RunDash(float _DeltaTime)
 
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+		DashVector = FVector::Right * DashSpeed;
 	}
 	else if (true == UEngineInput::IsPress(VK_LEFT))
 	{
-		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+		DashVector = FVector::Left * DashSpeed;
 	}
 
 	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsUp('Z'))
+	{
+		StateChange(EEgseuState::IdleRun_Loop);
+		return;
+	}
 
 	if (true == UEngineInput::IsPress('Z'))
 	{
@@ -1374,11 +1399,11 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+		DashVector = FVector::Right * DashSpeed;
 	}
 	else if (true == UEngineInput::IsPress(VK_LEFT))
 	{
-		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+		DashVector = FVector::Left * DashSpeed;
 	}
 
 	MoveUpdate(_DeltaTime);
@@ -1448,11 +1473,11 @@ void AEgseu::RunDashJump(float _DeltaTime)
 	DirCheck();
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
-		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+		DashVector = FVector::Left * DashSpeed;
 	}
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+		DashVector = FVector::Right * DashSpeed;
 	}
 
 	MoveUpdate(_DeltaTime);
@@ -1469,11 +1494,11 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 	DirCheck();
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
-		DashVector = FVector::Left * MoveSpeed * DashSpeed;
+		DashVector = FVector::Left * DashSpeed;
 	}
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		DashVector = FVector::Right * MoveSpeed * DashSpeed;
+		DashVector = FVector::Right * DashSpeed;
 	}
 
 	MoveUpdate(_DeltaTime);

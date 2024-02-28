@@ -71,6 +71,7 @@ protected :
 private :
 
 	FVector Dir = FVector::Zero;
+	AActor* Buster = this;
 
 	// 상태 진행 함수.
 	void DefaultBuster(float _DeltaTime);
