@@ -124,6 +124,7 @@ protected :
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Tick(float _DeltaTime) override;
+	void ChildTick(float _DeltaTime);
 
 private :
 	/// <summary>
