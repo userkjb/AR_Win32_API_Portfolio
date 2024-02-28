@@ -168,6 +168,9 @@ private :
 	// 모든 Vector들을 함한 Vector
 	FVector LastMoveVector = FVector::Zero;
 
+	// 대쉬랑 런의 최대 속도
+	FVector MaxSpeedVector = { 1000.0f, 1000.0f };
+
 	// 밖에서 사용할 Player를 static 으로 뺌.
 	static AEgseu* MainPlayer;
 
@@ -175,7 +178,7 @@ private :
 	float MoveSpeed = 500.0f;
 	float DashSpeed = 1.5f;
 	float DashTime = 0.0f;
-	float AttackTime = 0.0f;
+	float AttackLoopTime = 0.0f;
 	float SummonDelayTime = 0.0f;
 	float ReadToBusterTime = 0.0f; // Buster 준비 시간.
 	bool IsBuster = false; // Buster 쐈음?
@@ -183,6 +186,7 @@ private :
 	float BusterChargTime = 0.0f;
 	float BusterDelayTime = 0.0f;
 	int BusterTickCount = 0; // Buster가 1번 생성되도록.
+	int ChangeAnimationFrame = 0;
 
 	int MaxHp = 0;
 	int Hp = 0;
