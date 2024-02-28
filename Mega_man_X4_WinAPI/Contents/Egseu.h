@@ -168,7 +168,7 @@ private :
 	// 모든 Vector들을 함한 Vector
 	FVector LastMoveVector = FVector::Zero;
 
-	//
+	// 밖에서 사용할 Player를 static 으로 뺌.
 	static AEgseu* MainPlayer;
 
 	// 
