@@ -1212,7 +1212,7 @@ void AEgseu::IdleRun_End(float _DeltaTime)
 #pragma endregion
 
 #pragma region RunAttack Tick
-void AEgseu::RunAttack(float _DeltaTime)
+void AEgseu::RunAttack(float _DeltaTime) // 생각보다 많이 들어옴.
 {
 	DirCheck();
 	if (true == UEngineInput::IsPress(VK_LEFT))
@@ -1225,6 +1225,15 @@ void AEgseu::RunAttack(float _DeltaTime)
 	}
 
 	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsFree(VK_LEFT) &&
+		true == UEngineInput::IsFree(VK_RIGHT) &&
+		true == UEngineInput::IsFree(VK_UP) &&
+		true == UEngineInput::IsFree(VK_DOWN))
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 	
 
 	if (true == PlayerRender->IsCurAnimationEnd())
@@ -1250,6 +1259,15 @@ void AEgseu::RunAttack_Loop(float _DeltaTime)
 	}
 
 	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsFree(VK_LEFT) &&
+		true == UEngineInput::IsFree(VK_RIGHT) &&
+		true == UEngineInput::IsFree(VK_UP) &&
+		true == UEngineInput::IsFree(VK_DOWN))
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 
 
 	if (1.0f <= AttackLoopTime)
