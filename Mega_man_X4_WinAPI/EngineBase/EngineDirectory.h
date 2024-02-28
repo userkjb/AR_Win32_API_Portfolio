@@ -26,7 +26,7 @@ public :
 		bool _Recursive = false);
 
 	/// <summary>
-	/// 
+	/// 경로 찾아서 올리기.
 	/// </summary>
 	/// <param name="_Path"></param>
 	void MoveToSearchChild(std::string_view _Path);
