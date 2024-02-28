@@ -91,6 +91,25 @@ void UImageRenderer::CreateAnimation(
 	float _Inter,
 	bool _Loop)
 {
+	std::vector<float> Inters;
+	//          12         0
+	int Size = static_cast<int>(_Indexs.size());
+	Inters.reserve(Size);
+	for (int i = 0; i <= Size; i++)
+	{
+		Inters.push_back(_Inter);
+	}
+
+	CreateAnimation(_AnimationName, _ImageName, _Indexs, Inters, _Loop);
+}
+
+void UImageRenderer::CreateAnimation(
+	std::string_view _AnimationName, 
+	std::string_view _ImageName, 
+	std::vector<int> _Indexs,
+	std::vector<float> _Inters, 
+	bool _Loop)
+{
 	UWindowImage* FindImage = UEngineResourcesManager::GetInst().FindImg(_ImageName);
 
 	if (nullptr == FindImage)
@@ -113,14 +132,7 @@ void UImageRenderer::CreateAnimation(
 	Info.CurFrame = 0;
 	Info.CurTime = 0.0f;
 	Info.Loop = _Loop;
-
-	//          12         0
-	int Size = static_cast<int>(_Indexs.size());
-	Info.Times.reserve(Size);
-	for (int i = 0; i <= Size; i++)
-	{
-		Info.Times.push_back(_Inter);
-	}
+	Info.Times = _Inters;
 
 	Info.Indexs = _Indexs;
 }
