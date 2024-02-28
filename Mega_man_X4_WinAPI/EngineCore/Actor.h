@@ -97,7 +97,8 @@ public :
 	/// </summary>
 	/// <param name="_Active"></param>
 	/// <param name="_ActiveTime"></param>
-	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
+	void SetActive(bool _Active, float _ActiveTime /*= 0.0f*/) override;
+
 	/// <summary>
 	/// 
 	/// </summary>
