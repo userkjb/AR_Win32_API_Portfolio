@@ -4,6 +4,7 @@
 #include <EngineBase/EngineString.h>
 #include <EngineBase/EngineTime.h>
 #include <EnginePlatform/EngineInput.h>
+#include <vector>
 #include <map>
 
 class ULevel;
@@ -46,6 +47,13 @@ public :
 	}
 
 	/// <summary>
+	/// Level 파괴
+	/// </summary>
+	/// <param name="_Name"></param>
+	void DestroyLevel(std::string_view _Name);
+
+
+	/// <summary>
 	/// Level 바꾸기 함수.
 	/// </summary>
 	/// <param name="_Name"></param>
@@ -85,6 +93,11 @@ private :
 	std::map<std::string, ULevel*> AllLevel;
 	ULevel* CurLevel = nullptr;
 	ULevel* NextLevel = nullptr; // TODO
+
+	/// <summary>
+	/// Level 들을 담는 vector 선언.
+	/// </summary>
+	std::vector<std::string> DestroyLevelName;
 
 	static void EngineTick();
 	void CoreTick();
