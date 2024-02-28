@@ -26,7 +26,7 @@ public :
 		bool _Recursive = false);
 
 	/// <summary>
-	/// 사용 안함.
+	/// 
 	/// </summary>
 	/// <param name="_Path"></param>
 	void MoveToSearchChild(std::string_view _Path);
