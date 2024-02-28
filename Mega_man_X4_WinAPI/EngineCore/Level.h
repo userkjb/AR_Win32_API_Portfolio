@@ -65,6 +65,45 @@ public :
 		CameraPos += _CameraPos;
 	}
 
+	void SetAllTimeScale(float _Scale)
+	{
+		for (std::pair<const int, float>& TimeScale : TimeScale)
+		{
+			TimeScale.second = _Scale;
+		}
+	}
+
+	// 이거는 기존의 타임스케일이 존재 해야만 가능하다.
+	template<typename EnumType>
+	void SetOtherTimeScale(EnumType _Value, float _Scale)
+	{
+		SetOtherTimeScale(static_cast<int>(_Value), _Scale);
+	}
+
+	void SetOtherTimeScale(int _Value, float _Scale)
+	{
+		for (std::pair<const int, float>& TimeScale : TimeScale)
+		{
+			if (TimeScale.first == _Value)
+			{
+				continue;
+			}
+
+			TimeScale.second = _Scale;
+		}
+	}
+
+	template<typename EnumType>
+	void SetTimeScale(EnumType _Value, float _Scale)
+	{
+		SetTimeScale(_Value, _Scale);
+	}
+
+	void SetTimeScale(int _Value, float _Scale)
+	{
+		TimeScale[_Value] = _Scale;
+	}
+
 protected :
 
 private :
@@ -80,6 +119,7 @@ private :
 	std::map<int, std::list<AActor*>> AllActor;
 	std::map<int, std::list<UImageRenderer*>> Renderers; // ImageRenderer에서 Image들을 넣어준다.
 	std::map<int, std::list<UCollision*>> Collisions;
+	std::map<int, float> TimeScale;
 
 	FVector CameraPos = FVector::Zero;
 };

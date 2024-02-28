@@ -37,6 +37,15 @@ void ULevel::LevelTick(float _DeltaTime)
 {
 	for (std::pair<const int, std::list<AActor*>>& OrderListPair : AllActor)
 	{
+		int Order = OrderListPair.first;
+
+		if (false == TimeScale.contains(Order))
+		{
+			TimeScale[Order] = 1.0f;
+		}
+
+		float OrderTime = _DeltaTime * TimeScale[Order];
+
 		std::list<AActor*>& ActorList = OrderListPair.second;
 		for (AActor* Actor : ActorList)
 		{
@@ -47,8 +56,8 @@ void ULevel::LevelTick(float _DeltaTime)
 				continue;
 			}
 
-			//Actor->DestroyUpdate(_DeltaTime);
-			Actor->Tick(_DeltaTime);
+			Actor->Tick(OrderTime);
+			Actor->ChildTick(OrderTime);
 		}
 	}
 }
