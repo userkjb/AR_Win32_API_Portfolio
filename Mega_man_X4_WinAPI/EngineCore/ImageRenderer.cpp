@@ -245,6 +245,17 @@ void UImageRenderer::BeginPlay()
 	USceneComponent::BeginPlay();
 }
 
+void UImageRenderer::Tick(float _DeltaTime)
+{
+	USceneComponent::Tick(_DeltaTime);
+
+	if (nullptr != CurAnimation)
+	{
+		Image = CurAnimation->Image;
+		InfoIndex = CurAnimation->Update(_DeltaTime);
+	}
+}
+
 
 // ===== AnimationInfo Class =====
 

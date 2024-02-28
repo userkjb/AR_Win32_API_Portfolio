@@ -24,8 +24,13 @@ public :
 	int Update(float _DeltaTime);
 };
 
+class AActor;
+//class UWindowImage;
+
 class UImageRenderer : public USceneComponent
 {
+	friend AActor;
+
 public:
 	// constrcuter destructer
 	UImageRenderer();
@@ -186,6 +191,10 @@ public:
 	/// <returns></returns>
 	FTransform GetRenderTransForm();
 
+	/// <summary>
+	/// Text 효과 함수.
+	/// </summary>
+	/// <param name="_Effect"></param>
 	void SetTextEffect(int _Effect = 0)
 	{
 		TextEffect = _Effect;
@@ -196,6 +205,7 @@ protected :
 	/// USceneComponent
 	/// </summary>
 	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
 
 
 private :
