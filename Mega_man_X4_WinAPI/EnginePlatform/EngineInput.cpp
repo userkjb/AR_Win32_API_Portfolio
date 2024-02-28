@@ -189,6 +189,7 @@ void UEngineInput::InputInit()
 /// </summary>
 void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 {
+	PressTime += _DeltaTime;
 	if (GetAsyncKeyState(Key) != 0)
 	{
 		if (true == Free)
