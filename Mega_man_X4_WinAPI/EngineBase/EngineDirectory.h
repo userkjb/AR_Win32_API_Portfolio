@@ -34,6 +34,8 @@ public :
 	// 노가다 방식
 	std::list<UEngineDirectory> AllDirectory(bool _Recursive = false);
 
+	UEngineFile NewFile(std::string_view FileName);
+
 private :
 
 	void AllDirectoryRecursive(const std::string_view _Path, std::list<UEngineDirectory>& _Result, bool _Recursive = false);
