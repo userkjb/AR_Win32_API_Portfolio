@@ -1049,25 +1049,23 @@ void AEgseu::IdleAttack(float _DeltaTime)
 		BusterTickCount++;
 	}
 
-	if (true == PlayerRender->IsCurAnimationEnd())
-	{
-		BusterTickCount = 0;
-		StateChange(EEgseuState::IdleAttack_Loop);
-		return;
-	}
+	StateChange(EEgseuState::IdleAttack_Loop);
+	BusterTickCount = 0;
+	return;
 }
 
 void AEgseu::IdleAttack_Loop(float _DeltaTime)
 {
-
-	// 이동, 대쉬, 점프 해도 된다.
-	// 상태를 변경해도 BusterChargTime 이 0.0f가 아니면,
-	// MiddleChargeRender, PullChargeRender 의 Active가 계속 On으로 유지되므로,
-	// 각각의 상태에서 X키의 Up일 때 상태를 변경해 주면 된다.
-
-	if (1.0f < BusterChargTime)
+	if (1.0f < BusterChargTime) // 차지 모션 대기 시간.
 	{
 		StateChange(EEgseuState::Idle);
+		return;
+	}
+
+	if (true == UEngineInput::IsPress(VK_LEFT) ||
+		true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		StateChange(EEgseuState::IdleRun);
 		return;
 	}
 
@@ -1136,6 +1134,12 @@ void AEgseu::IdleAttack_End(float _DeltaTime)
 	if (1.0f <= BusterDelayTime)
 	{
 		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::Idle);
+		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
 		StateChange(EEgseuState::Idle);
 		return;
 	}
