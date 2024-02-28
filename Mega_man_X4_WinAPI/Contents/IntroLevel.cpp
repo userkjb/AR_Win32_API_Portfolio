@@ -75,6 +75,10 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Left.png", 8, 5);
 	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Bullet.png", 4, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Bomb.png", 1, 1);
+
+	// 공중 공격
+	UEngineResourcesManager::GetInst().CuttingImage("JumpAttack_Right.png", 8, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("JumpAttack_Lefg.png", 8, 3);
 	
 
 
