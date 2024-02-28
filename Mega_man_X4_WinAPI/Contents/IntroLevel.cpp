@@ -78,7 +78,7 @@ void UIntroLevel::BeginPlay()
 
 	// 공중 공격
 	UEngineResourcesManager::GetInst().CuttingImage("JumpAttack_Right.png", 8, 3);
-	UEngineResourcesManager::GetInst().CuttingImage("JumpAttack_Lefg.png", 8, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("JumpAttack_Left.png", 8, 3);
 	
 
 

@@ -96,6 +96,16 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Jump_End_Right", "x_Jump_Right.png", 8, 10, 0.005f, false);
 	PlayerRender->CreateAnimation("Jump_End_Left", "x_Jump_Left.png", 8, 10, 0.005f, false);
 
+	// Jump Attack
+	PlayerRender->CreateAnimation("Jump_Start_Attack_Right", "JumpAttack_Right.png", { 0, 2, 4, 6, 8, 10, 12, 14 }, 0.0f, false);
+	PlayerRender->CreateAnimation("Jump_Start_Attack_Left", "JumpAttack_Left.png", { 0, 2, 4, 6, 8, 10, 12, 14 }, 0.0f, false);
+	PlayerRender->CreateAnimation("Jump_Ing_Attack_Right", "JumpAttack_Right.png", 14, 14, 0.05f, false);
+	PlayerRender->CreateAnimation("Jump_Ing_Attack_Left", "JumpAttack_Left.png", 14, 14, 0.05f, false);
+	PlayerRender->CreateAnimation("Jump_End_Attack_Right", "JumpAttack_Right.png", { 16, 18, 20 }, 0.05f, false);
+	PlayerRender->CreateAnimation("Jump_End_Attack_Left", "JumpAttack_Left.png", { 16, 18, 20 }, 0.05f, false);
+
+	//PlayerRender->CreateAnimation("Jump_Attack_Shoot_Right", "JumpAttack_Right.png", { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 }, 0.05f, false);
+	//PlayerRender->CreateAnimation("Jump_Attack_Shoot_Left", "JumpAttack_Left.png", { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 }, 0.05f, false);
 
 	// Dash
 	PlayerRender->CreateAnimation("Dash_Start_Right", "x_Dash_Right.png", 0, 1, 0.05f, false);
@@ -533,14 +543,19 @@ void AEgseu::IdleJump_EndStart()
 #pragma region JumpAttack BeginPlay
 void AEgseu::JumpAttackStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"));
+	//int x = PlayerRender->GetCurAnimationImageFrame();
+	//PlayerRender->SetImageIndex(x + 1);
 }
 
 void AEgseu::JumpAttack_LoopStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
 }
 
 void AEgseu::JumpAttack_EndStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
 }
 #pragma endregion
 
@@ -850,6 +865,12 @@ void AEgseu::IdleJump(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EEgseuState::JumpAttack);
+		return;
+	}
+
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::IdleJump_Loop);
@@ -871,6 +892,13 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
+	// 공격
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EEgseuState::JumpAttack_Loop);
+		return;
+	}
+
 	// 땅에 닿음
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
@@ -882,6 +910,12 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 
 void AEgseu::IdleJump_End(float _DeltaTime)
 {
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EEgseuState::JumpAttack_End);
+		return;
+	}
+
 	if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
 	{
 		StateChange(EEgseuState::IdleRun_Loop);
@@ -899,12 +933,95 @@ void AEgseu::IdleJump_End(float _DeltaTime)
 #pragma region JumpAttack Tick
 void AEgseu::JumpAttack(float _DeltaTime)
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsUp('X') || true == UEngineInput::IsFree('X'))
+	{
+		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		std::string BusterName;
+		if (DirState == EActorDir::Right)
+		{
+			A_Buster->SetDir(FVector::Right);
+			BusterName = "Buster_Default_Right";
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			A_Buster->SetDir(FVector::Left);
+			BusterName = "Buster_Default_Left";
+		}
+		A_Buster->SetBusterState(EBusterState::DefaultCharge);
+		A_Buster->SetBusterAnimation(BusterName);
+	}
+	
+	StateChange(EEgseuState::IdleJump);
+	return;
 }
 void AEgseu::JumpAttack_Loop(float _DeltaTime)
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
+
+	MoveUpdate(_DeltaTime);
+
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		StateChange(EEgseuState::IdleJump_End);
+		return;
+	}
+
+	if (true == UEngineInput::IsUp('X') || true == UEngineInput::IsFree('X'))
+	{
+		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		std::string BusterName;
+		if (DirState == EActorDir::Right)
+		{
+			A_Buster->SetDir(FVector::Right);
+			BusterName = "Buster_Default_Right";
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			A_Buster->SetDir(FVector::Left);
+			BusterName = "Buster_Default_Left";
+		}
+		A_Buster->SetBusterState(EBusterState::DefaultCharge);
+		A_Buster->SetBusterAnimation(BusterName);
+		
+		StateChange(EEgseuState::IdleJump_Loop);
+		return;
+	}
 }
 void AEgseu::JumpAttack_End(float _DeltaTime)
 {
+	//DirCheck();
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsUp('X') || true == UEngineInput::IsFree('X'))
+	{
+		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		std::string BusterName;
+		if (DirState == EActorDir::Right)
+		{
+			A_Buster->SetDir(FVector::Right);
+			BusterName = "Buster_Default_Right";
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			A_Buster->SetDir(FVector::Left);
+			BusterName = "Buster_Default_Left";
+		}
+		A_Buster->SetBusterState(EBusterState::DefaultCharge);
+		A_Buster->SetBusterAnimation(BusterName);
+
+		StateChange(EEgseuState::IdleJump_End);
+		return;
+	}
 }
 #pragma endregion
 
