@@ -30,6 +30,11 @@ bool UEnginePath::IsExists()
 	return std::filesystem::exists(Path);
 }
 
+bool UEnginePath::IsRoot()
+{
+	return Path.root_path() == Path;
+}
+
 void UEnginePath::MoveParent()
 {
 	Path = Path.parent_path();

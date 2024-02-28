@@ -13,6 +13,8 @@ public :
 	bool IsDirectory();
 	bool IsExists();
 
+	bool IsRoot();
+
 	void MoveParent();
 	void Move(std::string_view _Path);
 
