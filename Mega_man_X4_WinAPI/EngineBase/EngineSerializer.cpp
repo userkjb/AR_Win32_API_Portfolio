@@ -29,3 +29,8 @@ void UEngineSerializer::Read(void* _Data, unsigned int _Size)
 	memcpy_s(_Data, _Size, &Data[ReadOffset], _Size);
 	ReadOffset += _Size;
 }
+
+void UEngineSerializer::BufferResize(int _Size)
+{
+	Data.resize(_Size);
+}

@@ -60,6 +60,27 @@ public:
 
 	void Read(void* _Data, unsigned int _Size);
 
+	void operator>>(int& _Data)
+	{
+		Read(&_Data, sizeof(int));
+	}
+
+	void operator>>(std::string& _Data)
+	{
+		int Size = 0;
+		operator>>(Size);
+
+		if (Size == 0)
+		{
+			return;
+		}
+		_Data.resize(Size);
+		Read(&_Data[0], Size);
+	}
+
+
+	void BufferResize(int _Size);
+
 protected:
 
 private:
