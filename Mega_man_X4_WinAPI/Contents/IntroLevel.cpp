@@ -19,8 +19,9 @@ void UIntroLevel::BeginPlay()
 
 	// Resource 폴더 경로 설정.
 	UEngineDirectory NewDir;
-	NewDir.MoveParent();
-	NewDir.Move("ContentsResources\\IntroLevel");
+	//NewDir.MoveParent();
+	//NewDir.Move("ContentsResources\\IntroLevel");
+	NewDir.MoveToSearchChild("ContentsResources\\IntroLevel");
 
 	std::list<UEngineFile> NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
 

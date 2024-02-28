@@ -20,8 +20,9 @@ void UTitleLevel::BeginPlay()
 
 	// Resource 폴더 경로 설정.
 	UEngineDirectory NewDir;
-	NewDir.MoveParent();
-	NewDir.Move("ContentsResources\\TitleLevel");
+	//NewDir.MoveParent();
+	//NewDir.Move("ContentsResources\\TitleLevel");
+	NewDir.MoveToSearchChild("ContentsResources\\TitleLevel");
 
 	std::list<UEngineFile> NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
 

@@ -20,8 +20,10 @@ void UCyberSpaceLevel::BeginPlay()
 	ULevel::BeginPlay();
 
 	UEngineDirectory NewDir;
-	NewDir.MoveParent();
-	NewDir.Move("ContentsResources\\CyberSpaceLevel");
+	//NewDir.MoveParent();
+	//NewDir.Move("ContentsResources\\CyberSpaceLevel");
+
+	NewDir.MoveToSearchChild("ContentsResources\\CyberSpaceLevel");
 
 	std::list<UEngineFile> NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
 
