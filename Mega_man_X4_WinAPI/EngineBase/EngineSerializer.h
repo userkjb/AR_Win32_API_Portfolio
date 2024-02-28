@@ -58,8 +58,7 @@ public:
 		Read(&_Data[0], Size);
 	}
 
-
-	void BufferResize(int _Size);
+	void Read(void* _Data, unsigned int _Size);
 
 protected:
 
