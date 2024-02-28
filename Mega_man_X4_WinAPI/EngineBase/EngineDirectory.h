@@ -25,7 +25,18 @@ public :
 		std::vector<std::string> _Ext = std::vector<std::string>(),
 		bool _Recursive = false);
 
+	/// <summary>
+	/// 사용 안함.
+	/// </summary>
+	/// <param name="_Path"></param>
+	void MoveToSearchChild(std::string_view _Path);
+
+	// 노가다 방식
+	std::list<UEngineDirectory> AllDirectory(bool _Recursive = false);
+
 private :
+
+	void AllDirectoryRecursive(const std::string_view _Path, std::list<UEngineDirectory>& _Result, bool _Recursive = false);
 
 	/// <summary>
 	/// 클래스 내부에서 진짜로 파일을 찾는 함수.
