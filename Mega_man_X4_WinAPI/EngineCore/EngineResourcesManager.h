@@ -45,6 +45,12 @@ public :
 	UWindowImage* LoadFolder(std::string_view _Path, std::string_view _Name);
 
 	/// <summary>
+	/// 이미지 Un Load 함수.
+	/// </summary>
+	/// <param name="_Name"></param>
+	void UnloadImg(std::string_view _Name);
+
+	/// <summary>
 	/// ImageRenderer, CuttingImage 에서 사용.
 	/// 이미지 찾기.
 	/// </summary>
