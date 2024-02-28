@@ -34,6 +34,7 @@ void AEgseu::Tick(float _DeltaTime)
 
 	StateUpdate(_DeltaTime);
 	BusterChargeTime(_DeltaTime);
+	UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
 }
 
 void AEgseu::ChargeBeginPlay()
@@ -114,8 +115,8 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Idle_Attack_End_Right", "x_Attack_Right.png", 5, 7, 0.05f, false);
 	PlayerRender->CreateAnimation("Idle_Attack_End_Left", "x_Attack_Left.png", 5, 7, 0.05f, false);
 
-	PlayerRender->CreateAnimation("Run_Attack_Start_Right", "x_Move_Attack_Right.png", { 0, 2 }, 0.05f, true);
-	PlayerRender->CreateAnimation("Run_Attack_Start_Left", "x_Move_Attack_Left.png", { 0, 2 }, 0.05f, true);
+	PlayerRender->CreateAnimation("Run_Attack_Start_Right", "x_Move_Attack_Right.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
+	PlayerRender->CreateAnimation("Run_Attack_Start_Left", "x_Move_Attack_Left.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
 	PlayerRender->CreateAnimation("Run_Attack_Loop_Right", "x_Move_Attack_Right.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
 	PlayerRender->CreateAnimation("Run_Attack_Loop_Left", "x_Move_Attack_Left.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
 
@@ -624,6 +625,24 @@ void AEgseu::RunAttackStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Start"));
 	DirCheck();
+	{
+		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		std::string BusterName;
+		if (DirState == EActorDir::Right)
+		{
+			A_Buster->SetDir(FVector::Right);
+			BusterName = "Buster_Default_Right";
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			A_Buster->SetDir(FVector::Left);
+			BusterName = "Buster_Default_Left";
+		}
+		A_Buster->SetBusterState(EBusterState::DefaultCharge);
+		A_Buster->SetBusterAnimation(BusterName);
+		BusterTickCount++;
+	}
 }
 
 void AEgseu::RunAttack_LoopStart()
@@ -896,16 +915,19 @@ void AEgseu::IdleAttack(float _DeltaTime)
 	{
 		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
 		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		std::string BusterName;
 		if (DirState == EActorDir::Right)
 		{
 			A_Buster->SetDir(FVector::Right);
+			BusterName = "Buster_Default_Right";
 		}
 		else if (DirState == EActorDir::Left)
 		{
 			A_Buster->SetDir(FVector::Left);
+			BusterName = "Buster_Default_Left";
 		}
 		A_Buster->SetBusterState(EBusterState::DefaultCharge);
-		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Default"));
+		A_Buster->SetBusterAnimation(BusterName);
 
 		BusterTickCount++;
 	}
@@ -955,16 +977,19 @@ void AEgseu::IdleAttack_End(float _DeltaTime)
 		{
 			ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
 			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+			std::string BusterName;
 			if (DirState == EActorDir::Right)
 			{
 				A_Buster->SetDir(FVector::Right);
+				BusterName = "Buster_Middle_Right";
 			}
 			else if (DirState == EActorDir::Left)
 			{
 				A_Buster->SetDir(FVector::Left);
+				BusterName = "Buster_Middle_Left";
 			}
 			A_Buster->SetBusterState(EBusterState::MiddleCharge);
-			A_Buster->SetBusterAnimation(GetAnimationName("Buster_Middle"));
+			A_Buster->SetBusterAnimation(BusterName);
 			BusterTickCount++;
 		}
 	}
@@ -974,16 +999,19 @@ void AEgseu::IdleAttack_End(float _DeltaTime)
 		{
 			ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
 			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+			std::string BusterName;
 			if (DirState == EActorDir::Right)
 			{
 				A_Buster->SetDir(FVector::Right);
+				BusterName = "Buster_Pull_Right";
 			}
 			else if (DirState == EActorDir::Left)
 			{
 				A_Buster->SetDir(FVector::Left);
+				BusterName = "Buster_Pull_Left";
 			}
 			A_Buster->SetBusterState(EBusterState::PullCharge);
-			A_Buster->SetBusterAnimation(GetAnimationName("Buster_Pull"));
+			A_Buster->SetBusterAnimation(BusterName);
 			BusterTickCount++;
 		}
 	}
@@ -1148,7 +1176,7 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		StateChange(EEgseuState::RunAttack_Loop);
+		StateChange(EEgseuState::RunAttack);
 		return;
 	}
 
@@ -1190,6 +1218,7 @@ void AEgseu::RunAttack(float _DeltaTime)
 	}
 
 	MoveUpdate(_DeltaTime);
+	
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
@@ -1215,24 +1244,6 @@ void AEgseu::RunAttack_Loop(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
-
-	if (BusterTickCount == 0)
-	{
-		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-		if (DirState == EActorDir::Right)
-		{
-			A_Buster->SetDir(FVector::Right);
-		}
-		else if (DirState == EActorDir::Left)
-		{
-			A_Buster->SetDir(FVector::Left);
-		}
-		A_Buster->SetBusterState(EBusterState::DefaultCharge);
-		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Default"));
-
-		BusterTickCount++;
-	}
 
 	if (1.0f <= AttackLoopTime)
 	{
@@ -1278,16 +1289,19 @@ void AEgseu::RunAttack_End(float _DeltaTime)
 		{
 			ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
 			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+			std::string BusterName;
 			if (DirState == EActorDir::Right)
 			{
 				A_Buster->SetDir(FVector::Right);
+				BusterName = "Buster_Middle_Right";
 			}
 			else if (DirState == EActorDir::Left)
 			{
 				A_Buster->SetDir(FVector::Left);
+				BusterName = "Buster_Middle_Left";
 			}
 			A_Buster->SetBusterState(EBusterState::MiddleCharge);
-			A_Buster->SetBusterAnimation(GetAnimationName("Buster_Middle"));
+			A_Buster->SetBusterAnimation(BusterName);
 			BusterTickCount++;
 		}
 	}
@@ -1297,16 +1311,19 @@ void AEgseu::RunAttack_End(float _DeltaTime)
 		{
 			ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
 			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+			std::string BusterName;
 			if (DirState == EActorDir::Right)
 			{
 				A_Buster->SetDir(FVector::Right);
+				BusterName = "Buster_Pull_Right";
 			}
 			else if (DirState == EActorDir::Left)
 			{
 				A_Buster->SetDir(FVector::Left);
+				BusterName = "Buster_Pull_Left";
 			}
 			A_Buster->SetBusterState(EBusterState::PullCharge);
-			A_Buster->SetBusterAnimation(GetAnimationName("Buster_Pull"));
+			A_Buster->SetBusterAnimation(BusterName);
 			BusterTickCount++;
 		}
 	}

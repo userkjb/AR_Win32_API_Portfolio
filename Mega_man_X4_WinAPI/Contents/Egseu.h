@@ -176,7 +176,7 @@ private :
 
 	// 
 	float MoveSpeed = 500.0f;
-	float DashSpeed = 1.5f;
+	float DashSpeed = 750.0f;
 	float DashTime = 0.0f;
 	float AttackLoopTime = 0.0f;
 	float SummonDelayTime = 0.0f;
