@@ -69,6 +69,8 @@ bool UWindowImage::Load(UWindowImage* _Image)
             MsgBoxAssert("Png 파일 리소스 로드에 실패하였습니다.");
         }
 
+        delete pBitMap;
+        delete pImage;
         ImageType = EWindowImageType::IMG_PNG;
     }
 
