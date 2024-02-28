@@ -225,6 +225,15 @@ public:
 		TextEffect = _Effect;
 	}
 
+	/// <summary>
+	/// 이미지 정렬 인터페이스.
+	/// </summary>
+	/// <param name="_SortType"></param>
+	void SetSortType(EImageSortType _SortType)
+	{
+		SortType = _SortType;
+	}
+
 protected :
 	/// <summary>
 	/// USceneComponent
