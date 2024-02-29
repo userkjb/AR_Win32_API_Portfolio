@@ -106,6 +106,11 @@ enum class EEgseuState
 	RunJumpAttack_Loop,
 	RunJumpAttack_End,
 
+	WallCling,
+	WallCling_Loop,
+	
+	WallKick,
+
 	Hit,
 };
 
