@@ -34,6 +34,7 @@
     <ClInclude Include="EngineSerializer.h">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="EngineRandom.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineDebug.cpp">
@@ -69,6 +70,7 @@
     <ClCompile Include="EngineSerializer.cpp">
       <Filter>IO</Filter>
     </ClCompile>
+    <ClCompile Include="EngineRandom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">
