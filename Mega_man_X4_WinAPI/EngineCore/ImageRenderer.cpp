@@ -209,6 +209,9 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 	// PNG일 경우에만.
 	EWindowImageType ImageType = Image->GetImageType();
 
+	// 이미지 크기 자동 설정.
+	const UImageInfo& Info = Image->ImageInfo(InfoIndex);
+
 	// 이미지 정렬(왼쪽 / 오른쪽 / 중앙)
 	switch (SortType) 
 	{
@@ -221,6 +224,12 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 	}
 	default:
 		break;
+	}
+
+	// 이미지 크기 자동설정.
+	if (true == AutoImageScaleValue)
+	{
+		RendererTrans.SetScale(Info.CuttingTrans.GetScale());
 	}
 
 	switch (ImageType)

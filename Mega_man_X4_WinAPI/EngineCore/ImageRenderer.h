@@ -234,6 +234,14 @@ public:
 		SortType = _SortType;
 	}
 
+	/// <summary>
+	/// 이미지 크기 자동 설정 실행.
+	/// </summary>
+	void AutoImageScale()
+	{
+		AutoImageScaleValue = true;
+	}
+
 protected :
 	/// <summary>
 	/// USceneComponent
@@ -265,6 +273,8 @@ private :
 	Color8Bit TextColor = Color8Bit::BlackA;
 	Color8Bit TextColor2 = Color8Bit::BlackA; //추가
 	int TextEffect = 0;
+
+	bool AutoImageScaleValue = false;
 
 	EImageSortType SortType = EImageSortType::Center;
 
