@@ -34,7 +34,7 @@ void AEgseu::Tick(float _DeltaTime)
 
 	StateUpdate(_DeltaTime);
 	BusterChargeTime(_DeltaTime);
-	UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
+	//UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
 }
 
 void AEgseu::ChargeBeginPlay()
@@ -114,7 +114,9 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Dash_Loop_Left", "x_Dash_Left.png", 2, 3, 0.1f, true);
 	PlayerRender->CreateAnimation("Dash_End_Right", "x_Dash_Right.png", 4, 7, 0.1f, false);
 	PlayerRender->CreateAnimation("Dash_End_Left", "x_Dash_Left.png", 4, 7, 0.1f, false);
-
+	// Dash Effect
+	//PlayerRender->CreateAnimation("Dash_Right", "x_Dash_Left.png", 4, 7, 0.1f, false);
+	//PlayerRender->CreateAnimation("Dash_Left", "x_Dash_Left.png", 4, 7, 0.1f, false);
 
 	// Attack
 	// x_Attack_Right 이미지가 좋은 이미지가 아니여서 후에 바꿔야 함.
@@ -149,6 +151,18 @@ void AEgseu::PlayerBeginPlay()
 	//PlayerRender->CreateAnimation("Dash_Attack_Shoot_Loop_Left", "x_Dash_Attack_Left.png", { 5, 7 }, 0.05f, false);
 	//PlayerRender->CreateAnimation("Dash_Attack_Shoot_End_Right", "x_Dash_Attack_Right.png", { 9, 11, 13, 15 }, 0.05f, false);
 	//PlayerRender->CreateAnimation("Dash_Attack_Shoot_End_Left", "x_Dash_Attack_Left.png", { 9, 11, 13, 15 }, 0.05f, false);
+
+	// Wall
+	PlayerRender->CreateAnimation("WallCling_Start_Right", "Wall_Cling_Right.png", 0, 3, 0.05f, false);
+	PlayerRender->CreateAnimation("WallCling_Start_Left", "Wall_Cling_Left.png", 0, 3, 0.05f, false);
+	PlayerRender->CreateAnimation("WallCling_Loop_Right", "Wall_Cling_Right.png", 3, 3, 0.5f, false);
+	PlayerRender->CreateAnimation("WallCling_Loop_Left", "Wall_Cling_Left.png", 3, 3, 0.5f, false);
+
+	// Wall Effect
+	//PlayerRender->CreateAnimation("WallCling_Effect_Right", "WallEffect_Right.png", 0, 7, 0.5f, false);
+	//PlayerRender->CreateAnimation("WallCling_Effect_Left", "WallEffect_Left.png", 0, 7, 0.5f, false);
+	//PlayerRender->CreateAnimation("WallKick_Effect_Right", "WallKick_Right.png", 0, 3, 0.5f, false);
+	//PlayerRender->CreateAnimation("WallKick_Effect_Left", "WallKick_Left.png", 0, 3, 0.5f, false);
 
 	// =====================================================================
 
@@ -343,6 +357,12 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::RunJumpAttack_End:
 			RunJumpAttack_EndStart();
 			break;
+		case EEgseuState::WallCling:
+			WallClingStart();
+			break;
+		case EEgseuState::WallCling_Loop:
+			WallCling_LoopStart();
+			break;
 		default :
 			break;
 		}
@@ -480,6 +500,12 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::RunJumpAttack_End:
 		RunJumpAttack_End(_DeltaTime);
 		break;
+	case EEgseuState::WallCling:
+		WallCling(_DeltaTime);
+		break;
+	case EEgseuState::WallCling_Loop:
+		WallCling_Loop(_DeltaTime);
+		break;
 	default :
 		break;
 	}
@@ -507,6 +533,7 @@ void AEgseu::Summon_EndStart()
 #pragma region IdleStart BeginPlay
 void AEgseu::IdleStart()
 {
+	JumpVector = FVector::Zero; // 벽 타고 내려왔을 대 점프 초기화.
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
 	DirCheck();
 }
@@ -616,6 +643,8 @@ void AEgseu::IdleRunStart()
 
 void AEgseu::IdleRun_LoopStart()
 {
+	JumpVector = FVector::Zero; // 벽 타고 왔을 때 점프 Vector 초기화.
+
 	if (ChangeAnimationFrame == 0)
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Run"));
@@ -758,6 +787,20 @@ void AEgseu::RunJumpAttack_EndStart()
 {
 }
 #pragma endregion
+
+void AEgseu::WallClingStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Start"));
+	DirCheck();
+}
+
+void AEgseu::WallCling_LoopStart()
+{
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Loop"));
+	DirCheck();
+}
+
 
 // Tick===========================================
 #pragma region Summon Tick
@@ -1699,6 +1742,13 @@ void AEgseu::RunJump(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
+	// 점프 중 벽 체크
+	if (true == CalWallCheck())
+	{
+		StateChange(EEgseuState::WallCling);
+		return;
+	}
+
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::RunJump_Loop);
@@ -1722,6 +1772,14 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 
 	// 공격
 
+
+	// 점프 중 벽 체크
+	if (true == CalWallCheck())
+	{
+		StateChange(EEgseuState::WallCling);
+		return;
+	}
+
 	// 땅에 닿음
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
@@ -1733,6 +1791,12 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 
 void AEgseu::RunJump_End(float _DeltaTime)
 {
+	// 점프 중 벽 체크
+	if (true == CalWallCheck())
+	{
+		StateChange(EEgseuState::WallCling);
+		return;
+	}
 	if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
 	{
 		StateChange(EEgseuState::IdleRun_Loop);
@@ -1760,6 +1824,56 @@ void AEgseu::RunJumpAttack_End(float _DeltaTime)
 }
 #pragma endregion
 
+void AEgseu::WallCling(float _DeltaTime)
+{
+	MoveUpdate(_DeltaTime);
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		LastMoveVector = FVector::Zero;
+		GravityVector = FVector::Down * 10.0f;
+		StateChange(EEgseuState::WallCling_Loop);
+		return;
+	}
+}
+
+void AEgseu::WallCling_Loop(float _DeltaTime)
+{
+	MoveUpdate(_DeltaTime);
+
+
+	// 공격
+
+
+	FVector CheckPos = GetActorLocation();
+	switch (DirState)
+	{
+	case EActorDir::Left:
+		CheckPos.X += 5;
+		break;
+	case EActorDir::Right:
+		CheckPos.X -= 5;
+		break;
+	default:
+		break;
+	}
+	//CheckPos.Y -= 10;
+
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+		{
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::Idle);
+			return;
+		}
+	}
+}
 
 // === Vector =============================================
 
@@ -1837,6 +1951,35 @@ void AEgseu::MoveUpdate(float _DeltaTime)
 	CalGravityVector(_DeltaTime);
 	CalLastMoveVector();
 	MoveLastMoveVector(_DeltaTime);
+}
+
+bool AEgseu::CalWallCheck()
+{
+	// Actor의 기준점 가져오기.
+	FVector CheckPos = GetActorLocation();
+
+	// 충돌을 체크하기 위해
+	// 방향키에 맞춰 Actor의 기준점을 옮긴다. 
+	switch (DirState)
+	{
+	case EActorDir::Left:
+		CheckPos.X -= 40;
+		break;
+	case EActorDir::Right:
+		CheckPos.X += 40;
+		break;
+	default:
+		break;
+	}
+	CheckPos.Y -= 10;
+
+	// 위의 CheckPos를 사용해서 Map의 충돌 체크를 한다.
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		return true;
+	}
+	return false;
 }
 
 void AEgseu::BusterChargeTime(float _DeltaTime)

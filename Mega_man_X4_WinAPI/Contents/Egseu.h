@@ -79,6 +79,8 @@ private :
 	void RunJumpAttackStart();
 	void RunJumpAttack_LoopStart();
 	void RunJumpAttack_EndStart();
+	void WallClingStart();
+	void WallCling_LoopStart();
 	//#pragma endregion
 
 
@@ -125,6 +127,8 @@ private :
 	void RunJumpAttack(float _DeltaTime);
 	void RunJumpAttack_Loop(float _DeltaTime);
 	void RunJumpAttack_End(float _DeltaTime);
+	void WallCling(float _DeltaTime);
+	void WallCling_Loop(float _DeltaTime);
 	//#pragma endregion
 
 	// Vector Funcion
@@ -134,6 +138,12 @@ private :
  	void MoveLastMoveVector(float _DeltaTime);
 	void CalLastMoveVector();
 	void MoveUpdate(float _DeltaTime);
+	
+	/// <summary>
+	/// 모든 공중 상태에서 사용하는 함수.
+	/// 벽옆면에 닿으면 벽잡기 상태로 전환.
+	/// </summary>
+	bool CalWallCheck();
 
 	// Buster Charge Time Function
 	void BusterChargeTime(float _DeltaTime);
