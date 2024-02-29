@@ -57,6 +57,8 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	CyberSpaceMap->SetActorLocation({ 0, 0 });
 	CyberSpaceMap->SetMapImage("CyberPeacock-Area1-1.png");
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
+	//FVector ImageSize = CyberSpaceMap->GetImageScale();
+	//int x = ImageSize.iX();
 
 	// Actor
 	//NewPlayer = SpawnActor<APlayer>();
@@ -102,3 +104,4 @@ void UCyberSpaceLevel::MoveCameraVector()
 
 	SetCameraPos(CameraPos);
 }
+
