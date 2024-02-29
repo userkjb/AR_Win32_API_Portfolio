@@ -51,10 +51,15 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("x_Jump_Left.png", 11, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Attack_Right.png", 8, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Attack_Left.png", 8, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Right.png", 8, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Left.png", 8, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Right.png", 8, 4);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Left.png", 8, 4);
+
+	// 캐릭터 대쉬
+	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Right.png", 8, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Left.png", 8, 1);
+	// 대쉬 임팩트
+	UEngineResourcesManager::GetInst().CuttingImage("Dash_Effect_Right.png", 8, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Dash_Effect_Left.png", 8, 1);
 
 	// Buster
 	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Default_Right.png", 5, 1);
@@ -81,6 +86,18 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("JumpAttack_Right.png", 8, 3);
 	UEngineResourcesManager::GetInst().CuttingImage("JumpAttack_Left.png", 8, 3);
 	
+
+	// 캐릭터 벽잡기
+	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Right.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Left.png", 4, 1);
+	// 캐릭터 벽 차기
+	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Kick_Right.png", 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Kick_Right.png", 3, 1);
+	// 벽잡기 임팩트
+	UEngineResourcesManager::GetInst().CuttingImage("WallEffect_Right.png", 8, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("WallEffect_Left.png", 8, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("WallKick_Right.png", 8, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("WallKick_Left.png", 8, 3);
 
 
 	// == Actor ==
