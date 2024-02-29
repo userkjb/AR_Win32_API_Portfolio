@@ -1788,6 +1788,7 @@ void AEgseu::CalMoveVector()
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		RunVector = FVector::Zero;
+		DashVector = FVector::Zero;
 	}
 
 
