@@ -81,6 +81,7 @@ private :
 	void RunJumpAttack_EndStart();
 	void WallClingStart();
 	void WallCling_LoopStart();
+	void WallKickStart();
 	//#pragma endregion
 
 
@@ -129,6 +130,7 @@ private :
 	void RunJumpAttack_End(float _DeltaTime);
 	void WallCling(float _DeltaTime);
 	void WallCling_Loop(float _DeltaTime);
+	void WallKick(float _DeltaTime);
 	//#pragma endregion
 
 	// Vector Funcion
@@ -167,11 +169,11 @@ private :
 	FVector RunVector = FVector::Zero;
 	FVector DashVector = FVector::Zero;
 	// 중력 가속도(500.0f)
-	FVector GravityAcc = FVector::Down * 1000.0f;
+	const FVector GravityAcc = FVector::Down * 1000.0f;
 	// 중력
 	FVector GravityVector = FVector::Zero;
 	// 점프 파워
-	FVector JumpPower = FVector::Up * 450.0f;
+	const FVector JumpPower = FVector::Up * 450.0f;
 	FVector JumpVector = FVector::Zero;
 	// 소환 속도
 	FVector SummonVector = FVector::Zero;
@@ -200,5 +202,6 @@ private :
 
 	int MaxHp = 0;
 	int Hp = 0;
+	float WallKickTime = 0.0f;
 };
 

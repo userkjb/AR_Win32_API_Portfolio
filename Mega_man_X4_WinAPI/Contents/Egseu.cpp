@@ -157,6 +157,8 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("WallCling_Start_Left", "Wall_Cling_Left.png", 0, 3, 0.05f, false);
 	PlayerRender->CreateAnimation("WallCling_Loop_Right", "Wall_Cling_Right.png", 3, 3, 0.5f, false);
 	PlayerRender->CreateAnimation("WallCling_Loop_Left", "Wall_Cling_Left.png", 3, 3, 0.5f, false);
+	PlayerRender->CreateAnimation("WallKick_Right", "Wall_Cling_Kick_Right.png", 0, 2, 0.05f, false);
+	PlayerRender->CreateAnimation("WallKick_Left", "Wall_Cling_Kick_Left.png", 0, 2, 0.05f, false);
 
 	// Wall Effect
 	//PlayerRender->CreateAnimation("WallCling_Effect_Right", "WallEffect_Right.png", 0, 7, 0.5f, false);
@@ -363,6 +365,9 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::WallCling_Loop:
 			WallCling_LoopStart();
 			break;
+		case EEgseuState::WallKick:
+			WallKickStart();
+			break;
 		default :
 			break;
 		}
@@ -505,6 +510,9 @@ void AEgseu::StateUpdate(float _DeltaTime)
 		break;
 	case EEgseuState::WallCling_Loop:
 		WallCling_Loop(_DeltaTime);
+		break;
+	case EEgseuState::WallKick:
+		WallKick(_DeltaTime);
 		break;
 	default :
 		break;
@@ -800,6 +808,7 @@ void AEgseu::WallCling_LoopStart()
 	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Loop"));
 	DirCheck();
 }
+
 
 
 // Tick===========================================
@@ -1828,6 +1837,12 @@ void AEgseu::WallCling(float _DeltaTime)
 {
 	MoveUpdate(_DeltaTime);
 
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EEgseuState::WallKick);
+		return;
+	}
+
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		LastMoveVector = FVector::Zero;
@@ -1841,9 +1856,14 @@ void AEgseu::WallCling_Loop(float _DeltaTime)
 {
 	MoveUpdate(_DeltaTime);
 
-
 	// 공격
 
+	// 다시 점프
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EEgseuState::WallKick);
+		return;
+	}
 
 	FVector CheckPos = GetActorLocation();
 	switch (DirState)
@@ -1864,12 +1884,68 @@ void AEgseu::WallCling_Loop(float _DeltaTime)
 	{
 		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
 		{
+			JumpVector = FVector::Zero;
 			StateChange(EEgseuState::IdleRun_Loop);
 			return;
 		}
 		else
 		{
+			JumpVector = FVector::Zero;
 			StateChange(EEgseuState::Idle);
+			return;
+		}
+	}
+}
+
+
+
+void AEgseu::WallKickStart()
+{
+	// 반대 방향으로 점프
+	if (0 == static_cast<int>(DirState)) // Left
+	{
+		JumpVector = JumpPower + (FVector::Right * MoveSpeed);
+	}
+	else // Right
+	{
+		JumpVector = (JumpPower * 2) + (FVector::Left * MoveSpeed);
+	}
+	PlayerRender->ChangeAnimation(GetAnimationName("WallKick"));
+
+	WallKickTime = 0.0f;
+	//DirCheck();
+}
+
+/// <summary>
+/// 벽에서 다시 점프.
+/// </summary>
+/// <param name="_DeltaTime"></param>
+void AEgseu::WallKick(float _DeltaTime)
+{
+	WallKickTime += _DeltaTime;
+	MoveUpdate(_DeltaTime);
+	if (WallKickTime < 0.2f) // 해당 시간 동안 아무것도 못함.(선 딜)
+	{
+		/*if (0 == static_cast<int>(DirState))
+		{
+			JumpVector = 
+		}*/
+		return;
+	}
+
+	// 벽 차는 동작 끝났어.
+	if (2 == PlayerRender->GetCurAnimationImageFrame())
+	{
+		// 대쉬 버튼을 누르고 있다면,
+		if (true == UEngineInput::IsPress('Z'))
+		{
+			StateChange(EEgseuState::RunDashJump_Loop);
+			return;
+		}
+		// 대쉬 버튼을 누르고 있지 않다면,
+		else if (true == UEngineInput::IsFree('Z'))
+		{
+			StateChange(EEgseuState::RunJump_Loop);
 			return;
 		}
 	}
@@ -1953,6 +2029,10 @@ void AEgseu::MoveUpdate(float _DeltaTime)
 	MoveLastMoveVector(_DeltaTime);
 }
 
+/// <summary>
+/// 벽의 옆면 체크
+/// </summary>
+/// <returns></returns>
 bool AEgseu::CalWallCheck()
 {
 	// Actor의 기준점 가져오기.
