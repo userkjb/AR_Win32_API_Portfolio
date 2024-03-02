@@ -1913,7 +1913,6 @@ void AEgseu::WallKickStart()
 	PlayerRender->ChangeAnimation(GetAnimationName("WallKick"));
 
 	WallKickTime = 0.0f;
-	//DirCheck();
 }
 
 /// <summary>
@@ -1932,6 +1931,9 @@ void AEgseu::WallKick(float _DeltaTime)
 		}*/
 		return;
 	}
+	
+	// JumpVector 에 남아있던 좌우 방향 힘 초기화
+
 
 	// 벽 차는 동작 끝났어.
 	if (2 == PlayerRender->GetCurAnimationImageFrame())
@@ -2036,26 +2038,31 @@ void AEgseu::MoveUpdate(float _DeltaTime)
 bool AEgseu::CalWallCheck()
 {
 	// Actor의 기준점 가져오기.
-	FVector CheckPos = GetActorLocation();
+	FVector CheckPos_1 = GetActorLocation();
+	FVector CheckPos_2 = GetActorLocation();
 
 	// 충돌을 체크하기 위해
 	// 방향키에 맞춰 Actor의 기준점을 옮긴다. 
 	switch (DirState)
 	{
 	case EActorDir::Left:
-		CheckPos.X -= 40;
+		CheckPos_1.X -= 40;
+		CheckPos_2.X -= 40;
 		break;
 	case EActorDir::Right:
-		CheckPos.X += 40;
+		CheckPos_1.X += 40;
+		CheckPos_2.X += 40;
 		break;
 	default:
 		break;
 	}
-	CheckPos.Y -= 10;
+	CheckPos_1.Y -= 10;
+	CheckPos_2.Y -= PlayerRender->GetImage()->GetScale().iY() / 2; // 캐릭터 중앙.
 
 	// 위의 CheckPos를 사용해서 Map의 충돌 체크를 한다.
-	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
-	if (Color == Color8Bit(255, 0, 255, 0))
+	Color8Bit Color_1 = UContentsGlobalData::ColMapImage->GetColor(CheckPos_1.iX(), CheckPos_1.iY(), Color8Bit::MagentaA);
+	Color8Bit Color_2 = UContentsGlobalData::ColMapImage->GetColor(CheckPos_2.iX(), CheckPos_2.iY(), Color8Bit::MagentaA);
+	if (Color_1 == Color8Bit(255, 0, 255, 0) && Color_2 == Color8Bit(255, 0, 255, 0))
 	{
 		return true;
 	}
@@ -2091,3 +2098,13 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 		BusterChargTime += _DeltaTime;
 	}
 }
+
+
+/* 문제점.
+* 1. 벽을 찬 뒤 Vector 값들이 이상함.
+* -> 대각선 점을 위해 JumpVector에 넣어 줬던 X 축 값이 문제의 원인 인 듯 하다.
+* 2. 선생님이 만들어 두진 ImageRender auto 기능을 사용하는 방법을 모른다.
+* -> 함수 AutoImageScale 를 호출하면 될 것 같은데 어디서 호출해야 하는지 잘 모르겠다.
+* 3. Boss에서 Buster의 값을 Result로 받았지만 이걸 어떻게 캐스팅 해야 하는지 잘 모르겠다.
+* -> 이건 정우한테 물어보면 될 것 같다.
+*/
