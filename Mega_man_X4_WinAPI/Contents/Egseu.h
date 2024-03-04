@@ -202,6 +202,6 @@ private :
 
 	int MaxHp = 0;
 	int Hp = 0;
-	float WallKickTime = 0.0f;
+	float WallKickTime = 0.0f; // 벽 차는 행동을 강제하기 위한 Time
 };
 

@@ -237,9 +237,10 @@ public:
 	/// <summary>
 	/// 이미지 크기 자동 설정 실행.
 	/// </summary>
-	void AutoImageScale()
+	void AutoImageScale(float _AutoScale = 1.0f)
 	{
 		AutoImageScaleValue = true;
+		AutoImageScaleRatio = _AutoScale;
 	}
 
 protected :
@@ -275,6 +276,7 @@ private :
 	int TextEffect = 0;
 
 	bool AutoImageScaleValue = false;
+	float AutoImageScaleRatio = 1.0f;
 
 	EImageSortType SortType = EImageSortType::Center;
 

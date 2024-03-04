@@ -229,7 +229,7 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 	// 이미지 크기 자동설정.
 	if (true == AutoImageScaleValue)
 	{
-		RendererTrans.SetScale(Info.CuttingTrans.GetScale());
+		RendererTrans.SetScale(Info.CuttingTrans.GetScale() * AutoImageScaleRatio);
 	}
 
 	switch (ImageType)

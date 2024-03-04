@@ -67,7 +67,8 @@ void AEgseu::PlayerBeginPlay()
 {
 	PlayerRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
 	PlayerRender->SetImage("x_Idle_Right.png");
-	PlayerRender->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
+	PlayerRender->AutoImageScale(3.0f);
+	//PlayerRender->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
 
 	PlayerCollision = CreateCollision(ECollisionOrder::Player);
 	PlayerCollision->SetScale({ 35 * 3, 80 * 3 });
@@ -519,7 +520,7 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	}
 }
 
-// Begin
+// Begin & Tick
 
 #pragma region Summon
 void AEgseu::SummonStart()
@@ -1901,10 +1902,6 @@ void AEgseu::WallKick(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 	if (WallKickTime < 0.2f) // 해당 시간 동안 아무것도 못함.(선 딜)
 	{
-		/*if (0 == static_cast<int>(DirState))
-		{
-			JumpVector = 
-		}*/
 		return;
 	}
 	
@@ -1924,6 +1921,12 @@ void AEgseu::WallKick(float _DeltaTime)
 		else if (true == UEngineInput::IsFree('Z'))
 		{
 			StateChange(EEgseuState::RunJump_Loop);
+			return;
+		}
+		// 방향키를 누르고 있지 않다면,
+		else if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT))
+		{
+			StateChange(EEgseuState::IdleJump_Loop);
 			return;
 		}
 	}
