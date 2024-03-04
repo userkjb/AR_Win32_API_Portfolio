@@ -69,8 +69,8 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	NewX->SetActorLocation({ 200, 90 });
 
 	// Boss
-	//ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
-	//NewBoss->SetActorLocation({ 520, 500 });
+	ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
+	NewBoss->SetActorLocation({ 520, 500 });
 }
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
