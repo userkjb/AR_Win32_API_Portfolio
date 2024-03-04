@@ -1,6 +1,7 @@
 #include "Egseu.h"
 #include <EngineCore/EngineCore.h> // Helper
 #include "Buster.h"
+#include "CyberPeacock.h"
 
 AEgseu::AEgseu()
 {
@@ -34,7 +35,8 @@ void AEgseu::Tick(float _DeltaTime)
 
 	StateUpdate(_DeltaTime);
 	BusterChargeTime(_DeltaTime);
-	//UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
+	CollisionCheck(_DeltaTime);
+	UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
 }
 
 void AEgseu::ChargeBeginPlay()
@@ -67,6 +69,8 @@ void AEgseu::ChargeBeginPlay()
 
 void AEgseu::PlayerBeginPlay()
 {
+	Hp = MaxHp;
+
 	PlayerRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
 	PlayerRender->SetImage("x_Idle_Right.png");
 	PlayerRender->AutoImageScale(2.0f);
@@ -168,6 +172,10 @@ void AEgseu::PlayerBeginPlay()
 	//PlayerRender->CreateAnimation("WallCling_Effect_Left", "WallEffect_Left.png", 0, 7, 0.5f, false);
 	//PlayerRender->CreateAnimation("WallKick_Effect_Right", "WallKick_Right.png", 0, 3, 0.5f, false);
 	//PlayerRender->CreateAnimation("WallKick_Effect_Left", "WallKick_Left.png", 0, 3, 0.5f, false);
+
+	// Hit
+	PlayerRender->CreateAnimation("Hit_Right", "x_Damage_Right.png", 0, 3, 0.05f, true);
+	PlayerRender->CreateAnimation("Hit_Left", "x_Damage_Left.png", 0, 3, 0.05f, true);
 
 	// =====================================================================
 
@@ -371,6 +379,9 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::WallKick:
 			WallKickStart();
 			break;
+		case EEgseuState::Hit:
+			HitStart();
+			break;
 		default :
 			break;
 		}
@@ -516,6 +527,9 @@ void AEgseu::StateUpdate(float _DeltaTime)
 		break;
 	case EEgseuState::WallKick:
 		WallKick(_DeltaTime);
+		break;
+	case EEgseuState::Hit:
+		Hit(_DeltaTime);
 		break;
 	default :
 		break;
@@ -1955,11 +1969,46 @@ void AEgseu::WallKick(float _DeltaTime)
 		}
 	}
 }
-
 #pragma endregion
 
-// === Vector =============================================
 
+void AEgseu::HitStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Hit"));
+}
+
+void AEgseu::Hit(float _DeltaTime)
+{
+	Hit_InvincibilityTime += _DeltaTime;
+	MoveUpdate(_DeltaTime);
+
+	// 무적시간.
+	if (Hit_InvincibilityTime < 0.5f)
+	{
+		return;
+	}
+	else
+	{
+		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+		{
+			Hit_Count = 0;
+			Hit_InvincibilityTime = 0.0f;
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			Hit_Count = 0;
+			Hit_InvincibilityTime = 0.0f;
+			StateChange(EEgseuState::Idle);
+			return;
+		}
+	}
+}
+
+
+// === Vector =============================================
+#pragma region Vector
 void AEgseu::CalMoveVector()
 {
 	// Actor의 기준점 가져오기.
@@ -2035,6 +2084,33 @@ void AEgseu::MoveUpdate(float _DeltaTime)
 	CalLastMoveVector();
 	MoveLastMoveVector(_DeltaTime);
 }
+#pragma endregion
+
+
+// 충돌.
+void AEgseu::CollisionCheck(float _DeltaTime)
+{
+	std::vector<UCollision*> Result;
+	if (true == PlayerCollision->CollisionCheck(ECollisionOrder::Boss, Result))
+	{
+		Hit_Count++;
+		if (Hit_Count == 1)
+		{
+			Hit_InvincibilityTime += _DeltaTime;
+			ACyberPeacock* Boss = (ACyberPeacock*)Result[0]->GetOwner();
+			int BossBodyDamage = Boss->GetBodyDamage();
+			Hp -= BossBodyDamage;
+
+			StateChange(EEgseuState::Hit);
+			return;
+		}
+	}
+
+	if (true == PlayerCollision->CollisionCheck(ECollisionOrder::Enemy, Result))
+	{
+
+	}
+}
 
 /// <summary>
 /// 벽의 옆면 체크
@@ -2104,12 +2180,3 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 	}
 }
 
-
-/* 문제점.
-* 1. 벽을 찬 뒤 Vector 값들이 이상함.
-* -> 대각선 점을 위해 JumpVector에 넣어 줬던 X 축 값이 문제의 원인 인 듯 하다.
-* 2. 선생님이 만들어 두진 ImageRender auto 기능을 사용하는 방법을 모른다.
-* -> 함수 AutoImageScale 를 호출하면 될 것 같은데 어디서 호출해야 하는지 잘 모르겠다.
-* 3. Boss에서 Buster의 값을 Result로 받았지만 이걸 어떻게 캐스팅 해야 하는지 잘 모르겠다.
-* -> 이건 정우한테 물어보면 될 것 같다.
-*/

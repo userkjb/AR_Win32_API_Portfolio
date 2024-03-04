@@ -82,6 +82,7 @@ private :
 	void WallClingStart();
 	void WallCling_LoopStart();
 	void WallKickStart();
+	void HitStart();
 	//#pragma endregion
 
 
@@ -131,6 +132,7 @@ private :
 	void WallCling(float _DeltaTime);
 	void WallCling_Loop(float _DeltaTime);
 	void WallKick(float _DeltaTime);
+	void Hit(float _DeltaTime);
 	//#pragma endregion
 
 	// Vector Funcion
@@ -140,6 +142,11 @@ private :
  	void MoveLastMoveVector(float _DeltaTime);
 	void CalLastMoveVector();
 	void MoveUpdate(float _DeltaTime);
+
+	/// <summary>
+	/// 충돌 체크
+	/// </summary>
+	void CollisionCheck(float _DeltaTime);
 	
 	/// <summary>
 	/// 모든 공중 상태에서 사용하는 함수.
@@ -187,21 +194,23 @@ private :
 	static AEgseu* MainPlayer;
 
 	// 
+	bool IsBuster = false; // Buster 쐈음?
 	float MoveSpeed = 500.0f;
 	float DashSpeed = 750.0f;
 	float DashTime = 0.0f;
 	float AttackLoopTime = 0.0f;
 	float SummonDelayTime = 0.0f;
 	float ReadToBusterTime = 0.0f; // Buster 준비 시간.
-	bool IsBuster = false; // Buster 쐈음?
+	float WallKickTime = 0.0f; // 벽 차는 행동을 강제하기 위한 Time
+	float Hit_InvincibilityTime = 0.0f; // 무적 시간.
 
 	float BusterChargTime = 0.0f;
 	float BusterDelayTime = 0.0f;
 	int BusterTickCount = 0; // Buster가 1번 생성되도록.
 	int ChangeAnimationFrame = 0;
+	int Hit_Count = 0; // Hit 중복 방지.
 
 	int MaxHp = 48;
 	int Hp = 0;
-	float WallKickTime = 0.0f; // 벽 차는 행동을 강제하기 위한 Time
 };
 
