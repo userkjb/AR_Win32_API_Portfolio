@@ -166,6 +166,7 @@ enum class ESpikeMarlState
 {
 	None,
 
+	Summon,
 	Idle,
 	Run,
 	Death,
