@@ -4,6 +4,7 @@
 class ACyberSpaceMap;
 class APlayer;
 class AEgseu;
+class ATriScan;
 
 class UCyberSpaceLevel : public ULevel
 {
@@ -30,8 +31,11 @@ private :
 	/// </summary>
 	void MoveCameraVector();
 
+	void ActorGeneration();
+
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
 	APlayer* NewPlayer = nullptr;
 	AEgseu* NewX = nullptr;
+	ATriScan* TryScan = nullptr;
 };
 
