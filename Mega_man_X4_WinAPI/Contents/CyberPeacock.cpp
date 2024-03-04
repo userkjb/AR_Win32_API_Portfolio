@@ -2,6 +2,7 @@
 #include <EngineCore/EngineCore.h> // Helper
 //#include "Player.h"
 #include "Egseu.h"
+#include "Buster.h"
 
 ACyberPeacock::ACyberPeacock()
 {
@@ -371,9 +372,10 @@ void ACyberPeacock::CollisionCheck()
 	{
 		HitCount++;
 
-		// buster가 넘겨준 데미지를 가져온다.
+		// buster에 설정한 데미지를 가져온다.
+		ABuster* x = (ABuster*)Result[0]->GetOwner();
+		int DefaultBusterDamage = x->GetDefaultBusterDamage();
 
-
-		//Hp -= ....;
+		Hp -= DefaultBusterDamage;
 	}
 }
