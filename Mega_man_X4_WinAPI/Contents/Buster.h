@@ -28,6 +28,24 @@ public :
 	}
 
 	void SetBusterAnimation(std::string_view _Name);
+
+	// Level 에서 대미지 변경 해야 함.
+	int GetDefaultBusterDamage()
+	{
+		return DefaultBusterDamage;
+	}
+	void SetDefaultBusterDamage(int _Damage)
+	{
+		DefaultBusterDamage = _Damage;
+	}
+	void SetMiddleBusterDamage(int _Damage)
+	{
+		MiddleBusterDamage = _Damage;
+	}
+	void SetPullBusterDamage(int _Damage)
+	{
+		PullBusterDamage = _Damage;
+	}
 	
 protected :
 	void BeginPlay() override;
@@ -47,26 +65,6 @@ protected :
 
 	// Render 순서.
 	ERenderOrder Order = ERenderOrder::None;	
-
-	// Level 에서 대미지 변경 해야 함.
-	int GetDefaultBusterDamage()
-	{
-		return DefaultBusterDamage;
-	}
-	void SetDefaultBusterDamage(int _Damage)
-	{
-		DefaultBusterDamage = _Damage;
-	}
-	void SetMiddleBusterDamage(int _Damage)
-	{
-		MiddleBusterDamage = _Damage;
-	}
-	void SetPullBusterDamage(int _Damage)
-	{
-		PullBusterDamage = _Damage;
-	}
-
-
 
 private :
 
