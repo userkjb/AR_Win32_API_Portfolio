@@ -4,6 +4,7 @@
 #include "Egseu.h"
 #include "CyberPeacock.h"
 #include "TriScan.h"
+#include "SpikeMarl.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
@@ -84,6 +85,10 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	TryScan_2 = SpawnActor<ATriScan>();
 	TryScan_2->SetActorLocation({ 1160 , 200 });
 	TryScan_2->SetTriScanState(ETriScanState::Idle);
+
+	SpikeMarl = SpawnActor<ASpikeMarl>();
+	SpikeMarl->SetActorLocation({ 520, 500 });
+	SpikeMarl->SetSpikeMarlState(ESpikeMarlState::Idle);
 }
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)

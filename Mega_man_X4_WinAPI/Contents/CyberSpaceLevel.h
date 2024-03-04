@@ -5,6 +5,7 @@ class ACyberSpaceMap;
 class APlayer;
 class AEgseu;
 class ATriScan;
+class ASpikeMarl;
 
 class UCyberSpaceLevel : public ULevel
 {
@@ -38,5 +39,6 @@ private :
 	AEgseu* NewX = nullptr;
 	ATriScan* TryScan_1 = nullptr;
 	ATriScan* TryScan_2 = nullptr;
+	ASpikeMarl* SpikeMarl = nullptr;
 };
 
