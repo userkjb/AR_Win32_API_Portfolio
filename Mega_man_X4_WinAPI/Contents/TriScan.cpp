@@ -197,6 +197,12 @@ void ATriScan::CollisionCheck()
 		{
 			Hp -= Buster->GetDefaultBusterDamage();
 		}
+
+		if (Hp <= 0)
+		{
+			StateChange(ETriScanState::Death);
+			return;
+		}
 	}
 }
 
