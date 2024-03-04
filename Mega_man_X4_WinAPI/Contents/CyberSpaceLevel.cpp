@@ -64,11 +64,13 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	//NewPlayer = SpawnActor<APlayer>();
 	//NewPlayer->SetActorLocation({ 200, 0 }); // 400 ¿Ã ºæ≈Õ.
 
+	// Player
 	NewX = SpawnActor<AEgseu>();
-	NewX->SetActorLocation({ 200, 0 });
+	NewX->SetActorLocation({ 200, 90 });
 
-	ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
-	NewBoss->SetActorLocation({ 520, 500 });
+	// Boss
+	//ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
+	//NewBoss->SetActorLocation({ 520, 500 });
 }
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
