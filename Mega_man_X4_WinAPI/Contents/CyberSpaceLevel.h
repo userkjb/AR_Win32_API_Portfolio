@@ -36,6 +36,7 @@ private :
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
 	APlayer* NewPlayer = nullptr;
 	AEgseu* NewX = nullptr;
-	ATriScan* TryScan = nullptr;
+	ATriScan* TryScan_1 = nullptr;
+	ATriScan* TryScan_2 = nullptr;
 };
 

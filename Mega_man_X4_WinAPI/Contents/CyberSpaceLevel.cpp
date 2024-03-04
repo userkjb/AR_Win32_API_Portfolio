@@ -63,8 +63,6 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	CyberSpaceMap->SetActorLocation({ 0, 0 });
 	CyberSpaceMap->SetMapImage("CyberPeacock-Area1-1.png");
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
-	//FVector ImageSize = CyberSpaceMap->GetImageScale();
-	//int x = ImageSize.iX();
 
 	// Actor
 	//NewPlayer = SpawnActor<APlayer>();
@@ -79,9 +77,13 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	//NewBoss->SetActorLocation({ 520, 500 });
 
 	// Enemy
-	TryScan = SpawnActor<ATriScan>();
-	TryScan->SetActorLocation({ 442 , 371 });
-	TryScan->SetTriScanState(ETriScanState::Idle);
+	TryScan_1 = SpawnActor<ATriScan>();
+	TryScan_1->SetActorLocation({ 1160 , 135 });
+	TryScan_1->SetTriScanState(ETriScanState::Idle);
+
+	TryScan_2 = SpawnActor<ATriScan>();
+	TryScan_2->SetActorLocation({ 1160 , 200 });
+	TryScan_2->SetTriScanState(ETriScanState::Idle);
 }
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
