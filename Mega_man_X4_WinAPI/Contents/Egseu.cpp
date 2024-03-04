@@ -43,13 +43,15 @@ void AEgseu::ChargeBeginPlay()
 	MiddleChargeRender->SetImage("Charging_1.png");
 	UWindowImage* ChargeImage_1 = MiddleChargeRender->GetImage();
 	FVector ChargeScale_1 = ChargeImage_1->GetScale();
-	MiddleChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_1.iX() / 9, ChargeScale_1.iY()} });
+	MiddleChargeRender->AutoImageScale();
+	//MiddleChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_1.iX() / 9, ChargeScale_1.iY()} });
 
 	PullChargeRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	PullChargeRender->SetImage("Charging_2.png");
 	UWindowImage* ChargeImage_2 = PullChargeRender->GetImage();
 	FVector ChargeScale_2 = ChargeImage_2->GetScale();
-	PullChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_2.iX() / 4 , ChargeScale_2.iY()} });
+	PullChargeRender->AutoImageScale();
+	//PullChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_2.iX() / 4 , ChargeScale_2.iY()} });
 
 
 
@@ -67,7 +69,7 @@ void AEgseu::PlayerBeginPlay()
 {
 	PlayerRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
 	PlayerRender->SetImage("x_Idle_Right.png");
-	PlayerRender->AutoImageScale(3.0f);
+	PlayerRender->AutoImageScale(2.0f);
 	//PlayerRender->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
 
 	PlayerCollision = CreateCollision(ECollisionOrder::Player);
@@ -706,6 +708,14 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		StateChange(EEgseuState::JumpAttack_Loop);
+		return;
+	}
+
+	// 벽에 닿음
+	bool WallChecl = CalWallCheck();
+	if (true == WallChecl)
+	{
+		StateChange(EEgseuState::WallCling);
 		return;
 	}
 
@@ -1700,7 +1710,8 @@ void AEgseu::RunJump(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 
 	// 점프 중 벽 체크
-	if (true == CalWallCheck())
+	bool WallChecl = CalWallCheck();
+	if (true == WallChecl)
 	{
 		StateChange(EEgseuState::WallCling);
 		return;
@@ -1731,7 +1742,8 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 
 
 	// 점프 중 벽 체크
-	if (true == CalWallCheck())
+	bool WallChecl = CalWallCheck();
+	if (true == WallChecl)
 	{
 		StateChange(EEgseuState::WallCling);
 		return;
@@ -1749,7 +1761,8 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 void AEgseu::RunJump_End(float _DeltaTime)
 {
 	// 점프 중 벽 체크
-	if (true == CalWallCheck())
+	bool WallChecl = CalWallCheck();
+	if (true == WallChecl)
 	{
 		StateChange(EEgseuState::WallCling);
 		return;
@@ -1798,13 +1811,14 @@ void AEgseu::RunJumpAttack_End(float _DeltaTime)
 void AEgseu::WallClingStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Start"));
-	DirCheck();
+	//DirCheck();
 }
 
 void AEgseu::WallCling(float _DeltaTime)
 {
 	MoveUpdate(_DeltaTime);
 
+	// 벽 타는 중에 점프
 	if (true == UEngineInput::IsDown('C'))
 	{
 		StateChange(EEgseuState::WallKick);
@@ -1842,6 +1856,7 @@ void AEgseu::WallCling_Loop(float _DeltaTime)
 		return;
 	}
 
+	// 땅에 닿으면,
 	FVector CheckPos = GetActorLocation();
 	switch (DirState)
 	{
