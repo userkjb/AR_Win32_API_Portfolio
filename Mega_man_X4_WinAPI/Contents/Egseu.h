@@ -200,7 +200,7 @@ private :
 	int BusterTickCount = 0; // Buster가 1번 생성되도록.
 	int ChangeAnimationFrame = 0;
 
-	int MaxHp = 0;
+	int MaxHp = 48;
 	int Hp = 0;
 	float WallKickTime = 0.0f; // 벽 차는 행동을 강제하기 위한 Time
 };

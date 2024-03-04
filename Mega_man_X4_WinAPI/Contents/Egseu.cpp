@@ -1848,6 +1848,8 @@ void AEgseu::WallCling_LoopStart()
 
 void AEgseu::WallCling_Loop(float _DeltaTime)
 {
+	// 벽타고 미끌어지는 수치 조절 해야 함.
+
 	MoveUpdate(_DeltaTime);
 
 	// 벽을 잡고 있는 중에 공격
