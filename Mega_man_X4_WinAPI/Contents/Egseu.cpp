@@ -521,7 +521,7 @@ void AEgseu::StateUpdate(float _DeltaTime)
 
 // Begin
 
-#pragma region Summon BeginPlay
+#pragma region Summon
 void AEgseu::SummonStart()
 {
 	PlayerRender->ChangeAnimation("Summon");
@@ -536,283 +536,7 @@ void AEgseu::Summon_EndStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
 }
-#pragma endregion
 
-#pragma region IdleStart BeginPlay
-void AEgseu::IdleStart()
-{
-	JumpVector = FVector::Zero; // 벽 타고 내려왔을 대 점프 초기화.
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
-	DirCheck();
-}
-//void AEgseu::Idle_LoopStart()
-//{
-//}
-//
-//void AEgseu::Idle_EndStart()
-//{
-//}
-#pragma endregion
-
-#pragma region IdleJump BeginPlay
-void AEgseu::IdleJumpStart()
-{
-	JumpVector = JumpPower;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
-	DirCheck();
-}
-
-void AEgseu::IdleJump_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
-	DirCheck();
-}
-
-void AEgseu::IdleJump_EndStart()
-{
-	JumpVector = FVector::Zero;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
-}
-#pragma endregion
-
-#pragma region JumpAttack BeginPlay
-void AEgseu::JumpAttackStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"));
-	//int x = PlayerRender->GetCurAnimationImageFrame();
-	//PlayerRender->SetImageIndex(x + 1);
-}
-
-void AEgseu::JumpAttack_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
-}
-
-void AEgseu::JumpAttack_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
-}
-#pragma endregion
-
-#pragma region IdleAttack BeginPlay
-void AEgseu::IdleAttackStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Start"));
-}
-
-void AEgseu::IdleAttack_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Loop"));
-}
-
-void AEgseu::IdleAttack_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
-}
-#pragma endregion
-
-#pragma region IdleDash BeginPlay
-void AEgseu::IdleDashStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
-}
-
-void AEgseu::IdleDash_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Loop"));
-}
-
-void AEgseu::IdleDash_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"));
-}
-#pragma endregion
-
-#pragma region DashAttack BeginPlay
-void AEgseu::DashAttackStart()
-{
-}
-
-void AEgseu::DashAttack_LoopStart()
-{
-}
-
-void AEgseu::DashAttack_EndStart()
-{
-}
-#pragma endregion
-
-#pragma region IdleRun BeginPlay
-void AEgseu::IdleRunStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Run_Ready"));
-	DirCheck();
-}
-
-void AEgseu::IdleRun_LoopStart()
-{
-	JumpVector = FVector::Zero; // 벽 타고 왔을 때 점프 Vector 초기화.
-
-	if (ChangeAnimationFrame == 0)
-	{
-		PlayerRender->ChangeAnimation(GetAnimationName("Run"));
-	}
-	else
-	{
-		PlayerRender->ChangeAnimation(GetAnimationName("Run"), true, ChangeAnimationFrame, PlayerRender->GetCurAnimationTime());
-		ChangeAnimationFrame = 0;
-	}
-	DirCheck();
-}
-
-void AEgseu::IdleRun_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
-	DirCheck();
-}
-#pragma endregion
-
-#pragma region RunAttack BeginPlay
-void AEgseu::RunAttackStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Start"));
-	DirCheck();
-	{
-		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-		std::string BusterName;
-		if (DirState == EActorDir::Right)
-		{
-			A_Buster->SetDir(FVector::Right);
-			BusterName = "Buster_Default_Right";
-		}
-		else if (DirState == EActorDir::Left)
-		{
-			A_Buster->SetDir(FVector::Left);
-			BusterName = "Buster_Default_Left";
-		}
-		A_Buster->SetBusterState(EBusterState::DefaultCharge);
-		A_Buster->SetBusterAnimation(BusterName);
-		BusterTickCount++;
-	}
-}
-
-void AEgseu::RunAttack_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"));
-	DirCheck();
-}
-
-void AEgseu::RunAttack_EndStart()
-{
-
-}
-#pragma endregion
-
-#pragma region RunDash BeginPlay
-void AEgseu::RunDashStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
-}
-
-void AEgseu::RunDash_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Loop"));
-}
-
-void AEgseu::RunDash_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"));
-}
-#pragma endregion
-
-#pragma region RunDashJump BeginPlay
-void AEgseu::RunDashJumpStart()
-{
-	JumpVector = JumpPower;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
-	DirCheck();
-}
-
-void AEgseu::RunDashJump_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
-	DirCheck();
-}
-
-void AEgseu::RunDashJump_EndStart()
-{
-	JumpVector = FVector::Zero;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
-}
-#pragma endregion
-
-#pragma region RunDashJumpAttack BeginPlay
-void AEgseu::RunDashJumpAttackStart()
-{
-}
-
-void AEgseu::RunDashJumpAttack_LoopStart()
-{
-}
-
-void AEgseu::RunDashJumpAttack_EndStart()
-{
-}
-#pragma endregion
-
-#pragma region RunJump BeginPlay
-void AEgseu::RunJumpStart()
-{
-	JumpVector = JumpPower;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
-	DirCheck();
-}
-
-void AEgseu::RunJump_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
-	DirCheck();
-}
-
-void AEgseu::RunJump_EndStart()
-{
-	JumpVector = FVector::Zero;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
-}
-#pragma endregion
-
-#pragma region RunJumpAttack BeginPlay
-void AEgseu::RunJumpAttackStart()
-{
-}
-
-void AEgseu::RunJumpAttack_LoopStart()
-{
-}
-
-void AEgseu::RunJumpAttack_EndStart()
-{
-}
-#pragma endregion
-
-void AEgseu::WallClingStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Start"));
-	DirCheck();
-}
-
-void AEgseu::WallCling_LoopStart()
-{
-	JumpVector = FVector::Zero;
-	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Loop"));
-	DirCheck();
-}
-
-
-
-// Tick===========================================
-#pragma region Summon Tick
 void AEgseu::Summon(float _DeltaTime)
 {
 	SummonVector = FVector::Down * 1000.0f;
@@ -851,7 +575,21 @@ void AEgseu::Summon_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region Idle Tick
+#pragma region IdleStart
+void AEgseu::IdleStart()
+{
+	JumpVector = FVector::Zero; // 벽 타고 내려왔을 대 점프 초기화.
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
+	DirCheck();
+}
+//void AEgseu::Idle_LoopStart()
+//{
+//}
+//
+//void AEgseu::Idle_EndStart()
+//{
+//}
+
 void AEgseu::Idle(float _DeltaTime)
 {
 	// 가만히 있는데 뱡향 키가 눌렸을 때.
@@ -902,7 +640,26 @@ void AEgseu::Idle(float _DeltaTime)
 //}
 #pragma endregion
 
-#pragma region IdleJump Tick
+#pragma region IdleJump
+void AEgseu::IdleJumpStart()
+{
+	JumpVector = JumpPower;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	DirCheck();
+}
+
+void AEgseu::IdleJump_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	DirCheck();
+}
+
+void AEgseu::IdleJump_EndStart()
+{
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
+}
+
 void AEgseu::IdleJump(float _DeltaTime)
 {
 	DirCheck();
@@ -982,7 +739,24 @@ void AEgseu::IdleJump_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region JumpAttack Tick
+#pragma region JumpAttack
+void AEgseu::JumpAttackStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"));
+	//int x = PlayerRender->GetCurAnimationImageFrame();
+	//PlayerRender->SetImageIndex(x + 1);
+}
+
+void AEgseu::JumpAttack_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
+}
+
+void AEgseu::JumpAttack_EndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
+}
+
 void AEgseu::JumpAttack(float _DeltaTime)
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
@@ -1077,7 +851,22 @@ void AEgseu::JumpAttack_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region IdleAttack Tick
+#pragma region IdleAttack
+void AEgseu::IdleAttackStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Start"));
+}
+
+void AEgseu::IdleAttack_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Loop"));
+}
+
+void AEgseu::IdleAttack_EndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
+}
+
 void AEgseu::IdleAttack(float _DeltaTime)
 {
 	if (BusterTickCount == 0)
@@ -1198,7 +987,22 @@ void AEgseu::IdleAttack_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region IdleDash Tick
+#pragma region IdleDash
+void AEgseu::IdleDashStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
+}
+
+void AEgseu::IdleDash_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Loop"));
+}
+
+void AEgseu::IdleDash_EndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"));
+}
+
 void AEgseu::IdleDash(float _DeltaTime)
 {
 	DashTime += _DeltaTime;
@@ -1289,7 +1093,19 @@ void AEgseu::IdleDash_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region DashAttack Tick
+#pragma region DashAttack
+void AEgseu::DashAttackStart()
+{
+}
+
+void AEgseu::DashAttack_LoopStart()
+{
+}
+
+void AEgseu::DashAttack_EndStart()
+{
+}
+
 void AEgseu::DashAttack(float _DeltaTime)
 {
 }
@@ -1303,7 +1119,35 @@ void AEgseu::DashAttack_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region IdleRun Tick
+#pragma region IdleRun
+void AEgseu::IdleRunStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Run_Ready"));
+	DirCheck();
+}
+
+void AEgseu::IdleRun_LoopStart()
+{
+	JumpVector = FVector::Zero; // 벽 타고 왔을 때 점프 Vector 초기화.
+
+	if (ChangeAnimationFrame == 0)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Run"));
+	}
+	else
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Run"), true, ChangeAnimationFrame, PlayerRender->GetCurAnimationTime());
+		ChangeAnimationFrame = 0;
+	}
+	DirCheck();
+}
+
+void AEgseu::IdleRun_EndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
+	DirCheck();
+}
+
 void AEgseu::IdleRun(float _DeltaTime)
 {
 	DirCheck();
@@ -1384,7 +1228,42 @@ void AEgseu::IdleRun_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunAttack Tick
+#pragma region RunAttack
+void AEgseu::RunAttackStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Start"));
+	DirCheck();
+	{
+		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+		std::string BusterName;
+		if (DirState == EActorDir::Right)
+		{
+			A_Buster->SetDir(FVector::Right);
+			BusterName = "Buster_Default_Right";
+		}
+		else if (DirState == EActorDir::Left)
+		{
+			A_Buster->SetDir(FVector::Left);
+			BusterName = "Buster_Default_Left";
+		}
+		A_Buster->SetBusterState(EBusterState::DefaultCharge);
+		A_Buster->SetBusterAnimation(BusterName);
+		BusterTickCount++;
+	}
+}
+
+void AEgseu::RunAttack_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"));
+	DirCheck();
+}
+
+void AEgseu::RunAttack_EndStart()
+{
+
+}
+
 void AEgseu::RunAttack(float _DeltaTime) // 생각보다 많이 들어옴.
 {
 	DirCheck();
@@ -1555,7 +1434,22 @@ void AEgseu::RunAttack_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunDash Tick
+#pragma region RunDash
+void AEgseu::RunDashStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
+}
+
+void AEgseu::RunDash_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Loop"));
+}
+
+void AEgseu::RunDash_EndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"));
+}
+
 void AEgseu::RunDash(float _DeltaTime)
 {
 	DashTime += _DeltaTime;
@@ -1658,7 +1552,27 @@ void AEgseu::RunDash_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunDashJump Tick
+#pragma region RunDashJump
+void AEgseu::RunDashJumpStart()
+{
+	JumpVector = JumpPower;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	DirCheck();
+}
+
+void AEgseu::RunDashJump_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	DirCheck();
+}
+
+void AEgseu::RunDashJump_EndStart()
+{
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
+}
+
+
 void AEgseu::RunDashJump(float _DeltaTime)
 {
 	DirCheck();
@@ -1722,7 +1636,20 @@ void AEgseu::RunDashJump_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunDashJumpAttack Tick
+#pragma region RunDashJumpAttack
+void AEgseu::RunDashJumpAttackStart()
+{
+}
+
+void AEgseu::RunDashJumpAttack_LoopStart()
+{
+}
+
+void AEgseu::RunDashJumpAttack_EndStart()
+{
+}
+
+
 void AEgseu::RunDashJumpAttack(float _DeltaTime)
 {
 }
@@ -1736,7 +1663,27 @@ void AEgseu::RunDashJumpAttack_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunJump Tick
+#pragma region RunJump
+void AEgseu::RunJumpStart()
+{
+	JumpVector = JumpPower;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	DirCheck();
+}
+
+void AEgseu::RunJump_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	DirCheck();
+}
+
+void AEgseu::RunJump_EndStart()
+{
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
+}
+
+
 void AEgseu::RunJump(float _DeltaTime)
 {
 	DirCheck();
@@ -1819,7 +1766,20 @@ void AEgseu::RunJump_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunJumpAttack Tick
+#pragma region RunJumpAttack
+void AEgseu::RunJumpAttackStart()
+{
+}
+
+void AEgseu::RunJumpAttack_LoopStart()
+{
+}
+
+void AEgseu::RunJumpAttack_EndStart()
+{
+}
+
+
 void AEgseu::RunJumpAttack(float _DeltaTime)
 {
 }
@@ -1832,6 +1792,13 @@ void AEgseu::RunJumpAttack_End(float _DeltaTime)
 {
 }
 #pragma endregion
+
+#pragma region WallCling
+void AEgseu::WallClingStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Start"));
+	DirCheck();
+}
 
 void AEgseu::WallCling(float _DeltaTime)
 {
@@ -1850,6 +1817,15 @@ void AEgseu::WallCling(float _DeltaTime)
 		StateChange(EEgseuState::WallCling_Loop);
 		return;
 	}
+}
+#pragma endregion
+
+#pragma region WallCling_Loop
+void AEgseu::WallCling_LoopStart()
+{
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Loop"));
+	DirCheck();
 }
 
 void AEgseu::WallCling_Loop(float _DeltaTime)
@@ -1896,9 +1872,9 @@ void AEgseu::WallCling_Loop(float _DeltaTime)
 		}
 	}
 }
+#pragma endregion
 
-
-
+#pragma region WallKick
 void AEgseu::WallKickStart()
 {
 	// 반대 방향으로 점프
@@ -1952,6 +1928,8 @@ void AEgseu::WallKick(float _DeltaTime)
 		}
 	}
 }
+
+#pragma endregion
 
 // === Vector =============================================
 
