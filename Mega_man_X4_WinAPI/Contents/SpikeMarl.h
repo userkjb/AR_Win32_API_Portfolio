@@ -15,16 +15,49 @@ public :
 	ASpikeMarl& operator=(const ASpikeMarl& _Other) = delete;
 	ASpikeMarl& operator=(ASpikeMarl&& _Other) noexcept = delete;
 
+	inline void SetSpikeMarlState(ESpikeMarlState _State)
+	{
+		State = _State;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private :
+	void SpikeMarlBeginPlay();
 
 	void StateChange(ESpikeMarlState _State);
 	void StateUpdate(float _DeltaTime);
 
+	void SummonStart();
+	void Summon(float _DeltaTime);
+	void IdleStart();
+	void Idle(float _DeltaTime);
+	void RunStart();
+	void Run(float _DeltaTime);
+	void DeathStart();
+	void Death(float _DeltaTime);
+
+	void MoveUpdate(float _DeltaTime);
+	void CalGravityVector(float _DeltaTime);
+	void CalLastMoveVector();
+	void MoveLastMoveVector(float _DeltaTime);
+
+	void CollisionCheck(float _DeltaTime);
+
 	ESpikeMarlState State = ESpikeMarlState::None;
+
+	UImageRenderer* SpikeMarlRender = nullptr; // 본체
+	UImageRenderer* SummonEffect = nullptr; // 소환 이펙트
+	UCollision* SpikeMarlCollision = nullptr;
+
+
+	FVector RunVector = FVector::Zero;
+	const FVector GravityAcc = FVector::Down * 1000.0f;
+	FVector GravityVector = FVector::Zero;
+	FVector LastMoveVector = FVector::Zero;
+
 	int Hp = 6;
 };
 
