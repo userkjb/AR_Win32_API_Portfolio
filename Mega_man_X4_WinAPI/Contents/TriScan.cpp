@@ -22,6 +22,8 @@ void ATriScan::BeginPlay()
 
 void ATriScan::Tick(float _DeltaTime)
 {
+	AActor::Tick(_DeltaTime);
+
 	GetPlayerPos_Tick();
 	StateUpdate(_DeltaTime);
 	CollisionCheck();
