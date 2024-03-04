@@ -1971,7 +1971,7 @@ void AEgseu::WallKick(float _DeltaTime)
 }
 #pragma endregion
 
-
+#pragma region Hit
 void AEgseu::HitStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Hit"));
@@ -2005,6 +2005,7 @@ void AEgseu::Hit(float _DeltaTime)
 		}
 	}
 }
+#pragma endregion
 
 
 // === Vector =============================================

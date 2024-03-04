@@ -364,12 +364,9 @@ void ACyberPeacock::Death(float _DeltaTime)
 
 void ACyberPeacock::CollisionCheck()
 {
+	// Buster¿Í Ãæµ¹.
 	std::vector<UCollision*> Result;
-	if (true == PeacockCollision->CollisionCheck(ECollisionOrder::Player, Result))
-	{
-		
-	}
-	else if (true == PeacockCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
+	if (true == PeacockCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
 		HitCount++;
 
