@@ -54,6 +54,7 @@ private :
 
 	UImageRenderer* TriScanRender = nullptr;
 	UCollision* TriScanCollision = nullptr;
+	UImageRenderer* FragmentsRender = nullptr;
 
 	FVector RunVector = FVector::Zero;
 
@@ -65,6 +66,10 @@ private :
 	FVector PlayerAttackPos = FVector::Zero;
 	FVector PlayerDir = FVector::Zero;
 
-	int Hp = 0;
+	int Hp = 3;
 };
 
+/*
+* 적 데이터
+* https://megaman.fandom.com/wiki/List_of_Mega_Man_X4_enemies
+*/
