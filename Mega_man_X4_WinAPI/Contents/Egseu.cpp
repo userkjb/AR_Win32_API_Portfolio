@@ -1810,6 +1810,7 @@ void AEgseu::RunJumpAttack_End(float _DeltaTime)
 #pragma region WallCling
 void AEgseu::WallClingStart()
 {
+	// 벽 잡는 애니메이션.
 	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Start"));
 	//DirCheck();
 }
@@ -1818,13 +1819,15 @@ void AEgseu::WallCling(float _DeltaTime)
 {
 	MoveUpdate(_DeltaTime);
 
-	// 벽 타는 중에 점프
+	// 벽 잡는 중 중에 점프
 	if (true == UEngineInput::IsDown('C'))
 	{
 		StateChange(EEgseuState::WallKick);
 		return;
 	}
-
+	
+	// 벽 잡는 애니메이션이 끝나면,
+	//if (3 == PlayerRender->GetCurAnimationFrame())
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		LastMoveVector = FVector::Zero;
@@ -1840,16 +1843,17 @@ void AEgseu::WallCling_LoopStart()
 {
 	JumpVector = FVector::Zero;
 	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Loop"));
-	DirCheck();
+	//DirCheck();
 }
 
 void AEgseu::WallCling_Loop(float _DeltaTime)
 {
 	MoveUpdate(_DeltaTime);
 
-	// 공격
+	// 벽을 잡고 있는 중에 공격
+	// -----
 
-	// 다시 점프
+	// 벽을 잡고 있는 중에 다시 점프
 	if (true == UEngineInput::IsDown('C'))
 	{
 		StateChange(EEgseuState::WallKick);
@@ -1893,6 +1897,9 @@ void AEgseu::WallCling_Loop(float _DeltaTime)
 #pragma region WallKick
 void AEgseu::WallKickStart()
 {
+	// 중력 값 초기화.(안하면 계속 쌓여서 점프를 할 수 없음)
+	GravityVector = FVector::Zero;
+	
 	// 반대 방향으로 점프
 	if (0 == static_cast<int>(DirState)) // Left
 	{
