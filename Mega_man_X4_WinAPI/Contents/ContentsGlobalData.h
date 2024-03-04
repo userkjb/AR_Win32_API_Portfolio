@@ -127,6 +127,9 @@ enum class EBusterState
 	BusterEnd,		// Á¾·á.
 };
 
+/// <summary>
+/// Boss CyberPeacock State
+/// </summary>
 enum class ECyberPeacockState
 {
 	None,
@@ -141,6 +144,15 @@ enum class ECyberPeacockState
 	RisingSlash,
 	TrackingShot,
 
+	Death,
+};
+
+enum class ETriScanState
+{
+	None,
+
+	Idle,
+	Run,
 	Death,
 };
 
@@ -163,6 +175,7 @@ enum class ERenderOrder
 	Player,
 	MapObject,
 	Buster,
+	Enemy,
 	Boss,
 };
 
