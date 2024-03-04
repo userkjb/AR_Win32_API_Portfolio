@@ -127,6 +127,19 @@ enum class EBusterState
 	BusterEnd,		// Á¾·á.
 };
 
+enum class EFocusState
+{
+	None,
+
+	Create,
+
+	B,
+	A,
+	S,
+
+	Death,
+};
+
 /// <summary>
 /// Boss CyberPeacock State
 /// </summary>
