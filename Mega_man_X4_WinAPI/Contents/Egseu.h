@@ -211,6 +211,6 @@ private :
 	int Hit_Count = 0; // Hit 중복 방지.
 
 	int MaxHp = 48;
-	int Hp = 0;
+	int Hp = 32; // 하트탱크 + 2
 };
 

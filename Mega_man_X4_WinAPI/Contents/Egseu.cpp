@@ -69,8 +69,6 @@ void AEgseu::ChargeBeginPlay()
 
 void AEgseu::PlayerBeginPlay()
 {
-	Hp = MaxHp;
-
 	PlayerRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
 	PlayerRender->SetImage("x_Idle_Right.png");
 	PlayerRender->AutoImageScale(2.0f);
