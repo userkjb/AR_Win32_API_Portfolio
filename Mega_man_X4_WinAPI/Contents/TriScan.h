@@ -15,11 +15,6 @@ public :
 	ATriScan& operator=(const ATriScan& _Other) = delete;
 	ATriScan& operator=(ATriScan&& _Other) noexcept = delete;
 
-	inline float SetAttackTime(float _Time)
-	{
-		AttackTime = _Time;
-	}
-
 	inline void SetTriScanState(ETriScanState _State)
 	{
 		State = _State;
@@ -67,7 +62,6 @@ private :
 
 	// Àû Ã£±â.
 	float SearchTime = 0.0f;
-	float AttackTime = 0.0f;
 	float DeathTime = 0.0f;
 
 	FVector PlayerPos = FVector::Zero;
