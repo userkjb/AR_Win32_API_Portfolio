@@ -1,6 +1,6 @@
 #include "CyberPeacock.h"
 #include <EngineCore/EngineCore.h> // Helper
-//#include "Player.h"
+#include <EngineBase/EngineRandom.h> // Random
 #include "Egseu.h"
 #include "Buster.h"
 
@@ -165,7 +165,8 @@ void ACyberPeacock::IntroEndStart()
 
 void ACyberPeacock::DisappearStart()
 {
-	RandValue = rand() % 3; // 0 ~ 2
+	//RandValue = rand() % 3; // 0 ~ 2
+	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2);
 	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
 }
 

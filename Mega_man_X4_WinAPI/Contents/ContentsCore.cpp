@@ -1,5 +1,5 @@
 #include "ContentsCore.h"
-#include "time.h"
+//#include "time.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
@@ -34,7 +34,7 @@ void ContentsCore::BeginPlay()
 	// ºÎ¸ð BeginPlay.
 	UEngineCore::BeginPlay();
 
-	srand(static_cast<unsigned int>(time(0)));
+	//srand(static_cast<unsigned int>(time(0)));
 
 	// ==========================================================================
 
