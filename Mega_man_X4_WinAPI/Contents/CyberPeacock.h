@@ -18,6 +18,11 @@ public :
 	ACyberPeacock& operator=(const ACyberPeacock& _Other) = delete;
 	ACyberPeacock& operator=(ACyberPeacock&& _Other) noexcept = delete;
 
+	inline int GetBodyDamage()
+	{
+		return BodyDamage;
+	}
+
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
