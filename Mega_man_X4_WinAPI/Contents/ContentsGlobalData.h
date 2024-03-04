@@ -147,7 +147,22 @@ enum class ECyberPeacockState
 	Death,
 };
 
+/// <summary>
+/// Enemy TriScans 상태.
+/// </summary>
 enum class ETriScanState
+{
+	None,
+
+	Idle,
+	Run,
+	Death,
+};
+
+/// <summary>
+/// Enemy SpikeMarl 상태.
+/// </summary>
+enum class ESpikeMarlState
 {
 	None,
 
