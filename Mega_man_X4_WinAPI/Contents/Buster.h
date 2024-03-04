@@ -27,6 +27,11 @@ public :
 		E_BusterState = _State;
 	}
 
+	EBusterState GetBusterState()
+	{
+		return E_BusterState;
+	}
+
 	void SetBusterAnimation(std::string_view _Name);
 
 	// Level 에서 대미지 변경 해야 함.
