@@ -29,6 +29,7 @@ void ATriScan::Tick(float _DeltaTime)
 
 void ATriScan::TriScanBeginPlay()
 {
+	// TriScan Render
 	TriScanRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
 	TriScanRender->SetImage("Triangle.png");
 	TriScanRender->AutoImageScale();
@@ -36,11 +37,18 @@ void ATriScan::TriScanBeginPlay()
 	TriScanRender->CreateAnimation("TriScanIdle", "Triangle.png", 0, 4, 1.0f, true);
 	TriScanRender->CreateAnimation("TriScanRun", "Triangle.png", 5, 9, 1.0f, true);
 
+	// Fragments Render
+	FragmentsRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
+	FragmentsRender->SetImage("TriScan_Fragments.png");
+	FragmentsRender->AutoImageScale();
+	FragmentsRender->ActiveOff();
+
+	// Collision
 	TriScanCollision = CreateCollision(ECollisionOrder::Enemy);
-	FVector ImageScale = TriScanRender->GetImage()->GetScale();
-	TriScanCollision->SetScale(ImageScale);
+	TriScanCollision->SetScale({26, 24});
 	TriScanCollision->SetColType(ECollisionType::CirCle);
 
+	// Default Setting
 	TriScanRender->ChangeAnimation("TriScanIdle");
 	StateChange(ETriScanState::Idle);
 }
@@ -130,6 +138,7 @@ void ATriScan::Idle(float _DeltaTime)
 	}
 	else
 	{
+		SearchTime = 0.0f;
 		return;
 	}
 }
@@ -171,13 +180,20 @@ void ATriScan::Run(float _DeltaTime)
 #pragma endregion
 
 
+#pragma region Death
 void ATriScan::DeathStart()
 {
+	TriScanRender->ActiveOff();
+	TriScanCollision->ActiveOff();
+	FragmentsRender->ActiveOn();
 }
 
 void ATriScan::Death(float _DeltaTime)
 {
+	int a = 0;
 }
+#pragma endregion
+
 
 void ATriScan::CalVector(float _DeltaTime)
 {
@@ -186,6 +202,7 @@ void ATriScan::CalVector(float _DeltaTime)
 
 void ATriScan::CollisionCheck()
 {
+	// 중복 충돌 해결 해야 함.
 	std::vector<UCollision*> Result;
 	if (true == TriScanCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
@@ -193,9 +210,17 @@ void ATriScan::CollisionCheck()
 		ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
 		int BusterType = static_cast<int>(Buster->GetBusterState());
 
-		if (BusterType == 0)
+		if (BusterType == 1)
 		{
 			Hp -= Buster->GetDefaultBusterDamage();
+		}
+		else if (BusterType == 2)
+		{
+			Hp -= Buster->GetMiddleBusterDamage();
+		}
+		else if (BusterType == 3)
+		{
+			Hp -= Buster->GetPullBusterDamage();
 		}
 
 		if (Hp <= 0)
