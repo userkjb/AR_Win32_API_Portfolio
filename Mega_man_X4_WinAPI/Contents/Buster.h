@@ -47,9 +47,17 @@ public :
 	{
 		MiddleBusterDamage = _Damage;
 	}
+	int GetMiddleBusterDamage()
+	{
+		return MiddleBusterDamage;
+	}
 	void SetPullBusterDamage(int _Damage)
 	{
 		PullBusterDamage = _Damage;
+	}
+	int GetPullBusterDamage()
+	{
+		return PullBusterDamage;
 	}
 	
 protected :
