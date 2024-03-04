@@ -53,6 +53,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Left.png", 6, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Right.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Left.png", 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("TriScan_Fragments.png", 1, 1);	
 
 	// Enemy
 	UEngineResourcesManager::GetInst().CuttingImage("Triangle.png", 10, 1);

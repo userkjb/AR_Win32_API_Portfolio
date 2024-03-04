@@ -118,7 +118,7 @@ void ATriScan::Idle(float _DeltaTime)
 		SearchTime += _DeltaTime;
 		// 수치 만큼의 딜레이를 가지고.
 		//if (SearchTime < 5.0f)
-		if (SearchTime < 0.5f)
+		if (SearchTime < 0.5f)  //////////////////////////////////// Test
 		{
 			return;
 		}
