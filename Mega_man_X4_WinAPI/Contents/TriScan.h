@@ -45,7 +45,10 @@ private :
 	void Death(float _DeltaTime);
 
 
-	void CalVector(float _DeltaTime);
+	void MoveUpdate(float _DeltaTime, bool _Gravity = false);
+	void CalGravityVector(float _DeltaTime, bool _Gravity);
+	void CalLastMoveVector();
+	void MoveLastMoveVector(float _DeltaTime);
 
 	void CollisionCheck();
 
@@ -57,15 +60,21 @@ private :
 	UImageRenderer* FragmentsRender = nullptr;
 
 	FVector RunVector = FVector::Zero;
+	const FVector GravityAcc = FVector::Down * 1000.0f;
+	FVector GravityVector = FVector::Zero;
+
+	FVector LastMoveVector = FVector::Zero;
 
 	// 적 찾기.
 	float SearchTime = 0.0f;
 	float AttackTime = 0.0f;
+	float DeathTime = 0.0f;
 
 	FVector PlayerPos = FVector::Zero;
 	FVector PlayerAttackPos = FVector::Zero;
-	FVector PlayerDir = FVector::Zero;
+	FVector PlayerDir = FVector::Zero; // Player의 방향.
 
+	int CollisionCount = 0;
 	int Hp = 3;
 };
 

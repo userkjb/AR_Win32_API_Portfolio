@@ -161,7 +161,7 @@ void ATriScan::Run(float _DeltaTime)
 
 	// 이동!!
 	RunVector = PlayerDir * 100.0f;
-	CalVector(_DeltaTime);
+	MoveUpdate(_DeltaTime);
 
 	FVector DePos = this->GetActorLocation(); // 내 위치.
 	FVector PlPos = PlayerAttackPos;
@@ -190,14 +190,50 @@ void ATriScan::DeathStart()
 
 void ATriScan::Death(float _DeltaTime)
 {
-	int a = 0;
+	DeathTime += _DeltaTime;
+	
+	RunVector = FVector::Left * 100.0f;
+	RunVector = RunVector + (FVector::Up * 450.0f);
+
+	MoveUpdate(_DeltaTime, true);
+
+	if (2.0f <= DeathTime)
+	{
+		this->Destroy(0.0f);
+	}
 }
 #pragma endregion
 
 
-void ATriScan::CalVector(float _DeltaTime)
+void ATriScan::MoveUpdate(float _DeltaTime, bool _Gravity)
 {
-	AddActorLocation(RunVector * _DeltaTime);
+	CalGravityVector(_DeltaTime, _Gravity);
+	CalLastMoveVector();
+	MoveLastMoveVector(_DeltaTime);
+}
+
+void ATriScan::CalGravityVector(float _DeltaTime, bool _Gravity)
+{
+	if (_Gravity)
+	{
+		GravityVector += GravityAcc * _DeltaTime;
+	}
+	else
+	{
+		GravityVector = FVector::Zero;
+	}
+}
+
+void ATriScan::CalLastMoveVector()
+{
+	LastMoveVector = FVector::Zero;
+	LastMoveVector += RunVector;
+	LastMoveVector += GravityVector;
+}
+
+void ATriScan::MoveLastMoveVector(float _DeltaTime)
+{
+	AddActorLocation(LastMoveVector * _DeltaTime);
 }
 
 void ATriScan::CollisionCheck()
@@ -206,27 +242,33 @@ void ATriScan::CollisionCheck()
 	std::vector<UCollision*> Result;
 	if (true == TriScanCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
-		//ABuster* Buster = (ABuster*)Result[0]->GetOwner();
-		ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
-		int BusterType = static_cast<int>(Buster->GetBusterState());
+		if (0 == CollisionCount)
+		{
+			//CollisionCount++;
+			//ABuster* Buster = (ABuster*)Result[0]->GetOwner();
+			ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
+			int BusterType = static_cast<int>(Buster->GetBusterState());
 
-		if (BusterType == 1)
-		{
-			Hp -= Buster->GetDefaultBusterDamage();
-		}
-		else if (BusterType == 2)
-		{
-			Hp -= Buster->GetMiddleBusterDamage();
-		}
-		else if (BusterType == 3)
-		{
-			Hp -= Buster->GetPullBusterDamage();
-		}
+			if (BusterType == 1)
+			{
+				Hp -= Buster->GetDefaultBusterDamage();
+			}
+			else if (BusterType == 2)
+			{
+				Hp -= Buster->GetMiddleBusterDamage();
+			}
+			else if (BusterType == 3)
+			{
+				Hp -= Buster->GetPullBusterDamage();
+			}
 
-		if (Hp <= 0)
-		{
-			StateChange(ETriScanState::Death);
-			return;
+			if (Hp <= 0)
+			{
+				PlayerDir = FVector::Zero;
+				RunVector = FVector::Zero;
+				StateChange(ETriScanState::Death);
+				return;
+			}
 		}
 	}
 }
