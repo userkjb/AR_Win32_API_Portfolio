@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Egseu.h"
 #include "CyberPeacock.h"
+#include "TriScan.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
@@ -38,6 +39,7 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 	ULevel::Tick(_DeltaTime);
 
 	MoveCameraVector();
+	ActorGeneration();
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)
@@ -51,6 +53,9 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Left.png", 6, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Right.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Left.png", 3, 1);
+
+	// Enemy
+	UEngineResourcesManager::GetInst().CuttingImage("Triangle.png", 10, 1);
 
 	// Map
 	CyberSpaceMap = SpawnActor<ACyberSpaceMap>();
@@ -69,8 +74,13 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	NewX->SetActorLocation({ 200, 90 });
 
 	// Boss
-	ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
-	NewBoss->SetActorLocation({ 520, 500 });
+	//ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
+	//NewBoss->SetActorLocation({ 520, 500 });
+
+	// Enemy
+	TryScan = SpawnActor<ATriScan>();
+	TryScan->SetActorLocation({ 442 , 371 });
+	TryScan->SetTriScanState(ETriScanState::Idle);
 }
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
@@ -105,5 +115,12 @@ void UCyberSpaceLevel::MoveCameraVector()
 	}
 
 	SetCameraPos(CameraPos);
+}
+
+void UCyberSpaceLevel::ActorGeneration()
+{
+	FVector PlayerPos = NewX->GetActorLocation();
+
+
 }
 
