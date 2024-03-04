@@ -58,6 +58,9 @@
     <ClInclude Include="Egseu.h">
       <Filter>02_Actor\Character</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerFocus.h">
+      <Filter>02_Actor\Map\03_Stage\03_Cyber_Space</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -116,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="Egseu.cpp">
       <Filter>02_Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFocus.cpp">
+      <Filter>02_Actor\Map\03_Stage\03_Cyber_Space</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

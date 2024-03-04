@@ -187,6 +187,7 @@
     <ClInclude Include="LodingLevel.h" />
     <ClInclude Include="MiruTorearu.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerFocus.h" />
     <ClInclude Include="Protecton.h" />
     <ClInclude Include="SelectPlayerLevel.h" />
     <ClInclude Include="SpikeMarl.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="LodingLevel.cpp" />
     <ClCompile Include="MiruTorearu.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerFocus.cpp" />
     <ClCompile Include="Protecton.cpp" />
     <ClCompile Include="SelectPlayerLevel.cpp" />
     <ClCompile Include="SpikeMarl.cpp" />
