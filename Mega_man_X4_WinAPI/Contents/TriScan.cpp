@@ -34,7 +34,7 @@ void ATriScan::TriScanBeginPlay()
 	// TriScan Render
 	TriScanRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
 	TriScanRender->SetImage("Triangle.png");
-	TriScanRender->AutoImageScale();
+	TriScanRender->AutoImageScale(2.0f);
 
 	TriScanRender->CreateAnimation("TriScanIdle", "Triangle.png", 0, 4, 1.0f, true);
 	TriScanRender->CreateAnimation("TriScanRun", "Triangle.png", 5, 9, 1.0f, true);
@@ -42,7 +42,7 @@ void ATriScan::TriScanBeginPlay()
 	// Fragments Render
 	FragmentsRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
 	FragmentsRender->SetImage("TriScan_Fragments.png");
-	FragmentsRender->AutoImageScale();
+	FragmentsRender->AutoImageScale(2.0f);
 	FragmentsRender->ActiveOff();
 
 	// Collision
