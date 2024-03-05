@@ -27,11 +27,11 @@ public :
 	//{	SpikeMarlRender.ActiveOff	}
 	
 	// Collision 충돌할 때 가져가야 할 값에 대한 Get 함수
-	inline int GetBodyDamage()
+	inline int GetBodyDamage() const
 	{
 		return BodyDamage;
 	}
-	inline int GetRollDamage()
+	inline int GetRollDamage() const
 	{
 		return RollDamage;
 	}
