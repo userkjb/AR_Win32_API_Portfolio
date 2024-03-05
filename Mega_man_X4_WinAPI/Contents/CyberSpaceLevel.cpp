@@ -61,6 +61,9 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 
 	UEngineResourcesManager::GetInst().CuttingImage("SpikeBall_Right.png", 7, 3);
 	UEngineResourcesManager::GetInst().CuttingImage("SpikeBall_Left.png", 7, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("SummonEnemy.png", 11, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("SummonEnemy_Dummy.png", 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("SummonEnemy_End.png", 8, 1);
 
 	// Map
 	CyberSpaceMap = SpawnActor<ACyberSpaceMap>();
@@ -91,7 +94,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 
 	SpikeMarl = SpawnActor<ASpikeMarl>();
 	SpikeMarl->SetActorLocation({ 520, 500 });
-	SpikeMarl->SetSpikeMarlState(ESpikeMarlState::Idle);
+	SpikeMarl->SetSpikeMarlState(ESpikeMarlState::Summon);
 }
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
