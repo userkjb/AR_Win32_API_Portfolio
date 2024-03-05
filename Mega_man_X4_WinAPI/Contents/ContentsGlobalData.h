@@ -182,6 +182,7 @@ enum class ESpikeMarlState
 	Summon,
 	Idle,
 	Run,
+	Attack,
 	Death,
 };
 
