@@ -61,7 +61,8 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 
 	UEngineResourcesManager::GetInst().CuttingImage("SpikeBall_Right.png", 7, 3);
 	UEngineResourcesManager::GetInst().CuttingImage("SpikeBall_Left.png", 7, 3);
-	UEngineResourcesManager::GetInst().CuttingImage("SummonEnemy.png", 11, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("SummonEnemy_L.png", 11, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("SummonEnemy_R.png", 11, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("SummonEnemy_Dummy.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("SummonEnemy_End.png", 8, 1);
 
