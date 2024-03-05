@@ -261,16 +261,40 @@ void ASpikeMarl::IdleStart()
 
 void ASpikeMarl::Idle(float _DeltaTime)
 {
+	// 다리 꺼냄.
 	if (SpikeMarlRender->IsCurAnimationEnd())
 	{
-		int a = 0;
+		// Player와의 거리를 체크.
+		FVector DePos = this->GetActorLocation(); // 내 위치.
+		FVector PlPos = AEgseu::GetMainPlayer()->GetActorLocation(); // Player 위치
+
+		float result = std::sqrtf(std::powf(DePos.X - PlPos.X, 2) + std::powf(DePos.Y - PlPos.Y, 2));
+
+		int Between = std::lround(result); // Player와의 거리
+		UEngineDebug::OutPutDebugText(std::to_string(Between));
+
+		if (Between <= 300)
+		{
+			// 있으면 Attack
+			StateChange(ESpikeMarlState::Attack);
+			return;
+		}
+		else
+		{
+			// 없으면 run.
+			StateChange(ESpikeMarlState::Run);
+			return;
+		}
 	}
 }
 #pragma endregion
 
 #pragma region Run
+// 바라보고 있는 방향으로 일정 거리 움직이고,
+// Player가 없으면, 반대 방향으로 돈다.
 void ASpikeMarl::RunStart()
 {
+
 }
 
 void ASpikeMarl::Run(float _DeltaTime)
@@ -279,6 +303,8 @@ void ASpikeMarl::Run(float _DeltaTime)
 #pragma endregion
 
 #pragma region Attack
+// Player가 있으면 Roll 형태로 변해서
+// 특정 거리만큼 굴러간다.
 void ASpikeMarl::AttackStart()
 {
 }
@@ -337,6 +363,7 @@ void ASpikeMarl::CollisionCheck(float _DeltaTime)
 	if (true == SpikeMarlCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
 		ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
-
+		int DefaultBusterDamage = Buster->GetDefaultBusterDamage();
+		Hp -= DefaultBusterDamage;
 	}
 }
