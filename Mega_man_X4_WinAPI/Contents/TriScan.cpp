@@ -123,12 +123,12 @@ void ATriScan::Idle(float _DeltaTime)
 	//UEngineDebug::OutPutDebugText(std::to_string(Between));
 
 	// Player 와 TriScan 의 거리가 수치 이하일 때,
-	if (Between <= 200)
+	if (Between <= 400) /////////////////////////////////////////// Test
 	{
 		SearchTime += _DeltaTime;
 		// 수치 만큼의 딜레이를 가지고.
 		//if (SearchTime < 5.0f)
-		if (SearchTime < 0.5f)  //////////////////////////////////// Test
+		if (SearchTime < 1.0f)  //////////////////////////////////// Test
 		{
 			return;
 		}
