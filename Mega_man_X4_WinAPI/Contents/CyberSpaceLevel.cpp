@@ -93,7 +93,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	TryScan_2->SetTriScanState(ETriScanState::Idle);
 
 	SpikeMarl = SpawnActor<ASpikeMarl>();
-	SpikeMarl->SetActorLocation({ 520, 500 });
+	SpikeMarl->SetActorLocation({ 520, 400 });
 	SpikeMarl->SetSpikeMarlState(ESpikeMarlState::Summon);
 }
 
