@@ -275,13 +275,13 @@ void ASpikeMarl::Idle(float _DeltaTime)
 
 		if (Between <= 300)
 		{
-			// 있으면 Attack
+			// Player가 있으면 Attack
 			StateChange(ESpikeMarlState::Attack);
 			return;
 		}
 		else
 		{
-			// 없으면 run.
+			// Player가 없으면 run.
 			StateChange(ESpikeMarlState::Run);
 			return;
 		}
@@ -315,7 +315,8 @@ void ASpikeMarl::Attack(float _DeltaTime)
 	RunVector = FVector::Left * AttackSpeed * _DeltaTime;
 	AddActorLocation(RunVector);
 
-	int TargetPos = AttackStartPos + static_cast<int>(AttackSpeed);
+	//int TargetPos = AttackStartPos + static_cast<int>(AttackSpeed);
+	int TargetPos = AttackStartPos + std::lround(AttackSpeed);
 
 	if (TargetPos == GetActorLocation().iX())
 	{
