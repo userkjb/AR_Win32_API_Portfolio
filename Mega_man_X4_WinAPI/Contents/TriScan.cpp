@@ -244,11 +244,13 @@ void ATriScan::CollisionCheck()
 	std::vector<UCollision*> Result;
 	if (true == TriScanCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
-		if (0 == CollisionCount)
+		//if (0 == CollisionCount)
+		ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
+		if (Prev != Buster)
 		{
 			//CollisionCount++;
 			//ABuster* Buster = (ABuster*)Result[0]->GetOwner();
-			ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
+			//ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
 			int BusterType = static_cast<int>(Buster->GetBusterState());
 
 			if (BusterType == 1)
@@ -271,6 +273,8 @@ void ATriScan::CollisionCheck()
 				StateChange(ETriScanState::Death);
 				return;
 			}
+
+			Prev = Buster;
 		}
 	}
 }

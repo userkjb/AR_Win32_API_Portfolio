@@ -2,6 +2,8 @@
 #include <EngineCore/Actor.h>
 #include "ContentsGlobalData.h"
 
+class ABuster;
+
 class ATriScan : public AActor
 {
 public :
@@ -68,8 +70,10 @@ private :
 	FVector PlayerAttackPos = FVector::Zero;
 	FVector PlayerDir = FVector::Zero; // Player¿« πÊ«‚.
 
-	int CollisionCount = 0;
+	//int CollisionCount = 0;
 	int Hp = 3;
+
+	ABuster* Prev = nullptr;
 };
 
 /*
