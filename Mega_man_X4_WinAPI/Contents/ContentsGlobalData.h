@@ -205,7 +205,9 @@ enum class ERenderOrder
 	Player,
 	MapObject,
 	Buster,
+	EnemyPrev,
 	Enemy,
+	EnemyNext,
 	Boss,
 };
 
