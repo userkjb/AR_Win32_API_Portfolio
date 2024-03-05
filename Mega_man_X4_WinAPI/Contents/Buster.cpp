@@ -33,10 +33,10 @@ void ABuster::BeginPlay()
 	Renderer->CreateAnimation("Buster_Pull_Left", "x_Buster_Pull_Left.png", 0, 3, 0.05f, true);
 		
 	BusterCollision = CreateCollision(ECollisionOrder::Weapon);
-	//BusterCollision->SetScale(ImageScale);
+	//BusterCollision->SetScale(ImageScale); // 각 Buster에 대한 Start 함수가 있어야 할 것 같은데?
 	BusterCollision->SetColType(ECollisionType::CirCle);
 
-	//StateChange(EBusterState::CreateBuster);
+	StateChange(EBusterState::CreateBuster);
 } // end BeginPlay()
 
 void ABuster::Tick(float _DeltaTime)
@@ -55,6 +55,15 @@ void ABuster::StateChange(EBusterState _State)
 	{
 		switch (_State)
 		{
+		case EBusterState::DefaultCharge:
+			DefaultChargeStart();
+			break;
+		case EBusterState::MiddleCharge:
+			MiddleChargeStart();
+			break;
+		case EBusterState::PullCharge:
+			PullChargeStart();
+			break;
 		case EBusterState::BusterCrash:
 			BusterCrashStart();
 			break;
@@ -112,6 +121,11 @@ void ABuster::BusterEndStart()
 
 
 
+void ABuster::DefaultChargeStart()
+{
+	int a = 0;
+}
+
 void ABuster::DefaultBuster(float _DeltaTime)
 {
 	BusterLifeTime += _DeltaTime;
@@ -133,6 +147,11 @@ void ABuster::DefaultBuster(float _DeltaTime)
 	}
 }
 
+void ABuster::MiddleChargeStart()
+{
+	int a = 0;
+}
+
 void ABuster::MiddleCharge(float _DeltaTime)
 {
 	BusterLifeTime += _DeltaTime;
@@ -152,6 +171,11 @@ void ABuster::MiddleCharge(float _DeltaTime)
 		StateChange(EBusterState::BusterEnd);
 		return;
 	}
+}
+
+void ABuster::PullChargeStart()
+{
+	int a = 0;
 }
 
 void ABuster::PullCharge(float _DeltaTime)
@@ -190,8 +214,9 @@ void ABuster::BusterCrash(float _DeltaTime)
 
 void ABuster::BusterEnd(float _DeltaTime)
 {
-	Buster->Destroy(0.0f);
-	Buster = nullptr;
+	this->Destroy(0.0f);
+	//Buster->Destroy(0.0f);
+	//Buster = nullptr;
 }
 
 void ABuster::MoveUpdate(float _DeltaTime)
@@ -206,7 +231,7 @@ void ABuster::MoveUpdate(float _DeltaTime)
 bool ABuster::CollisionCheck()
 {
 	std::vector<UCollision*> Result;
-	if (true != BusterCollision->CollisionCheck(ECollisionOrder::Player, Result))
+	if (true != BusterCollision->CollisionCheck(ECollisionOrder::Enemy, Result))
 	{
 		return true;
 	}

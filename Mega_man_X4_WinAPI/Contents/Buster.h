@@ -68,11 +68,6 @@ protected :
 
 	void StateUpdate(float _DeltaTime);
 
-	// 상태 시작 함수. Begin
-	void BusterCrashStart();
-	void BusterEndStart();
-
-
 	// Buster 상태.
 	EBusterState E_BusterState = EBusterState::CreateBuster;
 
@@ -82,13 +77,17 @@ protected :
 private :
 
 	FVector Dir = FVector::Zero;
-	AActor* Buster = this;
-
-	// 상태 진행 함수.
+	//AActor* Buster = this;
+	
+	void DefaultChargeStart();
 	void DefaultBuster(float _DeltaTime);
+	void MiddleChargeStart();
 	void MiddleCharge(float _DeltaTime);
+	void PullChargeStart();
 	void PullCharge(float _DeltaTime);
+	void BusterCrashStart();
 	void BusterCrash(float _DeltaTime);
+	void BusterEndStart();
 	void BusterEnd(float _DeltaTime);
 
 	void MoveUpdate(float _DeltaTime);
