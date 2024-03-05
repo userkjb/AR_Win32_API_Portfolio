@@ -76,8 +76,6 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("x_Default_Buster_MuzzleFlash_Right.png", 5, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Default_Buster_MuzzleFlash_Left.png", 5, 1);
 
-	UEngineResourcesManager::GetInst().CuttingImage("Spikeball_Left.png", 7, 3);
-
 	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Left.png", 8, 5);
 	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Bullet.png", 4, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Grenademan_Bomb.png", 1, 1);

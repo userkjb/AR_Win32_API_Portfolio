@@ -57,7 +57,10 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 
 	// Enemy
 	UEngineResourcesManager::GetInst().CuttingImage("Triangle.png", 10, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("TriScan_Fragments.png", 1, 1);	
+	UEngineResourcesManager::GetInst().CuttingImage("TriScan_Fragments.png", 1, 1);
+
+	UEngineResourcesManager::GetInst().CuttingImage("SpikeBall_Right.png", 7, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("SpikeBall_Left.png", 7, 3);
 
 	// Map
 	CyberSpaceMap = SpawnActor<ACyberSpaceMap>();
