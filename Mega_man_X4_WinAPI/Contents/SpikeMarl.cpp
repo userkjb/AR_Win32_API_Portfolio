@@ -224,8 +224,6 @@ void ASpikeMarl::CalLastMoveVector()
 
 void ASpikeMarl::MoveLastMoveVector(float _DeltaTime)
 {
-	SummonBG->SetPosition(ActorPosFix);
-	SummonPosEffect->SetPosition(ActorPosFix);
 	AddActorLocation(LastMoveVector * _DeltaTime);
 }
 #pragma endregion
