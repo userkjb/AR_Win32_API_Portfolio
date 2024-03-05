@@ -36,6 +36,8 @@ private :
 	void Idle(float _DeltaTime);
 	void RunStart();
 	void Run(float _DeltaTime);
+	void AttackStart();
+	void Attack(float _DeltaTime);
 	void DeathStart();
 	void Death(float _DeltaTime);
 
@@ -51,6 +53,7 @@ private :
 	UImageRenderer* SpikeMarlRender = nullptr; // 본체
 	UImageRenderer* SummonEffect = nullptr; // 소환 이펙트
 	UCollision* SpikeMarlCollision = nullptr;
+	UCollision* AttackCollision = nullptr;
 
 
 	FVector RunVector = FVector::Zero;
@@ -59,5 +62,7 @@ private :
 	FVector LastMoveVector = FVector::Zero;
 
 	int Hp = 6;
+	int BodyDamage = 3;
+	int RollDamage = 4;
 };
 

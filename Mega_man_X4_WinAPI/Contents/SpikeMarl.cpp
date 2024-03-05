@@ -29,23 +29,31 @@ void ASpikeMarl::SpikeMarlBeginPlay()
 {
 	// Render
 	SpikeMarlRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
-	//SpikeMarlRender->SetImage(".png");
-	//SpikeMarlRender->AutoImageScale();
+	SpikeMarlRender->SetImage("SpikeBall_Right.png");
+	SpikeMarlRender->AutoImageScale(2.0f);
 
 
 	// Collision
 	SpikeMarlCollision = CreateCollision(static_cast<int>(ECollisionOrder::Enemy));
-	//SpikeMarlCollision->SetScale({});
-	//SpikeMarlCollision->SetColType(ECollisionType::CirCle);
+	SpikeMarlCollision->SetPosition({ 0.0f, -26.0f });
+	SpikeMarlCollision->SetScale({54, 44});
+	SpikeMarlCollision->SetColType(ECollisionType::CirCle);
+
+	AttackCollision = CreateCollision(static_cast<int>(ECollisionOrder::Enemy));
+	AttackCollision->SetPosition({ 0.0f, -26.0f });
+	AttackCollision->SetScale({ 54, 44 });
+	AttackCollision->SetColType(ECollisionType::CirCle);
+	AttackCollision->ActiveOff();
 
 
 	// Animation
 	
 	// 소환 Animation
-	//SpikeMarlRender->CreateAnimation("", ".png", 0, 0, 0.5f, true);
-	// 공 형태의 Animation
-	// 
-	// 발 펼쳐진 Animation
+	SpikeMarlRender->CreateAnimation("Summon_Right", "SpikeBall_Right.png", 0, 1, 0.5f, true);
+	SpikeMarlRender->CreateAnimation("Run_Right", "SpikeBall_Right.png", 2, 4, 0.5f, true);
+	SpikeMarlRender->CreateAnimation("TransformSearch_Right", "SpikeBall_Right.png", 5, 11, 0.5f, false);
+	SpikeMarlRender->CreateAnimation("_Right", "SpikeBall_Right.png", 5, 11, 0.5f, false);
+
 
 
 
@@ -68,6 +76,9 @@ void ASpikeMarl::StateChange(ESpikeMarlState _State)
 			break;
 		case ESpikeMarlState::Run:
 			RunStart();
+			break;
+		case ESpikeMarlState::Attack:
+			AttackStart();
 			break;
 		case ESpikeMarlState::Death:
 			DeathStart();
@@ -93,6 +104,9 @@ void ASpikeMarl::StateUpdate(float _DeltaTime)
 		break;
 	case ESpikeMarlState::Run:
 		Run(_DeltaTime);
+		break;
+	case ESpikeMarlState::Attack:
+		Attack(_DeltaTime);
 		break;
 	case ESpikeMarlState::Death:
 		Death(_DeltaTime);
@@ -128,6 +142,15 @@ void ASpikeMarl::RunStart()
 }
 
 void ASpikeMarl::Run(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region Attack
+void ASpikeMarl::AttackStart()
+{
+}
+void ASpikeMarl::Attack(float _DeltaTime)
 {
 }
 #pragma endregion
