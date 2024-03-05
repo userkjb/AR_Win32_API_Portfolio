@@ -45,7 +45,11 @@ private :
 	void StateUpdate(float _DeltaTime);
 
 	void SummonStart();
-	void Summon(float _DeltaTime);
+	void SummonStart(float _DeltaTime);
+	void SummonLoopStart();
+	void SummonLoop(float _DeltaTime);
+	void SummonEndStart();
+	void SummonEnd(float _DeltaTime);
 	void IdleStart();
 	void Idle(float _DeltaTime);
 	void RunStart();
@@ -55,31 +59,30 @@ private :
 	void DeathStart();
 	void Death(float _DeltaTime);
 
-	void MoveUpdate(float _DeltaTime, bool _Gravity = false);
-	void CalGravityVector(float _DeltaTime, bool _Gravity);
-	void CalLastMoveVector();
-	void MoveLastMoveVector(float _DeltaTime);
+	//void MoveUpdate(float _DeltaTime, bool _Gravity = false);
+	//void CalGravityVector(float _DeltaTime, bool _Gravity);
+	//void CalLastMoveVector();
+	//void MoveLastMoveVector(float _DeltaTime);
 
 	void CollisionCheck(float _DeltaTime);
 
 	ESpikeMarlState State = ESpikeMarlState::None;
 
-	UImageRenderer* SummonBG = nullptr;
+	UImageRenderer* SummonBGL = nullptr;
+	UImageRenderer* SummonBGR = nullptr;
 	UImageRenderer* SpikeMarlRender = nullptr; // 본체
 	UImageRenderer* SummonPosEffect = nullptr; // 소환 위치
 
 	UCollision* SpikeMarlCollision = nullptr;
 	UCollision* AttackCollision = nullptr;
 
-	bool b_ActorLocation = false;
-	FVector ActorPosFix = FVector::Zero;
-
 	FVector RunVector = FVector::Zero;
-	const FVector GravityAcc = FVector::Down * 1000.0f;
-	FVector GravityVector = FVector::Zero;
-	float SummonSpeed = 10.0f;
-
+	FVector DownVector = FVector::Zero;
+	float SummonSpeed = 50.0f;
+	float DownSpeed = 200.0f;
 	FVector LastMoveVector = FVector::Zero;
+
+	float SummonTime = 0.0f;
 
 	int Hp = 6;
 	int BodyDamage = 3;

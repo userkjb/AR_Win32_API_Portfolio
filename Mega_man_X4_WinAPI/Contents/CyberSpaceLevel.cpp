@@ -95,7 +95,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 
 	SpikeMarl = SpawnActor<ASpikeMarl>();
 	SpikeMarl->SetActorLocation({ 520, 400 });
-	SpikeMarl->SetSpikeMarlState(ESpikeMarlState::Summon);
+	SpikeMarl->SetSpikeMarlState(ESpikeMarlState::SummonStart);
 }
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)

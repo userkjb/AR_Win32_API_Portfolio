@@ -28,14 +28,19 @@ void ASpikeMarl::Tick(float _DeltaTime)
 void ASpikeMarl::SpikeMarlBeginPlay()
 {
 	// 소환 BackGround
-	SummonBG = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
-	SummonBG->SetImage("SummonEnemy.png");
-	SummonBG->AutoImageScale(2.0f);
+	SummonBGL = CreateImageRenderer(static_cast<int>(ERenderOrder::EnemyPrev));
+	SummonBGL->SetImage("SummonEnemy_L.png");
+	SummonBGL->AutoImageScale(2.0f);
+
+	SummonBGR = CreateImageRenderer(static_cast<int>(ERenderOrder::EnemyNext));
+	SummonBGR->SetImage("SummonEnemy_R.png");
+	SummonBGR->AutoImageScale(2.0f);
 
 	// Enemy Render (본체)
 	SpikeMarlRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
 	SpikeMarlRender->SetImage("SpikeBall_Left.png");
 	SpikeMarlRender->AutoImageScale(2.0f);
+	SpikeMarlRender->SetPosition({ 10, 30 });
 
 	// 소환 Pos
 	SummonPosEffect = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
@@ -58,23 +63,28 @@ void ASpikeMarl::SpikeMarlBeginPlay()
 
 
 	// Animation
-	//SummonBG->CreateAnimation("SummonStart", "SummonEnemy_End.png", {7, 6, 5, 4, 3, 2 ,1 ,0}, 0.05f, true);
-	SummonBG->CreateAnimation("SummonLoop", "SummonEnemy.png", 0, 10, 0.05f, true);
-	SummonBG->CreateAnimation("SummonEnd", "SummonEnemy_End.png", 0, 7, 0.05f, false);
+	SummonBGL->CreateAnimation("SummonStart", "SummonEnemy_End.png", {7, 6, 5, 4, 3, 2 ,1 ,0}, 0.2f, false);
+	SummonBGL->CreateAnimation("SummonLoop", "SummonEnemy_L.png", 0, 10, 0.05f, true);
+	SummonBGL->CreateAnimation("SummonEnd", "SummonEnemy_End.png", 0, 7, 0.2f, false);
+	
+	SummonBGR->CreateAnimation("SummonLoop", "SummonEnemy_R.png", 0, 10, 0.05f, true);
+	SummonBGR->ActiveOff();
 	
 	SummonPosEffect->CreateAnimation("SummonPos", "SummonEnemy_Dummy.png", 0, 2, 0.05f, true);
+	SummonPosEffect->ActiveOff();
 
 	// 소환 Animation
-	SpikeMarlRender->CreateAnimation("Summon", "SpikeBall_Left.png", 0, 1, 0.5f, true);
-	SpikeMarlRender->CreateAnimation("Run_Left", "SpikeBall_Left.png", 2, 4, 0.5f, true);
-	SpikeMarlRender->CreateAnimation("TransformSearch_Left", "SpikeBall_Left.png", 5, 11, 0.5f, false);
+	//SpikeMarlRender->CreateAnimation("Summon", "SpikeBall_Left.png", 0, 1, 0.2f, false);
+	SpikeMarlRender->CreateAnimation("Run_Left", "SpikeBall_Left.png", 2, 4, 0.3f, true);
+	SpikeMarlRender->CreateAnimation("TransformSearch_Left", "SpikeBall_Left.png", 5, 11, 0.2f, false);
 	
 	SpikeMarlRender->CreateAnimation("_Left", "SpikeBall_Right.png", 5, 11, 0.5f, false);
+	SpikeMarlRender->ActiveOff();
 
 
 
 
-	StateChange(ESpikeMarlState::Summon);
+	StateChange(ESpikeMarlState::SummonStart);
 }
 
 void ASpikeMarl::StateChange(ESpikeMarlState _State)
@@ -85,8 +95,14 @@ void ASpikeMarl::StateChange(ESpikeMarlState _State)
 		{
 		case ESpikeMarlState::None:
 			break;
-		case ESpikeMarlState::Summon:
+		case ESpikeMarlState::SummonStart:
 			SummonStart();
+			break;
+		case ESpikeMarlState::SummonLoop:
+			SummonLoopStart();
+			break;
+		case ESpikeMarlState::SummonEnd:
+			SummonEndStart();
 			break;
 		case ESpikeMarlState::Idle:
 			IdleStart();
@@ -113,8 +129,14 @@ void ASpikeMarl::StateUpdate(float _DeltaTime)
 	{
 	case ESpikeMarlState::None:
 		break;
-	case ESpikeMarlState::Summon:
-		Summon(_DeltaTime);
+	case ESpikeMarlState::SummonStart:
+		SummonStart(_DeltaTime);
+		break;
+	case ESpikeMarlState::SummonLoop:
+		SummonLoop(_DeltaTime);
+		break;
+	case ESpikeMarlState::SummonEnd:
+		SummonEnd(_DeltaTime);
 		break;
 	case ESpikeMarlState::Idle:
 		Idle(_DeltaTime);
@@ -136,33 +158,113 @@ void ASpikeMarl::StateUpdate(float _DeltaTime)
 #pragma region Summon
 void ASpikeMarl::SummonStart()
 {
-	SummonBG->ChangeAnimation("SummonLoop");
-	SpikeMarlRender->ChangeAnimation("Summon");
-	SummonPosEffect->ChangeAnimation("SummonPos");
+	SummonBGL->ChangeAnimation("SummonStart");
 }
 
-void ASpikeMarl::Summon(float _DeltaTime)
+void ASpikeMarl::SummonStart(float _DeltaTime)
 {
-	if (b_ActorLocation == false)
+	if (SummonBGL->GetCurAnimationImageFrame() == 0)
 	{
-		b_ActorLocation = true;
-		ActorPosFix = GetActorLocation();
+		SummonTime += _DeltaTime;
+	}
+
+	if (0.1f < SummonTime)
+	{
+		SummonTime = 0.0f;
+		StateChange(ESpikeMarlState::SummonLoop);
+		return;
+	}
+}
+void ASpikeMarl::SummonLoopStart()
+{
+	SummonBGL->ChangeAnimation("SummonLoop");
+	SummonBGR->ActiveOn();
+	SummonBGR->ChangeAnimation("SummonLoop");
+	SpikeMarlRender->ActiveOn();
+	SpikeMarlRender->ChangeAnimation("Run_Left");
+	SummonPosEffect->ActiveOn();
+	SummonPosEffect->ChangeAnimation("SummonPos");
+	if (SummonTime != 0.0f)
+	{
+		SummonTime = 0.0f;
 	}
 	RunVector = FVector::Left * SummonSpeed;
-	MoveUpdate(_DeltaTime, false);
+}
+void ASpikeMarl::SummonLoop(float _DeltaTime)
+{
+	SummonTime += _DeltaTime;
+	
+	AddActorLocation(RunVector * _DeltaTime);
+	//MoveUpdate(_DeltaTime, false);
 
-	bool x = SummonBG->IsActive();
-	int a = 0;
+	SummonBGL->AddPosition(FVector::Left * SummonSpeed * -1.0f * _DeltaTime);
+	SummonBGR->AddPosition(FVector::Left * SummonSpeed * -1.0f * _DeltaTime);
+	SummonPosEffect->AddPosition(FVector::Left * SummonSpeed * -1.0f * _DeltaTime);
+
+	if (1.0f < SummonTime)
+	{
+		SummonTime = 0.0f;
+		StateChange(ESpikeMarlState::SummonEnd);
+		return;
+	}
+}
+void ASpikeMarl::SummonEndStart()
+{
+	if (SummonTime != 0.0f)
+	{
+		SummonTime = 0.0f;
+	}
+
+	SummonBGL->ChangeAnimation("SummonEnd");
+	SummonBGR->Destroy();
+	SummonBGR = nullptr;
+	SummonPosEffect->Destroy();
+	SummonPosEffect = nullptr;
+	DownVector = FVector::Down * DownSpeed;
+}
+void ASpikeMarl::SummonEnd(float _DeltaTime)
+{
+	// 떨어진다~~
+	AddActorLocation(RunVector * _DeltaTime);
+	AddActorLocation(DownVector * _DeltaTime);
+	SummonBGL->AddPosition(RunVector * -1.0f * _DeltaTime);
+	SummonBGL->AddPosition(DownVector * -1.0f * _DeltaTime);
+	
+
+	if ( 6 == SummonBGL->GetCurAnimationImageFrame())
+	{
+		SummonBGL->ActiveOff();
+	}
+
+	// 지면에 닿으면,
+	FVector CheckPos = GetActorLocation();
+	CheckPos.Y += 30.0f;
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		RunVector = FVector::Zero;
+		DownVector = FVector::Zero;
+		
+		StateChange(ESpikeMarlState::Idle);
+		return;
+	}
 }
 #pragma endregion
 
 #pragma region Idle
 void ASpikeMarl::IdleStart()
 {
+	SummonBGL->Destroy();
+	SummonBGL = nullptr;
+	SpikeMarlRender->ChangeAnimation("TransformSearch_Left");
 }
 
 void ASpikeMarl::Idle(float _DeltaTime)
 {
+	if (SpikeMarlRender->IsCurAnimationEnd())
+	{
+		int a = 0;
+	}
 }
 #pragma endregion
 
@@ -196,36 +298,36 @@ void ASpikeMarl::Death(float _DeltaTime)
 #pragma endregion
 
 #pragma region Vector
-void ASpikeMarl::MoveUpdate(float _DeltaTime, bool _Gravity)
-{
-	CalGravityVector(_DeltaTime, _Gravity);
-	CalLastMoveVector();
-	MoveLastMoveVector(_DeltaTime);
-}
+//void ASpikeMarl::MoveUpdate(float _DeltaTime, bool _Gravity)
+//{
+//	CalGravityVector(_DeltaTime, _Gravity);
+//	CalLastMoveVector();
+//	MoveLastMoveVector(_DeltaTime);
+//}
 
-void ASpikeMarl::CalGravityVector(float _DeltaTime, bool _Gravity)
-{
-	if (_Gravity)
-	{
-		GravityVector += GravityAcc * _DeltaTime;
-	}
-	else
-	{
-		GravityVector = FVector::Zero;
-	}
-}
+//void ASpikeMarl::CalGravityVector(float _DeltaTime, bool _Gravity)
+//{
+//	if (_Gravity)
+//	{
+//		DownVector += GravityAcc * _DeltaTime;
+//	}
+//	else
+//	{
+//		DownVector = FVector::Zero;
+//	}
+//}
 
-void ASpikeMarl::CalLastMoveVector()
-{
-	LastMoveVector = FVector::Zero;
-	LastMoveVector += RunVector;
-	LastMoveVector += GravityVector;
-}
+//void ASpikeMarl::CalLastMoveVector()
+//{
+//	LastMoveVector = FVector::Zero;
+//	LastMoveVector += RunVector;
+//	LastMoveVector += DownVector;
+//}
 
-void ASpikeMarl::MoveLastMoveVector(float _DeltaTime)
-{
-	AddActorLocation(LastMoveVector * _DeltaTime);
-}
+//void ASpikeMarl::MoveLastMoveVector(float _DeltaTime)
+//{
+//	AddActorLocation(LastMoveVector * _DeltaTime);
+//}
 #pragma endregion
 
 
