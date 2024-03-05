@@ -1921,7 +1921,7 @@ void AEgseu::WallKickStart()
 	}
 	else // Right
 	{
-		JumpVector = (JumpPower * 2) + (FVector::Left * MoveSpeed);
+		JumpVector = JumpPower + (FVector::Left * MoveSpeed);
 	}
 	PlayerRender->ChangeAnimation(GetAnimationName("WallKick"));
 
@@ -1942,7 +1942,12 @@ void AEgseu::WallKick(float _DeltaTime)
 	}
 	
 	// JumpVector 에 남아있던 좌우 방향 힘 초기화
-	JumpVector = JumpVector - (FVector::Right * MoveSpeed);
+	float JumpXValue = JumpVector.X;
+	if (JumpXValue != 0.0f)
+	{
+		JumpVector.X = 0.0f;
+	}
+	//JumpVector = JumpVector - (FVector::Right * MoveSpeed);
 
 	// 벽 차는 동작 끝났어.
 	if (2 == PlayerRender->GetCurAnimationImageFrame())
