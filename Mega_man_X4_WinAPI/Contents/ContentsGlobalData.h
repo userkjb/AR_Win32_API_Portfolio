@@ -179,7 +179,9 @@ enum class ESpikeMarlState
 {
 	None,
 
-	Summon,
+	SummonStart,
+	SummonLoop,
+	SummonEnd,
 	Idle,
 	Run,
 	Attack,
