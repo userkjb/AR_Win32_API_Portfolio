@@ -2,6 +2,8 @@
 #include <EngineCore/Actor.h>
 #include "ContentsGlobalData.h"
 
+class ABuster;
+
 class ASpikeMarl : public AActor
 {
 public :
@@ -80,12 +82,16 @@ private :
 	FVector DownVector = FVector::Zero;
 	float SummonSpeed = 50.0f;
 	float DownSpeed = 200.0f;
+	float AttackSpeed = 100.0f;
 	FVector LastMoveVector = FVector::Zero;
 
 	float SummonTime = 0.0f;
+	int AttackStartPos = 0;
 
 	int Hp = 6;
 	int BodyDamage = 3;
 	int RollDamage = 4;
+
+	ABuster* Prev = nullptr;
 };
 

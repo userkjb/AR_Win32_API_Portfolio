@@ -76,9 +76,9 @@ void ASpikeMarl::SpikeMarlBeginPlay()
 	// 소환 Animation
 	//SpikeMarlRender->CreateAnimation("Summon", "SpikeBall_Left.png", 0, 1, 0.2f, false);
 	SpikeMarlRender->CreateAnimation("Run_Left", "SpikeBall_Left.png", 2, 4, 0.3f, true);
-	SpikeMarlRender->CreateAnimation("TransformSearch_Left", "SpikeBall_Left.png", 5, 11, 0.2f, false);
-	
-	SpikeMarlRender->CreateAnimation("_Left", "SpikeBall_Right.png", 5, 11, 0.5f, false);
+	SpikeMarlRender->CreateAnimation("TransformIdle_Left", "SpikeBall_Left.png", 5, 11, 0.2f, false);
+	SpikeMarlRender->CreateAnimation("TransformAttack_Left", "SpikeBall_Left.png", { 11, 10, 9, 8, 7, 6 ,5, 4 }, 0.2f, false);
+	SpikeMarlRender->CreateAnimation("TransformSearch_Right", "SpikeBall_Right.png", 5, 11, 0.5f, false);
 	SpikeMarlRender->ActiveOff();
 
 
@@ -256,7 +256,7 @@ void ASpikeMarl::IdleStart()
 {
 	SummonBGL->Destroy();
 	SummonBGL = nullptr;
-	SpikeMarlRender->ChangeAnimation("TransformSearch_Left");
+	SpikeMarlRender->ChangeAnimation("TransformIdle_Left");
 }
 
 void ASpikeMarl::Idle(float _DeltaTime)
@@ -271,7 +271,7 @@ void ASpikeMarl::Idle(float _DeltaTime)
 		float result = std::sqrtf(std::powf(DePos.X - PlPos.X, 2) + std::powf(DePos.Y - PlPos.Y, 2));
 
 		int Between = std::lround(result); // Player와의 거리
-		UEngineDebug::OutPutDebugText(std::to_string(Between));
+		//UEngineDebug::OutPutDebugText(std::to_string(Between));
 
 		if (Between <= 300)
 		{
@@ -307,15 +307,26 @@ void ASpikeMarl::Run(float _DeltaTime)
 // 특정 거리만큼 굴러간다.
 void ASpikeMarl::AttackStart()
 {
+	SpikeMarlRender->ChangeAnimation("TransformAttack_Left");
+	AttackStartPos = GetActorLocation().iX();
 }
 void ASpikeMarl::Attack(float _DeltaTime)
 {
+	RunVector = FVector::Left * AttackSpeed * _DeltaTime;
+	AddActorLocation(RunVector);
+
+	int TargetPos = AttackStartPos + static_cast<int>(AttackSpeed);
+
+	if (TargetPos == GetActorLocation().iX())
+	{
+		int a = 0;
+	}
 }
 #pragma endregion
 
 #pragma region Death
 void ASpikeMarl::DeathStart()
-{
+{	
 }
 
 void ASpikeMarl::Death(float _DeltaTime)
@@ -363,7 +374,12 @@ void ASpikeMarl::CollisionCheck(float _DeltaTime)
 	if (true == SpikeMarlCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
 		ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
-		int DefaultBusterDamage = Buster->GetDefaultBusterDamage();
-		Hp -= DefaultBusterDamage;
+		if (Prev != Buster)
+		{
+			int DefaultBusterDamage = Buster->GetDefaultBusterDamage();
+			Hp -= DefaultBusterDamage;
+		}
+
+		Prev = Buster;
 	}
 }
