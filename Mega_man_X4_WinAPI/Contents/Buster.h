@@ -91,6 +91,8 @@ private :
 	void BusterCrash(float _DeltaTime);
 	void BusterEnd(float _DeltaTime);
 
+	void MoveUpdate(float _DeltaTime);
+
 	//=============================================
 
 	bool CollisionCheck();
@@ -98,6 +100,8 @@ private :
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BusterCollision = nullptr;
 	const float BusterSpeed = 0.075f; // 발사 속도.
+	FVector BusterVector = FVector::Zero;
+	FVector LastMoveVector = FVector::Zero;
 	int DefaultBusterDamage = 1; // Buster 공격력.
 	int MiddleBusterDamage = 2;
 	int PullBusterDamage = 3;

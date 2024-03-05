@@ -20,9 +20,10 @@ void ABuster::BeginPlay()
 
 	Renderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	Renderer->SetImage("x_Buster_Default_Right.png");
-	UWindowImage* Image = Renderer->GetImage();
-	FVector ImageScale = Image->GetScale();
-	Renderer->SetTransform({ {0, 0}, {ImageScale.X, (ImageScale.Y) * 3} }); // test
+	Renderer->AutoImageScale(2.0f);
+	//UWindowImage* Image = Renderer->GetImage();
+	//FVector ImageScale = Image->GetScale();
+	//Renderer->SetTransform({ {0, 0}, {ImageScale.X, (ImageScale.Y) * 3} }); // test
 
 	Renderer->CreateAnimation("Buster_Default_Right", "x_Buster_Default_Right.png", 0, 4, 0.05f, true);
 	Renderer->CreateAnimation("Buster_Default_Left", "x_Buster_Default_Left.png", 0, 4, 0.05f, true);
@@ -32,7 +33,7 @@ void ABuster::BeginPlay()
 	Renderer->CreateAnimation("Buster_Pull_Left", "x_Buster_Pull_Left.png", 0, 3, 0.05f, true);
 		
 	BusterCollision = CreateCollision(ECollisionOrder::Weapon);
-	BusterCollision->SetScale(ImageScale);
+	//BusterCollision->SetScale(ImageScale);
 	BusterCollision->SetColType(ECollisionType::CirCle);
 
 	//StateChange(EBusterState::CreateBuster);
@@ -114,7 +115,8 @@ void ABuster::BusterEndStart()
 void ABuster::DefaultBuster(float _DeltaTime)
 {
 	BusterLifeTime += _DeltaTime;
-	AActor::AddActorLocation(Dir * BusterSpeed);
+	BusterVector = Dir * BusterSpeed;
+	MoveUpdate(_DeltaTime);
 	
 	if (true == CollisionCheck())
 	{
@@ -134,7 +136,8 @@ void ABuster::DefaultBuster(float _DeltaTime)
 void ABuster::MiddleCharge(float _DeltaTime)
 {
 	BusterLifeTime += _DeltaTime;
-	AActor::AddActorLocation(Dir * BusterSpeed);
+	BusterVector = Dir * BusterSpeed;
+	MoveUpdate(_DeltaTime);
 
 	if (true == CollisionCheck())
 	{
@@ -154,7 +157,8 @@ void ABuster::MiddleCharge(float _DeltaTime)
 void ABuster::PullCharge(float _DeltaTime)
 {
 	BusterLifeTime += _DeltaTime;
-	AActor::AddActorLocation(Dir * BusterSpeed);
+	BusterVector = Dir * BusterSpeed;
+	MoveUpdate(_DeltaTime);
 
 	if (true == CollisionCheck())
 	{
@@ -174,7 +178,8 @@ void ABuster::PullCharge(float _DeltaTime)
 // Ãæµ¹
 void ABuster::BusterCrash(float _DeltaTime)
 {
-	AActor::AddActorLocation({ 0, 0 });
+	BusterVector = FVector::Zero;
+	MoveUpdate(_DeltaTime);
 
 	if (true == Renderer->IsCurAnimationEnd())
 	{
@@ -187,6 +192,14 @@ void ABuster::BusterEnd(float _DeltaTime)
 {
 	Buster->Destroy(0.0f);
 	Buster = nullptr;
+}
+
+void ABuster::MoveUpdate(float _DeltaTime)
+{
+	LastMoveVector = FVector::Zero;
+	LastMoveVector += BusterVector;
+
+	AddActorLocation(LastMoveVector);
 }
 
 
