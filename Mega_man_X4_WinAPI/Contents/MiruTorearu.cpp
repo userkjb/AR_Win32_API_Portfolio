@@ -32,18 +32,25 @@ void AMiruTorearu::StateChange(EMiruTorearuState _State)
 		switch (_State)
 		{
 		case EMiruTorearuState::None:
+			NoneStart();
 			break;
 		case EMiruTorearuState::Stop:
+			StopStart();
 			break;
 		case EMiruTorearuState::Run:
+			RunStart();
 			break;
 		case EMiruTorearuState::Attack:
+			AttackStart();
 			break;
 		case EMiruTorearuState::DeathStart:
+			DeathStartStart();
 			break;
 		case EMiruTorearuState::DeathLoop:
+			DeathLoopStart();
 			break;
 		case EMiruTorearuState::DeathEnd:
+			DeathEndStart();
 			break;
 		default:
 			break;
@@ -57,18 +64,25 @@ void AMiruTorearu::StateUpdate(float _DeltaTime)
 	switch (State)
 	{
 	case EMiruTorearuState::None:
+		None(_DeltaTime);
 		break;
 	case EMiruTorearuState::Stop:
+		Stop(_DeltaTime);
 		break;
 	case EMiruTorearuState::Run:
+		Run(_DeltaTime);
 		break;
 	case EMiruTorearuState::Attack:
+		Attack(_DeltaTime);
 		break;
 	case EMiruTorearuState::DeathStart:
+		DeathStart(_DeltaTime);
 		break;
 	case EMiruTorearuState::DeathLoop:
+		DeathLoop(_DeltaTime);
 		break;
 	case EMiruTorearuState::DeathEnd:
+		DeathEnd(_DeltaTime);
 		break;
 	default:
 		break;
