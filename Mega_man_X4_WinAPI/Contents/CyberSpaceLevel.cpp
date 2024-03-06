@@ -66,6 +66,12 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("SummonEnemy_Dummy.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("SummonEnemy_End.png", 8, 1);
 
+	UEngineResourcesManager::GetInst().CuttingImage("ElecballAtRest.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Rotating Elecball.png", 11, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("MiruToraeru_Death_Effect.png", 7, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("MiruToraeru_Death.png", 7, 2);
+	UEngineResourcesManager::GetInst().CuttingImage("GetPlayer.png", 6, 1);
+
 	// Map
 	CyberSpaceMap = SpawnActor<ACyberSpaceMap>();
 	CyberSpaceMap->SetActorLocation({ 0, 0 });
