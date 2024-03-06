@@ -79,6 +79,7 @@ private :
 
 	UImageRenderer* MiruTorearuRender = nullptr; // 본체 이미지
 	UCollision* MiruTorearuCollision = nullptr; // 본체 콜리전
+	UImageRenderer* DeathRender = nullptr;
 
 	AEgseu* Player = nullptr;
 };

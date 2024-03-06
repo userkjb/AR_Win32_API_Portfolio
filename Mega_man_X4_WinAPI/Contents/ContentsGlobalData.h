@@ -226,6 +226,7 @@ enum class ERenderOrder
 	EnemyPrev,
 	Enemy,
 	EnemyNext,
+	EnemyEffect,
 	Boss,
 };
 

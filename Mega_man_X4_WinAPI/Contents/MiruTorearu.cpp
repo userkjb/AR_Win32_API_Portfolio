@@ -31,9 +31,13 @@ void AMiruTorearu::BeginRender()
 	MiruTorearuRender->AutoImageScale(2.0f);
 
 	MiruTorearuCollision = CreateCollision(ECollisionOrder::Enemy);
-	MiruTorearuCollision->SetScale({ 48, 46 });
+	MiruTorearuCollision->SetScale({ 48 * 2, 46 * 2 });
 	MiruTorearuCollision->SetColType(ECollisionType::CirCle);
 
+	DeathRender = CreateImageRenderer(static_cast<int>(ERenderOrder::EnemyEffect));
+	DeathRender->SetImage("MiruToraeru_Death_Effect.png");
+	DeathRender->AutoImageScale(2.0f);
+	DeathRender->ActiveOff();
 
 	StateChange(EMiruTorearuState::None);
 	BeginCreateAnimation();
@@ -45,6 +49,12 @@ void AMiruTorearu::BeginCreateAnimation()
 	MiruTorearuRender->CreateAnimation("Run_Left", "Rotating Elecball.png", 0, 10, 0.2f, true);
 	MiruTorearuRender->CreateAnimation("Run_Right", "Rotating Elecball.png", { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 0.2f, true);
 	MiruTorearuRender->CreateAnimation("Attack", "GetPlayer.png", 0, 5, 0.2f, true);
+	
+	DeathRender->CreateAnimation("Dummy", "MiruToraeru_Death_Effect.png", 0, 0, 1.0f, true);
+	DeathRender->CreateAnimation("Death_Start", "MiruToraeru_Death_Effect.png", 0, 6, 0.2f, false);
+	MiruTorearuRender->CreateAnimation("Death_Loop", "MiruToraeru_Death.png", 0, 13, 0.2f, false);
+
+	DeathRender->ChangeAnimation("Dummy");
 }
 
 std::string AMiruTorearu::SetAnimationName(std::string _Name)
@@ -183,52 +193,73 @@ void AMiruTorearu::Run(float _DeltaTime)
 #pragma region Attack
 void AMiruTorearu::AttackStart()
 {
+	MiruTorearuCollision->ActiveOff();
 	RunVector = FVector::Zero;
 	MiruTorearuRender->ChangeAnimation("Attack");
 }
 
 void AMiruTorearu::Attack(float _DeltaTime)
 {
-	// 플레이어를 내 중심으로 이동시켜야 한다.
-	// -> 내 중심으로의 방향을 알아야 한다.
-	
-	//FVector PlayerPos = AEgseu::GetMainPlayer()->GetActorLocation();
 	FVector PlayerPos = Player->GetActorLocation();
 	FVector PlayerDir = PlayerPos - this->GetActorLocation();
 	PlayerDir.Normalize2D();
 
-	 PlayerVector = -PlayerDir * PlayerMoveSpeed * _DeltaTime;
-	 Player->AddActorLocation(PlayerVector);
+	PlayerVector = -PlayerDir * PlayerMoveSpeed * _DeltaTime;
+	Player->AddActorLocation(PlayerVector);
+
+	// Test
+	if (true == UEngineInput::IsDown('Y'))
+	{
+		StateChange(EMiruTorearuState::DeathStart);
+		return;
+	}
 }
 #pragma endregion
 
 #pragma region DeathStart
 void AMiruTorearu::DeathStartStart()
 {
+	DeathRender->ActiveOn();
+	DeathRender->ChangeAnimation("Death_Start");
+	MiruTorearuRender->ChangeAnimation("Stop");
 }
 
 void AMiruTorearu::DeathStart(float _DeltaTime)
 {
+	if (true == DeathRender->IsCurAnimationEnd())
+	{
+		StateChange(EMiruTorearuState::DeathLoop);
+		return;
+	}
 }
 #pragma endregion
 
 #pragma region DeathLoop
 void AMiruTorearu::DeathLoopStart()
 {
+	DeathRender->ActiveOff();
+	MiruTorearuRender->ChangeAnimation("Death_Loop");
 }
 
 void AMiruTorearu::DeathLoop(float _DeltaTime)
 {
+	if (true == MiruTorearuRender->IsCurAnimationEnd())
+	{
+		StateChange(EMiruTorearuState::DeathEnd);
+		return;
+	}
 }
 #pragma endregion
 
 #pragma region DeathEnd
 void AMiruTorearu::DeathEndStart()
 {
+	MiruTorearuRender->ActiveOff();
 }
 
 void AMiruTorearu::DeathEnd(float _DeltaTime)
 {
+	this->Destroy(0.1f);
 }
 #pragma endregion
 
