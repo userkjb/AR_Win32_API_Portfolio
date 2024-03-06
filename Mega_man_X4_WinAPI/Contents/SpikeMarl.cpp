@@ -260,8 +260,11 @@ void ASpikeMarl::SummonEnd(float _DeltaTime)
 #pragma region Idle
 void ASpikeMarl::IdleStart()
 {
-	SummonBGL->Destroy();
-	SummonBGL = nullptr;
+	if (SummonBGL != nullptr)
+	{
+		SummonBGL->Destroy();
+		SummonBGL = nullptr;
+	}
 	SpikeMarlRender->ChangeAnimation("TransformIdle_Left");
 }
 
@@ -362,11 +365,12 @@ void ASpikeMarl::Attack(float _DeltaTime)
 	}
 	AddActorLocation(RunVector);
 
-	UEngineDebug::OutPutDebugText("S : " + std::to_string(GetActorLocation().iX()));
-	UEngineDebug::OutPutDebugText("E : " + std::to_string(AttackEndPos));
+	//UEngineDebug::OutPutDebugText("S : " + std::to_string(GetActorLocation().iX()));
+	//UEngineDebug::OutPutDebugText("E : " + std::to_string(AttackEndPos));
 	if (AttackEndPos == GetActorLocation().iX())
 	{
-		int a = 0;
+		StateChange(ESpikeMarlState::Idle);
+		return;
 	}
 }
 #pragma endregion
