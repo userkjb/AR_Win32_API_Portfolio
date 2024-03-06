@@ -24,7 +24,7 @@ public :
 
 	void SwitchDebug();
 
-	FVector GetImageScale()
+	FVector GetImageScale() const
 	{
 		return ImageScale;
 	}
