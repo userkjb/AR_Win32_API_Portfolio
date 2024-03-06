@@ -19,18 +19,19 @@ public:
 
 	inline void SetMiruTorearuState(EMiruTorearuState _State)
 	{
-		if (_State != EMiruTorearuState::Stop)
-		{
-			return;
-		}
-		else if (_State != EMiruTorearuState::Run)
-		{
-			return;
-		}
-		else
+		// Run 이나 Stop 이 아니면 그냥 return.
+		if (_State == EMiruTorearuState::StopCreate || _State == EMiruTorearuState::RunCreate)
 		{
 			State = _State;
 		}
+		else
+		{
+			return;
+		}
+	}
+	EMiruTorearuState GetMiruTorearuState()
+	{
+		return State;
 	}
 
 protected :
@@ -38,12 +39,14 @@ protected :
 	void Tick(float _DeltaTime) override;
 private :
 	void BeginRender();
+	void BeginCreateAnimation();
 
 	void StateChange(EMiruTorearuState _State);
 	void StateUpdate(float _DeltaTime);
 
-	void NoneStart();
 	void None(float _DeltaTime);
+	void StopCreate(float _DeltaTime);
+	void RunCreate(float _DeltaTime);
 	void StopStart();
 	void Stop(float _DeltaTime);
 	void RunStart();

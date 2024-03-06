@@ -18,11 +18,29 @@ void AMiruTorearu::BeginPlay()
 void AMiruTorearu::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	StateUpdate(_DeltaTime);
 }
 
 void AMiruTorearu::BeginRender()
 {
+	MiruTorearuRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
+	MiruTorearuRender->SetImage("MiruToraeru_Death_Effect.png");
+	MiruTorearuRender->AutoImageScale();
 
+	MiruTorearuCollision = CreateCollision(ECollisionOrder::Enemy);
+	MiruTorearuCollision->SetScale({ 48, 46 });
+	MiruTorearuCollision->SetColType(ECollisionType::CirCle);
+
+
+	StateChange(EMiruTorearuState::None);
+	BeginCreateAnimation();
+}
+
+void AMiruTorearu::BeginCreateAnimation()
+{
+	MiruTorearuRender->CreateAnimation("Stop", "ElecballAtRest.png", 0, 4, 0.2f, true);
+	MiruTorearuRender->CreateAnimation("Run", "Rotating Elecball.png", 0, 10, 0.2f, true);
 }
 
 void AMiruTorearu::StateChange(EMiruTorearuState _State)
@@ -31,9 +49,6 @@ void AMiruTorearu::StateChange(EMiruTorearuState _State)
 	{
 		switch (_State)
 		{
-		case EMiruTorearuState::None:
-			NoneStart();
-			break;
 		case EMiruTorearuState::Stop:
 			StopStart();
 			break;
@@ -66,6 +81,12 @@ void AMiruTorearu::StateUpdate(float _DeltaTime)
 	case EMiruTorearuState::None:
 		None(_DeltaTime);
 		break;
+	case EMiruTorearuState::StopCreate:
+		StopCreate(_DeltaTime);
+		break;
+	case EMiruTorearuState::RunCreate:
+		RunCreate(_DeltaTime);
+		break;
 	case EMiruTorearuState::Stop:
 		Stop(_DeltaTime);
 		break;
@@ -89,33 +110,41 @@ void AMiruTorearu::StateUpdate(float _DeltaTime)
 	}
 }
 
-#pragma region None
-void AMiruTorearu::NoneStart()
-{
-}
-
+#pragma region None / Create
 void AMiruTorearu::None(float _DeltaTime)
 {
+}
+void AMiruTorearu::StopCreate(float _DeltaTime)
+{
+	StateChange(EMiruTorearuState::Stop);
+	return;
+}
+void AMiruTorearu::RunCreate(float _DeltaTime)
+{
+	StateChange(EMiruTorearuState::Run);
+	return;
 }
 #pragma endregion
 
 #pragma region Stop
 void AMiruTorearu::StopStart()
 {
+	MiruTorearuRender->ChangeAnimation("Stop");
 }
-
 void AMiruTorearu::Stop(float _DeltaTime)
 {
+	int a = 0;
 }
 #pragma endregion
 
 #pragma region Run
 void AMiruTorearu::RunStart()
 {
+	MiruTorearuRender->ChangeAnimation("Run");
 }
-
 void AMiruTorearu::Run(float _DeltaTime)
 {
+	int a = 0;
 }
 #pragma endregion
 

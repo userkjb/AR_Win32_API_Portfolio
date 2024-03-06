@@ -5,6 +5,7 @@
 #include "CyberPeacock.h"
 #include "TriScan.h"
 #include "SpikeMarl.h"
+#include "MiruTorearu.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
@@ -99,10 +100,18 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	TryScan_2->SetActorLocation({ 1160 , 200 });
 	TryScan_2->SetTriScanState(ETriScanState::Idle);
 
-	SpikeMarl = SpawnActor<ASpikeMarl>();
-	SpikeMarl->SetActorLocation({ 520, 400 });
-	SpikeMarl->SetSpikeMarlState(ESpikeMarlState::SummonStart);
-}
+	//SpikeMarl = SpawnActor<ASpikeMarl>();
+	//SpikeMarl->SetActorLocation({ 520, 400 });
+	//SpikeMarl->SetSpikeMarlState(ESpikeMarlState::SummonStart);
+
+	MiruTorearu_1 = SpawnActor<AMiruTorearu>();
+	MiruTorearu_1->SetActorLocation({ 520, 400 });
+	MiruTorearu_1->SetMiruTorearuState(EMiruTorearuState::StopCreate);
+
+	MiruTorearu_2 = SpawnActor<AMiruTorearu>();
+	MiruTorearu_2->SetActorLocation({ 520, 200 });
+	MiruTorearu_2->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+} // LevelStart
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
 {

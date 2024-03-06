@@ -6,6 +6,7 @@ class APlayer;
 class AEgseu;
 class ATriScan;
 class ASpikeMarl;
+class AMiruTorearu;
 
 class UCyberSpaceLevel : public ULevel
 {
@@ -40,5 +41,7 @@ private :
 	ATriScan* TryScan_1 = nullptr;
 	ATriScan* TryScan_2 = nullptr;
 	ASpikeMarl* SpikeMarl = nullptr;
+	AMiruTorearu* MiruTorearu_1 = nullptr;
+	AMiruTorearu* MiruTorearu_2 = nullptr;
 };
 

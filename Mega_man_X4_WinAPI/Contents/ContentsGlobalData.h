@@ -176,6 +176,8 @@ enum class EMiruTorearuState
 {
 	None,
 
+	StopCreate,
+	RunCreate,
 	Stop,
 	Run,
 
