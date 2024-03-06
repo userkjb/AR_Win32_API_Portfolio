@@ -37,6 +37,7 @@ private :
 	void ActorGeneration(float _DeltaTime);
 
 	float FocusTime = 0.0f;
+	int FocusCount = 0;
 
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
 	//APlayer* NewPlayer = nullptr;

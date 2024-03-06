@@ -74,11 +74,16 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("MiruToraeru_Death.png", 7, 2);
 	UEngineResourcesManager::GetInst().CuttingImage("GetPlayer.png", 6, 1);
 
+	// Focus
+	UEngineResourcesManager::GetInst().CuttingImage("Focus.png", 3, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("HurryUp.png", 3, 1);
+
 	// Map
 	CyberSpaceMap = SpawnActor<ACyberSpaceMap>();
 	CyberSpaceMap->SetActorLocation({ 0, 0 });
 	CyberSpaceMap->SetMapImage("CyberPeacock-Area1-1.png");
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
+	//CyberPeacock-Area-EndObject.png
 
 	// Actor
 	//NewPlayer = SpawnActor<APlayer>();
@@ -158,19 +163,28 @@ void UCyberSpaceLevel::ActorGeneration(float _DeltaTime) // Tick
 	//----- 포커스 ----------
 	// 좌표로 했을 경우.
 	// 아래의 조건에 만족하는 경우
-	if (990.0f <= PlayerPos.X && PlayerPos.X <= 1000.0f)
+	//if (990.0f <= PlayerPos.X && PlayerPos.X <= 1000.0f) // 게임에서 포커스가 생기는 좌표.
+	if (300.0f <= PlayerPos.X && PlayerPos.X <= 350.0f) // test
 	{
 		// 포커스가 없으면 만들어 주고.
 		if (Focus == nullptr)
 		{
 			Focus = SpawnActor<APlayerFocus>();
-			Focus->SetActorLocation({ PlayerPos });
+			Focus->SetActorLocation({ PlayerPos.iX(), PlayerPos .iY() - 64});
 			Focus->SetFocusState(EFocusState::CallCreate);
+			FocusCount = 0;
 		}
-		int a = 0;
 	}
 	//FocusTime += _DeltaTime;
 
-
+	if (FocusCount == 0)
+	{
+		//if (4400.0f <= PlayerPos.X && PlayerPos.X <= 4450.0f) // 정산
+		if (500.0f <= PlayerPos.X && PlayerPos.X <= 550.0f) // 정산
+		{
+			FocusCount++;
+			Focus->SetFocusState(EFocusState::Rank);
+		}
+	}
 }
 
