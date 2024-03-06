@@ -29,7 +29,8 @@ void ACyberSpaceMap::SetColMapImage(std::string_view _MapImageName)
 void ACyberSpaceMap::SetMapExitImage(std::string_view _MapImageName)
 {
 	MapExit->SetImage(_MapImageName);
-	MapExit->AutoImageScale(2.0f); // test
+	MapExit->AutoImageScale(); // test
+	MapExit->SetPosition({ 4817, 300 });
 }
 
 void ACyberSpaceMap::SwitchDebug()
