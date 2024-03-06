@@ -41,6 +41,12 @@ public :
 	/// <param name="_NextLevel"></param>
 	virtual void LevelEnd(ULevel* _NextLevel) {};
 
+	template<typename ActorType, typename EnumType>
+	ActorType* SpawnActor(EnumType _Order)
+	{
+		return SpawnActor<ActorType>(static_cast<int>(_Order));
+	}
+
 	template<typename ActorType>
 	ActorType* SpawnActor(int _Order = 0)
 	{
