@@ -112,6 +112,7 @@ enum class EEgseuState
 	WallKick,
 
 	Hit,
+	Hit_MiruTorearu,
 };
 
 /// <summary>
@@ -120,6 +121,11 @@ enum class EEgseuState
 enum class EBusterState
 {
 	CreateBuster,
+
+	CreateDefault,
+	CreateMiddle,
+	CreatePull,
+
 	DefaultCharge,	// 기본.
 	MiddleCharge,	// 중 차지.
 	PullCharge,		// 풀 차지.
