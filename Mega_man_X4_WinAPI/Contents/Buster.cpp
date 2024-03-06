@@ -27,10 +27,12 @@ void ABuster::BeginPlay()
 
 	Renderer->CreateAnimation("Buster_Default_Right", "x_Buster_Default_Right.png", 0, 4, 0.05f, true);
 	Renderer->CreateAnimation("Buster_Default_Left", "x_Buster_Default_Left.png", 0, 4, 0.05f, true);
+
 	Renderer->CreateAnimation("Buster_Middle_Right", "x_Buster_Middle_Right.png", 0, 3, 0.05f, true);
 	Renderer->CreateAnimation("Buster_Middle_Left", "x_Buster_Middle_Left.png", 0, 3, 0.05f, true);
-	Renderer->CreateAnimation("Buster_Pull_Right", "x_Buster_Pull_Right.png", 0, 3, 0.05f, true);
-	Renderer->CreateAnimation("Buster_Pull_Left", "x_Buster_Pull_Left.png", 0, 3, 0.05f, true);
+
+	Renderer->CreateAnimation("Buster_Pull_Right", "x_Buster_Pull_Right.png", 0, 2, 0.05f, true);
+	Renderer->CreateAnimation("Buster_Pull_Left", "x_Buster_Pull_Left.png", 0, 2, 0.05f, true);
 		
 	BusterCollision = CreateCollision(ECollisionOrder::Weapon);
 	//BusterCollision->SetScale(ImageScale); // 각 Buster에 대한 Start 함수가 있어야 할 것 같은데?
