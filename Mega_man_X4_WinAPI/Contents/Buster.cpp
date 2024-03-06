@@ -9,10 +9,10 @@ ABuster::~ABuster()
 {
 }
 
-void ABuster::SetBusterAnimation(std::string_view _Name)
-{
-	Renderer->ChangeAnimation(_Name);
-}
+//void ABuster::SetBusterAnimation(std::string_view _Name)
+//{
+//	Renderer->ChangeAnimation(_Name);
+//}
 
 void ABuster::BeginPlay()
 {
@@ -46,6 +46,7 @@ void ABuster::Tick(float _DeltaTime)
 	AActor::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
+	CollisionCheck();
 }
 
 
@@ -85,6 +86,15 @@ void ABuster::StateUpdate(float _DeltaTime)
 {
 	switch (E_BusterState)
 	{
+	case EBusterState::CreateDefault:
+		DefaultBegin(_DeltaTime);
+		break;
+	case EBusterState::CreateMiddle:
+		MiddleBegin(_DeltaTime);
+		break;
+	case EBusterState::CreatePull:
+		PullBegin(_DeltaTime);
+		break;
 	case EBusterState::DefaultCharge:
 		DefaultBuster(_DeltaTime);
 		break;
@@ -106,102 +116,135 @@ void ABuster::StateUpdate(float _DeltaTime)
 }
 
 
-#pragma region Start Function
+std::string ABuster::GetRorL() const
+{
+	std::string Name = "";
+	if (DirState == EActorDir::Right)
+	{
+		Name = "_Right";
+	}
+	else if (DirState == EActorDir::Left)
+	{
+		Name = "_Left";
+	}
+	return Name;
+}
 
+void ABuster::DefaultBegin(float _DeltaTime)
+{
+	StateChange(EBusterState::DefaultCharge);
+	return;
+}
+
+void ABuster::MiddleBegin(float _DeltaTime)
+{
+	StateChange(EBusterState::MiddleCharge);
+	return;
+}
+
+void ABuster::PullBegin(float _DeltaTime)
+{
+	StateChange(EBusterState::PullCharge);
+	return;
+}
+
+#pragma region DefaultCharge
+void ABuster::DefaultChargeStart()
+{
+	std::string AniName = "Buster_Default" + GetRorL();
+	Renderer->ChangeAnimation(AniName);
+	BusterLifeTime = 0.0f;
+	BusterVector = FVector::Zero;
+}
+
+void ABuster::DefaultBuster(float _DeltaTime)
+{
+	BusterLifeTime += _DeltaTime;
+	if (DirState == EActorDir::Right)
+	{
+		BusterVector = FVector::Right * BusterSpeed * _DeltaTime;
+	}
+	else if (DirState == EActorDir::Left)
+	{
+		BusterVector = FVector::Left * BusterSpeed * _DeltaTime;
+	}
+	AddActorLocation(BusterVector);
+
+	if (BusterLifeTime >= BusterLife)
+	{
+		StateChange(EBusterState::BusterEnd);
+		return;
+	}
+}
+#pragma endregion
+
+#pragma region MiddleCharge
+void ABuster::MiddleChargeStart()
+{
+	std::string AniName = "Buster_Middle" + GetRorL();
+	Renderer->ChangeAnimation(AniName);
+	BusterLifeTime = 0.0f;
+	BusterVector = FVector::Zero;
+}
+
+void ABuster::MiddleCharge(float _DeltaTime)
+{
+	BusterLifeTime += _DeltaTime;
+	if (DirState == EActorDir::Right)
+	{
+		BusterVector = FVector::Right * BusterSpeed * _DeltaTime;
+	}
+	else if (DirState == EActorDir::Left)
+	{
+		BusterVector = FVector::Left * BusterSpeed * _DeltaTime;
+	}
+	AddActorLocation(BusterVector);
+
+	if (BusterLifeTime >= BusterLife)
+	{
+		StateChange(EBusterState::BusterEnd);
+		return;
+	}
+}
+#pragma endregion
+
+#pragma region PullCharge
+void ABuster::PullChargeStart()
+{
+	std::string AniName = "Buster_Pull" + GetRorL();
+	Renderer->ChangeAnimation(AniName);
+	BusterLifeTime = 0.0f;
+	BusterVector = FVector::Zero;
+}
+
+void ABuster::PullCharge(float _DeltaTime)
+{
+	BusterLifeTime += _DeltaTime;
+	if (DirState == EActorDir::Right)
+	{
+		BusterVector = FVector::Right * BusterSpeed * _DeltaTime;
+	}
+	else if (DirState == EActorDir::Left)
+	{
+		BusterVector = FVector::Left * BusterSpeed * _DeltaTime;
+	}
+	AddActorLocation(BusterVector);
+
+	if (BusterLifeTime >= BusterLife)
+	{
+		StateChange(EBusterState::BusterEnd);
+		return;
+	}
+}
+#pragma endregion
+
+#pragma region BusterCrash
 void ABuster::BusterCrashStart()
 {
 	// 충동시 나오는 임펙트 출력. //================================
 	int a = 0;
 }
 
-void ABuster::BusterEndStart()
-{
-	
-}
-
-#pragma endregion
-
-
-
-void ABuster::DefaultChargeStart()
-{
-	int a = 0;
-}
-
-void ABuster::DefaultBuster(float _DeltaTime)
-{
-	BusterLifeTime += _DeltaTime;
-	BusterVector = Dir * BusterSpeed;
-	MoveUpdate(_DeltaTime);
-	
-	if (true == CollisionCheck())
-	{
-		BusterLifeTime = 0.0f;
-		StateChange(EBusterState::BusterCrash);
-		return;
-	}
-
-	if (BusterLifeTime >= BusterLife)
-	{
-		BusterLifeTime = 0.0f;
-		StateChange(EBusterState::BusterEnd);
-		return;
-	}
-}
-
-void ABuster::MiddleChargeStart()
-{
-	int a = 0;
-}
-
-void ABuster::MiddleCharge(float _DeltaTime)
-{
-	BusterLifeTime += _DeltaTime;
-	BusterVector = Dir * BusterSpeed;
-	MoveUpdate(_DeltaTime);
-
-	if (true == CollisionCheck())
-	{
-		BusterLifeTime = 0.0f;
-		StateChange(EBusterState::BusterCrash);
-		return;
-	}
-
-	if (BusterLifeTime >= BusterLife)
-	{
-		BusterLifeTime = 0.0f;
-		StateChange(EBusterState::BusterEnd);
-		return;
-	}
-}
-
-void ABuster::PullChargeStart()
-{
-	int a = 0;
-}
-
-void ABuster::PullCharge(float _DeltaTime)
-{
-	BusterLifeTime += _DeltaTime;
-	BusterVector = Dir * BusterSpeed;
-	MoveUpdate(_DeltaTime);
-
-	if (true == CollisionCheck())
-	{
-		BusterLifeTime = 0.0f;
-		StateChange(EBusterState::BusterCrash);
-		return;
-	}
-
-	if (BusterLifeTime >= BusterLife)
-	{
-		BusterLifeTime = 0.0f;
-		StateChange(EBusterState::BusterEnd);
-		return;
-	}
-}
-
-// 충돌
 void ABuster::BusterCrash(float _DeltaTime)
 {
 	BusterVector = FVector::Zero;
@@ -213,6 +256,14 @@ void ABuster::BusterCrash(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
+
+#pragma region BusterEnd
+void ABuster::BusterEndStart()
+{
+	BusterVector = FVector::Zero;
+	BusterLifeTime = 0.0f;
+}
 
 void ABuster::BusterEnd(float _DeltaTime)
 {
@@ -220,6 +271,8 @@ void ABuster::BusterEnd(float _DeltaTime)
 	//Buster->Destroy(0.0f);
 	//Buster = nullptr;
 }
+#pragma endregion
+
 
 void ABuster::MoveUpdate(float _DeltaTime)
 {
@@ -230,15 +283,12 @@ void ABuster::MoveUpdate(float _DeltaTime)
 }
 
 
-bool ABuster::CollisionCheck()
+
+void ABuster::CollisionCheck()
 {
 	std::vector<UCollision*> Result;
 	if (true != BusterCollision->CollisionCheck(ECollisionOrder::Enemy, Result))
 	{
-		return true;
-	}
-	else
-	{
-		return false;
+		
 	}
 }

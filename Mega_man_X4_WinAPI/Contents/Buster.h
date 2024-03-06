@@ -17,9 +17,9 @@ public :
 	ABuster& operator=(ABuster&& _Other) noexcept = delete;
 
 	
-	void SetDir(FVector _Dir)
+	void SetDirState(EActorDir _Dir)
 	{
-		Dir = _Dir;
+		DirState = _Dir;
 	}
 
 	void SetBusterState(EBusterState _State)
@@ -27,12 +27,12 @@ public :
 		E_BusterState = _State;
 	}
 
-	EBusterState GetBusterState()
+	EBusterState GetBusterState() const
 	{
 		return E_BusterState;
 	}
 
-	void SetBusterAnimation(std::string_view _Name);
+	//void SetBusterAnimation(std::string_view _Name);
 
 	// Level 에서 대미지 변경 해야 함.
 	int GetDefaultBusterDamage()
@@ -76,9 +76,15 @@ protected :
 
 private :
 
-	FVector Dir = FVector::Zero;
+	//FVector Dir = FVector::Zero;
 	//AActor* Buster = this;
+	EActorDir DirState = EActorDir::Right;
 	
+	std::string GetRorL() const;
+	void DefaultBegin(float _DeltaTime);
+	void MiddleBegin(float _DeltaTime);
+	void PullBegin(float _DeltaTime);
+
 	void DefaultChargeStart();
 	void DefaultBuster(float _DeltaTime);
 	void MiddleChargeStart();
@@ -94,11 +100,11 @@ private :
 
 	//=============================================
 
-	bool CollisionCheck();
+	void CollisionCheck();
 
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BusterCollision = nullptr;
-	const float BusterSpeed = 0.075f; // 발사 속도.
+	const float BusterSpeed = 500.0f; // 발사 속도.
 	FVector BusterVector = FVector::Zero;
 	FVector LastMoveVector = FVector::Zero;
 	int DefaultBusterDamage = 1; // Buster 공격력.
