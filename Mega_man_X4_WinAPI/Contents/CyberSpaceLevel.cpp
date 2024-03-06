@@ -161,6 +161,8 @@ void UCyberSpaceLevel::ActorGeneration(float _DeltaTime) // Tick
 
 
 	//----- 포커스 ----------
+	// 1. 좌표.
+	// 2. 픽셀.
 	// 좌표로 했을 경우.
 	// 아래의 조건에 만족하는 경우
 	//if (990.0f <= PlayerPos.X && PlayerPos.X <= 1000.0f) // 게임에서 포커스가 생기는 좌표.
@@ -177,10 +179,11 @@ void UCyberSpaceLevel::ActorGeneration(float _DeltaTime) // Tick
 	}
 	//FocusTime += _DeltaTime;
 
+	// 정산.
 	if (FocusCount == 0)
 	{
 		//if (4400.0f <= PlayerPos.X && PlayerPos.X <= 4450.0f) // 정산
-		if (500.0f <= PlayerPos.X && PlayerPos.X <= 550.0f) // 정산
+		if (500.0f <= PlayerPos.X && PlayerPos.X <= 550.0f) // test
 		{
 			FocusCount++;
 			Focus->SetFocusState(EFocusState::Rank);

@@ -139,8 +139,10 @@ void UImageRenderer::CreateAnimation(
 
 void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsForce, int _StartIndex, float _Time)
 {
+	// 받은 _AnimationName을 대문자로 치환.
 	std::string UpperAniName = UEngineString::ToUpper(_AnimationName);
 
+	// 해당 애니메이션 키가 있는지 확인.
 	if (false == AnimationInfos.contains(UpperAniName))
 	{
 		MsgBoxAssert(std::string(UpperAniName) + "라는 이름의 애니메이션이 존재하지 않습니다.");
@@ -153,6 +155,7 @@ void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsFo
 		return;
 	}
 
+	// 받은 _AnimationName 이 있으니 변수에 담는다.
 	UAnimationInfo& Info = AnimationInfos[UpperAniName];
 	CurAnimation = &Info;
 	CurAnimation->CurFrame = _StartIndex;
