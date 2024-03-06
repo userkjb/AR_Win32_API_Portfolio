@@ -2,11 +2,12 @@
 #include <EngineCore/Level.h>
 
 class ACyberSpaceMap;
-class APlayer;
+//class APlayer;
 class AEgseu;
 class ATriScan;
 class ASpikeMarl;
 class AMiruTorearu;
+class APlayerFocus;
 
 class UCyberSpaceLevel : public ULevel
 {
@@ -33,11 +34,14 @@ private :
 	/// </summary>
 	void MoveCameraVector();
 
-	void ActorGeneration();
+	void ActorGeneration(float _DeltaTime);
+
+	float FocusTime = 0.0f;
 
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
-	APlayer* NewPlayer = nullptr;
+	//APlayer* NewPlayer = nullptr;
 	AEgseu* NewX = nullptr;
+	APlayerFocus* Focus = nullptr;
 	ATriScan* TryScan_1 = nullptr;
 	ATriScan* TryScan_2 = nullptr;
 	ASpikeMarl* SpikeMarl = nullptr;

@@ -6,6 +6,7 @@
 #include "TriScan.h"
 #include "SpikeMarl.h"
 #include "MiruTorearu.h"
+#include "PlayerFocus.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
@@ -41,7 +42,7 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 	ULevel::Tick(_DeltaTime);
 
 	MoveCameraVector();
-	ActorGeneration();
+	ActorGeneration(_DeltaTime);
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)
@@ -92,13 +93,13 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	//NewBoss->SetActorLocation({ 520, 500 });
 
 	// Enemy
-	TryScan_1 = SpawnActor<ATriScan>();
-	TryScan_1->SetActorLocation({ 1160 , 135 });
-	TryScan_1->SetTriScanState(ETriScanState::Idle);
+	//TryScan_1 = SpawnActor<ATriScan>();
+	//TryScan_1->SetActorLocation({ 1160 , 135 });
+	//TryScan_1->SetTriScanState(ETriScanState::Idle);
 
-	TryScan_2 = SpawnActor<ATriScan>();
-	TryScan_2->SetActorLocation({ 1160 , 200 });
-	TryScan_2->SetTriScanState(ETriScanState::Idle);
+	//TryScan_2 = SpawnActor<ATriScan>();
+	//TryScan_2->SetActorLocation({ 1160 , 200 });
+	//TryScan_2->SetTriScanState(ETriScanState::Idle);
 
 	//SpikeMarl = SpawnActor<ASpikeMarl>();
 	//SpikeMarl->SetActorLocation({ 520, 400 });
@@ -108,10 +109,10 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	//MiruTorearu_1->SetActorLocation({ 520, 400 });
 	//MiruTorearu_1->SetMiruTorearuState(EMiruTorearuState::StopCreate);
 
-	MiruTorearu_2 = SpawnActor<AMiruTorearu>();
-	MiruTorearu_2->SetActorLocation({ 520, 400 });
-	MiruTorearu_2->SetMiruDir(EActorDir::Left);
-	MiruTorearu_2->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+	//MiruTorearu_2 = SpawnActor<AMiruTorearu>();
+	//MiruTorearu_2->SetActorLocation({ 520, 400 });
+	//MiruTorearu_2->SetMiruDir(EActorDir::Left);
+	//MiruTorearu_2->SetMiruTorearuState(EMiruTorearuState::RunCreate);
 } // LevelStart
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
@@ -148,9 +149,27 @@ void UCyberSpaceLevel::MoveCameraVector()
 	SetCameraPos(CameraPos);
 }
 
-void UCyberSpaceLevel::ActorGeneration()
+void UCyberSpaceLevel::ActorGeneration(float _DeltaTime) // Tick
 {
 	FVector PlayerPos = NewX->GetActorLocation();
+	UEngineDebug::OutPutDebugText(std::to_string(PlayerPos.X));
+
+
+	//----- 포커스 ----------
+	// 좌표로 했을 경우.
+	// 아래의 조건에 만족하는 경우
+	if (990.0f <= PlayerPos.X && PlayerPos.X <= 1000.0f)
+	{
+		// 포커스가 없으면 만들어 주고.
+		if (Focus == nullptr)
+		{
+			Focus = SpawnActor<APlayerFocus>();
+			Focus->SetActorLocation({ PlayerPos });
+			Focus->SetFocusState(EFocusState::CallCreate);
+		}
+		int a = 0;
+	}
+	//FocusTime += _DeltaTime;
 
 
 }
