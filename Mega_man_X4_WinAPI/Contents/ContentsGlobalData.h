@@ -133,8 +133,11 @@ enum class EFocusState
 
 	CallCreate,
 	Create,
-
+	CreateLoop,
 	Run,
+	Rank,
+	RunUp,
+	RunRight,
 	Death,
 
 	B,
