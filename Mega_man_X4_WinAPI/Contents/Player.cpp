@@ -533,14 +533,14 @@ void APlayer::Run_Attack(float _DeltaTime)
 		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
 		if (DirState == EActorDir::Right)
 		{
-			A_Buster->SetDir(FVector::Right);
+			//A_Buster->SetDirState(FVector::Right);
 		}
 		else if (DirState == EActorDir::Left)
 		{
-			A_Buster->SetDir(FVector::Left);
+			//A_Buster->SetDirState(FVector::Left);
 		}
 		A_Buster->SetBusterState(EBusterState::DefaultCharge);
-		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Default"));
+		//A_Buster->SetBusterAnimation(GetAnimationName("Buster_Default"));
 
 		TickCount++;
 	}
@@ -711,14 +711,14 @@ void APlayer::Attack(float _DeltaTime)
 		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
 		if (DirState == EActorDir::Right)
 		{
-			A_Buster->SetDir(FVector::Right);
+			//A_Buster->SetDirState(FVector::Right);
 		}
 		else if (DirState == EActorDir::Left)
 		{
-			A_Buster->SetDir(FVector::Left);
+			//A_Buster->SetDirState(FVector::Left);
 		}
 		A_Buster->SetBusterState(EBusterState::DefaultCharge);
-		A_Buster->SetBusterAnimation(GetAnimationName("Buster_Default"));
+		//A_Buster->SetBusterAnimation(GetAnimationName("Buster_Default"));
 
 		TickCount++;
 	}
@@ -781,14 +781,14 @@ void APlayer::AttackEnd(float _DeltaTime)
 			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
 			if (DirState == EActorDir::Right)
 			{
-				A_Buster->SetDir(FVector::Right);
+				//A_Buster->SetDirState(FVector::Right);
 			}
 			else if (DirState == EActorDir::Left)
 			{
-				A_Buster->SetDir(FVector::Left);
+				//A_Buster->SetDirState(FVector::Left);
 			}
 			A_Buster->SetBusterState(EBusterState::MiddleCharge);
-			A_Buster->SetBusterAnimation(GetAnimationName("Buster_Middle"));
+			//A_Buster->SetBusterAnimation(GetAnimationName("Buster_Middle"));
 			TickCount++;
 		}
 	}
@@ -800,14 +800,14 @@ void APlayer::AttackEnd(float _DeltaTime)
 			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
 			if (DirState == EActorDir::Right)
 			{
-				A_Buster->SetDir(FVector::Right);
+				//A_Buster->SetDirState(FVector::Right);
 			}
 			else if (DirState == EActorDir::Left)
 			{
-				A_Buster->SetDir(FVector::Left);
+				//A_Buster->SetDirState(FVector::Left);
 			}
 			A_Buster->SetBusterState(EBusterState::PullCharge);
-			A_Buster->SetBusterAnimation(GetAnimationName("Buster_Pull"));
+			//A_Buster->SetBusterAnimation(GetAnimationName("Buster_Pull"));
 			TickCount++;
 		}
 	}
