@@ -1,4 +1,5 @@
 #include "MiruTorearu.h"
+#include "Egseu.h"
 
 AMiruTorearu::AMiruTorearu()
 {
@@ -27,7 +28,7 @@ void AMiruTorearu::BeginRender()
 {
 	MiruTorearuRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
 	MiruTorearuRender->SetImage("MiruToraeru_Death_Effect.png");
-	MiruTorearuRender->AutoImageScale();
+	MiruTorearuRender->AutoImageScale(2.0f);
 
 	MiruTorearuCollision = CreateCollision(ECollisionOrder::Enemy);
 	MiruTorearuCollision->SetScale({ 48, 46 });
@@ -188,7 +189,16 @@ void AMiruTorearu::AttackStart()
 
 void AMiruTorearu::Attack(float _DeltaTime)
 {
-	int a = 0;
+	// 플레이어를 내 중심으로 이동시켜야 한다.
+	// -> 내 중심으로의 방향을 알아야 한다.
+	
+	//FVector PlayerPos = AEgseu::GetMainPlayer()->GetActorLocation();
+	FVector PlayerPos = Player->GetActorLocation();
+	FVector PlayerDir = PlayerPos - this->GetActorLocation();
+	PlayerDir.Normalize2D();
+
+	 PlayerVector = -PlayerDir * PlayerMoveSpeed * _DeltaTime;
+	 Player->AddActorLocation(PlayerVector);
 }
 #pragma endregion
 
@@ -227,6 +237,7 @@ void AMiruTorearu::CollisionCheck()
 	std::vector<UCollision*> Result;
 	if (true == MiruTorearuCollision->CollisionCheck(ECollisionOrder::Player, Result))
 	{
+		Player = dynamic_cast<AEgseu*>(Result[0]->GetOwner());
 		StateChange(EMiruTorearuState::Attack);
 		return;
 	}

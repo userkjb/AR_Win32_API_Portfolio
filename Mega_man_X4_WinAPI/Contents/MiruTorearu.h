@@ -2,7 +2,8 @@
 #include <EngineCore/Actor.h>
 #include "ContentsGlobalData.h"
 
-class ABuster;
+//class ABuster;
+class AEgseu;
 
 class AMiruTorearu : public AActor
 {
@@ -73,8 +74,12 @@ private :
 	
 	FVector RunVector = FVector::Zero;
 	float RunSpeed = 100.0f;
+	FVector PlayerVector = FVector::Zero;
+	float PlayerMoveSpeed = 100.0f;
 
 	UImageRenderer* MiruTorearuRender = nullptr; // 본체 이미지
 	UCollision* MiruTorearuCollision = nullptr; // 본체 콜리전
+
+	AEgseu* Player = nullptr;
 };
 
