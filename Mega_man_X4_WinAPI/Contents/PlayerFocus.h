@@ -30,6 +30,17 @@ private :
 	void StateChange(EFocusState _State);
 	void StateUpdate(float _DeltaTime);
 
+	//void NoneStart();
+	//void None(float _DeltaTime);
+	//void CallCreateStart();
+	void CallCreate(float _DeltaTime);
+	void CreateStart();
+	void Create(float _DeltaTime);
+	void RunStart();
+	void Run(float _DeltaTime);
+	void DeathStart();
+	void Death(float _DeltaTime);
+
 	EFocusState State = EFocusState::None;
 
 	UImageRenderer* RightUpRender = nullptr;
