@@ -170,6 +170,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EngineResources.h" />
+    <ClInclude Include="EngineSound.h" />
     <ClInclude Include="EngineWindow.h">
       <SubType>
       </SubType>
@@ -189,10 +191,12 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EngineSound.cpp" />
     <ClCompile Include="EngineWindow.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EngineResources.cpp" />
     <ClCompile Include="WindowImage.cpp" />
   </ItemGroup>
   <ItemGroup>
