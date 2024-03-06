@@ -82,8 +82,6 @@ void ASpikeMarl::SpikeMarlBeginPlay()
 	SpikeMarlRender->ActiveOff();
 
 
-
-
 	StateChange(ESpikeMarlState::SummonStart);
 }
 
@@ -265,6 +263,17 @@ void ASpikeMarl::IdleStart()
 		SummonBGL->Destroy();
 		SummonBGL = nullptr;
 	}
+
+	if (true == AttackCollision->IsActive() && false == SpikeMarlCollision->IsActive())
+	{
+		SpikeMarlCollision->ActiveOn();
+		AttackCollision->ActiveOff();
+	}
+	else
+	{
+		MsgBoxAssert("상태 Error");
+	}
+
 	SpikeMarlRender->ChangeAnimation("TransformIdle_Left");
 }
 
@@ -341,6 +350,8 @@ void ASpikeMarl::AttackReady(float _DeltaTime)
 // 특정 거리만큼 굴러간다.
 void ASpikeMarl::AttackStart()
 {
+	SpikeMarlCollision->ActiveOff();
+	AttackCollision->ActiveOn();
 	SpikeMarlRender->ChangeAnimation("Run_Left");
 	AttackStartPos = GetActorLocation().iX();
 	// AttackLen 값이 음/양을 결정해야 함.
@@ -385,40 +396,7 @@ void ASpikeMarl::Death(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region Vector
-//void ASpikeMarl::MoveUpdate(float _DeltaTime, bool _Gravity)
-//{
-//	CalGravityVector(_DeltaTime, _Gravity);
-//	CalLastMoveVector();
-//	MoveLastMoveVector(_DeltaTime);
-//}
-
-//void ASpikeMarl::CalGravityVector(float _DeltaTime, bool _Gravity)
-//{
-//	if (_Gravity)
-//	{
-//		DownVector += GravityAcc * _DeltaTime;
-//	}
-//	else
-//	{
-//		DownVector = FVector::Zero;
-//	}
-//}
-
-//void ASpikeMarl::CalLastMoveVector()
-//{
-//	LastMoveVector = FVector::Zero;
-//	LastMoveVector += RunVector;
-//	LastMoveVector += DownVector;
-//}
-
-//void ASpikeMarl::MoveLastMoveVector(float _DeltaTime)
-//{
-//	AddActorLocation(LastMoveVector * _DeltaTime);
-//}
-#pragma endregion
-
-
+// TODO
 void ASpikeMarl::CollisionCheck(float _DeltaTime)
 {
 	std::vector<UCollision*> Result;

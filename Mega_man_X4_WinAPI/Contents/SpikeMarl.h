@@ -63,11 +63,6 @@ private :
 	void DeathStart();
 	void Death(float _DeltaTime);
 
-	//void MoveUpdate(float _DeltaTime, bool _Gravity = false);
-	//void CalGravityVector(float _DeltaTime, bool _Gravity);
-	//void CalLastMoveVector();
-	//void MoveLastMoveVector(float _DeltaTime);
-
 	void CollisionCheck(float _DeltaTime);
 
 	ESpikeMarlState State = ESpikeMarlState::None;
