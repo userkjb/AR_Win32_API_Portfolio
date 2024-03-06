@@ -172,6 +172,19 @@ enum class ETriScanState
 	Death,
 };
 
+enum class EMiruTorearuState
+{
+	None,
+
+	Stop,
+	Run,
+
+	Attack, // Collision Player
+	DeathStart, // 커졌다 작아짐.
+	DeathLoop, // 사라짐.
+	DeathEnd, // 소멸.
+};
+
 /// <summary>
 /// Enemy SpikeMarl 상태.
 /// </summary>
