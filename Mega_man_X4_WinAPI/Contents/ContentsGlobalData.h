@@ -131,13 +131,15 @@ enum class EFocusState
 {
 	None,
 
+	CallCreate,
 	Create,
+
+	Run,
+	Death,
 
 	B,
 	A,
 	S,
-
-	Death,
 };
 
 /// <summary>
