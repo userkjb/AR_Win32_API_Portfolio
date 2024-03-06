@@ -110,6 +110,9 @@ void ASpikeMarl::StateChange(ESpikeMarlState _State)
 		case ESpikeMarlState::Run:
 			RunStart();
 			break;
+		case ESpikeMarlState::AttackReady:
+			AttackReadyStart();
+			break;
 		case ESpikeMarlState::Attack:
 			AttackStart();
 			break;
@@ -143,6 +146,9 @@ void ASpikeMarl::StateUpdate(float _DeltaTime)
 		break;
 	case ESpikeMarlState::Run:
 		Run(_DeltaTime);
+		break;
+	case ESpikeMarlState::AttackReady:
+		AttackReady(_DeltaTime);
 		break;
 	case ESpikeMarlState::Attack:
 		Attack(_DeltaTime);
@@ -275,8 +281,14 @@ void ASpikeMarl::Idle(float _DeltaTime)
 
 		if (Between <= 300)
 		{
+			PlayerCheckTime += _DeltaTime;
+			//UEngineDebug::OutPutDebugText(std::to_string(PlayerCheckTime));
+			if (PlayerCheckTime < 0.005f) /////////////////////////////////////////////
+			{
+				return;
+			}
 			// Player가 있으면 Attack
-			StateChange(ESpikeMarlState::Attack);
+			StateChange(ESpikeMarlState::AttackReady);
 			return;
 		}
 		else
@@ -290,8 +302,8 @@ void ASpikeMarl::Idle(float _DeltaTime)
 #pragma endregion
 
 #pragma region Run
-// 바라보고 있는 방향으로 일정 거리 움직이고,
 // Player가 없으면, 반대 방향으로 돈다.
+// 일정 시간이 지나면 또 돈다.
 void ASpikeMarl::RunStart()
 {
 
@@ -302,23 +314,57 @@ void ASpikeMarl::Run(float _DeltaTime)
 }
 #pragma endregion
 
+#pragma region Attack Ready
+void ASpikeMarl::AttackReadyStart()
+{
+	if (PlayerCheckTime != 0.0f)
+	{
+		PlayerCheckTime = 0.0f;
+	}
+	SpikeMarlRender->ChangeAnimation("TransformAttack_Left");
+}
+void ASpikeMarl::AttackReady(float _DeltaTime)
+{
+	if (true == SpikeMarlRender->IsCurAnimationEnd())
+	{
+		StateChange(ESpikeMarlState::Attack);
+		return;
+	}
+}
+#pragma endregion
+
 #pragma region Attack
 // Player가 있으면 Roll 형태로 변해서
 // 특정 거리만큼 굴러간다.
 void ASpikeMarl::AttackStart()
 {
-	SpikeMarlRender->ChangeAnimation("TransformAttack_Left");
+	SpikeMarlRender->ChangeAnimation("Run_Left");
 	AttackStartPos = GetActorLocation().iX();
+	// AttackLen 값이 음/양을 결정해야 함.
+	if (Dir == EActorDir::Left) // 좌
+	{
+		AttackEndPos = AttackStartPos - std::lround(AttackLen);
+	}
+	else // 우
+	{
+		AttackEndPos = AttackStartPos + std::lround(AttackLen);
+	}
 }
 void ASpikeMarl::Attack(float _DeltaTime)
 {
-	RunVector = FVector::Left * AttackSpeed * _DeltaTime;
+	if (Dir == EActorDir::Left)
+	{
+		RunVector = FVector::Left * AttackLen * _DeltaTime;
+	}
+	else
+	{
+		RunVector = FVector::Right * AttackLen * _DeltaTime;
+	}
 	AddActorLocation(RunVector);
 
-	//int TargetPos = AttackStartPos + static_cast<int>(AttackSpeed);
-	int TargetPos = AttackStartPos + std::lround(AttackSpeed);
-
-	if (TargetPos == GetActorLocation().iX())
+	UEngineDebug::OutPutDebugText("S : " + std::to_string(GetActorLocation().iX()));
+	UEngineDebug::OutPutDebugText("E : " + std::to_string(AttackEndPos));
+	if (AttackEndPos == GetActorLocation().iX())
 	{
 		int a = 0;
 	}

@@ -56,6 +56,8 @@ private :
 	void Idle(float _DeltaTime);
 	void RunStart();
 	void Run(float _DeltaTime);
+	void AttackReadyStart();
+	void AttackReady(float _DeltaTime);
 	void AttackStart();
 	void Attack(float _DeltaTime);
 	void DeathStart();
@@ -69,6 +71,7 @@ private :
 	void CollisionCheck(float _DeltaTime);
 
 	ESpikeMarlState State = ESpikeMarlState::None;
+	EActorDir Dir = EActorDir::Left;
 
 	UImageRenderer* SummonBGL = nullptr;
 	UImageRenderer* SummonBGR = nullptr;
@@ -83,10 +86,13 @@ private :
 	float SummonSpeed = 50.0f;
 	float DownSpeed = 200.0f;
 	float AttackSpeed = 100.0f;
+	float AttackLen = 200.0f; // 공격 길이
 	FVector LastMoveVector = FVector::Zero;
 
 	float SummonTime = 0.0f;
+	float PlayerCheckTime = 0.0f;
 	int AttackStartPos = 0;
+	int AttackEndPos = 0;
 
 	int Hp = 6;
 	int BodyDamage = 3;
