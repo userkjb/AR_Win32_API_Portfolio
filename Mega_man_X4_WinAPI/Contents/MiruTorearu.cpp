@@ -43,6 +43,7 @@ void AMiruTorearu::BeginCreateAnimation()
 	MiruTorearuRender->CreateAnimation("Stop", "ElecballAtRest.png", 0, 4, 0.2f, true);
 	MiruTorearuRender->CreateAnimation("Run_Left", "Rotating Elecball.png", 0, 10, 0.2f, true);
 	MiruTorearuRender->CreateAnimation("Run_Right", "Rotating Elecball.png", { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 0.2f, true);
+	MiruTorearuRender->CreateAnimation("Attack", "GetPlayer.png", 0, 5, 0.2f, true);
 }
 
 std::string AMiruTorearu::SetAnimationName(std::string _Name)
@@ -165,18 +166,29 @@ void AMiruTorearu::RunStart()
 }
 void AMiruTorearu::Run(float _DeltaTime)
 {
-
-	//AddActorLocation();
+	if (MiruDir == EActorDir::Left)
+	{
+		RunVector = FVector::Left * RunSpeed * _DeltaTime;
+	}
+	else if (MiruDir == EActorDir::Right)
+	{
+		RunVector = FVector::Right * RunSpeed * _DeltaTime;
+	}
+	
+	AddActorLocation(RunVector);
 }
 #pragma endregion
 
 #pragma region Attack
 void AMiruTorearu::AttackStart()
 {
+	RunVector = FVector::Zero;
+	MiruTorearuRender->ChangeAnimation("Attack");
 }
 
 void AMiruTorearu::Attack(float _DeltaTime)
 {
+	int a = 0;
 }
 #pragma endregion
 

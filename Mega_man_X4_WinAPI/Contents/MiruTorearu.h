@@ -70,6 +70,9 @@ private :
 
 	EMiruTorearuState State = EMiruTorearuState::None;
 	EActorDir MiruDir = EActorDir::Left;
+	
+	FVector RunVector = FVector::Zero;
+	float RunSpeed = 100.0f;
 
 	UImageRenderer* MiruTorearuRender = nullptr; // 본체 이미지
 	UCollision* MiruTorearuCollision = nullptr; // 본체 콜리전

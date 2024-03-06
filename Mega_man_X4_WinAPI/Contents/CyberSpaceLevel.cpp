@@ -110,7 +110,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 
 	MiruTorearu_2 = SpawnActor<AMiruTorearu>();
 	MiruTorearu_2->SetActorLocation({ 520, 400 });
-	MiruTorearu_2->SetMiruDir(EActorDir::Right);
+	MiruTorearu_2->SetMiruDir(EActorDir::Left);
 	MiruTorearu_2->SetMiruTorearuState(EMiruTorearuState::RunCreate);
 } // LevelStart
 
