@@ -717,7 +717,14 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 		return;
 	}
 
-	// 벽에 닿음
+	// 챠지 공격!!
+	if (true == UEngineInput::IsUp('X'))
+	{
+		StateChange(EEgseuState::JumpAttack_End);
+		return;
+	}
+
+	// '벽'에 닿음
 	bool WallChecl = CalWallCheck();
 	if (true == WallChecl)
 	{
@@ -725,7 +732,7 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 		return;
 	}
 
-	// 땅에 닿음
+	// '땅'에 닿음
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
@@ -793,32 +800,12 @@ void AEgseu::JumpAttack_Loop(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
+	// 특정 시간동안 이벤트가 없으면 다시 IdleJump_Loop로 이동.
+
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		StateChange(EEgseuState::IdleJump_End);
-		return;
-	}
-
-	if (true == UEngineInput::IsUp('X') || true == UEngineInput::IsFree('X'))
-	{
-		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-		std::string BusterName;
-		if (DirState == EActorDir::Right)
-		{
-			A_Buster->SetDirState(EActorDir::Right);
-			BusterName = "Buster_Default_Right";
-		}
-		else if (DirState == EActorDir::Left)
-		{
-			A_Buster->SetDirState(EActorDir::Left);
-			BusterName = "Buster_Default_Left";
-		}
-		A_Buster->SetBusterState(EBusterState::DefaultCharge);
-		//A_Buster->SetBusterAnimation(BusterName);
-		
-		StateChange(EEgseuState::IdleJump_Loop);
 		return;
 	}
 }
