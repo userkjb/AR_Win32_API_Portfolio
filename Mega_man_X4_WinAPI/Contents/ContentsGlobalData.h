@@ -184,6 +184,7 @@ enum class ESpikeMarlState
 	SummonEnd,
 	Idle,
 	Run,
+	AttackReady,
 	Attack,
 	Death,
 };
