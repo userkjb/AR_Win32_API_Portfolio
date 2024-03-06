@@ -104,12 +104,13 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	//SpikeMarl->SetActorLocation({ 520, 400 });
 	//SpikeMarl->SetSpikeMarlState(ESpikeMarlState::SummonStart);
 
-	MiruTorearu_1 = SpawnActor<AMiruTorearu>();
-	MiruTorearu_1->SetActorLocation({ 520, 400 });
-	MiruTorearu_1->SetMiruTorearuState(EMiruTorearuState::StopCreate);
+	//MiruTorearu_1 = SpawnActor<AMiruTorearu>();
+	//MiruTorearu_1->SetActorLocation({ 520, 400 });
+	//MiruTorearu_1->SetMiruTorearuState(EMiruTorearuState::StopCreate);
 
 	MiruTorearu_2 = SpawnActor<AMiruTorearu>();
-	MiruTorearu_2->SetActorLocation({ 520, 200 });
+	MiruTorearu_2->SetActorLocation({ 520, 400 });
+	MiruTorearu_2->SetMiruDir(EActorDir::Right);
 	MiruTorearu_2->SetMiruTorearuState(EMiruTorearuState::RunCreate);
 } // LevelStart
 

@@ -29,9 +29,14 @@ public:
 			return;
 		}
 	}
-	EMiruTorearuState GetMiruTorearuState()
+	inline EMiruTorearuState GetMiruTorearuState()
 	{
 		return State;
+	}
+
+	void SetMiruDir(EActorDir _Dir)
+	{
+		MiruDir = _Dir;
 	}
 
 protected :
@@ -40,6 +45,7 @@ protected :
 private :
 	void BeginRender();
 	void BeginCreateAnimation();
+	std::string SetAnimationName(std::string _Name);
 
 	void StateChange(EMiruTorearuState _State);
 	void StateUpdate(float _DeltaTime);
@@ -60,8 +66,10 @@ private :
 	void DeathEndStart();
 	void DeathEnd(float _DeltaTime);
 	
+	void CollisionCheck();
 
 	EMiruTorearuState State = EMiruTorearuState::None;
+	EActorDir MiruDir = EActorDir::Left;
 
 	UImageRenderer* MiruTorearuRender = nullptr; // 본체 이미지
 	UCollision* MiruTorearuCollision = nullptr; // 본체 콜리전

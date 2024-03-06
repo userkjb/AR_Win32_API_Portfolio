@@ -20,6 +20,7 @@ void AMiruTorearu::Tick(float _DeltaTime)
 	AActor::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
+	CollisionCheck();
 }
 
 void AMiruTorearu::BeginRender()
@@ -40,7 +41,27 @@ void AMiruTorearu::BeginRender()
 void AMiruTorearu::BeginCreateAnimation()
 {
 	MiruTorearuRender->CreateAnimation("Stop", "ElecballAtRest.png", 0, 4, 0.2f, true);
-	MiruTorearuRender->CreateAnimation("Run", "Rotating Elecball.png", 0, 10, 0.2f, true);
+	MiruTorearuRender->CreateAnimation("Run_Left", "Rotating Elecball.png", 0, 10, 0.2f, true);
+	MiruTorearuRender->CreateAnimation("Run_Right", "Rotating Elecball.png", { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 0.2f, true);
+}
+
+std::string AMiruTorearu::SetAnimationName(std::string _Name)
+{
+	std::string DirName = "";
+
+	switch (MiruDir)
+	{
+	case EActorDir::Left:
+		DirName = "_Left";
+		break;
+	case EActorDir::Right:
+		DirName = "_Right";
+		break;
+	default :
+		break;
+	}
+
+	return _Name + DirName;
 }
 
 void AMiruTorearu::StateChange(EMiruTorearuState _State)
@@ -140,11 +161,12 @@ void AMiruTorearu::Stop(float _DeltaTime)
 #pragma region Run
 void AMiruTorearu::RunStart()
 {
-	MiruTorearuRender->ChangeAnimation("Run");
+	MiruTorearuRender->ChangeAnimation(SetAnimationName("Run"));
 }
 void AMiruTorearu::Run(float _DeltaTime)
 {
-	int a = 0;
+
+	//AddActorLocation();
 }
 #pragma endregion
 
@@ -187,3 +209,13 @@ void AMiruTorearu::DeathEnd(float _DeltaTime)
 {
 }
 #pragma endregion
+
+void AMiruTorearu::CollisionCheck()
+{
+	std::vector<UCollision*> Result;
+	if (true == MiruTorearuCollision->CollisionCheck(ECollisionOrder::Player, Result))
+	{
+		StateChange(EMiruTorearuState::Attack);
+		return;
+	}
+}
