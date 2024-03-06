@@ -157,6 +157,8 @@ private :
 	// Buster Charge Time Function
 	void BusterChargeTime(float _DeltaTime);
 
+	void BusterCreate(EBusterState _BusterState);
+
 	// ===========================================================
 
 	EEgseuState State = EEgseuState::None;

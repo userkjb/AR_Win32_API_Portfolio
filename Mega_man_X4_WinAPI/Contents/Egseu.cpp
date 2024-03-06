@@ -663,18 +663,6 @@ void AEgseu::IdleJumpStart()
 	DirCheck();
 }
 
-void AEgseu::IdleJump_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
-	DirCheck();
-}
-
-void AEgseu::IdleJump_EndStart()
-{
-	JumpVector = FVector::Zero;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
-}
-
 void AEgseu::IdleJump(float _DeltaTime)
 {
 	DirCheck();
@@ -700,6 +688,12 @@ void AEgseu::IdleJump(float _DeltaTime)
 		StateChange(EEgseuState::IdleJump_Loop);
 		return;
 	}
+}
+
+void AEgseu::IdleJump_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	DirCheck();
 }
 
 void AEgseu::IdleJump_Loop(float _DeltaTime)
@@ -740,6 +734,13 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 	}
 }
 
+
+void AEgseu::IdleJump_EndStart()
+{
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
+}
+
 void AEgseu::IdleJump_End(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
@@ -770,44 +771,26 @@ void AEgseu::JumpAttackStart()
 	//PlayerRender->SetImageIndex(x + 1);
 }
 
-void AEgseu::JumpAttack_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
-}
-
-void AEgseu::JumpAttack_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
-}
-
 void AEgseu::JumpAttack(float _DeltaTime)
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
+	//PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
 
 	MoveUpdate(_DeltaTime);
 
 	if (true == UEngineInput::IsUp('X') || true == UEngineInput::IsFree('X'))
 	{
-		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-		std::string BusterName;
-		if (DirState == EActorDir::Right)
-		{
-			A_Buster->SetDir(FVector::Right);
-			BusterName = "Buster_Default_Right";
-		}
-		else if (DirState == EActorDir::Left)
-		{
-			A_Buster->SetDir(FVector::Left);
-			BusterName = "Buster_Default_Left";
-		}
-		A_Buster->SetBusterState(EBusterState::DefaultCharge);
-		A_Buster->SetBusterAnimation(BusterName);
+		BusterCreate(EBusterState::DefaultCharge);
 	}
-	
+
 	StateChange(EEgseuState::IdleJump);
 	return;
 }
+
+void AEgseu::JumpAttack_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
+}
+
 void AEgseu::JumpAttack_Loop(float _DeltaTime)
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
@@ -843,6 +826,12 @@ void AEgseu::JumpAttack_Loop(float _DeltaTime)
 		return;
 	}
 }
+
+void AEgseu::JumpAttack_EndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
+}
+
 void AEgseu::JumpAttack_End(float _DeltaTime)
 {
 	//DirCheck();
@@ -880,45 +869,28 @@ void AEgseu::IdleAttackStart()
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Start"));
 }
 
-void AEgseu::IdleAttack_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Loop"));
-}
-
-void AEgseu::IdleAttack_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
-}
-
 void AEgseu::IdleAttack(float _DeltaTime)
 {
 	if (BusterTickCount == 0)
 	{
-		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-		std::string BusterName;
-		if (DirState == EActorDir::Right)
-		{
-			A_Buster->SetDir(FVector::Right);
-			BusterName = "Buster_Default_Right";
-		}
-		else if (DirState == EActorDir::Left)
-		{
-			A_Buster->SetDir(FVector::Left);
-			BusterName = "Buster_Default_Left";
-		}
-		A_Buster->SetBusterState(EBusterState::DefaultCharge);
-		A_Buster->SetBusterAnimation(BusterName);
-
+		BusterCreate(EBusterState::DefaultCharge);
 		BusterTickCount++;
 	}
 
-	StateChange(EEgseuState::IdleAttack_Loop);
-	BusterTickCount = 0;
-	return;
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::IdleAttack_Loop);
+		return;
+	}
 }
 
-void AEgseu::IdleAttack_Loop(float _DeltaTime)
+void AEgseu::IdleAttack_LoopStart()
+{
+	BusterTickCount = 0;
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Loop"));
+}
+
+void AEgseu::IdleAttack_Loop(float _DeltaTime) // Down 이던 Press 이던 여기 까지는 들어와야 함.
 {
 	if (1.0f < BusterChargTime) // 차지 모션 대기 시간.
 	{
@@ -944,6 +916,11 @@ void AEgseu::IdleAttack_Loop(float _DeltaTime)
 		StateChange(EEgseuState::Idle);
 		return;
 	}
+}
+
+void AEgseu::IdleAttack_EndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
 }
 
 void AEgseu::IdleAttack_End(float _DeltaTime)
@@ -2156,6 +2133,15 @@ bool AEgseu::CalWallCheck()
 
 void AEgseu::BusterChargeTime(float _DeltaTime)
 {
+	if (true == UEngineInput::IsPress('X'))
+	{
+		BusterChargTime += _DeltaTime;
+	}
+	else
+	{
+		return;
+	}
+
 	// 차지 이미지
 	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 	{
@@ -2178,9 +2164,24 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 		}
 		BusterChargTime = 0.0f;
 	}
-	if (true == UEngineInput::IsPress('X'))
+}
+
+void AEgseu::BusterCreate(EBusterState _BusterState)
+{
+	ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+	A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+	std::string BusterName;
+	if (DirState == EActorDir::Right)
 	{
-		BusterChargTime += _DeltaTime;
+		A_Buster->SetDir(FVector::Right);
+		BusterName = "Buster_Default_Right";
 	}
+	else if (DirState == EActorDir::Left)
+	{
+		A_Buster->SetDir(FVector::Left);
+		BusterName = "Buster_Default_Left";
+	}
+	A_Buster->SetBusterState(_BusterState);
+	A_Buster->SetBusterAnimation(BusterName);
 }
 
