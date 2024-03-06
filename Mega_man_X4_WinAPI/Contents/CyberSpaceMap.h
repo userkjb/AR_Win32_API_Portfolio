@@ -16,8 +16,10 @@ public :
 
 	// Map
 	void SetMapImage(std::string_view _MapImageName);
-
+	// Col Map
 	void SetColMapImage(std::string_view _MapImageName);
+	// Map Object
+	void SetMapExitImage(std::string_view _MapImageName);
 
 
 	void SwitchDebug();
@@ -34,6 +36,7 @@ protected:
 private :
 	UImageRenderer* MapRenderer = nullptr;	// Map 이미지
 	UImageRenderer* ColRenderer = nullptr;	// ColMap 이미지
+	UImageRenderer* MapExit = nullptr;
 	FVector ImageScale;
 };
 
