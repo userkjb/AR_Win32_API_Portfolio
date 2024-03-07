@@ -1271,24 +1271,6 @@ void AEgseu::RunAttack_DownStart()
 	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Start"));
 
 	BusterCreate(EBusterState::CreateDefault);
-	//{
-	//	ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-	//	A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-	//	std::string BusterName;
-	//	if (DirState == EActorDir::Right)
-	//	{
-	//		A_Buster->SetDirState(EActorDir::Right);
-	//		BusterName = "Buster_Default_Right";
-	//	}
-	//	else if (DirState == EActorDir::Left)
-	//	{
-	//		A_Buster->SetDirState(EActorDir::Left);
-	//		BusterName = "Buster_Default_Left";
-	//	}
-	//	A_Buster->SetBusterState(EBusterState::DefaultCharge);
-	//	//A_Buster->SetBusterAnimation(BusterName);
-	//	BusterTickCount++;
-	//}
 }
 
 void AEgseu::RunAttack_Down(float _DeltaTime) // 생각보다 많이 들어옴.
@@ -1377,19 +1359,6 @@ void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunAttack_Down_End);
 		return;
-		/*if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
-		{
-			ChangeAnimationFrame = PlayerRender->GetCurAnimationImageFrame();
-			BusterTickCount = 0;
-			StateChange(EEgseuState::IdleRun_Loop);
-			return;
-		}
-		else
-		{
-			BusterTickCount = 0;
-			StateChange(EEgseuState::Idle);
-			return;
-		}*/
 	}
 }
 
