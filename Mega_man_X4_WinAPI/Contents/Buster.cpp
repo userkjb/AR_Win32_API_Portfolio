@@ -337,6 +337,7 @@ void ABuster::CollisionCheck()
 	// º¸½º
 	if (true == BusterCollision->CollisionCheck(ECollisionOrder::Boss, EnemyResult))
 	{
+		StateChange(EBusterState::BusterCrash);
 		return;
 	}
 }
