@@ -130,8 +130,8 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Idle_Attack_Start_Left", "X_Idle_Attack_Left.png", 0, 2, 0.2f, false);
 	PlayerRender->CreateAnimation("Idle_Attack_Loop_Right", "X_Idle_Attack_Right.png", 0, 0, 0.5f, true);
 	PlayerRender->CreateAnimation("Idle_Attack_Loop_Left", "X_Idle_Attack_Left.png", 0, 0, 0.5f, true);
-	PlayerRender->CreateAnimation("Idle_Attack_End_Right", "X_Idle_Attack_End_Right.png", 0, 1, 0.2f, false);
-	PlayerRender->CreateAnimation("Idle_Attack_End_Left", "X_Idle_Attack_End_Left.png", 0, 1, 0.2f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_End_Right", "X_Idle_Attack_End_Right.png", 0, 1, 0.1f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_End_Left", "X_Idle_Attack_End_Left.png", 0, 1, 0.1f, false);
 
 	PlayerRender->CreateAnimation("Run_Attack_Start_Right", "x_Move_Attack_Right.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
 	PlayerRender->CreateAnimation("Run_Attack_Start_Left", "x_Move_Attack_Left.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
@@ -872,23 +872,17 @@ void AEgseu::IdleAttack_DownStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Start"));
 	BusterCreate(EBusterState::CreateDefault);
+	BusterDelayTime = 0.0f;
 }
 
 void AEgseu::IdleAttack_Down(float _DeltaTime)
 {
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
-		//StateChange(EEgseuState::IdleAttack_Loop);
+		StateChange(EEgseuState::IdleAttack_Down_Loop);
+		BusterDelayTime += _DeltaTime;
 		return;
 	}
-}
-
-void AEgseu::IdleAttack_UpStart()
-{
-}
-
-void AEgseu::IdleAttack_Up(float _DeltaTime)
-{
 }
 
 void AEgseu::IdleAttack_Down_LoopStart()
@@ -898,43 +892,56 @@ void AEgseu::IdleAttack_Down_LoopStart()
 
 void AEgseu::IdleAttack_Down_Loop(float _DeltaTime) // Down 이던 Press 이던 여기 까지는 들어와야 함.
 {
-	if (1.0f < BusterChargTime) // 차지 모션 대기 시간.
+	BusterDelayTime += _DeltaTime;
+
+	// 0.5초가 지났다면,
+	if (BusterDelayTimeMax <= BusterDelayTime) // 차지 모션 대기 시간.
 	{
-		StateChange(EEgseuState::Idle);
+		StateChange(EEgseuState::IdleAttack_Down_End);
 		return;
 	}
 
-	if (true == UEngineInput::IsPress(VK_LEFT) ||
+	// 모션 중에 X 키가 눌리면,
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	/*if (true == UEngineInput::IsPress(VK_LEFT) ||
 		true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		StateChange(EEgseuState::IdleRun);
-		return;
-	}
-
-	// 발싸!!
-	if (true == UEngineInput::IsUp('X'))
-	{
-		//StateChange(EEgseuState::IdleAttack_End); /// .....???
-		return;
-	}
-	if (true == UEngineInput::IsFree('X'))
-	{
-		StateChange(EEgseuState::Idle);
-		return;
-	}
-}
-
-void AEgseu::IdleAttack_Up_LoopStart()
-{
-}
-
-void AEgseu::IdleAttack_Up_Loop(float _DeltaTime)
-{
+		if (BusterDelayTime == 0.0f)
+		{
+			StateChange(EEgseuState::IdleRun);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::RunAttack);
+			return;
+		}
+	}*/
 }
 
 void AEgseu::IdleAttack_Down_EndStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
+	BusterDelayTime = 0.0f;
+}
+
+void AEgseu::IdleAttack_Down_End(float _DeltaTime)
+{
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
+}
+
+void AEgseu::IdleAttack_UpStart()
+{
+
 	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 	{
 		BusterCreate(EBusterState::CreateMiddle);
@@ -945,25 +952,24 @@ void AEgseu::IdleAttack_Down_EndStart()
 	}
 }
 
-void AEgseu::IdleAttack_Down_End(float _DeltaTime)
+void AEgseu::IdleAttack_Up(float _DeltaTime)
 {
-	BusterDelayTime += _DeltaTime;
-
-	if (1.0f <= BusterDelayTime)
-	{
-		BusterDelayTime = 0.0f;
-		StateChange(EEgseuState::Idle);
-		return;
-	}
-
-	if (true == PlayerRender->IsCurAnimationEnd())
-	{
-		StateChange(EEgseuState::Idle);
-		return;
-	}
 }
+
+
+
+void AEgseu::IdleAttack_Up_LoopStart()
+{
+}
+
+void AEgseu::IdleAttack_Up_Loop(float _DeltaTime)
+{
+}
+
+
 void AEgseu::IdleAttack_Up_EndStart()
 {
+
 }
 void AEgseu::IdleAttack_Up_End(float _DeltaTime)
 {

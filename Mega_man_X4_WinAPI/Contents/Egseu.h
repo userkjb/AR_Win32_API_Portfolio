@@ -215,6 +215,7 @@ private :
 
 	float BusterChargTime = 0.0f;
 	float BusterDelayTime = 0.0f;
+	float BusterDelayTimeMax = 0.5f;
 	int BusterTickCount = 0; // Buster가 1번 생성되도록.
 	int ChangeAnimationFrame = 0;
 	int Hit_Count = 0; // Hit 중복 방지.
