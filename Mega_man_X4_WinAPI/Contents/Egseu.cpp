@@ -1385,9 +1385,55 @@ void AEgseu::RunAttack_Up(float _DeltaTime)
 }
 void AEgseu::RunAttack_Up_LoopStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"));
+
+	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+	{
+		BusterCreate(EBusterState::CreateMiddle);
+	}
+	else if (2.0f <= BusterChargTime)
+	{
+		BusterCreate(EBusterState::CreatePull);
+	}
 }
 void AEgseu::RunAttack_Up_Loop(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EEgseuState::RunAttack_Down_Loop);
+		return;
+	}
+
+	if (true == UEngineInput::IsFree(VK_LEFT) &&
+		true == UEngineInput::IsFree(VK_RIGHT) &&
+		true == UEngineInput::IsFree(VK_UP) &&
+		true == UEngineInput::IsFree(VK_DOWN))
+	{
+		if (BusterDelayTime <= BusterDelayTimeMax)
+		{
+			StateChange(EEgseuState::IdleAttack_Up_Loop);
+			return;
+		}
+	}
+
+	// 0.5초가 지나면,
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::IdleRun_Loop);
+		return;
+	}
 }
 void AEgseu::RunAttack_Up_EndStart()
 {
