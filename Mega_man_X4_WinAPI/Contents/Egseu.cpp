@@ -894,6 +894,14 @@ void AEgseu::IdleAttack_DownStart()
 
 void AEgseu::IdleAttack_Down(float _DeltaTime)
 {
+	if (true == UEngineInput::IsPress(VK_LEFT) ||
+		true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		BusterDelayTime += _DeltaTime;
+		StateChange(EEgseuState::IdleRun);
+		return;
+	}
+
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::IdleAttack_Down_Loop);
@@ -910,6 +918,13 @@ void AEgseu::IdleAttack_Down_LoopStart()
 void AEgseu::IdleAttack_Down_Loop(float _DeltaTime) // Down 이던 Press 이던 여기 까지는 들어와야 함.
 {
 	BusterDelayTime += _DeltaTime;
+
+	if (true == UEngineInput::IsPress(VK_LEFT) ||
+		true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		StateChange(EEgseuState::IdleRun_Loop);
+		return;
+	}
 
 	// 0.5초가 지났다면,
 	if (BusterDelayTimeMax <= BusterDelayTime) // 차지 모션 대기 시간.
@@ -1176,6 +1191,12 @@ void AEgseu::IdleRun(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EEgseuState::RunAttack_Down);
+		return;
+	}
+
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::IdleRun_Loop);
@@ -1273,7 +1294,7 @@ void AEgseu::RunAttack_DownStart()
 	BusterCreate(EBusterState::CreateDefault);
 }
 
-void AEgseu::RunAttack_Down(float _DeltaTime) // 생각보다 많이 들어옴.
+void AEgseu::RunAttack_Down(float _DeltaTime)
 {
 	DirCheck();
 	if (true == UEngineInput::IsPress(VK_LEFT))
