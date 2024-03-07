@@ -36,7 +36,12 @@ void AEgseu::Tick(float _DeltaTime)
 	StateUpdate(_DeltaTime);
 	BusterChargeTime(_DeltaTime);
 	CollisionCheck(_DeltaTime);
-	UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
+	// Debug
+	if (Debug_Num != static_cast<int>(State))
+	{
+		UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
+		Debug_Num = static_cast<int>(State);
+	}
 }
 
 void AEgseu::ChargeBeginPlay()
@@ -1394,18 +1399,20 @@ void AEgseu::IdleRun_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunAttack Down
+#pragma region RunAttack Down / IdleRun
 void AEgseu::RunAttack_DownStart()
 {
-	//DirCheck(); // 이미지 바꾸는 것이 필요함.
-	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Start"));
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Start"), false, CurFrame);
 
 	BusterCreate(EBusterState::CreateDefault);
+	DirCheck();
 }
 
 void AEgseu::RunAttack_Down(float _DeltaTime)
 {
-	DirCheck();
+	BusterDelayTime += _DeltaTime;
+
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
 		RunVector = FVector::Left * MoveSpeed;
@@ -1417,6 +1424,25 @@ void AEgseu::RunAttack_Down(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::IdleRun);
+		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::RunAttack_Down_Loop); // .....
+		return;
+	}
+	
+
 	if (true == UEngineInput::IsFree(VK_LEFT) &&
 		true == UEngineInput::IsFree(VK_RIGHT) &&
 		true == UEngineInput::IsFree(VK_UP) &&
@@ -1425,20 +1451,12 @@ void AEgseu::RunAttack_Down(float _DeltaTime)
 		StateChange(EEgseuState::Idle);
 		return;
 	}
-
-
-	if (true == PlayerRender->IsCurAnimationEnd())
-	{
-		BusterTickCount = 0;
-		StateChange(EEgseuState::RunAttack_Down_Loop);
-		return;
-	}
 }
 
 void AEgseu::RunAttack_Down_LoopStart()
 {
-	//DirCheck(); // 이미지 바꾸는 것이 필요함.
-	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"));
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"), false, CurFrame);
 	BusterCreate(EBusterState::CreateDefault);
 	DirCheck();
 }
@@ -1466,6 +1484,13 @@ void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
 		BusterCreate(EBusterState::CreateDefault);
 	}
 
+	if (true == UEngineInput::IsDown('C'))
+	{
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunJump);
+		return;
+	}
+
 	if (true == UEngineInput::IsFree(VK_LEFT) &&
 		true == UEngineInput::IsFree(VK_RIGHT) &&
 		true == UEngineInput::IsFree(VK_UP) &&
@@ -1487,7 +1512,7 @@ void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
 	if (BusterDelayTimeMax <= BusterDelayTime)
 	{
 		BusterDelayTime = 0.0f;
-		StateChange(EEgseuState::RunAttack_Down_End);
+		StateChange(EEgseuState::IdleRun_Loop);
 		return;
 	}
 }
@@ -1779,24 +1804,18 @@ void AEgseu::RunDashJump_End(float _DeltaTime)
 void AEgseu::RunDashJumpAttackStart()
 {
 }
-
-void AEgseu::RunDashJumpAttack_LoopStart()
-{
-}
-
-void AEgseu::RunDashJumpAttack_EndStart()
-{
-}
-
-
 void AEgseu::RunDashJumpAttack(float _DeltaTime)
 {
 }
-
+void AEgseu::RunDashJumpAttack_LoopStart()
+{
+}
 void AEgseu::RunDashJumpAttack_Loop(float _DeltaTime)
 {
 }
-
+void AEgseu::RunDashJumpAttack_EndStart()
+{
+}
 void AEgseu::RunDashJumpAttack_End(float _DeltaTime)
 {
 }
@@ -1809,19 +1828,6 @@ void AEgseu::RunJumpStart()
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
 	DirCheck();
 }
-
-void AEgseu::RunJump_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
-	DirCheck();
-}
-
-void AEgseu::RunJump_EndStart()
-{
-	JumpVector = FVector::Zero;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
-}
-
 
 void AEgseu::RunJump(float _DeltaTime)
 {
@@ -1837,6 +1843,13 @@ void AEgseu::RunJump(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
+	// 공격
+	if (true == UEngineInput::IsDown('X'))
+	{
+		//StateChange(EEgseuState::JumpAttack_Down); RunJumpAttack
+		return;
+	}
+
 	// 점프 중 벽 체크
 	bool WallChecl = CalWallCheck();
 	if (true == WallChecl)
@@ -1850,6 +1863,12 @@ void AEgseu::RunJump(float _DeltaTime)
 		StateChange(EEgseuState::RunJump_Loop);
 		return;
 	}
+}
+
+void AEgseu::RunJump_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	DirCheck();
 }
 
 void AEgseu::RunJump_Loop(float _DeltaTime)
@@ -1867,6 +1886,11 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 
 	// 공격
+	if (true == UEngineInput::IsDown('X'))
+	{
+		//StateChange(EEgseuState::JumpAttack_Down_Loop);
+		return;
+	}
 
 
 	// 점프 중 벽 체크
@@ -1884,6 +1908,12 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 		StateChange(EEgseuState::RunJump_End);
 		return;
 	}
+}
+
+void AEgseu::RunJump_EndStart()
+{
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
 }
 
 void AEgseu::RunJump_End(float _DeltaTime)

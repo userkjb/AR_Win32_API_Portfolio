@@ -183,6 +183,7 @@ private :
 	EActorDir DirState = EActorDir::Right;
 
 	std::string CurAnimationName = "None";
+	int Debug_Num = 0;
 
 	UImageRenderer* PlayerRender = nullptr;
 	UCollision* PlayerCollision = nullptr;
