@@ -217,7 +217,7 @@ void APlayerFocus::Run(float _DeltaTime)
 	ForcusTime += _DeltaTime;
 	// Player를 반박자 뒤에 따라다녀야 함.
 	FVector PlayerPos = AEgseu::GetMainPlayer()->GetActorLocation();
-	PlayerPos.Y -= 58.0f;
+	PlayerPos.Y -= 50.0f;
 	FVector PlayerDir = PlayerPos - this->GetActorLocation();
 	PlayerDir.Normalize2D();
 

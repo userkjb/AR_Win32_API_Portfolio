@@ -172,7 +172,7 @@ void UCyberSpaceLevel::ActorGeneration(float _DeltaTime) // Tick
 		if (Focus == nullptr)
 		{
 			Focus = SpawnActor<APlayerFocus>();
-			Focus->SetActorLocation({ PlayerPos.iX(), PlayerPos .iY() - 64});
+			Focus->SetActorLocation({ PlayerPos.iX(), PlayerPos .iY() - 50});
 			Focus->SetFocusState(EFocusState::CallCreate);
 			FocusCount = 0;
 		}
