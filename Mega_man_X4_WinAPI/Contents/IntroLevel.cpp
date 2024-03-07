@@ -68,7 +68,14 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Middle_Left.png", 4, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Pull_Right.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Buster_Pull_Left.png", 3, 1);
-	
+	// Buster Crash
+	UEngineResourcesManager::GetInst().CuttingImage("Default_Buster_Crash_Right.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Default_Buster_Crash_Left.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Middle_Buster_Crash_Right.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Middle_Buster_Crash_Left.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Pull_Buster_Crash_Right.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Pull_Buster_Crash_Left.png", 5, 1);
+
 	// Â÷Áö
 	UEngineResourcesManager::GetInst().CuttingImage("Charging_1.png", 9, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Charging_2.png", 4, 1);
