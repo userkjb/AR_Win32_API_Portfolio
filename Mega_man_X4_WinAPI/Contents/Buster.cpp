@@ -268,16 +268,15 @@ void ABuster::PullCharge(float _DeltaTime)
 #pragma region BusterCrash
 void ABuster::BusterCrashStart()
 {
-	// 충동시 나오는 임펙트 출력. //================================
-	int a = 0;
+	// 충동시 나오는 임펙트 출력 예정.(이미지 준비 안됨)
 	Renderer->ActiveOff();
-
+	BusterCollision->ActiveOff();
+	BusterVector = FVector::Zero;
 }
 
 void ABuster::BusterCrash(float _DeltaTime)
 {
-	BusterVector = FVector::Zero;
-	MoveUpdate(_DeltaTime);
+	AddActorLocation(BusterVector);
 
 	if (true == Renderer->IsCurAnimationEnd())
 	{
@@ -290,7 +289,6 @@ void ABuster::BusterCrash(float _DeltaTime)
 #pragma region BusterEnd
 void ABuster::BusterEndStart()
 {
-	BusterVector = FVector::Zero;
 	BusterLifeTime = 0.0f;
 }
 
@@ -303,16 +301,6 @@ void ABuster::BusterEnd(float _DeltaTime)
 #pragma endregion
 
 
-void ABuster::MoveUpdate(float _DeltaTime)
-{
-	LastMoveVector = FVector::Zero;
-	LastMoveVector += BusterVector;
-
-	AddActorLocation(LastMoveVector);
-}
-
-
-
 void ABuster::CollisionCheck()
 {
 	// 1. Object
@@ -322,12 +310,14 @@ void ABuster::CollisionCheck()
 	std::vector<UCollision*> EnemyResult;
 	//std::vector<UCollision*> MapObjectResult;
 	
+	// 일반 몹
 	if (true == BusterCollision->CollisionCheck(ECollisionOrder::Enemy, EnemyResult))
 	{
 		StateChange(EBusterState::BusterCrash);
 		return;
 	}
 
+	// 보스
 	if (true == BusterCollision->CollisionCheck(ECollisionOrder::Boss, EnemyResult))
 	{
 		return;
