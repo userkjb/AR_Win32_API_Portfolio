@@ -70,9 +70,12 @@ enum class EEgseuState
 	JumpAttack_Loop,
 	JumpAttack_End, // 10
 
-	IdleAttack,
-	IdleAttack_Loop,
-	IdleAttack_End,
+	IdleAttack_Down,
+	IdleAttack_Up,
+	IdleAttack_Loop_Down,
+	IdleAttack_Loop_Up,
+	IdleAttack_End_Down,
+	IdleAttack_End_Up,
 
 	IdleDash,
 	IdleDash_Loop,
