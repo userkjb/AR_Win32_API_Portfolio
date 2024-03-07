@@ -96,7 +96,6 @@ private :
 	void BusterEndStart();
 	void BusterEnd(float _DeltaTime);
 
-	void MoveUpdate(float _DeltaTime);
 
 	//=============================================
 
@@ -104,6 +103,7 @@ private :
 
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BusterCollision = nullptr;
+	UImageRenderer* DeleteBusterRender = nullptr;
 	const float BusterSpeed = 500.0f; // 발사 속도.
 	FVector BusterVector = FVector::Zero;
 	FVector LastMoveVector = FVector::Zero;
