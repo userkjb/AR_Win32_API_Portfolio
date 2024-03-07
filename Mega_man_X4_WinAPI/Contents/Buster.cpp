@@ -24,7 +24,7 @@ void ABuster::BeginPlay()
 	
 	CrashBusterRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	CrashBusterRender->SetImage("Pull_Buster_Crash_Left.png");
-	CrashBusterRender->AutoImageScale(2.0f);
+	CrashBusterRender->AutoImageScale();
 
 	// Animation
 	Renderer->CreateAnimation("Buster_Default_Right", "x_Buster_Default_Right.png", 0, 4, 0.05f, true);
@@ -161,7 +161,9 @@ void ABuster::PullBegin(float _DeltaTime)
 void ABuster::DefaultChargeStart()
 {
 	std::string AniName = "Buster_Default" + GetRorL();
+	std::string AniNameCrash = "Buster_Default_Crash" + GetRorL();
 	Renderer->ChangeAnimation(AniName);
+	CrashBusterRender->ChangeAnimation(AniNameCrash);
 	if (DirState == EActorDir::Right)
 	{
 		BusterCollision->SetPosition({ 15.0f, 0.0f });
@@ -200,7 +202,9 @@ void ABuster::DefaultBuster(float _DeltaTime)
 void ABuster::MiddleChargeStart()
 {
 	std::string AniName = "Buster_Middle" + GetRorL();
+	std::string AniNameCrash = "Buster_Middle_Crash" + GetRorL();
 	Renderer->ChangeAnimation(AniName);
+	CrashBusterRender->ChangeAnimation(AniNameCrash);
 	if (DirState == EActorDir::Right)
 	{
 		BusterCollision->SetPosition({ 28.0f, 0.0f });
@@ -239,7 +243,9 @@ void ABuster::MiddleCharge(float _DeltaTime)
 void ABuster::PullChargeStart()
 {
 	std::string AniName = "Buster_Pull" + GetRorL();
+	std::string AniNameCrash = "Buster_Pull_Crash" + GetRorL();
 	Renderer->ChangeAnimation(AniName);
+	CrashBusterRender->ChangeAnimation(AniNameCrash);
 	if (DirState == EActorDir::Right)
 	{
 		BusterCollision->SetPosition({ 64.0f, 0.0f });
@@ -280,6 +286,7 @@ void ABuster::BusterCrashStart()
 	// 충동시 나오는 임펙트 출력 예정.(이미지 준비 안됨)
 	Renderer->ActiveOff();
 	BusterCollision->ActiveOff();
+	CrashBusterRender->ActiveOn();
 	BusterVector = FVector::Zero;
 }
 
@@ -287,7 +294,7 @@ void ABuster::BusterCrash(float _DeltaTime)
 {
 	AddActorLocation(BusterVector);
 
-	if (true == Renderer->IsCurAnimationEnd())
+	if (true == CrashBusterRender->IsCurAnimationEnd())
 	{
 		StateChange(EBusterState::BusterEnd);
 		return;
@@ -298,6 +305,7 @@ void ABuster::BusterCrash(float _DeltaTime)
 #pragma region BusterEnd
 void ABuster::BusterEndStart()
 {
+	CrashBusterRender->ActiveOff();
 	BusterLifeTime = 0.0f;
 }
 
