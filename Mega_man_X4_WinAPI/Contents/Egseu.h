@@ -33,6 +33,7 @@ private :
 	void PlayerBeginPlay();
 	void DirCheck();
 	std::string GetAnimationName(std::string _Name);
+	void ChangeAttackAnimation(std::string_view _str);
 	void StateChange(EEgseuState _State);
 	void StateUpdate(float _DeltaTime);
 

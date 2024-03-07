@@ -237,6 +237,33 @@ std::string AEgseu::GetAnimationName(std::string _Name)
 	return _Name + DirName;
 }
 
+/// <summary>
+/// Start 함수들에서 GetAnimationName함수를 사용하기 전에 호출해야 한다.
+/// </summary>
+/// <param name="_str"></param>
+void AEgseu::ChangeAttackAnimation(std::string_view _str)
+{
+	std::string CurAniName = CurAnimationName;
+
+	std::string DirName = "";
+
+	switch (DirState)
+	{
+	case EActorDir::Left:
+		DirName = "_Left";
+		break;
+	case EActorDir::Right:
+		DirName = "_Right";
+		break;
+	default:
+		break;
+	}
+
+
+
+	//PlayerRender->ChangeAnimation(Name, true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
+}
+
 void AEgseu::StateChange(EEgseuState _State)
 {
 	if (State != _State)
