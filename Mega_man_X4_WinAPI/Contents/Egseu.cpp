@@ -644,7 +644,6 @@ void AEgseu::Idle(float _DeltaTime)
 	// 공격 X
 	if (true == UEngineInput::IsDown('X'))
 	{
-		//StateChange(EEgseuState::IdleAttack);
 		StateChange(EEgseuState::IdleAttack_Down);
 		return;
 	}
@@ -652,7 +651,6 @@ void AEgseu::Idle(float _DeltaTime)
 	// 발싸!!!
 	if (true == UEngineInput::IsUp('X'))
 	{
-		//StateChange(EEgseuState::IdleAttack_End);
 		StateChange(EEgseuState::IdleAttack_Up);
 		return;
 	}
@@ -867,7 +865,7 @@ void AEgseu::JumpAttack_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region IdleAttack
+#pragma region IdleAttack Down
 void AEgseu::IdleAttack_DownStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Start"));
@@ -938,10 +936,12 @@ void AEgseu::IdleAttack_Down_End(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
+#pragma region IdleAttack Up
 void AEgseu::IdleAttack_UpStart()
 {
-
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Start"));
 	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 	{
 		BusterCreate(EBusterState::CreateMiddle);
@@ -950,29 +950,56 @@ void AEgseu::IdleAttack_UpStart()
 	{
 		BusterCreate(EBusterState::CreatePull);
 	}
+	BusterDelayTime = 0.0f;
 }
 
 void AEgseu::IdleAttack_Up(float _DeltaTime)
 {
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::IdleAttack_Up_Loop);
+		BusterDelayTime += _DeltaTime;
+		return;
+	}
 }
-
-
 
 void AEgseu::IdleAttack_Up_LoopStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Loop"));
 }
 
 void AEgseu::IdleAttack_Up_Loop(float _DeltaTime)
 {
-}
+	BusterDelayTime += _DeltaTime;
 
+	// 0.5초가 지났다면,
+	if (BusterDelayTimeMax <= BusterDelayTime) // 차지 모션 대기 시간.
+	{
+		StateChange(EEgseuState::IdleAttack_Up_End);
+		return;
+	}
+
+	// 모션 중에 X 키가 눌리면,
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+}
 
 void AEgseu::IdleAttack_Up_EndStart()
 {
-
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
+	BusterDelayTime = 0.0f;
 }
+
 void AEgseu::IdleAttack_Up_End(float _DeltaTime)
 {
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 }
 #pragma endregion
 
