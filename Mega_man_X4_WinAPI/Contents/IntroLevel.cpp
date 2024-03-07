@@ -43,20 +43,27 @@ void UIntroLevel::BeginPlay()
 
 	UEngineResourcesManager::GetInst().CuttingImage("x_Start.png", 9, 2);
 
-	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Right.png", 5, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Idle_Left.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Right.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Left.png", 4, 1);
+
+	// 이동
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Right.png", 16, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Left.png", 16, 1);
+
+	// 점프
 	UEngineResourcesManager::GetInst().CuttingImage("x_Jump_Right.png", 11, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Jump_Left.png", 11, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Attack_Right.png", 8, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Attack_Left.png", 8, 1);
+	
+	// 대쉬
+	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Right.png", 8, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Left.png", 8, 1);
+
+	// 공격
+	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Attack_Right.png", 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Attack_Left.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Right.png", 8, 4);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Left.png", 8, 4);
 
-	// 캐릭터 대쉬
-	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Right.png", 8, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Left.png", 8, 1);
 	// 대쉬 임팩트
 	UEngineResourcesManager::GetInst().CuttingImage("Dash_Effect_Right.png", 8, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Dash_Effect_Left.png", 8, 1);
