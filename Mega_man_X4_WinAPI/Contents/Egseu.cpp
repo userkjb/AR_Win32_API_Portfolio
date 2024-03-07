@@ -133,10 +133,10 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Idle_Attack_End_Right", "X_Idle_Attack_End_Right.png", 0, 1, 0.1f, false);
 	PlayerRender->CreateAnimation("Idle_Attack_End_Left", "X_Idle_Attack_End_Left.png", 0, 1, 0.1f, false);
 
-	PlayerRender->CreateAnimation("Run_Attack_Start_Right", "x_Move_Attack_Right.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
-	PlayerRender->CreateAnimation("Run_Attack_Start_Left", "x_Move_Attack_Left.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
-	PlayerRender->CreateAnimation("Run_Attack_Loop_Right", "x_Move_Attack_Right.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
-	PlayerRender->CreateAnimation("Run_Attack_Loop_Left", "x_Move_Attack_Left.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
+	PlayerRender->CreateAnimation("Run_Attack_Start_Right", "Run_Attack_Right.png", 0, 1, 0.05f, false);
+	PlayerRender->CreateAnimation("Run_Attack_Start_Left", "Run_Attack_Left.png", 0, 1, 0.05f, false);
+	PlayerRender->CreateAnimation("Run_Attack_Loop_Right", "Run_Attack_Right.png", 2, 15, 0.1f, true);
+	PlayerRender->CreateAnimation("Run_Attack_Loop_Left", "Run_Attack_Left.png", 2, 15, 0.1f, true);
 
 	PlayerRender->CreateAnimation("Dash_Attack_Start_Right", "x_Dash_Attack_Right.png", { 0, 2 }, 0.05f, false);
 	PlayerRender->CreateAnimation("Dash_Attack_Start_Left", "x_Dash_Attack_Left.png", { 0, 2 }, 0.05f, false);
@@ -282,17 +282,17 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::IdleAttack_Down:
 			IdleAttack_DownStart();
 			break;
-		case EEgseuState::IdleAttack_Up:
-			IdleAttack_UpStart();
-			break;
 		case EEgseuState::IdleAttack_Down_Loop:
 			IdleAttack_Down_LoopStart();
 			break;
-		case EEgseuState::IdleAttack_Up_Loop:
-			IdleAttack_Up_LoopStart();
-			break;
 		case EEgseuState::IdleAttack_Down_End:
 			IdleAttack_Down_EndStart();
+			break;
+		case EEgseuState::IdleAttack_Up:
+			IdleAttack_UpStart();
+			break;
+		case EEgseuState::IdleAttack_Up_Loop:
+			IdleAttack_Up_LoopStart();
 			break;
 		case EEgseuState::IdleAttack_Up_End:
 			IdleAttack_Up_EndStart();
@@ -324,14 +324,23 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::IdleRun_End:
 			IdleRun_EndStart();
 			break;
-		case EEgseuState::RunAttack:
-			RunAttackStart();
+		case EEgseuState::RunAttack_Down:
+			RunAttack_DownStart();
 			break;
-		case EEgseuState::RunAttack_Loop:
-			RunAttack_LoopStart();
+		case EEgseuState::RunAttack_Down_Loop:
+			RunAttack_Down_LoopStart();
 			break;
-		case EEgseuState::RunAttack_End:
-			RunAttack_EndStart();
+		case EEgseuState::RunAttack_Down_End:
+			RunAttack_Down_EndStart();
+			break;
+		case EEgseuState::RunAttack_Up:
+			RunAttack_UpStart();
+			break;
+		case EEgseuState::RunAttack_Up_Loop:
+			RunAttack_Up_LoopStart();
+			break;
+		case EEgseuState::RunAttack_Up_End:
+			RunAttack_Up_EndStart();
 			break;
 		case EEgseuState::RunDash:
 			RunDashStart();
@@ -440,17 +449,17 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::IdleAttack_Down:
 		IdleAttack_Down(_DeltaTime);
 		break;
-	case EEgseuState::IdleAttack_Up:
-		IdleAttack_Up(_DeltaTime);
-		break;
 	case EEgseuState::IdleAttack_Down_Loop:
 		IdleAttack_Down_Loop(_DeltaTime);
 		break;
-	case EEgseuState::IdleAttack_Up_Loop:
-		IdleAttack_Up_Loop(_DeltaTime);
-		break;
 	case EEgseuState::IdleAttack_Down_End:
 		IdleAttack_Down_End(_DeltaTime);
+		break;
+	case EEgseuState::IdleAttack_Up:
+		IdleAttack_Up(_DeltaTime);
+		break;
+	case EEgseuState::IdleAttack_Up_Loop:
+		IdleAttack_Up_Loop(_DeltaTime);
 		break;
 	case EEgseuState::IdleAttack_Up_End:
 		IdleAttack_Up_End(_DeltaTime);
@@ -482,14 +491,23 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::IdleRun_End:
 		IdleRun_End(_DeltaTime);
 		break;
-	case EEgseuState::RunAttack:
-		RunAttack(_DeltaTime);
+	case EEgseuState::RunAttack_Down:
+		RunAttack_Down(_DeltaTime);
 		break;
-	case EEgseuState::RunAttack_Loop:
-		RunAttack_Loop(_DeltaTime);
+	case EEgseuState::RunAttack_Down_Loop:
+		RunAttack_Down_Loop(_DeltaTime);
 		break;
-	case EEgseuState::RunAttack_End:
-		RunAttack_End(_DeltaTime);
+	case EEgseuState::RunAttack_Down_End:
+		RunAttack_Down_End(_DeltaTime);
+		break;
+	case EEgseuState::RunAttack_Up:
+		RunAttack_Up(_DeltaTime);
+		break;
+	case EEgseuState::RunAttack_Up_Loop:
+		RunAttack_Up_Loop(_DeltaTime);
+		break;
+	case EEgseuState::RunAttack_Up_End:
+		RunAttack_Up_End(_DeltaTime);
 		break;
 	case EEgseuState::RunDash:
 		RunDash(_DeltaTime);
@@ -613,6 +631,7 @@ void AEgseu::Summon_End(float _DeltaTime)
 void AEgseu::IdleStart()
 {
 	JumpVector = FVector::Zero; // 벽 타고 내려왔을 대 점프 초기화.
+	BusterDelayTime = 0.0f;
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
 	DirCheck();
 }
@@ -1138,29 +1157,8 @@ void AEgseu::DashAttack_End(float _DeltaTime)
 #pragma region IdleRun
 void AEgseu::IdleRunStart()
 {
+	BusterDelayTime = 0.0f;
 	PlayerRender->ChangeAnimation(GetAnimationName("Run_Ready"));
-	DirCheck();
-}
-
-void AEgseu::IdleRun_LoopStart()
-{
-	JumpVector = FVector::Zero; // 벽 타고 왔을 때 점프 Vector 초기화.
-
-	if (ChangeAnimationFrame == 0)
-	{
-		PlayerRender->ChangeAnimation(GetAnimationName("Run"));
-	}
-	else
-	{
-		PlayerRender->ChangeAnimation(GetAnimationName("Run"), true, ChangeAnimationFrame, PlayerRender->GetCurAnimationTime());
-		ChangeAnimationFrame = 0;
-	}
-	DirCheck();
-}
-
-void AEgseu::IdleRun_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
 	DirCheck();
 }
 
@@ -1183,6 +1181,22 @@ void AEgseu::IdleRun(float _DeltaTime)
 		StateChange(EEgseuState::IdleRun_Loop);
 		return;
 	}
+}
+
+void AEgseu::IdleRun_LoopStart()
+{
+	JumpVector = FVector::Zero; // 벽 타고 왔을 때 점프 Vector 초기화.
+
+	if (ChangeAnimationFrame == 0)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Run"));
+	}
+	else
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Run"), true, ChangeAnimationFrame, PlayerRender->GetCurAnimationTime());
+		ChangeAnimationFrame = 0;
+	}
+	DirCheck();
 }
 
 void AEgseu::IdleRun_Loop(float _DeltaTime)
@@ -1209,14 +1223,14 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		StateChange(EEgseuState::RunAttack);
+		StateChange(EEgseuState::RunAttack_Down_Loop);
 		return;
 	}
 
 	// 발싸!!
 	if (true == UEngineInput::IsUp('X'))
 	{
-		StateChange(EEgseuState::RunAttack_End);
+		StateChange(EEgseuState::RunAttack_Up_Loop);
 		return;
 	}
 
@@ -1237,6 +1251,12 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	}
 }
 
+void AEgseu::IdleRun_EndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
+	DirCheck();
+}
+
 void AEgseu::IdleRun_End(float _DeltaTime)
 {
 	StateChange(EEgseuState::Idle);
@@ -1244,43 +1264,34 @@ void AEgseu::IdleRun_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunAttack
-void AEgseu::RunAttackStart()
+#pragma region RunAttack Down
+void AEgseu::RunAttack_DownStart()
 {
+	//DirCheck(); // 이미지 바꾸는 것이 필요함.
 	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Start"));
-	DirCheck();
-	{
-		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-		std::string BusterName;
-		if (DirState == EActorDir::Right)
-		{
-			A_Buster->SetDirState(EActorDir::Right);
-			BusterName = "Buster_Default_Right";
-		}
-		else if (DirState == EActorDir::Left)
-		{
-			A_Buster->SetDirState(EActorDir::Left);
-			BusterName = "Buster_Default_Left";
-		}
-		A_Buster->SetBusterState(EBusterState::DefaultCharge);
-		//A_Buster->SetBusterAnimation(BusterName);
-		BusterTickCount++;
-	}
+
+	BusterCreate(EBusterState::CreateDefault);
+	//{
+	//	ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+	//	A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+	//	std::string BusterName;
+	//	if (DirState == EActorDir::Right)
+	//	{
+	//		A_Buster->SetDirState(EActorDir::Right);
+	//		BusterName = "Buster_Default_Right";
+	//	}
+	//	else if (DirState == EActorDir::Left)
+	//	{
+	//		A_Buster->SetDirState(EActorDir::Left);
+	//		BusterName = "Buster_Default_Left";
+	//	}
+	//	A_Buster->SetBusterState(EBusterState::DefaultCharge);
+	//	//A_Buster->SetBusterAnimation(BusterName);
+	//	BusterTickCount++;
+	//}
 }
 
-void AEgseu::RunAttack_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"));
-	DirCheck();
-}
-
-void AEgseu::RunAttack_EndStart()
-{
-
-}
-
-void AEgseu::RunAttack(float _DeltaTime) // 생각보다 많이 들어옴.
+void AEgseu::RunAttack_Down(float _DeltaTime) // 생각보다 많이 들어옴.
 {
 	DirCheck();
 	if (true == UEngineInput::IsPress(VK_LEFT))
@@ -1302,77 +1313,25 @@ void AEgseu::RunAttack(float _DeltaTime) // 생각보다 많이 들어옴.
 		StateChange(EEgseuState::Idle);
 		return;
 	}
-	
+
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		BusterTickCount = 0;
-		StateChange(EEgseuState::RunAttack_Loop);
+		StateChange(EEgseuState::RunAttack_Down_Loop);
 		return;
 	}
 }
 
-void AEgseu::RunAttack_Loop(float _DeltaTime)
+void AEgseu::RunAttack_Down_LoopStart()
 {
-	AttackLoopTime += _DeltaTime;
-
+	//DirCheck(); // 이미지 바꾸는 것이 필요함.
+	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"));
+	BusterCreate(EBusterState::CreateDefault);
 	DirCheck();
-	if (true == UEngineInput::IsPress(VK_LEFT))
-	{
-		RunVector = FVector::Left * MoveSpeed;
-	}
-	if (true == UEngineInput::IsPress(VK_RIGHT))
-	{
-		RunVector = FVector::Right * MoveSpeed;
-	}
-
-	MoveUpdate(_DeltaTime);
-
-	if (true == UEngineInput::IsFree(VK_LEFT) &&
-		true == UEngineInput::IsFree(VK_RIGHT) &&
-		true == UEngineInput::IsFree(VK_UP) &&
-		true == UEngineInput::IsFree(VK_DOWN))
-	{
-		StateChange(EEgseuState::Idle);
-		return;
-	}
-
-
-	if (1.0f <= AttackLoopTime)
-	{
-		AttackLoopTime = 0.0f;
-		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
-		{
-			ChangeAnimationFrame = PlayerRender->GetCurAnimationImageFrame();
-			BusterTickCount = 0;
-			StateChange(EEgseuState::IdleRun_Loop);
-			return;
-		}
-		else
-		{
-			BusterTickCount = 0;
-			StateChange(EEgseuState::Idle);
-			return;
-		}
-	}
-
-	if (true == UEngineInput::IsUp('X'))
-	{
-		BusterTickCount = 0;
-		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
-		{
-			StateChange(EEgseuState::IdleRun_Loop);
-			return;
-		}
-		else
-		{
-			StateChange(EEgseuState::Idle);
-			return;
-		}
-	}
 }
 
-void AEgseu::RunAttack_End(float _DeltaTime)
+void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
 {
 	BusterDelayTime += _DeltaTime;
 
@@ -1388,57 +1347,21 @@ void AEgseu::RunAttack_End(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
-	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
-	{
-		if (BusterTickCount == 0)
-		{
-			ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-			std::string BusterName;
-			if (DirState == EActorDir::Right)
-			{
-				A_Buster->SetDirState(EActorDir::Right);
-				BusterName = "Buster_Middle_Right";
-			}
-			else if (DirState == EActorDir::Left)
-			{
-				A_Buster->SetDirState(EActorDir::Left);
-				BusterName = "Buster_Middle_Left";
-			}
-			A_Buster->SetBusterState(EBusterState::MiddleCharge);
-			//A_Buster->SetBusterAnimation(BusterName);
-			BusterTickCount++;
-		}
-	}
-	else if (2.0f <= BusterChargTime)
-	{
-		if (BusterTickCount == 0)
-		{
-			ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-			A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-			std::string BusterName;
-			if (DirState == EActorDir::Right)
-			{
-				A_Buster->SetDirState(EActorDir::Right);
-				BusterName = "Buster_Pull_Right";
-			}
-			else if (DirState == EActorDir::Left)
-			{
-				A_Buster->SetDirState(EActorDir::Left);
-				BusterName = "Buster_Pull_Left";
-			}
-			A_Buster->SetBusterState(EBusterState::PullCharge);
-			//A_Buster->SetBusterAnimation(BusterName);
-			BusterTickCount++;
-		}
-	}
-
-	if (1.0f <= BusterDelayTime)
+	// 또 눌러?
+	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	if (true == UEngineInput::IsFree(VK_LEFT) &&
+		true == UEngineInput::IsFree(VK_RIGHT) &&
+		true == UEngineInput::IsFree(VK_UP) &&
+		true == UEngineInput::IsFree(VK_DOWN))
+	{
+		if (BusterDelayTime <= BusterDelayTimeMax)
 		{
-			StateChange(EEgseuState::IdleRun_Loop);
+			StateChange(EEgseuState::IdleAttack_Down_Loop);
 			return;
 		}
 		else
@@ -1447,6 +1370,61 @@ void AEgseu::RunAttack_End(float _DeltaTime)
 			return;
 		}
 	}
+
+	// 0.5초가 지나면,
+	if (BusterDelayTimeMax <= BusterDelayTime)
+	{
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunAttack_Down_End);
+		return;
+		/*if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+		{
+			ChangeAnimationFrame = PlayerRender->GetCurAnimationImageFrame();
+			BusterTickCount = 0;
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			BusterTickCount = 0;
+			StateChange(EEgseuState::Idle);
+			return;
+		}*/
+	}
+}
+
+void AEgseu::RunAttack_Down_EndStart()
+{
+	BusterDelayTime = 0.0f;
+	// 프레임 교체 필요. TODO
+	//PlayerRender->ChangeAnimation(GetAnimationName("Run"));
+}
+
+void AEgseu::RunAttack_Down_End(float _DeltaTime)
+{
+	StateChange(EEgseuState::IdleRun_Loop);
+	return;
+}
+#pragma endregion
+
+#pragma region RunAttack Up
+void AEgseu::RunAttack_UpStart()
+{
+}
+void AEgseu::RunAttack_Up(float _DeltaTime)
+{
+}
+void AEgseu::RunAttack_Up_LoopStart()
+{
+}
+void AEgseu::RunAttack_Up_Loop(float _DeltaTime)
+{
+}
+void AEgseu::RunAttack_Up_EndStart()
+{
+}
+void AEgseu::RunAttack_Up_End(float _DeltaTime)
+{
 }
 #pragma endregion
 

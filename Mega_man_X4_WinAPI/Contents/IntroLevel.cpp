@@ -64,8 +64,9 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Attack_End_Right.png", 2, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Attack_End_Left.png", 2, 1);
 
-	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Right.png", 8, 4);
-	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Left.png", 8, 4);
+	// 이동 공격
+	UEngineResourcesManager::GetInst().CuttingImage("Run_Attack_Right.png", 16, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Run_Attack_Left.png", 16, 1);
 
 	// 대쉬 임팩트
 	UEngineResourcesManager::GetInst().CuttingImage("Dash_Effect_Right.png", 8, 1);

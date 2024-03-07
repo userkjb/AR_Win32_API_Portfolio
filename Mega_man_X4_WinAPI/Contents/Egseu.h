@@ -61,8 +61,6 @@ private :
 	void JumpAttack_Loop(float _DeltaTime);	
 	void JumpAttack_EndStart();
 	void JumpAttack_End(float _DeltaTime);	
-
-
 	void IdleAttack_DownStart();
 	void IdleAttack_Down(float _DeltaTime);
 	void IdleAttack_UpStart();
@@ -75,8 +73,6 @@ private :
 	void IdleAttack_Down_End(float _DeltaTime);	
 	void IdleAttack_Up_EndStart();
 	void IdleAttack_Up_End(float _DeltaTime);
-
-
 	void IdleDashStart();
 	void IdleDash(float _DeltaTime);	
 	void IdleDash_LoopStart();
@@ -95,12 +91,20 @@ private :
 	void IdleRun_Loop(float _DeltaTime);
 	void IdleRun_EndStart();
 	void IdleRun_End(float _DeltaTime);
-	void RunAttackStart();
-	void RunAttack(float _DeltaTime);
-	void RunAttack_LoopStart();
-	void RunAttack_Loop(float _DeltaTime);
-	void RunAttack_EndStart();
-	void RunAttack_End(float _DeltaTime);
+
+	void RunAttack_DownStart();
+	void RunAttack_Down(float _DeltaTime);
+	void RunAttack_Down_LoopStart();
+	void RunAttack_Down_Loop(float _DeltaTime);
+	void RunAttack_Down_EndStart();
+	void RunAttack_Down_End(float _DeltaTime);
+	void RunAttack_UpStart();
+	void RunAttack_Up(float _DeltaTime);
+	void RunAttack_Up_LoopStart();
+	void RunAttack_Up_Loop(float _DeltaTime);
+	void RunAttack_Up_EndStart();
+	void RunAttack_Up_End(float _DeltaTime);
+
 	void RunDashStart();
 	void RunDash(float _DeltaTime);
 	void RunDash_LoopStart();
@@ -207,7 +211,6 @@ private :
 	float MoveSpeed = 500.0f;
 	float DashSpeed = 750.0f;
 	float DashTime = 0.0f;
-	float AttackLoopTime = 0.0f;
 	float SummonDelayTime = 0.0f;
 	float ReadToBusterTime = 0.0f; // Buster 준비 시간.
 	float WallKickTime = 0.0f; // 벽 차는 행동을 강제하기 위한 Time
@@ -215,7 +218,7 @@ private :
 
 	float BusterChargTime = 0.0f;
 	float BusterDelayTime = 0.0f;
-	float BusterDelayTimeMax = 0.5f;
+	const float BusterDelayTimeMax = 0.5f;
 	int BusterTickCount = 0; // Buster가 1번 생성되도록.
 	int ChangeAnimationFrame = 0;
 	int Hit_Count = 0; // Hit 중복 방지.
