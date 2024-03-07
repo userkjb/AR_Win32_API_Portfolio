@@ -22,10 +22,11 @@ void ABuster::BeginPlay()
 	Renderer->SetImage("x_Buster_Default_Right.png");
 	Renderer->AutoImageScale(2.0f);
 	
-	DeleteBusterRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
-	DeleteBusterRender->SetImage("Pull_Buster_Crash_Left.png");
-	DeleteBusterRender->AutoImageScale(2.0f);
+	CrashBusterRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
+	CrashBusterRender->SetImage("Pull_Buster_Crash_Left.png");
+	CrashBusterRender->AutoImageScale(2.0f);
 
+	// Animation
 	Renderer->CreateAnimation("Buster_Default_Right", "x_Buster_Default_Right.png", 0, 4, 0.05f, true);
 	Renderer->CreateAnimation("Buster_Default_Left", "x_Buster_Default_Left.png", 0, 4, 0.05f, true);
 	Renderer->CreateAnimation("Buster_Middle_Right", "x_Buster_Middle_Right.png", 0, 3, 0.05f, true);
@@ -34,6 +35,14 @@ void ABuster::BeginPlay()
 	Renderer->CreateAnimation("Buster_Pull_Left", "x_Buster_Pull_Left.png", 0, 2, 0.05f, true);
 
 
+	CrashBusterRender->CreateAnimation("Buster_Default_Crash_Right", "Default_Buster_Crash_Right.png", 0, 3, 0.05f, false);
+	CrashBusterRender->CreateAnimation("Buster_Default_Crash_Left", "Default_Buster_Crash_Left.png", 0, 3, 0.05f, false);
+	CrashBusterRender->CreateAnimation("Buster_Middle_Crash_Right", "Middle_Buster_Crash_Right.png", 0, 3, 0.05f, false);
+	CrashBusterRender->CreateAnimation("Buster_Middle_Crash_Left", "Middle_Buster_Crash_Left.png", 0, 3, 0.05f, false);
+	CrashBusterRender->CreateAnimation("Buster_Pull_Crash_Right", "Pull_Buster_Crash_Right.png", 0, 4, 0.05f, false);
+	CrashBusterRender->CreateAnimation("Buster_Pull_Crash_Left", "Pull_Buster_Crash_Left.png", 0, 4, 0.05f, false);
+	CrashBusterRender->ChangeAnimation("Buster_Default_Crash_Right");
+	CrashBusterRender->ActiveOff();
 		
 	BusterCollision = CreateCollision(ECollisionOrder::Weapon);
 	BusterCollision->SetColType(ECollisionType::CirCle);
