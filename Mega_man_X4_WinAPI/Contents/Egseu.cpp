@@ -2105,7 +2105,8 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 void AEgseu::BusterCreate(EBusterState _BusterState)
 {
 	ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-	A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
+	FVector BusterPos = GetActorLocation();
+	A_Buster->SetActorLocation({ BusterPos.iX(), BusterPos.iY() - 64 }); // 상세 위치 조절 TODO
 	
 	std::string BusterName;
 	if (DirState == EActorDir::Right)
