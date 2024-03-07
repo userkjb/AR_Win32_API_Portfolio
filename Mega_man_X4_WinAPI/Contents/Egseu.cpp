@@ -2111,14 +2111,11 @@ void AEgseu::BusterCreate(EBusterState _BusterState)
 	if (DirState == EActorDir::Right)
 	{
 		A_Buster->SetDirState(EActorDir::Right);
-		BusterName = "Buster_Default_Right";
 	}
 	else if (DirState == EActorDir::Left)
 	{
 		A_Buster->SetDirState(EActorDir::Left);
-		BusterName = "Buster_Default_Left";
 	}
 	A_Buster->SetBusterState(_BusterState);
-	//A_Buster->SetBusterAnimation(BusterName);
 }
 
