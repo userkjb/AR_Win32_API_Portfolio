@@ -66,9 +66,12 @@ enum class EEgseuState
 	IdleJump_Loop,	// 채공 중.
 	IdleJump_End,	// 착지.
 
-	JumpAttack,
-	JumpAttack_Loop,
-	JumpAttack_End, // 10
+	JumpAttack_Down,
+	JumpAttack_Down_Loop,
+	JumpAttack_Down_End,
+	JumpAttack_Up,
+	JumpAttack_Up_Loop,
+	JumpAttack_Up_End,
 
 	IdleAttack_Down,
 	IdleAttack_Down_Loop,

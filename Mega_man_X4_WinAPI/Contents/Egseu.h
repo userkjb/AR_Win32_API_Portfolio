@@ -33,7 +33,6 @@ private :
 	void PlayerBeginPlay();
 	void DirCheck();
 	std::string GetAnimationName(std::string _Name);
-	void ChangeAttackAnimation(std::string_view _str);
 	void StateChange(EEgseuState _State);
 	void StateUpdate(float _DeltaTime);
 
@@ -56,12 +55,18 @@ private :
 	void IdleJump_Loop(float _DeltaTime);	
 	void IdleJump_EndStart();
 	void IdleJump_End(float _DeltaTime);	
-	void JumpAttackStart();
-	void JumpAttack(float _DeltaTime);	
-	void JumpAttack_LoopStart();
-	void JumpAttack_Loop(float _DeltaTime);	
-	void JumpAttack_EndStart();
-	void JumpAttack_End(float _DeltaTime);	
+	void JumpAttack_DownStart();
+	void JumpAttack_Down(float _DeltaTime);	
+	void JumpAttack_Down_LoopStart();
+	void JumpAttack_Down_Loop(float _DeltaTime);	
+	void JumpAttack_Down_EndStart();
+	void JumpAttack_Down_End(float _DeltaTime);
+	void JumpAttack_UpStart();
+	void JumpAttack_Up(float _DeltaTime);
+	void JumpAttack_Up_LoopStart();
+	void JumpAttack_Up_Loop(float _DeltaTime);
+	void JumpAttack_Up_EndStart();
+	void JumpAttack_Up_End(float _DeltaTime);
 	void IdleAttack_DownStart();
 	void IdleAttack_Down(float _DeltaTime);
 	void IdleAttack_UpStart();

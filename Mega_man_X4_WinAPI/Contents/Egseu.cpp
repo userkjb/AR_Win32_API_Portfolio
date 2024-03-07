@@ -237,33 +237,6 @@ std::string AEgseu::GetAnimationName(std::string _Name)
 	return _Name + DirName;
 }
 
-/// <summary>
-/// Start 함수들에서 GetAnimationName함수를 사용하기 전에 호출해야 한다.
-/// </summary>
-/// <param name="_str"></param>
-void AEgseu::ChangeAttackAnimation(std::string_view _str)
-{
-	std::string CurAniName = CurAnimationName;
-
-	std::string DirName = "";
-
-	switch (DirState)
-	{
-	case EActorDir::Left:
-		DirName = "_Left";
-		break;
-	case EActorDir::Right:
-		DirName = "_Right";
-		break;
-	default:
-		break;
-	}
-
-
-
-	//PlayerRender->ChangeAnimation(Name, true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
-}
-
 void AEgseu::StateChange(EEgseuState _State)
 {
 	if (State != _State)
@@ -297,14 +270,23 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::IdleJump_End:
 			IdleJump_EndStart();
 			break;
-		case EEgseuState::JumpAttack:
-			JumpAttackStart();
+		case EEgseuState::JumpAttack_Down:
+			JumpAttack_DownStart();
 			break;
-		case EEgseuState::JumpAttack_Loop:
-			JumpAttack_LoopStart();
+		case EEgseuState::JumpAttack_Down_Loop:
+			JumpAttack_Down_LoopStart();
 			break;
-		case EEgseuState::JumpAttack_End:
-			JumpAttack_EndStart();
+		case EEgseuState::JumpAttack_Down_End:
+			JumpAttack_Down_EndStart();
+			break;
+		case EEgseuState::JumpAttack_Up:
+			JumpAttack_UpStart();
+			break;
+		case EEgseuState::JumpAttack_Up_Loop:
+			JumpAttack_Up_LoopStart();
+			break;
+		case EEgseuState::JumpAttack_Up_End:
+			JumpAttack_Up_EndStart();
 			break;
 		case EEgseuState::IdleAttack_Down:
 			IdleAttack_DownStart();
@@ -464,14 +446,23 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::IdleJump_End:
 		IdleJump_End(_DeltaTime);
 		break;
-	case EEgseuState::JumpAttack:
-		JumpAttack(_DeltaTime);
+	case EEgseuState::JumpAttack_Down:
+		JumpAttack_Down(_DeltaTime);
 		break;
-	case EEgseuState::JumpAttack_Loop:
-		JumpAttack_Loop(_DeltaTime);
+	case EEgseuState::JumpAttack_Down_Loop:
+		JumpAttack_Down_Loop(_DeltaTime);
 		break;
-	case EEgseuState::JumpAttack_End:
-		JumpAttack_End(_DeltaTime);
+	case EEgseuState::JumpAttack_Down_End:
+		JumpAttack_Down_End(_DeltaTime);
+		break;
+	case EEgseuState::JumpAttack_Up:
+		JumpAttack_Up(_DeltaTime);
+		break;
+	case EEgseuState::JumpAttack_Up_Loop:
+		JumpAttack_Up_Loop(_DeltaTime);
+		break;
+	case EEgseuState::JumpAttack_Up_End:
+		JumpAttack_Up_End(_DeltaTime);
 		break;
 	case EEgseuState::IdleAttack_Down:
 		IdleAttack_Down(_DeltaTime);
@@ -744,9 +735,15 @@ void AEgseu::IdleJump(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('X'))
 	{
-		StateChange(EEgseuState::JumpAttack);
+		StateChange(EEgseuState::JumpAttack_Down);
 		return;
 	}
+
+	//if (true == UEngineInput::IsUp('X'))
+	//{
+	//	StateChange(EEgseuState::JumpAttack_Up);
+	//	return;
+	//}
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
@@ -775,19 +772,19 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
-	// 공격
-	if (true == UEngineInput::IsDown('X'))
-	{
-		StateChange(EEgseuState::JumpAttack_Loop);
-		return;
-	}
+	//// 공격
+	//if (true == UEngineInput::IsDown('X'))
+	//{
+	//	StateChange(EEgseuState::JumpAttack_Down_Loop);
+	//	return;
+	//}
 
-	// 챠지 공격!!
-	if (true == UEngineInput::IsUp('X'))
-	{
-		StateChange(EEgseuState::JumpAttack_End);
-		return;
-	}
+	//// 챠지 공격!!
+	//if (true == UEngineInput::IsUp('X'))
+	//{
+	//	StateChange(EEgseuState::JumpAttack_Up_Loop);
+	//	return;
+	//}
 
 	// '벽'에 닿음
 	bool WallChecl = CalWallCheck();
@@ -817,7 +814,7 @@ void AEgseu::IdleJump_End(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
-		StateChange(EEgseuState::JumpAttack_End);
+		StateChange(EEgseuState::JumpAttack_Down_End);
 		return;
 	}
 
@@ -836,30 +833,56 @@ void AEgseu::IdleJump_End(float _DeltaTime)
 #pragma endregion
 
 #pragma region JumpAttack
-void AEgseu::JumpAttackStart()
+void AEgseu::JumpAttack_DownStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"));
+	int CurFrame  = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), false, CurFrame);
 	BusterCreate(EBusterState::CreateDefault);
-	//int x = PlayerRender->GetCurAnimationImageFrame();
-	//PlayerRender->SetImageIndex(x + 1);
 }
 
-void AEgseu::JumpAttack(float _DeltaTime)
+void AEgseu::JumpAttack_Down(float _DeltaTime)
 {
-	//PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
+	BusterDelayTime += _DeltaTime;
+	
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
 	MoveUpdate(_DeltaTime);
 
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
 
-	StateChange(EEgseuState::IdleJump);
-	return;
+	// 0.5초가 지났다.
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		//StateChange(EEgseuState::IdleJump);
+		return;
+	}
+
+	// 바닥이네?
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		//StateChange(EEgseuState::IdleJump_End);
+		return;
+	}
 }
 
-void AEgseu::JumpAttack_LoopStart()
+void AEgseu::JumpAttack_Down_LoopStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
 }
 
-void AEgseu::JumpAttack_Loop(float _DeltaTime)
+void AEgseu::JumpAttack_Down_Loop(float _DeltaTime)
 {
 	//PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
 
@@ -875,12 +898,12 @@ void AEgseu::JumpAttack_Loop(float _DeltaTime)
 	}
 }
 
-void AEgseu::JumpAttack_EndStart()
+void AEgseu::JumpAttack_Down_EndStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
 }
 
-void AEgseu::JumpAttack_End(float _DeltaTime)
+void AEgseu::JumpAttack_Down_End(float _DeltaTime)
 {
 	//DirCheck();
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
@@ -910,6 +933,29 @@ void AEgseu::JumpAttack_End(float _DeltaTime)
 	}
 }
 #pragma endregion
+void AEgseu::JumpAttack_UpStart()
+{
+}
+
+void AEgseu::JumpAttack_Up(float _DeltaTime)
+{
+}
+
+void AEgseu::JumpAttack_Up_LoopStart()
+{
+}
+
+void AEgseu::JumpAttack_Up_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::JumpAttack_Up_EndStart()
+{
+}
+
+void AEgseu::JumpAttack_Up_End(float _DeltaTime)
+{
+}
 
 #pragma region IdleAttack Down
 void AEgseu::IdleAttack_DownStart()
