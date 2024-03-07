@@ -36,7 +36,7 @@ void AEgseu::Tick(float _DeltaTime)
 	StateUpdate(_DeltaTime);
 	BusterChargeTime(_DeltaTime);
 	CollisionCheck(_DeltaTime);
-	//UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
+	UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
 }
 
 void AEgseu::ChargeBeginPlay()
@@ -688,8 +688,11 @@ void AEgseu::Idle(float _DeltaTime)
 	// 발싸!!!
 	if (true == UEngineInput::IsUp('X'))
 	{
-		StateChange(EEgseuState::IdleAttack_Up);
-		return;
+		if (BusterChargTime >= 1.0f)
+		{
+			StateChange(EEgseuState::IdleAttack_Up);
+			return;
+		}
 	}
 
 	// 대쉬 Z
@@ -773,12 +776,12 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
-	//// 공격
-	//if (true == UEngineInput::IsDown('X'))
-	//{
-	//	StateChange(EEgseuState::JumpAttack_Down_Loop);
-	//	return;
-	//}
+	// 공격
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EEgseuState::JumpAttack_Down_Loop);
+		return;
+	}
 
 	//// 챠지 공격!!
 	//if (true == UEngineInput::IsUp('X'))
@@ -796,7 +799,7 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 	}
 
 	// '땅'에 닿음
-	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY() + 5, Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		StateChange(EEgseuState::IdleJump_End);
@@ -880,16 +883,37 @@ void AEgseu::JumpAttack_Down(float _DeltaTime)
 
 void AEgseu::JumpAttack_Down_LoopStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
+	BusterCreate(EBusterState::CreateDefault);
+	DirCheck();
 }
 
 void AEgseu::JumpAttack_Down_Loop(float _DeltaTime)
 {
-	//PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
-
+	BusterDelayTime += _DeltaTime;
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
 	MoveUpdate(_DeltaTime);
 
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
 	// 특정 시간동안 이벤트가 없으면 다시 IdleJump_Loop로 이동.
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::IdleJump_Loop);
+		return;
+	}
 
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
@@ -901,34 +925,38 @@ void AEgseu::JumpAttack_Down_Loop(float _DeltaTime)
 
 void AEgseu::JumpAttack_Down_EndStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
+	BusterCreate(EBusterState::CreateDefault);
 }
 
 void AEgseu::JumpAttack_Down_End(float _DeltaTime)
 {
-	//DirCheck();
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), true, PlayerRender->GetCurAnimationFrame(), PlayerRender->GetCurAnimationTime());
-
+	BusterDelayTime += _DeltaTime;
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
 	MoveUpdate(_DeltaTime);
 
-	if (true == UEngineInput::IsUp('X') || true == UEngineInput::IsFree('X'))
+	if (true == UEngineInput::IsDown('X'))
 	{
-		ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
-		A_Buster->SetActorLocation(GetActorLocation()); // 상세 위치 조절 TODO
-		std::string BusterName;
-		if (DirState == EActorDir::Right)
-		{
-			A_Buster->SetDirState(EActorDir::Right);
-			BusterName = "Buster_Default_Right";
-		}
-		else if (DirState == EActorDir::Left)
-		{
-			A_Buster->SetDirState(EActorDir::Left);
-			BusterName = "Buster_Default_Left";
-		}
-		A_Buster->SetBusterState(EBusterState::DefaultCharge);
-		//A_Buster->SetBusterAnimation(BusterName);
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
 
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::IdleJump_End);
+		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
 		StateChange(EEgseuState::IdleJump_End);
 		return;
 	}
@@ -975,6 +1003,18 @@ void AEgseu::IdleAttack_Down(float _DeltaTime)
 		StateChange(EEgseuState::IdleRun);
 		return;
 	}
+	
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EEgseuState::IdleJump);
+		return;
+	}
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
@@ -1000,13 +1040,6 @@ void AEgseu::IdleAttack_Down_Loop(float _DeltaTime) // Down 이던 Press 이던 여기
 		return;
 	}
 
-	// 0.5초가 지났다면,
-	if (BusterDelayTimeMax <= BusterDelayTime) // 차지 모션 대기 시간.
-	{
-		StateChange(EEgseuState::IdleAttack_Down_End);
-		return;
-	}
-
 	// 모션 중에 X 키가 눌리면,
 	if (true == UEngineInput::IsDown('X'))
 	{
@@ -1014,20 +1047,18 @@ void AEgseu::IdleAttack_Down_Loop(float _DeltaTime) // Down 이던 Press 이던 여기
 		BusterCreate(EBusterState::CreateDefault);
 	}
 
-	/*if (true == UEngineInput::IsPress(VK_LEFT) ||
-		true == UEngineInput::IsPress(VK_RIGHT))
+	// 0.5초가 지났다면,
+	if (BusterDelayTimeMax <= BusterDelayTime) // 차지 모션 대기 시간.
 	{
-		if (BusterDelayTime == 0.0f)
-		{
-			StateChange(EEgseuState::IdleRun);
-			return;
-		}
-		else
-		{
-			StateChange(EEgseuState::RunAttack);
-			return;
-		}
-	}*/
+		StateChange(EEgseuState::IdleAttack_Down_End);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EEgseuState::IdleJump);
+		return;
+	}
 }
 
 void AEgseu::IdleAttack_Down_EndStart()
@@ -1325,6 +1356,10 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	// 발싸!!
 	if (true == UEngineInput::IsUp('X'))
 	{
+		if (BusterChargTime >= 1.0f)
+		{
+			return;
+		}
 		StateChange(EEgseuState::RunAttack_Up_Loop);
 		return;
 	}

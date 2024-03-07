@@ -160,7 +160,7 @@ void UCyberSpaceLevel::MoveCameraVector()
 void UCyberSpaceLevel::ActorGeneration(float _DeltaTime) // Tick
 {
 	FVector PlayerPos = NewX->GetActorLocation();
-	UEngineDebug::OutPutDebugText(std::to_string(PlayerPos.X));
+	//UEngineDebug::OutPutDebugText(std::to_string(PlayerPos.X));
 
 
 	//----- Æ÷Ä¿½º ----------
