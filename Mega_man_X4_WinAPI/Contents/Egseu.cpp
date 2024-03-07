@@ -715,7 +715,8 @@ void AEgseu::Idle(float _DeltaTime)
 void AEgseu::IdleJumpStart()
 {
 	JumpVector = JumpPower;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"), false, CurFrame);
 	DirCheck();
 }
 
@@ -855,6 +856,7 @@ void AEgseu::JumpAttack_Down(float _DeltaTime)
 	}
 	MoveUpdate(_DeltaTime);
 
+	// ¶Ç °ø°Ý?
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
@@ -864,15 +866,14 @@ void AEgseu::JumpAttack_Down(float _DeltaTime)
 	// 0.5ÃÊ°¡ Áö³µ´Ù.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		//StateChange(EEgseuState::IdleJump);
-		return;
+		StateChange(EEgseuState::IdleJump);
 	}
 
-	// ¹Ù´ÚÀÌ³×?
+	// ¹Ù´ÚÀÌ³×? -> ³·Àº ¹Ù´Ú...
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
-		//StateChange(EEgseuState::IdleJump_End);
+		StateChange(EEgseuState::IdleJump_End);
 		return;
 	}
 }
