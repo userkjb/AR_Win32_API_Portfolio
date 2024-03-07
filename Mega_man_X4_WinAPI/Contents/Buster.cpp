@@ -153,6 +153,8 @@ void ABuster::DefaultChargeStart()
 {
 	std::string AniName = "Buster_Default" + GetRorL();
 	Renderer->ChangeAnimation(AniName);
+	BusterCollision->SetPosition({ 15.0f, 0.0f });
+	BusterCollision->SetScale({ 15.0f, 10.0f });
 	BusterLifeTime = 0.0f;
 	BusterVector = FVector::Zero;
 }
@@ -183,6 +185,8 @@ void ABuster::MiddleChargeStart()
 {
 	std::string AniName = "Buster_Middle" + GetRorL();
 	Renderer->ChangeAnimation(AniName);
+	BusterCollision->SetPosition({ 28.0f, 0.0f });
+	BusterCollision->SetScale({ 28.0f, 18.0f });
 	BusterLifeTime = 0.0f;
 	BusterVector = FVector::Zero;
 }
@@ -213,6 +217,8 @@ void ABuster::PullChargeStart()
 {
 	std::string AniName = "Buster_Pull" + GetRorL();
 	Renderer->ChangeAnimation(AniName);
+	BusterCollision->SetPosition({ 64.0f, 0.0f });
+	BusterCollision->SetScale({ 64.0f, 32.0f });
 	BusterLifeTime = 0.0f;
 	BusterVector = FVector::Zero;
 }
@@ -243,6 +249,8 @@ void ABuster::BusterCrashStart()
 {
 	// 충동시 나오는 임펙트 출력. //================================
 	int a = 0;
+	Renderer->ActiveOff();
+
 }
 
 void ABuster::BusterCrash(float _DeltaTime)
@@ -286,9 +294,21 @@ void ABuster::MoveUpdate(float _DeltaTime)
 
 void ABuster::CollisionCheck()
 {
-	std::vector<UCollision*> Result;
-	if (true != BusterCollision->CollisionCheck(ECollisionOrder::Enemy, Result))
+	// 1. Object
+	// 2. Enemy
+	// 3. Boss
+
+	std::vector<UCollision*> EnemyResult;
+	//std::vector<UCollision*> MapObjectResult;
+	
+	if (true == BusterCollision->CollisionCheck(ECollisionOrder::Enemy, EnemyResult))
 	{
-		
+		StateChange(EBusterState::BusterCrash);
+		return;
+	}
+
+	if (true == BusterCollision->CollisionCheck(ECollisionOrder::Boss, EnemyResult))
+	{
+		return;
 	}
 }
