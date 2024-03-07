@@ -153,7 +153,14 @@ void ABuster::DefaultChargeStart()
 {
 	std::string AniName = "Buster_Default" + GetRorL();
 	Renderer->ChangeAnimation(AniName);
-	BusterCollision->SetPosition({ 15.0f, 0.0f });
+	if (DirState == EActorDir::Right)
+	{
+		BusterCollision->SetPosition({ 15.0f, 0.0f });
+	}
+	else if (DirState == EActorDir::Left)
+	{
+		BusterCollision->SetPosition({ -15.0f, 0.0f });
+	}
 	BusterCollision->SetScale({ 15.0f, 10.0f });
 	BusterLifeTime = 0.0f;
 	BusterVector = FVector::Zero;
@@ -185,7 +192,14 @@ void ABuster::MiddleChargeStart()
 {
 	std::string AniName = "Buster_Middle" + GetRorL();
 	Renderer->ChangeAnimation(AniName);
-	BusterCollision->SetPosition({ 28.0f, 0.0f });
+	if (DirState == EActorDir::Right)
+	{
+		BusterCollision->SetPosition({ 28.0f, 0.0f });
+	}
+	else if (DirState == EActorDir::Left)
+	{
+		BusterCollision->SetPosition({ -28.0f, 0.0f });
+	}
 	BusterCollision->SetScale({ 28.0f, 18.0f });
 	BusterLifeTime = 0.0f;
 	BusterVector = FVector::Zero;
@@ -217,7 +231,14 @@ void ABuster::PullChargeStart()
 {
 	std::string AniName = "Buster_Pull" + GetRorL();
 	Renderer->ChangeAnimation(AniName);
-	BusterCollision->SetPosition({ 64.0f, 0.0f });
+	if (DirState == EActorDir::Right)
+	{
+		BusterCollision->SetPosition({ 64.0f, 0.0f });
+	}
+	else if (DirState == EActorDir::Left)
+	{
+		BusterCollision->SetPosition({ -64.0f, 0.0f });
+	}
 	BusterCollision->SetScale({ 64.0f, 32.0f });
 	BusterLifeTime = 0.0f;
 	BusterVector = FVector::Zero;
