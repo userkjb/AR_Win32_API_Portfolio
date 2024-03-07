@@ -126,12 +126,12 @@ void AEgseu::PlayerBeginPlay()
 
 	// Attack
 	// x_Attack_Right 이미지가 좋은 이미지가 아니여서 후에 바꿔야 함.
-	//PlayerRender->CreateAnimation("Idle_Attack_Start_Right", "x_Attack_Right.png", 0, 5, 0.1f, false);
-	//PlayerRender->CreateAnimation("Idle_Attack_Start_Left", "x_Attack_Left.png", 0, 5, 0.1f, false);
-	//PlayerRender->CreateAnimation("Idle_Attack_Loop_Right", "x_Attack_Right.png", 5, 5, 0.5f, true);
-	//PlayerRender->CreateAnimation("Idle_Attack_Loop_Left", "x_Attack_Left.png", 5, 5, 0.5f, true);
-	//PlayerRender->CreateAnimation("Idle_Attack_End_Right", "x_Attack_Right.png", 5, 7, 0.1f, false);
-	//PlayerRender->CreateAnimation("Idle_Attack_End_Left", "x_Attack_Left.png", 5, 7, 0.1f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_Start_Right", "X_Idle_Attack_Right.png", 0, 2, 0.2f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_Start_Left", "X_Idle_Attack_Left.png", 0, 2, 0.2f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_Loop_Right", "X_Idle_Attack_Right.png", 0, 0, 0.5f, true);
+	PlayerRender->CreateAnimation("Idle_Attack_Loop_Left", "X_Idle_Attack_Left.png", 0, 0, 0.5f, true);
+	PlayerRender->CreateAnimation("Idle_Attack_End_Right", "X_Idle_Attack_End_Right.png", 0, 1, 0.2f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_End_Left", "X_Idle_Attack_End_Left.png", 0, 1, 0.2f, false);
 
 	PlayerRender->CreateAnimation("Run_Attack_Start_Right", "x_Move_Attack_Right.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
 	PlayerRender->CreateAnimation("Run_Attack_Start_Left", "x_Move_Attack_Left.png", { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 }, 0.05f, true);
@@ -285,17 +285,17 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::IdleAttack_Up:
 			IdleAttack_UpStart();
 			break;
-		case EEgseuState::IdleAttack_Loop_Down:
-			IdleAttack_Loop_DownStart();
+		case EEgseuState::IdleAttack_Down_Loop:
+			IdleAttack_Down_LoopStart();
 			break;
-		case EEgseuState::IdleAttack_Loop_Up:
-			IdleAttack_Loop_UpStart();
+		case EEgseuState::IdleAttack_Up_Loop:
+			IdleAttack_Up_LoopStart();
 			break;
-		case EEgseuState::IdleAttack_End_Down:
-			IdleAttack_End_DownStart();
+		case EEgseuState::IdleAttack_Down_End:
+			IdleAttack_Down_EndStart();
 			break;
-		case EEgseuState::IdleAttack_End_Up:
-			IdleAttack_End_UpStart();
+		case EEgseuState::IdleAttack_Up_End:
+			IdleAttack_Up_EndStart();
 			break;
 		case EEgseuState::IdleDash:
 			IdleDashStart();
@@ -443,17 +443,17 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::IdleAttack_Up:
 		IdleAttack_Up(_DeltaTime);
 		break;
-	case EEgseuState::IdleAttack_Loop_Down:
-		IdleAttack_Loop_Down(_DeltaTime);
+	case EEgseuState::IdleAttack_Down_Loop:
+		IdleAttack_Down_Loop(_DeltaTime);
 		break;
-	case EEgseuState::IdleAttack_Loop_Up:
-		IdleAttack_Loop_Up(_DeltaTime);
+	case EEgseuState::IdleAttack_Up_Loop:
+		IdleAttack_Up_Loop(_DeltaTime);
 		break;
-	case EEgseuState::IdleAttack_End_Down:
-		IdleAttack_End_Down(_DeltaTime);
+	case EEgseuState::IdleAttack_Down_End:
+		IdleAttack_Down_End(_DeltaTime);
 		break;
-	case EEgseuState::IdleAttack_End_Up:
-		IdleAttack_End_Up(_DeltaTime);
+	case EEgseuState::IdleAttack_Up_End:
+		IdleAttack_Up_End(_DeltaTime);
 		break;
 	case EEgseuState::IdleDash:
 		IdleDash(_DeltaTime);
@@ -891,12 +891,12 @@ void AEgseu::IdleAttack_Up(float _DeltaTime)
 {
 }
 
-void AEgseu::IdleAttack_Loop_DownStart()
+void AEgseu::IdleAttack_Down_LoopStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Loop"));
 }
 
-void AEgseu::IdleAttack_Loop_Down(float _DeltaTime) // Down 이던 Press 이던 여기 까지는 들어와야 함.
+void AEgseu::IdleAttack_Down_Loop(float _DeltaTime) // Down 이던 Press 이던 여기 까지는 들어와야 함.
 {
 	if (1.0f < BusterChargTime) // 차지 모션 대기 시간.
 	{
@@ -924,15 +924,15 @@ void AEgseu::IdleAttack_Loop_Down(float _DeltaTime) // Down 이던 Press 이던 여기
 	}
 }
 
-void AEgseu::IdleAttack_Loop_UpStart()
+void AEgseu::IdleAttack_Up_LoopStart()
 {
 }
 
-void AEgseu::IdleAttack_Loop_Up(float _DeltaTime)
+void AEgseu::IdleAttack_Up_Loop(float _DeltaTime)
 {
 }
 
-void AEgseu::IdleAttack_End_DownStart()
+void AEgseu::IdleAttack_Down_EndStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
 	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
@@ -945,7 +945,7 @@ void AEgseu::IdleAttack_End_DownStart()
 	}
 }
 
-void AEgseu::IdleAttack_End_Down(float _DeltaTime)
+void AEgseu::IdleAttack_Down_End(float _DeltaTime)
 {
 	BusterDelayTime += _DeltaTime;
 
@@ -962,10 +962,10 @@ void AEgseu::IdleAttack_End_Down(float _DeltaTime)
 		return;
 	}
 }
-void AEgseu::IdleAttack_End_UpStart()
+void AEgseu::IdleAttack_Up_EndStart()
 {
 }
-void AEgseu::IdleAttack_End_Up(float _DeltaTime)
+void AEgseu::IdleAttack_Up_End(float _DeltaTime)
 {
 }
 #pragma endregion

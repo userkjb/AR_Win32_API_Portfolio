@@ -67,14 +67,14 @@ private :
 	void IdleAttack_Down(float _DeltaTime);
 	void IdleAttack_UpStart();
 	void IdleAttack_Up(float _DeltaTime);
-	void IdleAttack_Loop_DownStart();
-	void IdleAttack_Loop_Down(float _DeltaTime);	
-	void IdleAttack_Loop_UpStart();
-	void IdleAttack_Loop_Up(float _DeltaTime);
-	void IdleAttack_End_DownStart();
-	void IdleAttack_End_Down(float _DeltaTime);	
-	void IdleAttack_End_UpStart();
-	void IdleAttack_End_Up(float _DeltaTime);
+	void IdleAttack_Down_LoopStart();
+	void IdleAttack_Down_Loop(float _DeltaTime);	
+	void IdleAttack_Up_LoopStart();
+	void IdleAttack_Up_Loop(float _DeltaTime);
+	void IdleAttack_Down_EndStart();
+	void IdleAttack_Down_End(float _DeltaTime);	
+	void IdleAttack_Up_EndStart();
+	void IdleAttack_Up_End(float _DeltaTime);
 
 
 	void IdleDashStart();

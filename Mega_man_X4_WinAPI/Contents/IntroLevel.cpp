@@ -61,6 +61,9 @@ void UIntroLevel::BeginPlay()
 	// АјАн
 	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Attack_Right.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Attack_Left.png", 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Attack_End_Right.png", 2, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Attack_End_Left.png", 2, 1);
+
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Right.png", 8, 4);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Move_Attack_Left.png", 8, 4);
 

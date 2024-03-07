@@ -72,10 +72,10 @@ enum class EEgseuState
 
 	IdleAttack_Down,
 	IdleAttack_Up,
-	IdleAttack_Loop_Down,
-	IdleAttack_Loop_Up,
-	IdleAttack_End_Down,
-	IdleAttack_End_Up,
+	IdleAttack_Down_Loop,
+	IdleAttack_Up_Loop,
+	IdleAttack_Down_End,
+	IdleAttack_Up_End,
 
 	IdleDash,
 	IdleDash_Loop,
