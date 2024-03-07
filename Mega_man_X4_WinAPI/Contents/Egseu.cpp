@@ -75,7 +75,8 @@ void AEgseu::PlayerBeginPlay()
 	//PlayerRender->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
 
 	PlayerCollision = CreateCollision(ECollisionOrder::Player);
-	PlayerCollision->SetScale({ 35 * 3, 80 * 3 });
+	PlayerCollision->SetPosition({ 0, -50 });
+	PlayerCollision->SetScale({ 80, 100 });
 	PlayerCollision->SetColType(ECollisionType::Rect);
 
 	// ===== Animation ======================================================
