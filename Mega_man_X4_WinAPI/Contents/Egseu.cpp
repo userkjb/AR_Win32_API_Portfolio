@@ -3088,6 +3088,7 @@ void AEgseu::RunJumpAttack_Up_Loop(float _DeltaTime)
 	}
 }
 
+// 58인 RunJumpAttack_Up_End 에서 빠져나오지 못하는 현상 있음.
 void AEgseu::RunJumpAttack_Up_EndStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
