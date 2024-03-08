@@ -71,6 +71,10 @@ public :
 		CameraPos += _CameraPos;
 	}
 
+	/// <summary>
+	/// 모든 시간을 설정한다.
+	/// </summary>
+	/// <param name="_Scale"></param>
 	void SetAllTimeScale(float _Scale)
 	{
 		for (std::pair<const int, float>& TimeScale : TimeScale)
@@ -99,6 +103,12 @@ public :
 		}
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <typeparam name="EnumType"></typeparam>
+	/// <param name="_Value"></param>
+	/// <param name="_Scale"></param>
 	template<typename EnumType>
 	void SetTimeScale(EnumType _Value, float _Scale)
 	{
