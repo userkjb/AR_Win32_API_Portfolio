@@ -228,6 +228,12 @@ public:
 		TextEffect = _Effect;
 	}
 
+	void SetTextSortOption(Gdiplus::StringAlignment _SortOption1, Gdiplus::StringAlignment _SortOption2)
+	{
+		SortOption1 = _SortOption1;
+		SortOption2 = _SortOption2;
+	}
+
 	/// <summary>
 	/// 이미지 정렬 인터페이스.
 	/// </summary>
@@ -283,4 +289,6 @@ private :
 
 	EImageSortType SortType = EImageSortType::Center;
 
+	Gdiplus::StringAlignment SortOption1 = Gdiplus::StringAlignment::StringAlignmentCenter;
+	Gdiplus::StringAlignment SortOption2 = Gdiplus::StringAlignment::StringAlignmentCenter;
 };
