@@ -104,7 +104,7 @@ private :
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BusterCollision = nullptr;
 	UImageRenderer* CrashBusterRender = nullptr;
-	const float BusterSpeed = 500.0f; // 발사 속도.
+	const float BusterSpeed = 1000.0f; // 발사 속도.
 	FVector BusterVector = FVector::Zero;
 	FVector LastMoveVector = FVector::Zero;
 	int DefaultBusterDamage = 1; // Buster 공격력.
