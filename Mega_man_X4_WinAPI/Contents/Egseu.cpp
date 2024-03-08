@@ -797,11 +797,24 @@ void AEgseu::IdleJump(float _DeltaTime)
 		return;
 	}
 
-	//if (true == UEngineInput::IsUp('X'))
-	//{
-	//	StateChange(EEgseuState::JumpAttack_Up);
-	//	return;
-	//}
+	if (true == UEngineInput::IsUp('X'))
+	{
+		if (BusterChargTime <= 0.8f)
+		{
+			return;
+		}
+		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+		{
+			BusterCreate(EBusterState::CreateMiddle);
+		}
+		else if (2.0f <= BusterChargTime)
+		{
+			BusterCreate(EBusterState::CreatePull);
+		}
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::JumpAttack_Up);
+		return;
+	}
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
@@ -839,12 +852,25 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 		return;
 	}
 
-	//// Ã­Áö °ø°Ý!!
-	//if (true == UEngineInput::IsUp('X'))
-	//{
-	//	StateChange(EEgseuState::JumpAttack_Up_Loop);
-	//	return;
-	//}
+	// Ã­Áö °ø°Ý!!
+	if (true == UEngineInput::IsUp('X'))
+	{
+		if (BusterChargTime <= 0.8f)
+		{
+			return;
+		}
+		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+		{
+			BusterCreate(EBusterState::CreateMiddle);
+		}
+		else if (2.0f <= BusterChargTime)
+		{
+			BusterCreate(EBusterState::CreatePull);
+		}
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::JumpAttack_Up_Loop);
+		return;
+	}
 
 	// 'º®'¿¡ ´êÀ½
 	bool WallChecl = CalWallCheck();
@@ -1015,7 +1041,7 @@ void AEgseu::JumpAttack_Down_End(float _DeltaTime)
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
-		StateChange(EEgseuState::IdleJump_End);
+		StateChange(EEgseuState::Idle);
 		return;
 	}
 }
@@ -1024,26 +1050,156 @@ void AEgseu::JumpAttack_Down_End(float _DeltaTime)
 #pragma region JumpAttack Up
 void AEgseu::JumpAttack_UpStart()
 {
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), false, CurFrame);
 }
 
 void AEgseu::JumpAttack_Up(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+	MoveUpdate(_DeltaTime);
+
+	// ¶Ç °ø°Ý?
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	// 0.5ÃÊ°¡ Áö³µ´Ù.
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::IdleJump);
+	}
+
+	// ¹Ù´ÚÀÌ³×? -> ³·Àº ¹Ù´Ú...
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+		StateChange(EEgseuState::IdleJump_End);
+		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::JumpAttack_Up_Loop);
+		return;
+	}
 }
 
 void AEgseu::JumpAttack_Up_LoopStart()
 {
+	if (BusterDelayTime == 0.0f) // °øÁß Â÷Áö °ø°Ý
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
+	}
+	else // ÀÌÀü »óÅÂ¿¡¼­ ÀÌ¾î¼­ µé¾î¿È.
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
+	}
+	DirCheck();
 }
 
 void AEgseu::JumpAttack_Up_Loop(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	// 0.5ÃÊ Áö³².
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::RunJump_Loop);
+		return;
+	}
+
+	// ¶Ç ½÷?
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	bool WallChecl = CalWallCheck();
+	if (true == WallChecl)
+	{
+		StateChange(EEgseuState::WallCling);
+		return;
+	}
+
+	// ¶¥¿¡ ´êÀ½
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+		if (BusterDelayTime == 0.0f)
+		{
+			StateChange(EEgseuState::RunJump_End);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::RunJumpAttack_Up_End);
+			return;
+		}
+	}
 }
 
 void AEgseu::JumpAttack_Up_EndStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
 }
 
 void AEgseu::JumpAttack_Up_End(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+	MoveUpdate(_DeltaTime);
+
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::IdleJump_End);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 }
 #pragma endregion
 
@@ -2171,6 +2327,7 @@ void AEgseu::RunJumpAttack_Down_Loop(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
+	// ¶Ç ½÷?
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
@@ -2195,8 +2352,16 @@ void AEgseu::RunJumpAttack_Down_Loop(float _DeltaTime)
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		JumpVector = FVector::Zero;
-		StateChange(EEgseuState::RunJumpAttack_Down_End);
-		return;
+		if (BusterDelayTime == 0.0f)
+		{
+			StateChange(EEgseuState::RunJump_End);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::RunJumpAttack_Down_End);
+			return;
+		}
 	}
 }
 
@@ -2266,6 +2431,15 @@ void AEgseu::RunJumpAttack_Up(float _DeltaTime)
 	}
 
 	MoveUpdate(_DeltaTime);
+
+	// ¹Ù´ÚÀÌ³×? -> ³·Àº ¹Ù´Ú...
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+		StateChange(EEgseuState::IdleJump_End);
+		return;
+	}
 
 	bool WallChecl = CalWallCheck();
 	if (true == WallChecl)
