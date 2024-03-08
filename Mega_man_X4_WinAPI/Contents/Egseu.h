@@ -117,6 +117,20 @@ private :
 	void RunDash_Loop(float _DeltaTime);
 	void RunDash_EndStart();
 	void RunDash_End(float _DeltaTime);
+
+	void RunDashAttack_DownStart();
+	void RunDashAttack_Down(float _DeltaTime);
+	void RunDashAttack_Down_LoopStart();
+	void RunDashAttack_Down_Loop(float _DeltaTime);
+	void RunDashAttack_Down_EndStart();
+	void RunDashAttack_Down_End(float _DeltaTime);
+	void RunDashAttack_UpStart();
+	void RunDashAttack_Up(float _DeltaTime);
+	void RunDashAttack_Up_LoopStart();
+	void RunDashAttack_Up_Loop(float _DeltaTime);
+	void RunDashAttack_Up_EndStart();
+	void RunDashAttack_Up_End(float _DeltaTime);
+
 	void RunDashJumpStart();
 	void RunDashJump(float _DeltaTime);
 	void RunDashJump_LoopStart();
