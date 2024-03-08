@@ -3089,7 +3089,6 @@ void AEgseu::RunJumpAttack_Up_Loop(float _DeltaTime)
 	}
 }
 
-// 58인 RunJumpAttack_Up_End 에서 빠져나오지 못하는 현상 있음.
 void AEgseu::RunJumpAttack_Up_EndStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
@@ -3112,6 +3111,20 @@ void AEgseu::RunJumpAttack_Up_End(float _DeltaTime)
 	{
 		StateChange(EEgseuState::RunJump_End);
 		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+		{
+			StateChange(EEgseuState::IdleRun);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::Idle);
+			return;
+		}
 	}
 }
 #pragma endregion
