@@ -106,6 +106,13 @@ enum class EEgseuState
 	RunDash_Loop,
 	RunDash_End,
 
+	RunDashAttack_Down,
+	RunDashAttack_Down_Loop,
+	RunDashAttack_Down_End,
+	RunDashAttack_Up,
+	RunDashAttack_Up_Loop,
+	RunDashAttack_Up_End,
+
 	RunDashJump,
 	RunDashJump_Loop,
 	RunDashJump_End,
