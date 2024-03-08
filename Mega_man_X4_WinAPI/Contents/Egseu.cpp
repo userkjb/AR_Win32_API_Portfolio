@@ -145,8 +145,8 @@ void AEgseu::PlayerBeginPlay()
 
 	PlayerRender->CreateAnimation("Dash_Attack_Start_Right", "x_Dash_Attack_Right.png", { 0, 2 }, 0.05f, false);
 	PlayerRender->CreateAnimation("Dash_Attack_Start_Left", "x_Dash_Attack_Left.png", { 0, 2 }, 0.05f, false);
-	PlayerRender->CreateAnimation("Dash_Attack_Loop_Right", "x_Dash_Attack_Right.png", { 4, 6 }, 0.05f, false);
-	PlayerRender->CreateAnimation("Dash_Attack_Loop_Left", "x_Dash_Attack_Left.png", { 4, 6 }, 0.05f, false);
+	PlayerRender->CreateAnimation("Dash_Attack_Loop_Right", "x_Dash_Attack_Right.png", { 4, 6 }, 0.05f, true);
+	PlayerRender->CreateAnimation("Dash_Attack_Loop_Left", "x_Dash_Attack_Left.png", { 4, 6 }, 0.05f, true);
 	PlayerRender->CreateAnimation("Dash_Attack_End_Right", "x_Dash_Attack_Right.png", { 8, 10, 12, 14 }, 0.05f, false);
 	PlayerRender->CreateAnimation("Dash_Attack_End_Left", "x_Dash_Attack_Left.png", { 8, 10, 12, 14 }, 0.05f, false);
 
@@ -1895,7 +1895,7 @@ void AEgseu::RunDash(float _DeltaTime)
 	{
 		DashVector = FVector::Left * DashSpeed;
 	}
-
+	RunVector = FVector::Zero;
 	MoveUpdate(_DeltaTime);
 
 	if (true == UEngineInput::IsUp('Z'))
@@ -1939,6 +1939,15 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 	}
 
 	// 공격
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterCreate(EBusterState::CreateDefault);
+		StateChange(EEgseuState::RunDashAttack_Down_Loop);
+		return;
+	}
+
+	// 차지
+
 
 	// 대쉬 끝!
 	if (true == UEngineInput::IsUp('Z'))
@@ -1991,6 +2000,60 @@ void AEgseu::RunDash_End(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
+
+#pragma region RunDashJump Down
+void AEgseu::RunDashAttack_DownStart()
+{
+}
+
+void AEgseu::RunDashAttack_Down(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDashAttack_Down_LoopStart()
+{
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Loop"), false, CurFrame);
+}
+
+void AEgseu::RunDashAttack_Down_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDashAttack_Down_EndStart()
+{
+}
+void AEgseu::RunDashAttack_Down_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region RunDashAttack Up
+void AEgseu::RunDashAttack_UpStart()
+{
+}
+
+void AEgseu::RunDashAttack_Up(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDashAttack_Up_LoopStart()
+{
+}
+
+void AEgseu::RunDashAttack_Up_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDashAttack_Up_EndStart()
+{
+}
+
+void AEgseu::RunDashAttack_Up_End(float _DeltaTime)
+{
+}
+
 #pragma endregion
 
 #pragma region RunDashJump
