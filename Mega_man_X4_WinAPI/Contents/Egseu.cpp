@@ -2941,6 +2941,7 @@ void AEgseu::RunJumpAttack_Down_EndStart()
 }
 void AEgseu::RunJumpAttack_Down_End(float _DeltaTime) // 공격 모션 착지.
 {
+	BusterDelayTime += _DeltaTime;
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
 		RunVector = FVector::Left * MoveSpeed;
@@ -3096,6 +3097,7 @@ void AEgseu::RunJumpAttack_Up_EndStart()
 
 void AEgseu::RunJumpAttack_Up_End(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
 		RunVector = FVector::Left * MoveSpeed;
