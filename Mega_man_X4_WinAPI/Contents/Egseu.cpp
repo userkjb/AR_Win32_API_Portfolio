@@ -843,6 +843,7 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY() + 5, Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
+		JumpVector = FVector::Zero;
 		StateChange(EEgseuState::IdleJump_End);
 		return;
 	}
@@ -877,7 +878,7 @@ void AEgseu::IdleJump_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region JumpAttack
+#pragma region JumpAttack Down
 void AEgseu::JumpAttack_DownStart()
 {
 	int CurFrame  = PlayerRender->GetCurAnimationFrame();
@@ -917,6 +918,7 @@ void AEgseu::JumpAttack_Down(float _DeltaTime)
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
+		JumpVector = FVector::Zero;
 		StateChange(EEgseuState::IdleJump_End);
 		return;
 	}
@@ -959,6 +961,7 @@ void AEgseu::JumpAttack_Down_Loop(float _DeltaTime)
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
+		JumpVector = FVector::Zero;
 		StateChange(EEgseuState::IdleJump_End);
 		return;
 	}
@@ -1003,6 +1006,8 @@ void AEgseu::JumpAttack_Down_End(float _DeltaTime)
 	}
 }
 #pragma endregion
+
+#pragma region JumpAttack Up
 void AEgseu::JumpAttack_UpStart()
 {
 }
@@ -1026,6 +1031,7 @@ void AEgseu::JumpAttack_Up_EndStart()
 void AEgseu::JumpAttack_Up_End(float _DeltaTime)
 {
 }
+#pragma endregion
 
 #pragma region IdleAttack Down
 void AEgseu::IdleAttack_DownStart()
@@ -1242,6 +1248,7 @@ void AEgseu::IdleDash_Loop(float _DeltaTime)
 
 	// 점프 (나중에 추가하자. 급한 것은 아니다. 대쉬점프를 참고하면 쉽게 할 수 있다.)
 
+	// 도중에 대쉬 끊기.
 	if (true == UEngineInput::IsUp('Z'))
 	{
 		DashTime = 0.0f;
@@ -1315,7 +1322,7 @@ void AEgseu::DashAttack_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region IdleRun
+#pragma region Idle -> Run
 void AEgseu::IdleRunStart()
 {
 	BusterDelayTime = 0.0f;
@@ -1345,6 +1352,7 @@ void AEgseu::IdleRun(float _DeltaTime)
 	}
 
 	// Up
+
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
@@ -1882,7 +1890,7 @@ void AEgseu::RunDashJumpAttack_Up_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunJump
+#pragma region RunJump / Idle -> Run -> Jump
 void AEgseu::RunJumpStart()
 {
 	JumpVector = JumpPower;
@@ -1907,6 +1915,7 @@ void AEgseu::RunJump(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
+		BusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::RunJumpAttack_Down);
 		return;
 	}
@@ -1949,6 +1958,8 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::RunJumpAttack_Down_Loop);
 		return;
 	}
@@ -1966,6 +1977,7 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
+		JumpVector = FVector::Zero;
 		StateChange(EEgseuState::RunJump_End);
 		return;
 	}
@@ -2002,27 +2014,153 @@ void AEgseu::RunJump_End(float _DeltaTime)
 #pragma region RunJumpAttack Down
 void AEgseu::RunJumpAttack_DownStart()
 {
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), false, CurFrame);
+	DirCheck();
+}
+void AEgseu::RunJumpAttack_Down(float _DeltaTime)
+{
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	// 점프 중 벽 체크
+	bool WallChecl = CalWallCheck();
+	if (true == WallChecl)
+	{
+		StateChange(EEgseuState::WallCling);
+		return;
+	}
+
+	// 0.5초가 지나면(가능성 낮음)
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::RunJump);
+		return;
+	}
+	
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::RunJumpAttack_Down_Loop);
+		return;
+	}
 }
 
 void AEgseu::RunJumpAttack_Down_LoopStart()
 {
+	if (BusterDelayTime == 0.0f) // x 눌렀을 때 들어옴.
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
+	}
+	else // 이전 상태에서 이어서 들어옴.
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
+	}
+	
+	DirCheck();
+}
+void AEgseu::RunJumpAttack_Down_Loop(float _DeltaTime)
+{
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::RunJump_Loop);
+		return;
+	}
+
+	bool WallChecl = CalWallCheck();
+	if (true == WallChecl)
+	{
+		StateChange(EEgseuState::WallCling);
+		return;
+	}
+
+	// 땅에 닿음
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+		StateChange(EEgseuState::RunJumpAttack_Down_End);
+		return;
+	}
 }
 
 void AEgseu::RunJumpAttack_Down_EndStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
 }
-
-
-void AEgseu::RunJumpAttack_Down(float _DeltaTime)
+void AEgseu::RunJumpAttack_Down_End(float _DeltaTime) // 공격 모션 착지.
 {
-}
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+	MoveUpdate(_DeltaTime);
 
-void AEgseu::RunJumpAttack_Down_Loop(float _DeltaTime)
-{
-}
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunJump_End);
+		return;
+	}
 
-void AEgseu::RunJumpAttack_Down_End(float _DeltaTime)
-{
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+		{
+			StateChange(EEgseuState::IdleRun);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::Idle);
+			return;
+		}
+	}
 }
 #pragma endregion
 
@@ -2374,7 +2512,7 @@ bool AEgseu::CalWallCheck()
 		break;
 	}
 	CheckPos_1.Y -= 10;
-	CheckPos_2.Y -= PlayerRender->GetImage()->GetScale().iY() / 2; // 캐릭터 중앙.
+	CheckPos_2.Y -= PlayerRender->GetImage()->GetScale().iY() / 4; // 캐릭터 중앙.
 
 	// 위의 CheckPos를 사용해서 Map의 충돌 체크를 한다.
 	Color8Bit Color_1 = UContentsGlobalData::ColMapImage->GetColor(CheckPos_1.iX(), CheckPos_1.iY(), Color8Bit::MagentaA);
