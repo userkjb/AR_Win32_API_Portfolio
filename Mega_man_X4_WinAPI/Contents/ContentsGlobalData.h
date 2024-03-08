@@ -84,14 +84,16 @@ enum class EEgseuState
 	IdleDash_Loop,
 	IdleDash_End,
 
+	// Idle -> Dash / 디테일 영역.
 	DashAttack,
 	DashAttack_Loop,
 	DashAttack_End,
 
 	IdleRun,
 	IdleRun_Loop,
-	IdleRun_End,
+	//IdleRun_End, // 그림이 없음.
 
+	// Idle -> Run
 	RunAttack_Down,
 	RunAttack_Down_Loop,
 	RunAttack_Down_End,
@@ -99,6 +101,7 @@ enum class EEgseuState
 	RunAttack_Up_Loop,
 	RunAttack_Up_End,
 
+	// Run -> Dash
 	RunDash,
 	RunDash_Loop,
 	RunDash_End,
@@ -107,17 +110,23 @@ enum class EEgseuState
 	RunDashJump_Loop,
 	RunDashJump_End,
 
-	RunDashJumpAttack,
-	RunDashJumpAttack_Loop,
-	RunDashJumpAttack_End,
+	RunDashJumpAttack_Down,
+	RunDashJumpAttack_Down_Loop,
+	RunDashJumpAttack_Down_End,
+	RunDashJumpAttack_Up,
+	RunDashJumpAttack_Up_Loop,
+	RunDashJumpAttack_Up_End,
 
 	RunJump,
 	RunJump_Loop,
 	RunJump_End,
 
-	RunJumpAttack,
-	RunJumpAttack_Loop,
-	RunJumpAttack_End,
+	RunJumpAttack_Down,
+	RunJumpAttack_Down_Loop,
+	RunJumpAttack_Down_End,
+	RunJumpAttack_Up,
+	RunJumpAttack_Up_Loop,
+	RunJumpAttack_Up_End,
 
 	WallCling,
 	WallCling_Loop,
@@ -126,6 +135,8 @@ enum class EEgseuState
 
 	Hit,
 	Hit_MiruTorearu,
+
+	// 버스터 딜레이에 대한 상태도 만들어야 한다.(디테일)
 };
 
 /// <summary>
