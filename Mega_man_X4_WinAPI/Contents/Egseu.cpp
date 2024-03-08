@@ -722,6 +722,8 @@ void AEgseu::Idle(float _DeltaTime)
 	// 공격 X
 	if (true == UEngineInput::IsDown('X'))
 	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::IdleAttack_Down);
 		return;
 	}
@@ -731,6 +733,15 @@ void AEgseu::Idle(float _DeltaTime)
 	{
 		if (BusterChargTime >= 1.0f)
 		{
+			BusterDelayTime = 0.0f;
+			if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+			{
+				BusterCreate(EBusterState::CreateMiddle);
+			}
+			else if (2.0f <= BusterChargTime)
+			{
+				BusterCreate(EBusterState::CreatePull);
+			}
 			StateChange(EEgseuState::IdleAttack_Up);
 			return;
 		}
@@ -780,6 +791,8 @@ void AEgseu::IdleJump(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('X'))
 	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::JumpAttack_Down);
 		return;
 	}
@@ -820,6 +833,8 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::JumpAttack_Down_Loop);
 		return;
 	}
@@ -860,6 +875,8 @@ void AEgseu::IdleJump_End(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::JumpAttack_Down_End);
 		return;
 	}
@@ -883,7 +900,6 @@ void AEgseu::JumpAttack_DownStart()
 {
 	int CurFrame  = PlayerRender->GetCurAnimationFrame();
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), false, CurFrame);
-	BusterCreate(EBusterState::CreateDefault);
 }
 
 void AEgseu::JumpAttack_Down(float _DeltaTime)
@@ -928,7 +944,6 @@ void AEgseu::JumpAttack_Down_LoopStart()
 {
 	int CurFrame = PlayerRender->GetCurAnimationFrame();
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
-	BusterCreate(EBusterState::CreateDefault);
 	DirCheck();
 }
 
@@ -971,7 +986,6 @@ void AEgseu::JumpAttack_Down_EndStart()
 {
 	int CurFrame = PlayerRender->GetCurAnimationFrame();
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
-	BusterCreate(EBusterState::CreateDefault);
 }
 
 void AEgseu::JumpAttack_Down_End(float _DeltaTime)
@@ -1037,8 +1051,6 @@ void AEgseu::JumpAttack_Up_End(float _DeltaTime)
 void AEgseu::IdleAttack_DownStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Start"));
-	BusterCreate(EBusterState::CreateDefault);
-	BusterDelayTime = 0.0f;
 }
 
 void AEgseu::IdleAttack_Down(float _DeltaTime)
@@ -1128,15 +1140,6 @@ void AEgseu::IdleAttack_Down_End(float _DeltaTime)
 void AEgseu::IdleAttack_UpStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Start"));
-	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
-	{
-		BusterCreate(EBusterState::CreateMiddle);
-	}
-	else if (2.0f <= BusterChargTime)
-	{
-		BusterCreate(EBusterState::CreatePull);
-	}
-	BusterDelayTime = 0.0f;
 }
 
 void AEgseu::IdleAttack_Up(float _DeltaTime)
