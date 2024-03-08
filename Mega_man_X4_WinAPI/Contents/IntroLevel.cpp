@@ -57,6 +57,9 @@ void UIntroLevel::BeginPlay()
 	// 대쉬
 	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Right.png", 8, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Left.png", 8, 1);
+	// 대쉬 공격
+	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Attack_Right.png", 8, 2);
+	UEngineResourcesManager::GetInst().CuttingImage("x_Dash_Attack_Left.png", 8, 2);
 
 	// 공격
 	UEngineResourcesManager::GetInst().CuttingImage("X_Idle_Attack_Right.png", 3, 1);
