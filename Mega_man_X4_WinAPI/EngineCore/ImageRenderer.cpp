@@ -51,6 +51,13 @@ void UImageRenderer::SetImage(std::string_view _Name, int _InfoIndex)
 	InfoIndex = _InfoIndex;
 }
 
+bool UImageRenderer::IsAnimation(std::string_view _Name)
+{
+	std::string UpperAniName = UEngineString::ToUpper(_Name);
+
+	return AnimationInfos.contains(UpperAniName);
+}
+
 void UImageRenderer::Render(float _DeltaTime)
 {
 	// 이미지와 텍스트를 Render 해야 하기 때문에 기존의 Render는 ImageRender함수로 이동.
