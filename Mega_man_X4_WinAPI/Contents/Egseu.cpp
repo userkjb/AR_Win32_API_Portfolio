@@ -1931,6 +1931,14 @@ void AEgseu::RunDash(float _DeltaTime)
 		return;
 	}
 
+	// 점프
+	if (true == UEngineInput::IsDown('C'))
+	{
+		DashTime = 0.0f;
+		StateChange(EEgseuState::RunDashJump);
+		return;
+	}
+
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
