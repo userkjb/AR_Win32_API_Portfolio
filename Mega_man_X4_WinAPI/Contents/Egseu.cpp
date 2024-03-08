@@ -2528,20 +2528,6 @@ void AEgseu::RunDashJumpStart()
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
 	DirCheck();
 }
-
-void AEgseu::RunDashJump_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
-	DirCheck();
-}
-
-void AEgseu::RunDashJump_EndStart()
-{
-	JumpVector = FVector::Zero;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
-}
-
-
 void AEgseu::RunDashJump(float _DeltaTime)
 {
 	DirCheck();
@@ -2563,6 +2549,11 @@ void AEgseu::RunDashJump(float _DeltaTime)
 	}
 }
 
+void AEgseu::RunDashJump_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	DirCheck();
+}
 void AEgseu::RunDashJump_Loop(float _DeltaTime)
 {
 	DirCheck();
@@ -2589,6 +2580,11 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 	}
 }
 
+void AEgseu::RunDashJump_EndStart()
+{
+	JumpVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
+}
 void AEgseu::RunDashJump_End(float _DeltaTime)
 {
 	if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
