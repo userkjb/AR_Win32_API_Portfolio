@@ -96,10 +96,10 @@ enum class EEgseuState
 	// Idle -> Run
 	RunAttack_Down,
 	RunAttack_Down_Loop,
-	RunAttack_Down_End,
+	//RunAttack_Down_End,
 	RunAttack_Up,
 	RunAttack_Up_Loop,
-	RunAttack_Up_End,
+	//RunAttack_Up_End,
 
 	// Run -> Dash
 	RunDash,

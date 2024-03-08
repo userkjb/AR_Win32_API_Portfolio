@@ -344,18 +344,18 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::RunAttack_Down_Loop:
 			RunAttack_Down_LoopStart();
 			break;
-		case EEgseuState::RunAttack_Down_End:
-			RunAttack_Down_EndStart();
-			break;
+		//case EEgseuState::RunAttack_Down_End:
+		//	RunAttack_Down_EndStart();
+		//	break;
 		case EEgseuState::RunAttack_Up:
 			RunAttack_UpStart();
 			break;
 		case EEgseuState::RunAttack_Up_Loop:
 			RunAttack_Up_LoopStart();
 			break;
-		case EEgseuState::RunAttack_Up_End:
-			RunAttack_Up_EndStart();
-			break;
+		//case EEgseuState::RunAttack_Up_End:
+		//	RunAttack_Up_EndStart();
+		//	break;
 		case EEgseuState::RunDash:
 			RunDashStart();
 			break;
@@ -538,18 +538,18 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::RunAttack_Down_Loop:
 		RunAttack_Down_Loop(_DeltaTime);
 		break;
-	case EEgseuState::RunAttack_Down_End:
-		RunAttack_Down_End(_DeltaTime);
-		break;
+	//case EEgseuState::RunAttack_Down_End:
+	//	RunAttack_Down_End(_DeltaTime);
+	//	break;
 	case EEgseuState::RunAttack_Up:
 		RunAttack_Up(_DeltaTime);
 		break;
 	case EEgseuState::RunAttack_Up_Loop:
 		RunAttack_Up_Loop(_DeltaTime);
 		break;
-	case EEgseuState::RunAttack_Up_End:
-		RunAttack_Up_End(_DeltaTime);
-		break;
+	//case EEgseuState::RunAttack_Up_End:
+	//	RunAttack_Up_End(_DeltaTime);
+	//	break;
 	case EEgseuState::RunDash:
 		RunDash(_DeltaTime);
 		break;
@@ -1350,12 +1350,31 @@ void AEgseu::IdleRun(float _DeltaTime)
 	// Down
 	if (true == UEngineInput::IsDown('X'))
 	{
+		BusterCreate(EBusterState::CreateDefault);
+		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunAttack_Down);
 		return;
 	}
 
 	// Up
-
+	if (true == UEngineInput::IsUp('X'))
+	{
+		if (BusterChargTime <= 0.8f)
+		{
+			return;
+		}
+		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+		{
+			BusterCreate(EBusterState::CreateMiddle);
+		}
+		else if (2.0f <= BusterChargTime)
+		{
+			BusterCreate(EBusterState::CreatePull);
+		}
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunAttack_Up);
+		return;
+	}
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
@@ -1367,16 +1386,8 @@ void AEgseu::IdleRun(float _DeltaTime)
 void AEgseu::IdleRun_LoopStart()
 {
 	JumpVector = FVector::Zero; // 벽 타고 왔을 때 점프 Vector 초기화.
-
-	if (ChangeAnimationFrame == 0)
-	{
-		PlayerRender->ChangeAnimation(GetAnimationName("Run"));
-	}
-	else
-	{
-		PlayerRender->ChangeAnimation(GetAnimationName("Run"), true, ChangeAnimationFrame, PlayerRender->GetCurAnimationTime());
-		ChangeAnimationFrame = 0;
-	}
+	
+	PlayerRender->ChangeAnimation(GetAnimationName("Run"));
 	DirCheck();
 }
 
@@ -1404,6 +1415,8 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
+		BusterChargTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::RunAttack_Down_Loop);
 		return;
 	}
@@ -1411,10 +1424,19 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	// 발싸!!
 	if (true == UEngineInput::IsUp('X'))
 	{
-		if (BusterChargTime >= 1.0f)
+		if (BusterChargTime <= 0.8f)
 		{
 			return;
 		}
+		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+		{
+			BusterCreate(EBusterState::CreateMiddle);
+		}
+		else if (2.0f <= BusterChargTime)
+		{
+			BusterCreate(EBusterState::CreatePull);
+		}
+		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunAttack_Up_Loop);
 		return;
 	}
@@ -1455,10 +1477,7 @@ void AEgseu::RunAttack_DownStart()
 {
 	int CurFrame = PlayerRender->GetCurAnimationFrame();
 	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Start"), false, CurFrame);
-
-	BusterCreate(EBusterState::CreateDefault);
 	DirCheck();
-	BusterDelayTime = 0.0f;
 }
 
 void AEgseu::RunAttack_Down(float _DeltaTime)
@@ -1510,7 +1529,6 @@ void AEgseu::RunAttack_Down_LoopStart()
 {
 	int CurFrame = PlayerRender->GetCurAnimationFrame();
 	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"), false, CurFrame);
-	BusterCreate(EBusterState::CreateDefault);
 	DirCheck();
 	BusterDelayTime = 0.0f;
 }
@@ -1563,39 +1581,58 @@ void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
 	}
 }
 
-void AEgseu::RunAttack_Down_EndStart()
-{
-	BusterDelayTime = 0.0f;
-	int CurFrame = PlayerRender->GetCurAnimationFrame();
-	PlayerRender->ChangeAnimation(GetAnimationName(""), false, CurFrame);
-	//PlayerRender->ChangeAnimation(GetAnimationName("Run"));
-}
-
-void AEgseu::RunAttack_Down_End(float _DeltaTime)
-{
-	StateChange(EEgseuState::IdleRun_Loop);
-	return;
-}
+//void AEgseu::RunAttack_Down_EndStart()
+//{
+//	BusterDelayTime = 0.0f;
+//	int CurFrame = PlayerRender->GetCurAnimationFrame();
+//	PlayerRender->ChangeAnimation(GetAnimationName(""), false, CurFrame);
+//	//PlayerRender->ChangeAnimation(GetAnimationName("Run"));
+//}
+//
+//void AEgseu::RunAttack_Down_End(float _DeltaTime)
+//{
+//	StateChange(EEgseuState::IdleRun_Loop);
+//	return;
+//}
 #pragma endregion
 
 #pragma region RunAttack Up
 void AEgseu::RunAttack_UpStart()
 {
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Run"), false, CurFrame);
 }
 void AEgseu::RunAttack_Up(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+	MoveUpdate(_DeltaTime);
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::RunAttack_Up_Loop);
+		return;
+	}
 }
+
 void AEgseu::RunAttack_Up_LoopStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"));
-
-	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+	if (BusterDelayTime == 0.0f) // Run Loop 에서 들어옴.
 	{
-		BusterCreate(EBusterState::CreateMiddle);
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"), false, CurFrame);
 	}
-	else if (2.0f <= BusterChargTime)
+	else
 	{
-		BusterCreate(EBusterState::CreatePull);
+		PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"));
 	}
 }
 void AEgseu::RunAttack_Up_Loop(float _DeltaTime)
@@ -1637,12 +1674,12 @@ void AEgseu::RunAttack_Up_Loop(float _DeltaTime)
 		return;
 	}
 }
-void AEgseu::RunAttack_Up_EndStart()
-{
-}
-void AEgseu::RunAttack_Up_End(float _DeltaTime)
-{
-}
+//void AEgseu::RunAttack_Up_EndStart()
+//{
+//}
+//void AEgseu::RunAttack_Up_End(float _DeltaTime)
+//{
+//}
 #pragma endregion
 
 #pragma region RunDash

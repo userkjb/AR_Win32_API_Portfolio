@@ -102,14 +102,14 @@ private :
 	void RunAttack_Down(float _DeltaTime);
 	void RunAttack_Down_LoopStart();
 	void RunAttack_Down_Loop(float _DeltaTime);
-	void RunAttack_Down_EndStart();
-	void RunAttack_Down_End(float _DeltaTime);
+	//void RunAttack_Down_EndStart();
+	//void RunAttack_Down_End(float _DeltaTime);
 	void RunAttack_UpStart();
 	void RunAttack_Up(float _DeltaTime);
 	void RunAttack_Up_LoopStart();
 	void RunAttack_Up_Loop(float _DeltaTime);
-	void RunAttack_Up_EndStart();
-	void RunAttack_Up_End(float _DeltaTime);
+	//void RunAttack_Up_EndStart();
+	//void RunAttack_Up_End(float _DeltaTime);
 
 	void RunDashStart();
 	void RunDash(float _DeltaTime);
