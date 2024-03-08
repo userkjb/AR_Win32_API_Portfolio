@@ -1455,7 +1455,7 @@ void AEgseu::IdleDash_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region DashAttack
+#pragma region DashAttack Idle->Dash TODO
 void AEgseu::DashAttackStart()
 {
 }
@@ -1481,7 +1481,7 @@ void AEgseu::DashAttack_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region Idle -> Run
+#pragma region Run / Idle->Run
 void AEgseu::IdleRunStart()
 {
 	BusterDelayTime = 0.0f;
@@ -1843,17 +1843,6 @@ void AEgseu::RunDashStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
 }
-
-void AEgseu::RunDash_LoopStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Loop"));
-}
-
-void AEgseu::RunDash_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"));
-}
-
 void AEgseu::RunDash(float _DeltaTime)
 {
 	DashTime += _DeltaTime;
@@ -1882,6 +1871,10 @@ void AEgseu::RunDash(float _DeltaTime)
 	}
 }
 
+void AEgseu::RunDash_LoopStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Loop"));
+}
 void AEgseu::RunDash_Loop(float _DeltaTime)
 {
 	DashTime += _DeltaTime;
@@ -1942,6 +1935,10 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 	}
 }
 
+void AEgseu::RunDash_EndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"));
+}
 void AEgseu::RunDash_End(float _DeltaTime)
 {
 	DashVector = FVector::Zero;
