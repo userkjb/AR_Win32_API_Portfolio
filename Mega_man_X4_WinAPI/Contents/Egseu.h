@@ -95,8 +95,8 @@ private :
 	void IdleRun(float _DeltaTime);
 	void IdleRun_LoopStart();
 	void IdleRun_Loop(float _DeltaTime);
-	void IdleRun_EndStart();
-	void IdleRun_End(float _DeltaTime);
+	//void IdleRun_EndStart();
+	//void IdleRun_End(float _DeltaTime);
 
 	void RunAttack_DownStart();
 	void RunAttack_Down(float _DeltaTime);
@@ -123,24 +123,37 @@ private :
 	void RunDashJump_Loop(float _DeltaTime);
 	void RunDashJump_EndStart();
 	void RunDashJump_End(float _DeltaTime);
-	void RunDashJumpAttackStart();
-	void RunDashJumpAttack(float _DeltaTime);
-	void RunDashJumpAttack_LoopStart();
-	void RunDashJumpAttack_Loop(float _DeltaTime);
-	void RunDashJumpAttack_EndStart();
-	void RunDashJumpAttack_End(float _DeltaTime);
+
+	void RunDashJumpAttack_DownStart();
+	void RunDashJumpAttack_Down(float _DeltaTime);
+	void RunDashJumpAttack_Down_LoopStart();
+	void RunDashJumpAttack_Down_Loop(float _DeltaTime);
+	void RunDashJumpAttack_Down_EndStart();
+	void RunDashJumpAttack_Down_End(float _DeltaTime);
+	void RunDashJumpAttack_UpStart();
+	void RunDashJumpAttack_Up(float _DeltaTime);
+	void RunDashJumpAttack_Up_LoopStart();
+	void RunDashJumpAttack_Up_Loop(float _DeltaTime);
+	void RunDashJumpAttack_Up_EndStart();
+	void RunDashJumpAttack_Up_End(float _DeltaTime);
 	void RunJumpStart();
 	void RunJump(float _DeltaTime);
 	void RunJump_LoopStart();
 	void RunJump_Loop(float _DeltaTime);
 	void RunJump_EndStart();
 	void RunJump_End(float _DeltaTime);
-	void RunJumpAttackStart();
-	void RunJumpAttack(float _DeltaTime);
-	void RunJumpAttack_LoopStart();
-	void RunJumpAttack_Loop(float _DeltaTime);
-	void RunJumpAttack_EndStart();
-	void RunJumpAttack_End(float _DeltaTime);
+	void RunJumpAttack_DownStart();
+	void RunJumpAttack_Down(float _DeltaTime);
+	void RunJumpAttack_Down_LoopStart();
+	void RunJumpAttack_Down_Loop(float _DeltaTime);
+	void RunJumpAttack_Down_EndStart();
+	void RunJumpAttack_Down_End(float _DeltaTime);
+	void RunJumpAttack_UpStart();
+	void RunJumpAttack_Up(float _DeltaTime);
+	void RunJumpAttack_Up_LoopStart();
+	void RunJumpAttack_Up_Loop(float _DeltaTime);
+	void RunJumpAttack_Up_EndStart();
+	void RunJumpAttack_Up_End(float _DeltaTime);
 	void WallClingStart();
 	void WallCling(float _DeltaTime);
 	void WallCling_LoopStart();
@@ -174,6 +187,10 @@ private :
 	// Buster Charge Time Function
 	void BusterChargeTime(float _DeltaTime);
 
+	/// <summary>
+	/// Buster 생성.
+	/// </summary>
+	/// <param name="_BusterState">Buster 종류</param>
 	void BusterCreate(EBusterState _BusterState);
 
 	// ===========================================================
@@ -181,9 +198,6 @@ private :
 	EEgseuState State = EEgseuState::None;
 	ERenderOrder Order = ERenderOrder::None;
 	EActorDir DirState = EActorDir::Right;
-
-	std::string CurAnimationName = "None";
-	int Debug_Num = 0;
 
 	UImageRenderer* PlayerRender = nullptr;
 	UCollision* PlayerCollision = nullptr;
@@ -214,9 +228,12 @@ private :
 	static AEgseu* MainPlayer;
 
 	// 
+	std::string CurAnimationName = "None";
+	int Debug_Num = 0;
+
 	bool IsBuster = false; // Buster 쐈음?
-	float MoveSpeed = 500.0f;
-	float DashSpeed = 750.0f;
+	const float MoveSpeed = 500.0f;
+	const float DashSpeed = 750.0f;
 	float DashTime = 0.0f;
 	float SummonDelayTime = 0.0f;
 	float ReadToBusterTime = 0.0f; // Buster 준비 시간.

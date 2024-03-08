@@ -335,9 +335,9 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::IdleRun_Loop:
 			IdleRun_LoopStart();
 			break;
-		case EEgseuState::IdleRun_End:
-			IdleRun_EndStart();
-			break;
+		//case EEgseuState::IdleRun_End:
+		//	IdleRun_EndStart();
+		//	break;
 		case EEgseuState::RunAttack_Down:
 			RunAttack_DownStart();
 			break;
@@ -374,14 +374,23 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::RunDashJump_End:
 			RunDashJump_EndStart();
 			break;
-		case EEgseuState::RunDashJumpAttack:
-			RunDashJumpAttackStart();
+		case EEgseuState::RunDashJumpAttack_Down:
+			RunDashJumpAttack_DownStart();
 			break;
-		case EEgseuState::RunDashJumpAttack_Loop:
-			RunDashJumpAttack_LoopStart();
+		case EEgseuState::RunDashJumpAttack_Down_Loop:
+			RunDashJumpAttack_Down_LoopStart();
 			break;
-		case EEgseuState::RunDashJumpAttack_End:
-			RunDashJumpAttack_EndStart();
+		case EEgseuState::RunDashJumpAttack_Down_End:
+			RunDashJumpAttack_Down_EndStart();
+			break;
+		case EEgseuState::RunDashJumpAttack_Up:
+			RunDashJumpAttack_UpStart();
+			break;
+		case EEgseuState::RunDashJumpAttack_Up_Loop:
+			RunDashJumpAttack_Up_LoopStart();
+			break;
+		case EEgseuState::RunDashJumpAttack_Up_End:
+			RunDashJumpAttack_Up_EndStart();
 			break;
 		case EEgseuState::RunJump:
 			RunJumpStart();
@@ -392,14 +401,23 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::RunJump_End:
 			RunJump_EndStart();
 			break;
-		case EEgseuState::RunJumpAttack:
-			RunJumpAttackStart();
+		case EEgseuState::RunJumpAttack_Down:
+			RunJumpAttack_DownStart();
 			break;
-		case EEgseuState::RunJumpAttack_Loop:
-			RunJumpAttack_LoopStart();
+		case EEgseuState::RunJumpAttack_Down_Loop:
+			RunJumpAttack_Down_LoopStart();
 			break;
-		case EEgseuState::RunJumpAttack_End:
-			RunJumpAttack_EndStart();
+		case EEgseuState::RunJumpAttack_Down_End:
+			RunJumpAttack_Down_EndStart();
+			break;
+		case EEgseuState::RunJumpAttack_Up:
+			RunJumpAttack_UpStart();
+			break;
+		case EEgseuState::RunJumpAttack_Up_Loop:
+			RunJumpAttack_Up_LoopStart();
+			break;
+		case EEgseuState::RunJumpAttack_Up_End:
+			RunJumpAttack_Up_EndStart();
 			break;
 		case EEgseuState::WallCling:
 			WallClingStart();
@@ -511,9 +529,9 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::IdleRun_Loop:
 		IdleRun_Loop(_DeltaTime);
 		break;
-	case EEgseuState::IdleRun_End:
-		IdleRun_End(_DeltaTime);
-		break;
+	//case EEgseuState::IdleRun_End:
+	//	IdleRun_End(_DeltaTime);
+	//	break;
 	case EEgseuState::RunAttack_Down:
 		RunAttack_Down(_DeltaTime);
 		break;
@@ -550,14 +568,23 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::RunDashJump_End:
 		RunDashJump_End(_DeltaTime);
 		break;
-	case EEgseuState::RunDashJumpAttack:
-		RunDashJumpAttack(_DeltaTime);
+	case EEgseuState::RunDashJumpAttack_Down:
+		RunDashJumpAttack_Down(_DeltaTime);
 		break;
-	case EEgseuState::RunDashJumpAttack_Loop:
-		RunDashJumpAttack_Loop(_DeltaTime);
+	case EEgseuState::RunDashJumpAttack_Down_Loop:
+		RunDashJumpAttack_Down_Loop(_DeltaTime);
 		break;
-	case EEgseuState::RunDashJumpAttack_End:
-		RunDashJumpAttack_End(_DeltaTime);
+	case EEgseuState::RunDashJumpAttack_Down_End:
+		RunDashJumpAttack_Down_End(_DeltaTime);
+		break;
+	case EEgseuState::RunDashJumpAttack_Up:
+		RunDashJumpAttack_Up(_DeltaTime);
+		break;
+	case EEgseuState::RunDashJumpAttack_Up_Loop:
+		RunDashJumpAttack_Up_Loop(_DeltaTime);
+		break;
+	case EEgseuState::RunDashJumpAttack_Up_End:
+		RunDashJumpAttack_Up_End(_DeltaTime);
 		break;
 	case EEgseuState::RunJump:
 		RunJump(_DeltaTime);
@@ -568,14 +595,23 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::RunJump_End:
 		RunJump_End(_DeltaTime);
 		break;
-	case EEgseuState::RunJumpAttack:
-		RunJumpAttack(_DeltaTime);
+	case EEgseuState::RunJumpAttack_Down:
+		RunJumpAttack_Down(_DeltaTime);
 		break;
-	case EEgseuState::RunJumpAttack_Loop:
-		RunJumpAttack_Loop(_DeltaTime);
+	case EEgseuState::RunJumpAttack_Down_Loop:
+		RunJumpAttack_Down_Loop(_DeltaTime);
 		break;
-	case EEgseuState::RunJumpAttack_End:
-		RunJumpAttack_End(_DeltaTime);
+	case EEgseuState::RunJumpAttack_Down_End:
+		RunJumpAttack_Down_End(_DeltaTime);
+		break;
+	case EEgseuState::RunJumpAttack_Up:
+		RunJumpAttack_Up(_DeltaTime);
+		break;
+	case EEgseuState::RunJumpAttack_Up_Loop:
+		RunJumpAttack_Up_Loop(_DeltaTime);
+		break;
+	case EEgseuState::RunJumpAttack_Up_End:
+		RunJumpAttack_Up_End(_DeltaTime);
 		break;
 	case EEgseuState::WallCling:
 		WallCling(_DeltaTime);
@@ -650,7 +686,7 @@ void AEgseu::Summon_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region IdleStart
+#pragma region Idle
 void AEgseu::IdleStart()
 {
 	JumpVector = FVector::Zero; // 벽 타고 내려왔을 대 점프 초기화.
@@ -723,8 +759,8 @@ void AEgseu::Idle(float _DeltaTime)
 void AEgseu::IdleJumpStart()
 {
 	JumpVector = JumpPower;
-	int CurFrame = PlayerRender->GetCurAnimationFrame();
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"), false, CurFrame);
+	//int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
 	DirCheck();
 }
 
@@ -1301,11 +1337,14 @@ void AEgseu::IdleRun(float _DeltaTime)
 
 	MoveUpdate(_DeltaTime);
 
+	// Down
 	if (true == UEngineInput::IsDown('X'))
 	{
 		StateChange(EEgseuState::RunAttack_Down);
 		return;
 	}
+
+	// Up
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
@@ -1381,22 +1420,23 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 		true == UEngineInput::IsFree(VK_UP) &&
 		true == UEngineInput::IsFree(VK_DOWN))
 	{
-		StateChange(EEgseuState::IdleRun_End);
+		//StateChange(EEgseuState::IdleRun_End);
+		StateChange(EEgseuState::Idle);
 		return;
 	}
 }
 
-void AEgseu::IdleRun_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
-	DirCheck();
-}
-
-void AEgseu::IdleRun_End(float _DeltaTime)
-{
-	StateChange(EEgseuState::Idle);
-	return;
-}
+//void AEgseu::IdleRun_EndStart()
+//{
+//	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
+//	DirCheck();
+//}
+//
+//void AEgseu::IdleRun_End(float _DeltaTime)
+//{
+//	StateChange(EEgseuState::Idle);
+//	return;
+//}
 #pragma endregion
 
 #pragma region RunAttack Down / IdleRun
@@ -1407,6 +1447,7 @@ void AEgseu::RunAttack_DownStart()
 
 	BusterCreate(EBusterState::CreateDefault);
 	DirCheck();
+	BusterDelayTime = 0.0f;
 }
 
 void AEgseu::RunAttack_Down(float _DeltaTime)
@@ -1430,6 +1471,7 @@ void AEgseu::RunAttack_Down(float _DeltaTime)
 		BusterCreate(EBusterState::CreateDefault);
 	}
 
+	// 딜레이가 끝나면,
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
 		StateChange(EEgseuState::IdleRun);
@@ -1438,11 +1480,11 @@ void AEgseu::RunAttack_Down(float _DeltaTime)
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
-		StateChange(EEgseuState::RunAttack_Down_Loop); // .....
+		StateChange(EEgseuState::IdleRun); // 지금은 어색할 수 있다.
 		return;
 	}
 	
-
+	// 움직임을 멈추면 Idle로.
 	if (true == UEngineInput::IsFree(VK_LEFT) &&
 		true == UEngineInput::IsFree(VK_RIGHT) &&
 		true == UEngineInput::IsFree(VK_UP) &&
@@ -1459,6 +1501,7 @@ void AEgseu::RunAttack_Down_LoopStart()
 	PlayerRender->ChangeAnimation(GetAnimationName("Run_Attack_Loop"), false, CurFrame);
 	BusterCreate(EBusterState::CreateDefault);
 	DirCheck();
+	BusterDelayTime = 0.0f;
 }
 
 void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
@@ -1496,16 +1539,8 @@ void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
 		true == UEngineInput::IsFree(VK_UP) &&
 		true == UEngineInput::IsFree(VK_DOWN))
 	{
-		if (BusterDelayTime <= BusterDelayTimeMax)
-		{
-			StateChange(EEgseuState::IdleAttack_Down_Loop);
-			return;
-		}
-		else
-		{
-			StateChange(EEgseuState::Idle);
-			return;
-		}
+		StateChange(EEgseuState::Idle);
+		return;
 	}
 
 	// 0.5초가 지나면,
@@ -1520,7 +1555,8 @@ void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
 void AEgseu::RunAttack_Down_EndStart()
 {
 	BusterDelayTime = 0.0f;
-	// 프레임 교체 필요. TODO
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName(""), false, CurFrame);
 	//PlayerRender->ChangeAnimation(GetAnimationName("Run"));
 }
 
@@ -1800,23 +1836,48 @@ void AEgseu::RunDashJump_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunDashJumpAttack
-void AEgseu::RunDashJumpAttackStart()
+#pragma region RunDashJumpAttack Down
+void AEgseu::RunDashJumpAttack_DownStart()
 {
 }
-void AEgseu::RunDashJumpAttack(float _DeltaTime)
+void AEgseu::RunDashJumpAttack_Down(float _DeltaTime)
 {
 }
-void AEgseu::RunDashJumpAttack_LoopStart()
+void AEgseu::RunDashJumpAttack_Down_LoopStart()
 {
 }
-void AEgseu::RunDashJumpAttack_Loop(float _DeltaTime)
+void AEgseu::RunDashJumpAttack_Down_Loop(float _DeltaTime)
 {
 }
-void AEgseu::RunDashJumpAttack_EndStart()
+void AEgseu::RunDashJumpAttack_Down_EndStart()
 {
 }
-void AEgseu::RunDashJumpAttack_End(float _DeltaTime)
+void AEgseu::RunDashJumpAttack_Down_End(float _DeltaTime)
+{
+}
+#pragma endregion
+#pragma region RunDashJumpAttack Up
+void AEgseu::RunDashJumpAttack_UpStart()
+{
+}
+
+void AEgseu::RunDashJumpAttack_Up(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDashJumpAttack_Up_LoopStart()
+{
+}
+
+void AEgseu::RunDashJumpAttack_Up_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::RunDashJumpAttack_Up_EndStart()
+{
+}
+
+void AEgseu::RunDashJumpAttack_Up_End(float _DeltaTime)
 {
 }
 #pragma endregion
@@ -1846,7 +1907,7 @@ void AEgseu::RunJump(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		//StateChange(EEgseuState::JumpAttack_Down); RunJumpAttack
+		StateChange(EEgseuState::RunJumpAttack_Down);
 		return;
 	}
 
@@ -1888,7 +1949,7 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		//StateChange(EEgseuState::JumpAttack_Down_Loop);
+		StateChange(EEgseuState::RunJumpAttack_Down_Loop);
 		return;
 	}
 
@@ -1938,29 +1999,54 @@ void AEgseu::RunJump_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunJumpAttack
-void AEgseu::RunJumpAttackStart()
+#pragma region RunJumpAttack Down
+void AEgseu::RunJumpAttack_DownStart()
 {
 }
 
-void AEgseu::RunJumpAttack_LoopStart()
+void AEgseu::RunJumpAttack_Down_LoopStart()
 {
 }
 
-void AEgseu::RunJumpAttack_EndStart()
+void AEgseu::RunJumpAttack_Down_EndStart()
 {
 }
 
 
-void AEgseu::RunJumpAttack(float _DeltaTime)
+void AEgseu::RunJumpAttack_Down(float _DeltaTime)
 {
 }
 
-void AEgseu::RunJumpAttack_Loop(float _DeltaTime)
+void AEgseu::RunJumpAttack_Down_Loop(float _DeltaTime)
 {
 }
 
-void AEgseu::RunJumpAttack_End(float _DeltaTime)
+void AEgseu::RunJumpAttack_Down_End(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region RunJumpAttack Up
+void AEgseu::RunJumpAttack_UpStart()
+{
+}
+void AEgseu::RunJumpAttack_Up(float _DeltaTime)
+{
+}
+
+void AEgseu::RunJumpAttack_Up_LoopStart()
+{
+}
+
+void AEgseu::RunJumpAttack_Up_Loop(float _DeltaTime)
+{
+}
+
+void AEgseu::RunJumpAttack_Up_EndStart()
+{
+}
+
+void AEgseu::RunJumpAttack_Up_End(float _DeltaTime)
 {
 }
 #pragma endregion
