@@ -11,6 +11,7 @@ enum class EImageSortType
 {
 	Center,
 	Left,
+	Right,
 };
 
 /// <summary>

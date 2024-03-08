@@ -232,6 +232,11 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 		RendererTrans.AddPosition({ RendererTrans.GetScale().hX() , 0.0f });
 		break;
 	}
+	case EImageSortType::Right:
+	{
+		RendererTrans.AddPosition({ -RendererTrans.GetScale().hX() , 0.0f });
+		break;
+	}
 	default:
 		break;
 	}
