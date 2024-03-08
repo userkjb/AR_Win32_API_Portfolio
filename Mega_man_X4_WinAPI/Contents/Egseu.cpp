@@ -1960,6 +1960,27 @@ void AEgseu::RunJump(float _DeltaTime)
 		return;
 	}
 
+	// 차지 공격
+	if (true == UEngineInput::IsUp('X'))
+	{
+		if (BusterChargTime <= 0.8f)
+		{
+			return;
+		}
+		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+		{
+			BusterCreate(EBusterState::CreateMiddle);
+		}
+		else if (2.0f <= BusterChargTime)
+		{
+			BusterCreate(EBusterState::CreatePull);
+		}
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunJumpAttack_Up);
+		return;
+	}
+
+
 	// 점프 중 벽 체크
 	bool WallChecl = CalWallCheck();
 	if (true == WallChecl)
@@ -2001,6 +2022,26 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 		BusterDelayTime = 0.0f;
 		BusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::RunJumpAttack_Down_Loop);
+		return;
+	}
+
+	// 차지 공격
+	if (true == UEngineInput::IsUp('X'))
+	{
+		if (BusterChargTime <= 0.8f)
+		{
+			return;
+		}
+		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+		{
+			BusterCreate(EBusterState::CreateMiddle);
+		}
+		else if (2.0f <= BusterChargTime)
+		{
+			BusterCreate(EBusterState::CreatePull);
+		}
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunJumpAttack_Up_Loop);
 		return;
 	}
 
@@ -2207,25 +2248,126 @@ void AEgseu::RunJumpAttack_Down_End(float _DeltaTime) // 공격 모션 착지.
 #pragma region RunJumpAttack Up
 void AEgseu::RunJumpAttack_UpStart()
 {
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), false, CurFrame);
+	DirCheck();
 }
 void AEgseu::RunJumpAttack_Up(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	bool WallChecl = CalWallCheck();
+	if (true == WallChecl)
+	{
+		StateChange(EEgseuState::WallCling);
+		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::RunJumpAttack_Up_Loop);
+		return;
+	}
 }
 
 void AEgseu::RunJumpAttack_Up_LoopStart()
 {
+	if (BusterDelayTime == 0.0f) // x 땠을 때 들어옴.
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
+	}
+	else // 이전 상태에서 이어서 들어옴.
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
+	}
 }
-
 void AEgseu::RunJumpAttack_Up_Loop(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::RunJump_Loop);
+		return;
+	}
+
+	bool WallChecl = CalWallCheck();
+	if (true == WallChecl)
+	{
+		StateChange(EEgseuState::WallCling);
+		return;
+	}
+
+	// 땅에 닿음
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+		if (BusterChargTime == 0.0f)
+		{
+			StateChange(EEgseuState::RunJump_End);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::RunJumpAttack_Up_End);
+			return;
+		}
+	}
 }
 
 void AEgseu::RunJumpAttack_Up_EndStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
 }
 
 void AEgseu::RunJumpAttack_Up_End(float _DeltaTime)
 {
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		RunVector = FVector::Left * MoveSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		RunVector = FVector::Right * MoveSpeed;
+	}
+	MoveUpdate(_DeltaTime);
+
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunJump_End);
+		return;
+	}
 }
 #pragma endregion
 
