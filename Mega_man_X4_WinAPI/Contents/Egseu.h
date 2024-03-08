@@ -249,6 +249,7 @@ private :
 	const float MoveSpeed = 500.0f;
 	const float DashSpeed = 750.0f;
 	float DashTime = 0.0f;
+	const float DashTimeMax = 0.5f;
 	float SummonDelayTime = 0.0f;
 	float ReadToBusterTime = 0.0f; // Buster 준비 시간.
 	float WallKickTime = 0.0f; // 벽 차는 행동을 강제하기 위한 Time

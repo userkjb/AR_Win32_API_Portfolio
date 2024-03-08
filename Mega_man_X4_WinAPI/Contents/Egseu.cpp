@@ -1119,6 +1119,7 @@ void AEgseu::JumpAttack_Up(float _DeltaTime)
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
 		StateChange(EEgseuState::IdleJump);
+		return;
 	}
 
 	// 바닥이네? -> 낮은 바닥...
@@ -1401,7 +1402,16 @@ void AEgseu::IdleDash_LoopStart()
 
 void AEgseu::IdleDash_EndStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"));
+	if (BusterDelayTime == 0.0f)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"));
+	}
+	else // 공격 하다 왔음.
+	{
+		BusterDelayTime = 0.0f;
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"), false, CurFrame);
+	}
 }
 
 void AEgseu::IdleDash(float _DeltaTime)
@@ -1759,6 +1769,13 @@ void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
 		return;
 	}
 
+	// 대쉬!
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		StateChange(EEgseuState::RunDashAttack_Down);
+		return;
+	}
+
 	if (true == UEngineInput::IsFree(VK_LEFT) &&
 		true == UEngineInput::IsFree(VK_RIGHT) &&
 		true == UEngineInput::IsFree(VK_UP) &&
@@ -1881,7 +1898,16 @@ void AEgseu::RunAttack_Up_Loop(float _DeltaTime)
 #pragma region RunDash
 void AEgseu::RunDashStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
+	if (BusterDelayTime == 0.0f)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
+	}
+	else // 공격 하다가 왔으면,
+	{
+		BusterDelayTime = 0.0f;
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"), false, CurFrame);
+	}
 }
 void AEgseu::RunDash(float _DeltaTime)
 {
@@ -1900,11 +1926,24 @@ void AEgseu::RunDash(float _DeltaTime)
 
 	if (true == UEngineInput::IsUp('Z'))
 	{
+		DashVector = FVector::Zero;
 		StateChange(EEgseuState::IdleRun_Loop);
 		return;
 	}
 
-	if (true == UEngineInput::IsPress('Z'))
+	// 공격
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+		StateChange(EEgseuState::RunDashAttack_Down);
+		return;
+	}
+
+	// 차지 공격
+
+
+	if (true == UEngineInput::IsPress('Z') && true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::RunDash_Loop);
 		return;
@@ -1941,8 +1980,9 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		BusterCreate(EBusterState::CreateDefault);
+		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDashAttack_Down_Loop);
+		BusterCreate(EBusterState::CreateDefault);
 		return;
 	}
 
@@ -1967,7 +2007,7 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 	}
 
 	// 대쉬 지속 시간
-	if (0.5f <= DashTime)
+	if (DashTimeMax <= DashTime)
 	{
 		DashTime = 0.0f;
 		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
@@ -2002,30 +2042,202 @@ void AEgseu::RunDash_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunDashJump Down
+#pragma region RunDashAttack Down
 void AEgseu::RunDashAttack_DownStart()
 {
+	if (BusterDelayTime == 0)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Start"), false, CurFrame);
+	}
+	else // 공격 하다가 왔음.
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Start"));
+	}
 }
-
 void AEgseu::RunDashAttack_Down(float _DeltaTime)
 {
+	DashTime += _DeltaTime;
+	BusterDelayTime += _DeltaTime;
+
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * DashSpeed;
+	}
+	else if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * DashSpeed;
+	}
+	RunVector = FVector::Zero;
+	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	// 0.5
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::RunDash);
+		return;
+	}
+
+	if (true == UEngineInput::IsPress('Z') && true == PlayerRender->IsCurAnimationEnd())
+	{
+		if (BusterDelayTime != 0.0f)
+		{
+			StateChange(EEgseuState::RunDashAttack_Down_Loop);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::RunDash_Loop);
+			return;
+		}
+	}
 }
 
 void AEgseu::RunDashAttack_Down_LoopStart()
 {
-	int CurFrame = PlayerRender->GetCurAnimationFrame();
-	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Loop"), false, CurFrame);
+	if (BusterDelayTime == 0.0f)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Loop"), false, CurFrame);
+	}
+	else
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Loop"));
+	}
 }
-
 void AEgseu::RunDashAttack_Down_Loop(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	DashTime += _DeltaTime;
+
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * DashSpeed;
+	}
+	else if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * DashSpeed;
+	}
+	MoveUpdate(_DeltaTime);
+
+	// 또 공격!
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	// 0.5 초가 지났어.
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::IdleDash_Loop);
+		return;
+	}
+
+	// 대쉬 도중 종료.
+	if (true == UEngineInput::IsUp('Z'))
+	{
+		DashTime = 0.0f;
+		DashVector = FVector::Zero;
+
+		// 방향키 좌우를 누르고 있다면,
+		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
+		{
+			if (BusterDelayTime != 0.0f)
+			{
+				StateChange(EEgseuState::RunAttack_Down_Loop);
+				return;
+			}
+			else
+			{
+				StateChange(EEgseuState::IdleRun_Loop);
+				return;
+			}
+		}
+		else // 방향키를 누르고 있지 않다면,
+		{
+			if (BusterDelayTime != 0.0f)
+			{
+				StateChange(EEgseuState::IdleAttack_Down_End);
+				return;
+			}
+			else
+			{
+				StateChange(EEgseuState::IdleDash_End);
+				return;
+			}
+		}
+	}
+
+	// 대쉬 지속 시간 끝.
+	if (DashTimeMax <= DashTime)
+	{
+		DashVector = FVector::Zero;
+		DashTime = 0.0f;
+		// 방향키 좌우를 누르고 있다면,
+		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
+		{
+			if (BusterDelayTime != 0.0f)
+			{
+				StateChange(EEgseuState::RunAttack_Down_Loop);
+				return;
+			}
+			else
+			{
+				StateChange(EEgseuState::IdleRun_Loop);
+				return;
+			}
+		}
+		else // 방향키를 누르고 있지 않다면,
+		{
+			if (BusterDelayTime != 0.0f)
+			{
+				StateChange(EEgseuState::RunDashAttack_Down_End);
+				return;
+			}
+			else
+			{
+				StateChange(EEgseuState::IdleDash_End);
+				return;
+			}
+		}
+	}
 }
 
 void AEgseu::RunDashAttack_Down_EndStart()
 {
+	if (BusterDelayTime == 0.0f) // RunDash_End 에서 넘어 왔으니 바꿔 줘야 함.
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_End"), false, CurFrame);
+	}
+	else // Attack_Down_Loop 에서 넘어 옴.
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_End"));
+	}
 }
 void AEgseu::RunDashAttack_Down_End(float _DeltaTime)
 {
+	DashVector = FVector::Zero;
+
+	// 0.5 초가 지났어.
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::IdleDash_End);
+		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
 }
 #pragma endregion
 
@@ -2323,7 +2535,16 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 void AEgseu::RunJump_EndStart()
 {
 	JumpVector = FVector::Zero;
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
+	if (BusterDelayTime == 0.0f)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
+	}
+	else
+	{
+		BusterDelayTime = 0.0f;
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"), false, CurFrame);
+	}
 }
 
 void AEgseu::RunJump_End(float _DeltaTime)
@@ -2483,7 +2704,6 @@ void AEgseu::RunJumpAttack_Down_End(float _DeltaTime) // 공격 모션 착지.
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJump_End);
 		return;
 	}
@@ -2638,7 +2858,6 @@ void AEgseu::RunJumpAttack_Up_End(float _DeltaTime)
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJump_End);
 		return;
 	}

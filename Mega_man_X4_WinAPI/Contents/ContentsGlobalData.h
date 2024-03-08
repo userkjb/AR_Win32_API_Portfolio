@@ -94,8 +94,8 @@ enum class EEgseuState
 	//IdleRun_End, // 그림이 없음.
 
 	// Idle -> Run
-	RunAttack_Down,
-	RunAttack_Down_Loop,
+	RunAttack_Down, // 달리면서 공격 시작.
+	RunAttack_Down_Loop, // 달리면서 공격.
 	//RunAttack_Down_End,
 	RunAttack_Up,
 	RunAttack_Up_Loop,
