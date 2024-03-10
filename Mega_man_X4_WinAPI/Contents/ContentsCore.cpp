@@ -4,6 +4,7 @@
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include <EnginePlatform/EngineInput.h>
+#include <EnginePlatform/EngineSound.h>
 
 //#include "TitleLevel.h"
 #include "IntroLevel.h"
@@ -35,6 +36,9 @@ void ContentsCore::BeginPlay()
 	UEngineCore::BeginPlay();
 
 	//srand(static_cast<unsigned int>(time(0)));
+
+	// 기본 볼륨 설정
+	UEngineSound::SetGlobalVolume(0.5f);
 
 	// ==========================================================================
 
