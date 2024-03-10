@@ -12,6 +12,7 @@
 // #pragma comment(lib, "fmod_vc.lib")
 
 std::map<std::string, UEngineSound*> UEngineSound::Resources;
+float UEngineSound::GlobalVolume = 1.0f; // 전역에서 사용.
 
 // FMOD와 관련된 사운드를 로드할수 있는 권한.
 FMOD::System* SoundSystem = nullptr;
@@ -76,6 +77,21 @@ void UEngineSound::ResLoad(std::string_view _Path)
 	// SoundSystem->playSound(SoundHandle, nullptr, false, nullptr);
 }
 
+void UEngineSound::SetGlobalVolume(float _Value)
+{
+	GlobalVolume = _Value;
+
+	if (GlobalVolume <= 0.0f)
+	{
+		GlobalVolume = 0.0f;
+	}
+
+	if (GlobalVolume >= 1.0f)
+	{
+		GlobalVolume = 1.0f;
+	}
+}
+
 UEngineSoundPlayer UEngineSound::SoundPlay(std::string_view _Name)
 {
 	std::string UpperName = UEngineString::ToUpper(_Name);
@@ -127,4 +143,9 @@ void UEngineSound::Load(std::string_view _Path, std::string_view _Name)
 	UEngineSound* NewSound = new UEngineSound();
 	NewSound->ResLoad(_Path);
 	Resources[UpperName] = NewSound;
+}
+
+void UEngineSoundPlayer::SetVolume(float _Volume)
+{
+	Control->setVolume(_Volume * UEngineSound::GlobalVolume);
 }

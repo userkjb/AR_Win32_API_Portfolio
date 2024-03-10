@@ -57,7 +57,9 @@ class UEngineSound
 {
 	friend class ResControl;
 private:
+	friend UEngineSoundPlayer;
 	static std::map<std::string, UEngineSound*> Resources;
+	static float GlobalVolume;
 
 public:
 	// constrcuter destructer
@@ -69,6 +71,8 @@ public:
 	UEngineSound(UEngineSound&& _Other) noexcept = delete;
 	UEngineSound& operator=(const UEngineSound& _Other) = delete;
 	UEngineSound& operator=(UEngineSound&& _Other) noexcept = delete;
+
+	static void SetGlobalVolume(float _Value);
 
 	static UEngineSoundPlayer SoundPlay(std::string_view _Name);
 
