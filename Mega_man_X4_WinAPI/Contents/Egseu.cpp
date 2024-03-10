@@ -2578,6 +2578,12 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 
 	// °ø°Ý
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterCreate(EBusterState::CreateDefault);
+		StateChange(EEgseuState::RunDashJumpAttack_Down_Loop);
+		return;
+	}
 
 	// ¶¥¿¡ ´êÀ½
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
@@ -2613,30 +2619,151 @@ void AEgseu::RunDashJump_End(float _DeltaTime)
 #pragma region RunDashJumpAttack Down
 void AEgseu::RunDashJumpAttack_DownStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"), false, CurFrame);
 	JumpVector = JumpPower;
 	DirCheck();
 }
 void AEgseu::RunDashJumpAttack_Down(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * DashSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * DashSpeed;
+	}
+	RunVector = FVector::Zero;
+	MoveUpdate(_DeltaTime);
+
+	// ¶Ç °ø°Ý?
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	// 0.5ÃÊ°¡ Áö³µ´Ù.
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::IdleJump);
+	}
+
+	// ¹Ù´ÚÀÌ³×? -> ³·Àº ¹Ù´Ú...
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+		StateChange(EEgseuState::IdleJump_End); //
+		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::RunDashJumpAttack_Down_Loop);
+		return;
+	}
 }
 
 void AEgseu::RunDashJumpAttack_Down_LoopStart()
 {
+	// RunDashJump_Loop ¿¡¼­ µé¾î¿À±â. -> BusterDelayTime == 0;
+	// RunDashJumpAttack_Down ¿¡ ÀÌ¾î¼­ µé¾î¿À±â. -> BusterDelayTime != 0;
+	if (BusterDelayTime == 0.0f)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_End"), false, CurFrame);
+	}
+	else
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_End"));
+	}
 }
 void AEgseu::RunDashJumpAttack_Down_Loop(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * DashSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * DashSpeed;
+	}
+	RunVector = FVector::Zero;
+	MoveUpdate(_DeltaTime);
+
+	// ¶Ç °ø°Ý?
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	// 0.5ÃÊ°¡ Áö³µ´Ù.
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::IdleJump);
+	}
+
+	// ¹Ù´ÚÀÌ³×? -> ³·Àº ¹Ù´Ú...
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+		if (BusterDelayTime != 0)
+		{
+			StateChange(EEgseuState::RunDashJumpAttack_Down_End);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::IdleJump_End);
+			return;
+		}
+	}
 }
 
 void AEgseu::RunDashJumpAttack_Down_EndStart()
 {
+	if (BusterDelayTime == 0.0f)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
+	}
+	else
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
+	}
 }
 void AEgseu::RunDashJumpAttack_Down_End(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	JumpVector = FVector::Zero;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * DashSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * DashSpeed;
+	}
+	RunVector = FVector::Zero;
+	MoveUpdate(_DeltaTime);
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		int a = 0;
+	}
 }
 #pragma endregion
 
-#pragma region RunDashJumpAttack Up
+#pragma region RunDashJumpAttack Up -- TODO
 void AEgseu::RunDashJumpAttack_UpStart()
 {
 }
