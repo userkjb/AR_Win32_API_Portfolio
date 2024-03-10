@@ -2524,8 +2524,8 @@ void AEgseu::RunDashAttack_Up_End(float _DeltaTime)
 #pragma region RunDashJump
 void AEgseu::RunDashJumpStart()
 {
-	JumpVector = JumpPower;
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	JumpVector = JumpPower;
 	DirCheck();
 }
 void AEgseu::RunDashJump(float _DeltaTime)
@@ -2539,9 +2539,18 @@ void AEgseu::RunDashJump(float _DeltaTime)
 	{
 		DashVector = FVector::Right * DashSpeed;
 	}
-
+	RunVector = FVector::Zero;
 	MoveUpdate(_DeltaTime);
 
+	// 공격
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterCreate(EBusterState::CreateDefault);
+		StateChange(EEgseuState::RunDashJumpAttack_Down);
+		return;
+	}
+
+	// 애니메이션이 끝나면,
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::RunDashJump_Loop);
@@ -2565,7 +2574,7 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 	{
 		DashVector = FVector::Right * DashSpeed;
 	}
-
+	RunVector = FVector::Zero;
 	MoveUpdate(_DeltaTime);
 
 	// 공격
@@ -2604,16 +2613,21 @@ void AEgseu::RunDashJump_End(float _DeltaTime)
 #pragma region RunDashJumpAttack Down
 void AEgseu::RunDashJumpAttack_DownStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	JumpVector = JumpPower;
+	DirCheck();
 }
 void AEgseu::RunDashJumpAttack_Down(float _DeltaTime)
 {
 }
+
 void AEgseu::RunDashJumpAttack_Down_LoopStart()
 {
 }
 void AEgseu::RunDashJumpAttack_Down_Loop(float _DeltaTime)
 {
 }
+
 void AEgseu::RunDashJumpAttack_Down_EndStart()
 {
 }
@@ -2621,6 +2635,7 @@ void AEgseu::RunDashJumpAttack_Down_End(float _DeltaTime)
 {
 }
 #pragma endregion
+
 #pragma region RunDashJumpAttack Up
 void AEgseu::RunDashJumpAttack_UpStart()
 {
