@@ -175,6 +175,7 @@
     <ClInclude Include="CyberPeacock.h" />
     <ClInclude Include="Buster.h" />
     <ClInclude Include="ContentsGlobalData.h" />
+    <ClInclude Include="CyberSpaceBossMap.h" />
     <ClInclude Include="CyberSpaceLevel.h" />
     <ClInclude Include="CyberSpaceMap.h" />
     <ClInclude Include="Egseu.h" />
@@ -198,11 +199,13 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TriScan.h" />
+    <ClInclude Include="CyberSpaceBossLevel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CyberPeacock.cpp" />
     <ClCompile Include="Buster.cpp" />
     <ClCompile Include="ContentsGlobalData.cpp" />
+    <ClCompile Include="CyberSpaceBossMap.cpp" />
     <ClCompile Include="CyberSpaceLevel.cpp" />
     <ClCompile Include="CyberSpaceMap.cpp" />
     <ClCompile Include="Egseu.cpp" />
@@ -226,6 +229,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TriScan.cpp" />
+    <ClCompile Include="CyberSpaceBossLevel.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
