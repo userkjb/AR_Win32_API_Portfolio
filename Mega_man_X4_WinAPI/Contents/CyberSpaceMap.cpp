@@ -35,6 +35,32 @@ void ACyberSpaceMap::SetMapExitImage(std::string_view _MapImageName)
 	MapExit->SetPosition({ 4817, 300 });
 }
 
+void ACyberSpaceMap::SetRankRenderImage(std::string_view _MapImageName)
+{
+	RankRender->SetImage(_MapImageName);
+	MapExit->AutoImageScale();
+	
+	RankRender->CreateAnimation("B_Rank", _MapImageName, 0, 0, 0.1f, false);
+	RankRender->CreateAnimation("A_Rank", _MapImageName, 1, 1, 0.1f, false);
+	RankRender->CreateAnimation("S_Rank", _MapImageName, 2, 2, 0.1f, false);
+
+	RankRender->ChangeAnimation("B_Rank");
+	RankRender->ActiveOff();
+}
+
+void ACyberSpaceMap::SetExitAniImage(std::string_view _MapImageName)
+{
+	ExitAni->SetImage(_MapImageName);
+	ExitAni->AutoImageScale();
+
+	ExitAni->CreateAnimation("ExitAni", _MapImageName, 0, 13, 0.5f, false);
+
+	ExitAni->ChangeAnimation("ExitAni");
+	ExitAni->ActiveOff();
+}
+
+
+
 void ACyberSpaceMap::SwitchDebug()
 {
 	if (true == MapRenderer->IsActive())
@@ -63,6 +89,10 @@ void ACyberSpaceMap::BeginPlay()
 	// Focus
 	Focus = GetWorld()->SpawnActor<APlayerFocus>(static_cast<int>(EActorType::MapObject));
 	Focus->ActiveOff();
+	
+	// Exit
+	RankRender = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
+	ExitAni = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 }
 
 void ACyberSpaceMap::Tick(float _DeltaTime)

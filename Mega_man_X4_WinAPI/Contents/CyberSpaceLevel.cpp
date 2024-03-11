@@ -78,12 +78,18 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("Focus.png", 3, 3);
 	UEngineResourcesManager::GetInst().CuttingImage("HurryUp.png", 3, 1);
 
+	// Exit
+	UEngineResourcesManager::GetInst().CuttingImage("Rank.png", 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("GoToDoor.png", 14, 1);
+
 	// Map
 	CyberSpaceMap = SpawnActor<ACyberSpaceMap>(static_cast<int>(EActorType::Map));
 	CyberSpaceMap->SetActorLocation({ 0, 0 });
 	CyberSpaceMap->SetMapImage("CyberPeacock-Area1-1.png");
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
 	CyberSpaceMap->SetMapExitImage("CyberPeacock-Area-EndObject.png");
+	CyberSpaceMap->SetRankRenderImage("Rank.png");
+	CyberSpaceMap->SetExitAniImage("GoToDoor.png");
 
 	// Actor
 	//NewPlayer = SpawnActor<APlayer>();

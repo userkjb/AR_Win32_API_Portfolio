@@ -25,6 +25,10 @@ public :
 	// Map Object
 	void SetMapExitImage(std::string_view _MapImageName);
 
+	void SetRankRenderImage(std::string_view _MapImageName);
+
+	void SetExitAniImage(std::string_view _MapImageName);
+
 	void SetPlayer(AEgseu* _Player)
 	{
 		Player = _Player;
@@ -62,9 +66,12 @@ private :
 	EFocusState FocusState = EFocusState::None;
 	EEgseuState PreState = EEgseuState::None;
 
+	FVector ImageScale;
+	
 	UImageRenderer* MapRenderer = nullptr;	// Map 이미지
 	UImageRenderer* ColRenderer = nullptr;	// ColMap 이미지
 	UImageRenderer* MapExit = nullptr;
-	FVector ImageScale;
+	UImageRenderer* RankRender = nullptr; // 랭크 이미지
+	UImageRenderer* ExitAni = nullptr; // 출구 애니메이션.
 };
 
