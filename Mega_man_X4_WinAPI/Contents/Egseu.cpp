@@ -103,12 +103,12 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
 
 	// Jump
-	PlayerRender->CreateAnimation("Jump_Start_Right", "x_Jump_Right.png", 0, 7, 0.1f, false);
-	PlayerRender->CreateAnimation("Jump_Start_Left", "x_Jump_Left.png", 0, 7, 0.1f, false);
-	PlayerRender->CreateAnimation("Jumping_Right", "x_Jump_Right.png", 7, 7, 0.1f, false);
-	PlayerRender->CreateAnimation("Jumping_Left", "x_Jump_Left.png", 7, 7, 0.1f, false);
-	PlayerRender->CreateAnimation("Jump_End_Right", "x_Jump_Right.png", 8, 10, 0.01f, false);
-	PlayerRender->CreateAnimation("Jump_End_Left", "x_Jump_Left.png", 8, 10, 0.01f, false);
+	PlayerRender->CreateAnimation("Jump_Start_Right", "x_Jump_Right.png", 0, 7, 0.05f, false);
+	PlayerRender->CreateAnimation("Jump_Start_Left", "x_Jump_Left.png", 0, 7, 0.05f, false);
+	PlayerRender->CreateAnimation("Jumping_Right", "x_Jump_Right.png", 7, 7, 0.05f, false);
+	PlayerRender->CreateAnimation("Jumping_Left", "x_Jump_Left.png", 7, 7, 0.05f, false);
+	PlayerRender->CreateAnimation("Jump_End_Right", "x_Jump_Right.png", 8, 10, 0.005f, false);
+	PlayerRender->CreateAnimation("Jump_End_Left", "x_Jump_Left.png", 8, 10, 0.005f, false);
 
 	// Jump Attack
 	PlayerRender->CreateAnimation("Jump_Start_Attack_Right", "JumpAttack_Right.png", { 0, 2, 4, 6, 8, 10, 12, 14 }, 0.05f, false);
@@ -167,12 +167,12 @@ void AEgseu::PlayerBeginPlay()
 	//PlayerRender->CreateAnimation("Dash_Attack_Shoot_End_Left", "x_Dash_Attack_Left.png", { 9, 11, 13, 15 }, 0.05f, false);
 
 	// Wall
-	PlayerRender->CreateAnimation("WallCling_Start_Right", "Wall_Cling_Right.png", 0, 3, 0.05f, false);
-	PlayerRender->CreateAnimation("WallCling_Start_Left", "Wall_Cling_Left.png", 0, 3, 0.05f, false);
-	PlayerRender->CreateAnimation("WallCling_Loop_Right", "Wall_Cling_Right.png", 3, 3, 0.5f, false);
-	PlayerRender->CreateAnimation("WallCling_Loop_Left", "Wall_Cling_Left.png", 3, 3, 0.5f, false);
-	PlayerRender->CreateAnimation("WallKick_Right", "Wall_Cling_Kick_Right.png", 0, 2, 0.05f, false);
-	PlayerRender->CreateAnimation("WallKick_Left", "Wall_Cling_Kick_Left.png", 0, 2, 0.05f, false);
+	PlayerRender->CreateAnimation("WallCling_Start_Right", "Wall_Cling_Right.png", 0, 3, 0.025f, false);
+	PlayerRender->CreateAnimation("WallCling_Start_Left", "Wall_Cling_Left.png", 0, 3, 0.025f, false);
+	PlayerRender->CreateAnimation("WallCling_Loop_Right", "Wall_Cling_Right.png", 3, 3, 0.25f, false);
+	PlayerRender->CreateAnimation("WallCling_Loop_Left", "Wall_Cling_Left.png", 3, 3, 0.25f, false);
+	PlayerRender->CreateAnimation("WallKick_Right", "Wall_Cling_Kick_Right.png", 0, 2, 0.025f, false);
+	PlayerRender->CreateAnimation("WallKick_Left", "Wall_Cling_Kick_Left.png", 0, 2, 0.025f, false);
 
 	// Wall Effect
 	//PlayerRender->CreateAnimation("WallCling_Effect_Right", "WallEffect_Right.png", 0, 7, 0.5f, false);
@@ -3604,6 +3604,36 @@ void AEgseu::WallCling(float _DeltaTime)
 	{
 		StateChange(EEgseuState::WallCling_Loop);
 		return;
+	}
+
+	// ³·Àº ¶¥ÀÎ °æ¿ì°¡ ÀÖ´Ù.
+	FVector CheckPos = GetActorLocation();
+	switch (DirState)
+	{
+	case EActorDir::Left:
+		CheckPos.X += 5;
+		break;
+	case EActorDir::Right:
+		CheckPos.X -= 5;
+		break;
+	default:
+		break;
+	}
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+		{
+			JumpVector = FVector::Zero;
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			JumpVector = FVector::Zero;
+			StateChange(EEgseuState::Idle);
+			return;
+		}
 	}
 }
 #pragma endregion
