@@ -194,7 +194,7 @@ void APlayerFocus::CreateLoop(float _DeltaTime)
 {
 	CreateDelay += _DeltaTime;
 	//UEngineDebug::OutPutDebugText(std::to_string(CreateDelay));
-	if (CreateDelay <= 1.5f)
+	if (CreateDelay <= 0.1f)
 	{
 		return;
 	}
