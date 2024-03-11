@@ -41,8 +41,8 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
 
+	//TestCameraMove();
 	MoveCameraVector();
-	//ActorGeneration(_DeltaTime);
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)
@@ -159,6 +159,32 @@ void UCyberSpaceLevel::MoveCameraVector()
 	if (0.0f >= CameraPos.Y)
 	{
 		CameraPos.Y = 0.0f;
+	}
+
+	SetCameraPos(CameraPos);
+}
+
+void UCyberSpaceLevel::TestCameraMove()
+{
+	FVector CameraPos = GetCameraPos();
+	if (true == UEngineInput::IsDown(VK_RIGHT))
+	{
+		CameraPos.X += 1.0f;
+	}
+
+	if (true == UEngineInput::IsDown(VK_LEFT))
+	{
+		CameraPos.X -= 1.0f;
+	}
+
+	if (true == UEngineInput::IsDown(VK_UP))
+	{
+		CameraPos.Y += 1.0f;
+	}
+
+	if (true == UEngineInput::IsDown(VK_DOWN))
+	{
+		CameraPos.Y -= 1.0f;
 	}
 
 	SetCameraPos(CameraPos);

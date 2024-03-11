@@ -34,6 +34,8 @@ private :
 	/// </summary>
 	void MoveCameraVector();
 
+	void TestCameraMove();
+
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
 	//APlayer* NewPlayer = nullptr;
 	AEgseu* NewX = nullptr;
