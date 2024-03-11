@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include "ContentsGlobalData.h"
 
 class AEgseu;
 class APlayerFocus;
@@ -41,11 +42,25 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private :
+	void StateChange(ECyberSpaceMapState _State);
+	void StateUpdate(float _DeltaTime);
+
+	void PlayerFocus_StartBegin();
+	void PlayerFocus_Start(float _DeltaTime);
+	void PlayerFocus_LoopBegin();
+	void PlayerFocus_Loop(float _DeltaTime);
+	void PlayerFocus_EndBegin();
+	void PlayerFocus_End(float _DeltaTime);
+	
 	void PlayerPosEvent(float _DeltaTime);
+
+	ECyberSpaceMapState State = ECyberSpaceMapState::None;
+	float FocusCreateTime = 0.0f;
 	float FocusTime = 0.0f;
 	APlayerFocus* Focus = nullptr;
 	AEgseu* Player = nullptr;
-	int FocusCount = 0;
+	EFocusState FocusState = EFocusState::None;
+	EEgseuState PreState = EEgseuState::None;
 
 	UImageRenderer* MapRenderer = nullptr;	// Map 이미지
 	UImageRenderer* ColRenderer = nullptr;	// ColMap 이미지

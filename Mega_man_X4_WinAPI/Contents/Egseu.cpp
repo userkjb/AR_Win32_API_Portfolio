@@ -96,10 +96,10 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Idle_Left", "X_Idle_Left.png", 0, 3, 0.3f, true);
 
 	// Run
-	PlayerRender->CreateAnimation("Run_Ready_Right", "x_Move_Right.png", 0, 1, 0.05f, false);
-	PlayerRender->CreateAnimation("Run_Ready_Left", "x_Move_Left.png", 0, 1, 0.05f, false);
-	PlayerRender->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.1f, true);
-	PlayerRender->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.1f, true);
+	PlayerRender->CreateAnimation("Run_Ready_Right", "x_Move_Right.png", 0, 1, 0.025f, false);
+	PlayerRender->CreateAnimation("Run_Ready_Left", "x_Move_Left.png", 0, 1, 0.025f, false);
+	PlayerRender->CreateAnimation("Run_Right", "x_Move_Right.png", 2, 15, 0.05f, true);
+	PlayerRender->CreateAnimation("Run_Left", "x_Move_Left.png", 2, 15, 0.05f, true);
 
 	// Jump
 	PlayerRender->CreateAnimation("Jump_Start_Right", "x_Jump_Right.png", 0, 7, 0.1f, false);
@@ -454,6 +454,15 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::FocusCreate:
 			FocusCreateStart();
 			break;
+		case EEgseuState::FocusLoop:
+			FocusLoopStart();
+			break;
+		case EEgseuState::FocusEnd:
+			FocusEndStart();
+			break;
+		case EEgseuState::AutoRunRight:
+			AutoRunRightStart();
+			break;
 		default :
 			break;
 		}
@@ -668,6 +677,15 @@ void AEgseu::StateUpdate(float _DeltaTime)
 		break;
 	case EEgseuState::FocusCreate:
 		FocusCreate(_DeltaTime);
+		break;
+	case EEgseuState::FocusLoop:
+		FocusLoop(_DeltaTime);
+		break;
+	case EEgseuState::FocusEnd:
+		FocusEnd(_DeltaTime);
+		break;
+	case EEgseuState::AutoRunRight:
+		AutoRunRight(_DeltaTime);
 		break;
 	default :
 		break;
@@ -3743,12 +3761,63 @@ void AEgseu::Hit(float _DeltaTime)
 
 void AEgseu::FocusCreateStart()
 {
-
+	GetWorld()->SetAllTimeScale(0.0f);
+	GetWorld()->SetTimeScale(EActorType::Map, 1.0f);
+	GetWorld()->SetTimeScale(EActorType::MapObject, 1.0f);
 }
 void AEgseu::FocusCreate(float _DeltaTime)
 {
-
+	return;
 }
+
+
+void AEgseu::FocusLoopStart()
+{
+	GetWorld()->SetAllTimeScale(1.0f);
+}
+void AEgseu::FocusLoop(float _DeltaTime)
+{
+	if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+	{
+		StateChange(EEgseuState::IdleRun_Loop);
+		return;
+	}
+	else if (true == UEngineInput::IsFree(VK_RIGHT) && true == UEngineInput::IsFree(VK_LEFT))
+	{
+		StateChange(EEgseuState::Idle);
+		return;
+	}
+}
+
+
+void AEgseu::FocusEndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
+}
+
+void AEgseu::FocusEnd(float _DeltaTime)
+{
+	// 랭크 받고 오른쪽으로 이동.
+	if (true == AutoRightRun)
+	{
+		StateChange(EEgseuState::AutoRunRight);
+		return;
+	}
+}
+
+void AEgseu::AutoRunRightStart()
+{
+	RunVector = FVector::Zero;
+	PlayerRender->ChangeAnimation(GetAnimationName("Run"));
+}
+
+void AEgseu::AutoRunRight(float _DeltaTime)
+{
+	RunVector = FVector::Right * MoveSpeed * _DeltaTime;
+	AddActorLocation(RunVector);
+}
+
+
 
 
 // === Vector =============================================

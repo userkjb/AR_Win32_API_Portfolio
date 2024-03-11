@@ -43,6 +43,7 @@ private :
 	void Create(float _DeltaTime);
 	void CreateLoopStart();
 	void CreateLoop(float _DeltaTime);
+	void CallRun(float _DeltaTime);
 	void RunStart();
 	void Run(float _DeltaTime);
 	void Rank(float _DeltaTime);
@@ -54,6 +55,7 @@ private :
 	void Death(float _DeltaTime);
 
 	EFocusState State = EFocusState::None;
+	ERenderOrder RenderOrder = ERenderOrder::None;
 
 	UImageRenderer* FocusRender = nullptr;
 	UImageRenderer* FocusArrow = nullptr;
@@ -71,5 +73,6 @@ private :
 
 	float CreateDelay = 0.0f;
 	float ForcusTime = 0.0f;
+	float RunRightTime = 0.0f;
 };
 

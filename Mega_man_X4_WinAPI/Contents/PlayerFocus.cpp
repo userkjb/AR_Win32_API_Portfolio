@@ -52,7 +52,7 @@ void APlayerFocus::ForcusComponent()
 
 void APlayerFocus::CreateAnimations()
 {
-	FocusRender->CreateAnimation("FocusStart", "Focus.png", 0, 2, 0.2f, false);
+	FocusRender->CreateAnimation("FocusStart", "Focus.png", 0, 2, 0.1f, false);
 	FocusRender->CreateAnimation("FocusLoop", "Focus.png", 3, 4, 0.2f, true);
 	FocusRender->CreateAnimation("FocusEnd", "Focus.png", { 2, 1, 0 }, 0.5f, false);
 	FocusRender->CreateAnimation("FocusIcon", "Focus.png", 0, 0, 0.5f, false);
@@ -124,6 +124,9 @@ void APlayerFocus::StateUpdate(float _DeltaTime)
 	case EFocusState::CreateLoop:
 		CreateLoop(_DeltaTime);
 		break;
+	case EFocusState::CallRun:
+		CallRun(_DeltaTime);
+		break;
 	case EFocusState::Run:
 		Run(_DeltaTime);
 		break;
@@ -155,6 +158,10 @@ void APlayerFocus::CallCreate(float _DeltaTime)
 #pragma region Create
 void APlayerFocus::CreateStart()
 {
+	GetWorld()->SetAllTimeScale(0.0f);
+	GetWorld()->SetTimeScale(EActorType::Map, 1.0f);
+	GetWorld()->SetTimeScale(EActorType::MapObject, 1.0f);
+
 	FocusRender->ChangeAnimation("FocusStart");
 	if (true == FocusArrow->IsActive())
 	{
@@ -192,20 +199,26 @@ void APlayerFocus::CreateLoopStart()
 
 void APlayerFocus::CreateLoop(float _DeltaTime)
 {
-	CreateDelay += _DeltaTime;
-	//UEngineDebug::OutPutDebugText(std::to_string(CreateDelay));
-	if (CreateDelay <= 0.1f)
-	{
-		return;
-	}
-	
-	StateChange(EFocusState::Run);
+	//CreateDelay += _DeltaTime;
+	////UEngineDebug::OutPutDebugText(std::to_string(CreateDelay));
+	//if (CreateDelay <= 1.5f)
+	//{
+	//	return;
+	//}
+	//
+	//StateChange(EFocusState::Run);
 	return;
 }
 
 #pragma endregion
 
 #pragma region Run
+void APlayerFocus::CallRun(float _DeltaTime)
+{
+	StateChange(EFocusState::Run);
+	return;
+}
+
 void APlayerFocus::RunStart()
 {
 	CreateDelay = 0.0f;
@@ -233,6 +246,7 @@ void APlayerFocus::Run(float _DeltaTime)
 // Level에서 State를 바꾸면 이 쪽으로.
 void APlayerFocus::Rank(float _DeltaTime)
 {
+	ForcusTime = 0.0f;
 	StateChange(EFocusState::RunUp);
 	return;
 }
@@ -273,10 +287,16 @@ void APlayerFocus::RunRightStart()
 
 void APlayerFocus::RunRight(float _DeltaTime)
 {
+	RunRightTime += _DeltaTime;
 	RunVector = FVector::Right * RunSpeed * _DeltaTime;
 	AddActorLocation(RunVector);
 
-
+	// 오른쪽으로 이동.
+	if (2.0f <= RunRightTime)
+	{
+		StateChange(EFocusState::Death);
+		return;
+	}
 }
 #pragma endregion
 
@@ -289,6 +309,6 @@ void APlayerFocus::DeathStart()
 
 void APlayerFocus::Death(float _DeltaTime)
 {
-	
+	this->Destroy(0.0f);
 }
 #pragma endregion

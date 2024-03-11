@@ -8,6 +8,7 @@ enum class EActorType
 {
 	None,
 	Map,
+	MapObject,
 	Player,
 	Buster,
 	Boss,
@@ -154,6 +155,10 @@ enum class EEgseuState
 	Hit_MiruTorearu,
 
 	FocusCreate,
+	FocusLoop,
+	FocusEnd,
+
+	AutoRunRight,
 };
 
 /// <summary>
@@ -181,6 +186,7 @@ enum class EFocusState
 	CallCreate,
 	Create,
 	CreateLoop,
+	CallRun,
 	Run,
 	Rank,
 	RunUp,

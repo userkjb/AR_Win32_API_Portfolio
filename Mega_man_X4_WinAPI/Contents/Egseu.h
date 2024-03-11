@@ -180,6 +180,12 @@ private :
 	void Hit(float _DeltaTime);
 	void FocusCreateStart();
 	void FocusCreate(float _DeltaTime);
+	void FocusLoopStart();
+	void FocusLoop(float _DeltaTime);
+	void FocusEndStart();
+	void FocusEnd(float _DeltaTime);
+	void AutoRunRightStart();
+	void AutoRunRight(float _DeltaTime);
 	//#pragma endregion
 
 
@@ -252,7 +258,7 @@ private :
 	std::string CurAnimationName = "None";
 	int Debug_Num = 0;
 
-	bool IsBuster = false; // Buster ½úÀ½?
+	bool AutoRightRun = false;
 	const float MoveSpeed = 500.0f;
 	const float DashSpeed = 750.0f;
 	float DashTime = 0.0f;

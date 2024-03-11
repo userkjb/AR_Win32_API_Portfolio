@@ -40,11 +40,13 @@ void ACyberSpaceMap::SwitchDebug()
 	if (true == MapRenderer->IsActive())
 	{
 		MapRenderer->SetActive(false);
+		MapExit->SetActive(false);
 		ColRenderer->SetActive(true);
 	}
 	else
 	{
 		MapRenderer->SetActive(true);
+		MapExit->SetActive(true);
 		ColRenderer->SetActive(false);
 	}
 }
@@ -57,6 +59,10 @@ void ACyberSpaceMap::BeginPlay()
 	ColRenderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Map));
 	ColRenderer->SetActive(false);
 	MapExit = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
+
+	// Focus
+	Focus = GetWorld()->SpawnActor<APlayerFocus>(static_cast<int>(EActorType::MapObject));
+	Focus->ActiveOff();
 }
 
 void ACyberSpaceMap::Tick(float _DeltaTime)
@@ -67,49 +73,160 @@ void ACyberSpaceMap::Tick(float _DeltaTime)
 	{
 		SwitchDebug();
 	}
-
+	StateUpdate(_DeltaTime);
 	PlayerPosEvent(_DeltaTime);
 }
 
+void ACyberSpaceMap::StateChange(ECyberSpaceMapState _State)
+{
+	if (State != _State)
+	{
+		switch (_State)
+		{
+		case ECyberSpaceMapState::None:
+			break;
+		case ECyberSpaceMapState::PlayerFocus_Start:
+			PlayerFocus_StartBegin();
+			break;
+		case ECyberSpaceMapState::PlayerFocus_Loop:
+			PlayerFocus_LoopBegin();
+			break;
+		case ECyberSpaceMapState::PlayerFocus_End:
+			PlayerFocus_EndBegin();
+			break;
+		default :
+			break;
+		}
+	}
+	State = _State;
+}
+
+void ACyberSpaceMap::StateUpdate(float _DeltaTime)
+{
+	switch (State)
+	{
+	case ECyberSpaceMapState::None:
+		break;
+	case ECyberSpaceMapState::PlayerFocus_Start:
+		PlayerFocus_Start(_DeltaTime);
+		break;
+	case ECyberSpaceMapState::PlayerFocus_Loop:
+		PlayerFocus_Loop(_DeltaTime);
+		break;
+	case ECyberSpaceMapState::PlayerFocus_End:
+		PlayerFocus_End(_DeltaTime);
+		break;
+	default:
+		break;
+	}
+}
+
+
+//==================================================================================
+
+void ACyberSpaceMap::PlayerFocus_StartBegin()
+{
+	FocusCreateTime = 0.0f;
+	
+	// 이 시간 동안 포커스를 제외한 모든 Actor들은 멈춰야 한다.
+	GetWorld()->SetAllTimeScale(0.0f);
+	GetWorld()->SetTimeScale(EActorType::Map, 1.0f);
+	//GetWorld()->SetTimeScale(static_cast<int>(EActorType::MapObject), 1.0f);
+	
+	Focus->SetFocusState(EFocusState::CallCreate);
+	Focus->ActiveOn();
+
+	Player->StateChange(EEgseuState::FocusCreate);
+}
+
+void ACyberSpaceMap::PlayerFocus_Start(float _DeltaTime)
+{
+	if (FocusCreateTime <= 2.0f)
+	{
+		FocusCreateTime += _DeltaTime;
+
+		FVector PlayerPos = Player->GetActorLocation();
+		Focus->SetActorLocation({ PlayerPos.iX(), PlayerPos.iY() - 50 });
+	}
+	else
+	{
+		Player->StateChange(EEgseuState::FocusLoop);
+		Focus->SetFocusState(EFocusState::CallRun);
+		StateChange(ECyberSpaceMapState::PlayerFocus_Loop);
+		return;
+	}
+}
+
+void ACyberSpaceMap::PlayerFocus_LoopBegin()
+{
+	GetWorld()->SetAllTimeScale(1.0f);
+	FocusTime = 0.0f;
+}
+
+void ACyberSpaceMap::PlayerFocus_Loop(float _DeltaTime)
+{
+	FocusTime += _DeltaTime;
+}
+
+void ACyberSpaceMap::PlayerFocus_EndBegin()
+{
+	Player->StateChange(EEgseuState::FocusEnd);
+	Focus->SetFocusState(EFocusState::Rank);
+}
+
+void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
+{
+	float x = FocusTime;
+
+	//bool nbx = Focus->IsDestroy();
+	if (Focus->IsDestroy())
+	{
+		if(x <= 10.0f)
+		{
+			// S
+			Player->AutoRightRun = true;
+		}
+		else if (10.0f < x || x <= 15.0f)
+		{
+			// A
+			Player->AutoRightRun = true;
+		}
+		else if (x > 15.0f)
+		{
+			// B
+			Player->AutoRightRun = true;
+		}
+	}
+}
+
+
+/// <summary>
+/// 플레이어 좌표 이벤트
+/// </summary>
+/// <param name="_DeltaTime"></param>
 void ACyberSpaceMap::PlayerPosEvent(float _DeltaTime)
 {
 	FVector PlayerPos = Player->GetActorLocation();
-	UEngineDebug::OutPutDebugText(std::to_string(PlayerPos.X));
+	//UEngineDebug::OutPutDebugText(std::to_string(PlayerPos.X));
 	
-	//----- 포커스 ----------
-	// 1. 좌표.
-	// 2. 픽셀.
-	// 좌표로 했을 경우.
-	// 아래의 조건에 만족하는 경우
-	//if (990.0f <= PlayerPos.X && PlayerPos.X <= 1000.0f) // 게임에서 포커스가 생기는 좌표.
-	if (300.0f <= PlayerPos.X && PlayerPos.X <= 350.0f) // test
+	if (State == ECyberSpaceMapState::None)
 	{
-		//FocusTime += _DeltaTime;
-		//if (FocusTime <= 2.0f)
-		//{
-		//	GetWorld()->SetAllTimeScale(0.0f);
-		//	GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 0.0f);
-		//	return;
-		//}
-		// 포커스가 없으면 만들어 주고.
-		if (Focus == nullptr)
+		//if (990.0f <= PlayerPos.X && PlayerPos.X <= 1000.0f) // 게임에서 포커스가 생기는 좌표.
+		if (300.0f <= PlayerPos.X && PlayerPos.X <= 350.0f) // test
 		{
-			Focus = GetWorld()->SpawnActor<APlayerFocus>();
-			Focus->SetActorLocation({ PlayerPos.iX(), PlayerPos.iY() - 50 });
-			Focus->SetFocusState(EFocusState::CallCreate);
-			FocusCount = 0;
+			StateChange(ECyberSpaceMapState::PlayerFocus_Start);
+			return;
 		}
 	}
-	//FocusTime += _DeltaTime;
-
+	
 	// 정산.
-	if (FocusCount == 0)
+	if (State == ECyberSpaceMapState::PlayerFocus_Loop)
 	{
 		//if (4400.0f <= PlayerPos.X && PlayerPos.X <= 4450.0f) // 정산
 		if (500.0f <= PlayerPos.X && PlayerPos.X <= 550.0f) // test
 		{
-			FocusCount++;
-			Focus->SetFocusState(EFocusState::Rank);
+			StateChange(ECyberSpaceMapState::PlayerFocus_End);
+			return;
 		}
 	}
 }
