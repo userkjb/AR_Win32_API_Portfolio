@@ -205,12 +205,6 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 		MsgBoxAssert("이미지가 존재하지 않는 Renderer 입니다.");
 	}
 
-	if (nullptr != CurAnimation)
-	{
-		Image = CurAnimation->Image;
-		InfoIndex = CurAnimation->Update(_DeltaTime);
-	}
-
 	FTransform RendererTrans = GetRenderTransForm();
 
 	// TransColor 원리
@@ -218,6 +212,8 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 	// TransCopy에서만.
 	// PNG일 경우에만.
 	EWindowImageType ImageType = Image->GetImageType();
+
+	DebugCheck();
 
 	// 이미지 크기 자동 설정.
 	const UImageInfo& Info = Image->ImageInfo(InfoIndex);
