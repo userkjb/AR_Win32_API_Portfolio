@@ -48,14 +48,16 @@ void AEgseu::ChargeBeginPlay()
 {
 	MiddleChargeRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	MiddleChargeRender->SetImage("Charging_1.png");
-	MiddleChargeRender->AutoImageScale();
+	MiddleChargeRender->AutoImageScale(2.0f);
+	MiddleChargeRender->SetPosition({ 0, -48 });
 	//UWindowImage* ChargeImage_1 = MiddleChargeRender->GetImage();
 	//FVector ChargeScale_1 = ChargeImage_1->GetScale();
 	//MiddleChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_1.iX() / 9, ChargeScale_1.iY()} });
 
 	PullChargeRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	PullChargeRender->SetImage("Charging_2.png");
-	PullChargeRender->AutoImageScale();
+	PullChargeRender->AutoImageScale(2.0f);
+	PullChargeRender->SetPosition({ 0, -48 });
 	//UWindowImage* ChargeImage_2 = PullChargeRender->GetImage();
 	//FVector ChargeScale_2 = ChargeImage_2->GetScale();
 	//PullChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_2.iX() / 4 , ChargeScale_2.iY()} });
