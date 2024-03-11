@@ -213,7 +213,7 @@ private :
 	// ===========================================================
 
 	EEgseuState State = EEgseuState::None;
-	ERenderOrder Order = ERenderOrder::None;
+	ERenderOrder RenderOrder = ERenderOrder::None;
 	EActorDir DirState = EActorDir::Right;
 
 	UImageRenderer* PlayerRender = nullptr;

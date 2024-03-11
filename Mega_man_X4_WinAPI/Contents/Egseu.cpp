@@ -89,7 +89,7 @@ void AEgseu::PlayerBeginPlay()
 	// ===== Animation ======================================================
 	// Summon
 	PlayerRender->CreateAnimation("Summon", "x_Start.png", 0, 0, 0.2f, true);
-	PlayerRender->CreateAnimation("Summon_Loop", "x_Start.png", 1, 16, 0.13f, false);
+	PlayerRender->CreateAnimation("Summon_Loop", "x_Start.png", 1, 16, 0.07f, false);
 
 	// Idle
 	PlayerRender->CreateAnimation("Idle_Right", "X_Idle_Right.png", 0, 3, 0.3f, true);
@@ -694,8 +694,9 @@ void AEgseu::Summon_EndStart()
 
 void AEgseu::Summon(float _DeltaTime)
 {
-	SummonVector = FVector::Down * 1000.0f;
-	MoveUpdate(_DeltaTime);
+	SummonVector = FVector::Down * 1000.0f * _DeltaTime;
+	//MoveUpdate(_DeltaTime);
+	AddActorLocation(SummonVector);
 
 	// Actor의 기준점 가져오기.
 	FVector CheckPos = GetActorLocation();
@@ -713,7 +714,7 @@ void AEgseu::Summon_Loop(float _DeltaTime)
 	SummonDelayTime += _DeltaTime;
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
-		if (1.4f < SummonDelayTime)
+		if (1.5f < SummonDelayTime)
 		{
 			StateChange(EEgseuState::Summon_End);
 			SummonDelayTime = 0.0f;
@@ -3742,11 +3743,11 @@ void AEgseu::Hit(float _DeltaTime)
 
 void AEgseu::FocusCreateStart()
 {
-	GetWorld()->SetOtherTimeScale(EActorType::Map, 0.0f);
+
 }
 void AEgseu::FocusCreate(float _DeltaTime)
 {
-	GetWorld()->SetOtherTimeScale(EActorType::Map, 0.0f);
+
 }
 
 
