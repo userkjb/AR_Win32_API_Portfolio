@@ -178,6 +178,8 @@ private :
 	void WallKick(float _DeltaTime);
 	void HitStart();
 	void Hit(float _DeltaTime);
+	void Hit_MiruTorearuStart();
+	void Hit_MiruTorearu(float _DeltaTime);
 	void FocusCreateStart();
 	void FocusCreate(float _DeltaTime);
 	void FocusLoopStart();

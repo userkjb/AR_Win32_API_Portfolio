@@ -2,6 +2,7 @@
 #include <EngineCore/EngineCore.h> // Helper
 #include "Buster.h"
 #include "CyberPeacock.h"
+#include "MiruTorearu.h"
 
 AEgseu::AEgseu()
 {
@@ -451,6 +452,9 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::Hit:
 			HitStart();
 			break;
+		case EEgseuState::Hit_MiruTorearu:
+			Hit_MiruTorearuStart();
+			break;
 		case EEgseuState::FocusCreate:
 			FocusCreateStart();
 			break;
@@ -674,6 +678,9 @@ void AEgseu::StateUpdate(float _DeltaTime)
 		break;
 	case EEgseuState::Hit:
 		Hit(_DeltaTime);
+		break;
+	case EEgseuState::Hit_MiruTorearu:
+		Hit_MiruTorearu(_DeltaTime);
 		break;
 	case EEgseuState::FocusCreate:
 		FocusCreate(_DeltaTime);
@@ -3759,6 +3766,18 @@ void AEgseu::Hit(float _DeltaTime)
 }
 #pragma endregion
 
+void AEgseu::Hit_MiruTorearuStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName(""));
+}
+void AEgseu::Hit_MiruTorearu(float _DeltaTime)
+{
+	// 공의 중앙 방향.
+	// 이동 속도.
+
+}
+
+
 void AEgseu::FocusCreateStart()
 {
 	GetWorld()->SetAllTimeScale(0.0f);
@@ -3904,6 +3923,7 @@ void AEgseu::MoveUpdate(float _DeltaTime)
 void AEgseu::CollisionCheck(float _DeltaTime)
 {
 	std::vector<UCollision*> Result;
+
 	if (true == PlayerCollision->CollisionCheck(ECollisionOrder::Boss, Result))
 	{
 		Hit_Count++;
@@ -3921,7 +3941,13 @@ void AEgseu::CollisionCheck(float _DeltaTime)
 
 	if (true == PlayerCollision->CollisionCheck(ECollisionOrder::Enemy, Result))
 	{
+		Hit_Count++;
+		if (Hit_Count == 1)
+		{
+			AMiruTorearu* Enemy = (AMiruTorearu*)Result[0]->GetOwner();
+			std::string x = Enemy->GetName();
 
+		}
 	}
 }
 
