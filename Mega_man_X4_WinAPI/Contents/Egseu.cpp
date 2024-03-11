@@ -1378,8 +1378,15 @@ void AEgseu::IdleAttack_Up_Loop(float _DeltaTime)
 
 void AEgseu::IdleAttack_Up_EndStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
-	BusterDelayTime = 0.0f;
+	if (BusterDelayTime == 0.0f)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"), false, CurFrame);
+	}
+	else
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
+	}
 }
 
 void AEgseu::IdleAttack_Up_End(float _DeltaTime)
@@ -2581,8 +2588,15 @@ void AEgseu::RunDashJump(float _DeltaTime)
 
 void AEgseu::RunDashJump_LoopStart()
 {
-	if()
-	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	if (BusterDelayTime == 0.0f)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	}
+	else
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jumping"), false, CurFrame);
+	}
 	DirCheck();
 }
 void AEgseu::RunDashJump_Loop(float _DeltaTime)
@@ -2972,8 +2986,11 @@ void AEgseu::RunDashJumpAttack_Up_Loop(float _DeltaTime)
 				StateChange(EEgseuState::IdleRun_Loop);
 				return;
 			}
-			StateChange(EEgseuState::Idle);
-			return;
+			else
+			{
+				StateChange(EEgseuState::Idle);
+				return;
+			}
 		}
 	}
 }
@@ -2992,6 +3009,51 @@ void AEgseu::RunDashJumpAttack_Up_EndStart()
 }
 void AEgseu::RunDashJumpAttack_Up_End(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+
+	// 또 공격?
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	// 0.5초
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::RunDashJump_Loop);
+		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
+		{
+			if (BusterDelayTime != 0.0f)
+			{
+				StateChange(EEgseuState::RunAttack_Up_Loop);
+				return;
+			}
+			else
+			{
+				StateChange(EEgseuState::IdleRun_Loop);
+				return;
+			}
+		}
+		else
+		{
+			if (BusterDelayTime != 0.0f)
+			{
+				StateChange(EEgseuState::IdleAttack_Up_End);
+				return;
+			}
+			else
+			{
+				StateChange(EEgseuState::Idle);
+				return;
+			}
+		}
+	}
 }
 #pragma endregion
 
