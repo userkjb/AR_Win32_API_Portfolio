@@ -1057,6 +1057,7 @@ void AEgseu::JumpAttack_Down_EndStart()
 void AEgseu::JumpAttack_Down_End(float _DeltaTime)
 {
 	BusterDelayTime += _DeltaTime;
+	JumpVector = FVector::Zero;
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
 		RunVector = FVector::Left * MoveSpeed;
@@ -1214,6 +1215,7 @@ void AEgseu::JumpAttack_Up_EndStart()
 void AEgseu::JumpAttack_Up_End(float _DeltaTime)
 {
 	BusterDelayTime += _DeltaTime;
+	JumpVector = FVector::Zero;
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
 		RunVector = FVector::Left * MoveSpeed;
@@ -1904,7 +1906,6 @@ void AEgseu::RunDashStart()
 	}
 	else // 공격 하다가 왔으면,
 	{
-		BusterDelayTime = 0.0f;
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"), false, CurFrame);
 	}
@@ -2620,7 +2621,7 @@ void AEgseu::RunDashJump_End(float _DeltaTime)
 void AEgseu::RunDashJumpAttack_DownStart()
 {
 	int CurFrame = PlayerRender->GetCurAnimationFrame();
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"), false, CurFrame);
+	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start_Attack"), false, CurFrame);
 	JumpVector = JumpPower;
 	DirCheck();
 }
@@ -2657,7 +2658,8 @@ void AEgseu::RunDashJumpAttack_Down(float _DeltaTime)
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		JumpVector = FVector::Zero;
-		StateChange(EEgseuState::IdleJump_End); //
+		DashVector = FVector::Zero;
+		StateChange(EEgseuState::RunJump_End);
 		return;
 	}
 
@@ -2675,11 +2677,11 @@ void AEgseu::RunDashJumpAttack_Down_LoopStart()
 	if (BusterDelayTime == 0.0f)
 	{
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
-		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_End"), false, CurFrame);
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
 	}
 	else
 	{
-		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_End"));
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
 	}
 }
 void AEgseu::RunDashJumpAttack_Down_Loop(float _DeltaTime)
@@ -2708,6 +2710,7 @@ void AEgseu::RunDashJumpAttack_Down_Loop(float _DeltaTime)
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
 		StateChange(EEgseuState::IdleJump);
+		return;
 	}
 
 	// 바닥이네? -> 낮은 바닥...
@@ -2715,6 +2718,8 @@ void AEgseu::RunDashJumpAttack_Down_Loop(float _DeltaTime)
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		JumpVector = FVector::Zero;
+		DashVector = FVector::Zero;
+		RunVector = FVector::Zero;
 		if (BusterDelayTime != 0)
 		{
 			StateChange(EEgseuState::RunDashJumpAttack_Down_End);
@@ -2739,26 +2744,47 @@ void AEgseu::RunDashJumpAttack_Down_EndStart()
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
 	}
+	JumpVector = FVector::Zero;
+	RunVector = FVector::Zero;
+	DashVector = FVector::Zero;
 }
 void AEgseu::RunDashJumpAttack_Down_End(float _DeltaTime)
 {
 	BusterDelayTime += _DeltaTime;
 	JumpVector = FVector::Zero;
+	RunVector = FVector::Zero;
 	DirCheck();
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
-		DashVector = FVector::Left * DashSpeed;
+		DashVector = FVector::Left * DashSpeed * _DeltaTime;
 	}
-	if (true == UEngineInput::IsPress(VK_RIGHT))
+	else if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		DashVector = FVector::Right * DashSpeed;
+		DashVector = FVector::Right * DashSpeed * _DeltaTime;
 	}
-	RunVector = FVector::Zero;
 	MoveUpdate(_DeltaTime);
+
+	// 0.5초
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunJump_End);
+		return;
+	}
+
 
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
-		int a = 0;
+		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
+		{
+			StateChange(EEgseuState::IdleRun);
+			return;
+		}
+		else
+		{
+			StateChange(EEgseuState::Idle);
+			return;
+		}
 	}
 }
 #pragma endregion
