@@ -56,6 +56,7 @@ private :
 	UCollision* TriScanCollision = nullptr;
 	UImageRenderer* FragmentsRender = nullptr;
 
+	const float RunSpeed = 200.0f;
 	FVector RunVector = FVector::Zero;
 	const FVector GravityAcc = FVector::Down * 1000.0f;
 	FVector GravityVector = FVector::Zero;
