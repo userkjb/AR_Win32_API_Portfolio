@@ -15,6 +15,10 @@ public:
 	APlayerFocus& operator=(const APlayerFocus& _Other) = delete;
 	APlayerFocus& operator=(APlayerFocus&& _Other) noexcept = delete;
 
+	/// <summary>
+	/// 포커스 상태 설정.
+	/// </summary>
+	/// <param name="_State"></param>
 	inline void SetFocusState(EFocusState _State)
 	{
 		State = _State;
