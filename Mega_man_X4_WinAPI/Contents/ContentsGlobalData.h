@@ -4,6 +4,16 @@
 #include <EngineCore/EngineCore.h>
 #include <EngineCore/ImageRenderer.h>
 
+enum class EActorType
+{
+	None,
+	Map,
+	Player,
+	Buster,
+	Boss,
+	Enemy,
+};
+
 /// <summary>
 /// Player 상태. [FSM]
 /// </summary>
@@ -143,7 +153,7 @@ enum class EEgseuState
 	Hit,
 	Hit_MiruTorearu,
 
-	// 버스터 딜레이에 대한 상태도 만들어야 한다.(디테일)
+	FocusCreate,
 };
 
 /// <summary>
