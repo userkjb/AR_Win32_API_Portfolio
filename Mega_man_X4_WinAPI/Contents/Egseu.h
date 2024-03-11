@@ -237,6 +237,10 @@ private :
 
 	// 대쉬랑 런의 최대 속도
 	FVector MaxSpeedVector = { 1000.0f, 1000.0f };
+	
+	// Cling Vector
+	FVector ClingVector = FVector::Zero;
+	const FVector ClingPower = FVector::Down * 200.0f;
 
 	// 밖에서 사용할 Player를 static 으로 뺌.
 	static AEgseu* MainPlayer;

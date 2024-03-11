@@ -3544,12 +3544,14 @@ void AEgseu::WallClingStart()
 {
 	// 벽 잡는 애니메이션.
 	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Start"));
-	//DirCheck();
 }
 
 void AEgseu::WallCling(float _DeltaTime)
 {
-	MoveUpdate(_DeltaTime);
+	ClingVector = FVector::Zero;
+	ClingVector = ClingPower;
+	AActor::AddActorLocation(ClingVector * _DeltaTime);
+
 
 	// 벽 잡는 중 중에 점프
 	if (true == UEngineInput::IsDown('C'))
@@ -3562,8 +3564,6 @@ void AEgseu::WallCling(float _DeltaTime)
 	//if (3 == PlayerRender->GetCurAnimationFrame())
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
-		LastMoveVector = FVector::Zero;
-		GravityVector = FVector::Down * 10.0f;
 		StateChange(EEgseuState::WallCling_Loop);
 		return;
 	}
@@ -3573,16 +3573,14 @@ void AEgseu::WallCling(float _DeltaTime)
 #pragma region WallCling_Loop
 void AEgseu::WallCling_LoopStart()
 {
-	JumpVector = FVector::Zero;
 	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Loop"));
-	//DirCheck();
 }
 
 void AEgseu::WallCling_Loop(float _DeltaTime)
 {
-	// 벽타고 미끌어지는 수치 조절 해야 함.
-
-	MoveUpdate(_DeltaTime);
+	ClingVector = FVector::Zero;
+	ClingVector = ClingPower;
+	AActor::AddActorLocation(ClingVector * _DeltaTime);
 
 	// 벽을 잡고 있는 중에 공격
 	// -----
