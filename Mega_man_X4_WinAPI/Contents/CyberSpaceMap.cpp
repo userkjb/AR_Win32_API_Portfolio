@@ -88,7 +88,8 @@ void ACyberSpaceMap::BeginPlay()
 
 	// Focus
 	Focus = GetWorld()->SpawnActor<APlayerFocus>(static_cast<int>(EActorType::MapObject));
-	Focus->ActiveOff();
+	//Focus->ActiveOff();
+	Focus->SetActive(false);
 	
 	// Exit
 	RankRender = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
@@ -241,8 +242,8 @@ void ACyberSpaceMap::PlayerPosEvent(float _DeltaTime)
 	
 	if (State == ECyberSpaceMapState::None)
 	{
-		//if (990.0f <= PlayerPos.X && PlayerPos.X <= 1000.0f) // 게임에서 포커스가 생기는 좌표.
-		if (300.0f <= PlayerPos.X && PlayerPos.X <= 350.0f) // test
+		//if (300.0f <= PlayerPos.X && PlayerPos.X <= 350.0f) // test
+		if (990.0f <= PlayerPos.X && PlayerPos.X <= 1000.0f) // 게임에서 포커스가 생기는 좌표.
 		{
 			StateChange(ECyberSpaceMapState::PlayerFocus_Start);
 			return;
@@ -252,8 +253,8 @@ void ACyberSpaceMap::PlayerPosEvent(float _DeltaTime)
 	// 정산.
 	if (State == ECyberSpaceMapState::PlayerFocus_Loop)
 	{
-		//if (4400.0f <= PlayerPos.X && PlayerPos.X <= 4450.0f) // 정산
-		if (500.0f <= PlayerPos.X && PlayerPos.X <= 550.0f) // test
+		//if (500.0f <= PlayerPos.X && PlayerPos.X <= 550.0f) // test
+		if (4400.0f <= PlayerPos.X && PlayerPos.X <= 4450.0f) // 정산
 		{
 			StateChange(ECyberSpaceMapState::PlayerFocus_End);
 			return;
