@@ -48,16 +48,16 @@ void AEgseu::ChargeBeginPlay()
 {
 	MiddleChargeRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	MiddleChargeRender->SetImage("Charging_1.png");
-	UWindowImage* ChargeImage_1 = MiddleChargeRender->GetImage();
-	FVector ChargeScale_1 = ChargeImage_1->GetScale();
 	MiddleChargeRender->AutoImageScale();
+	//UWindowImage* ChargeImage_1 = MiddleChargeRender->GetImage();
+	//FVector ChargeScale_1 = ChargeImage_1->GetScale();
 	//MiddleChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_1.iX() / 9, ChargeScale_1.iY()} });
 
 	PullChargeRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	PullChargeRender->SetImage("Charging_2.png");
-	UWindowImage* ChargeImage_2 = PullChargeRender->GetImage();
-	FVector ChargeScale_2 = ChargeImage_2->GetScale();
 	PullChargeRender->AutoImageScale();
+	//UWindowImage* ChargeImage_2 = PullChargeRender->GetImage();
+	//FVector ChargeScale_2 = ChargeImage_2->GetScale();
 	//PullChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_2.iX() / 4 , ChargeScale_2.iY()} });
 
 
@@ -1344,6 +1344,14 @@ void AEgseu::IdleAttack_UpStart()
 
 void AEgseu::IdleAttack_Up(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+
+	if (true == UEngineInput::IsDown(VK_RIGHT) || true == UEngineInput::IsDown(VK_RIGHT))
+	{
+		StateChange(EEgseuState::RunAttack_Up_Loop);
+		return;
+	}
+
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::IdleAttack_Up_Loop);
