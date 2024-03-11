@@ -29,7 +29,7 @@ void UCollision::SetOrder(int _Order)
 	Collisions[GetOrder()].push_back(this);
 }
 
-bool UCollision::CollisionCheck(int _Order, std::vector<UCollision*>& _Result, FVector _NextPos = FVector::Zero)
+bool UCollision::CollisionCheck(int _Order, std::vector<UCollision*>& _Result, FVector _NextPos)
 {
 	if(false == IsActive())
 	{
