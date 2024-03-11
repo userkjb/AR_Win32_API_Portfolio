@@ -993,7 +993,6 @@ void AEgseu::JumpAttack_Down(float _DeltaTime)
 	// 0.5초가 지났다.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleJump);
 		return;
 	}
@@ -1037,7 +1036,6 @@ void AEgseu::JumpAttack_Down_Loop(float _DeltaTime)
 	// 특정 시간동안 이벤트가 없으면 다시 IdleJump_Loop로 이동.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleJump_Loop);
 		return;
 	}
@@ -1079,7 +1077,6 @@ void AEgseu::JumpAttack_Down_End(float _DeltaTime)
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleJump_End);
 		return;
 	}
@@ -1123,7 +1120,6 @@ void AEgseu::JumpAttack_Up(float _DeltaTime)
 	// 0.5초가 지났다.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleJump);
 		return;
 	}
@@ -1176,7 +1172,6 @@ void AEgseu::JumpAttack_Up_Loop(float _DeltaTime)
 	// 0.5초 지남.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJump_Loop);
 		return;
 	}
@@ -1234,7 +1229,6 @@ void AEgseu::JumpAttack_Up_End(float _DeltaTime)
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleJump_End);
 		return;
 	}
@@ -1719,7 +1713,6 @@ void AEgseu::RunAttack_Down(float _DeltaTime)
 	// 딜레이가 끝나면,
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleRun);
 		return;
 	}
@@ -1798,7 +1791,6 @@ void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
 	// 0.5초가 지나면,
 	if (BusterDelayTimeMax <= BusterDelayTime)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleRun_Loop);
 		return;
 	}
@@ -1893,7 +1885,6 @@ void AEgseu::RunAttack_Up_Loop(float _DeltaTime)
 	// 0.5초가 지나면,
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleRun_Loop);
 		return;
 	}
@@ -2167,7 +2158,6 @@ void AEgseu::RunDashAttack_Down(float _DeltaTime)
 	// 0.5
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDash);
 		return;
 	}
@@ -2225,7 +2215,6 @@ void AEgseu::RunDashAttack_Down_Loop(float _DeltaTime)
 	// 0.5 초가 지났어.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleDash_Loop);
 		return;
 	}
@@ -2319,7 +2308,6 @@ void AEgseu::RunDashAttack_Down_End(float _DeltaTime)
 	// 0.5 초가 지났어.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleDash_End);
 		return;
 	}
@@ -2369,7 +2357,6 @@ void AEgseu::RunDashAttack_Up(float _DeltaTime)
 	// 0.5
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDash);
 		return;
 	}
@@ -2428,7 +2415,6 @@ void AEgseu::RunDashAttack_Up_Loop(float _DeltaTime)
 	// 0.5 초가 지났어.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleDash_Loop);
 		return;
 	}
@@ -2523,7 +2509,6 @@ void AEgseu::RunDashAttack_Up_End(float _DeltaTime)
 	// 0.5 초가 지났어.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleDash_End);
 		return;
 	}
@@ -2596,6 +2581,7 @@ void AEgseu::RunDashJump(float _DeltaTime)
 
 void AEgseu::RunDashJump_LoopStart()
 {
+	if()
 	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
 	DirCheck();
 }
@@ -2621,6 +2607,26 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 		return;
 	}
 
+	// 차지 공격.
+	if (true == UEngineInput::IsUp('X'))
+	{
+		if (BusterChargTime <= 0.8f)
+		{
+			return;
+		}
+		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+		{
+			BusterCreate(EBusterState::CreateMiddle);
+		}
+		else if (2.0f <= BusterChargTime)
+		{
+			BusterCreate(EBusterState::CreatePull);
+		}
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunDashJumpAttack_Up_Loop);
+		return;
+	}
+
 	// 땅에 닿음
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
@@ -2638,6 +2644,35 @@ void AEgseu::RunDashJump_EndStart()
 }
 void AEgseu::RunDashJump_End(float _DeltaTime)
 {
+	// 공격
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterCreate(EBusterState::CreateDefault);
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunDashJumpAttack_Down_End);
+		return;
+	}
+
+	// 차지 공격.
+	if (true == UEngineInput::IsUp('X'))
+	{
+		if (BusterChargTime <= 0.8f)
+		{
+			return;
+		}
+		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+		{
+			BusterCreate(EBusterState::CreateMiddle);
+		}
+		else if (2.0f <= BusterChargTime)
+		{
+			BusterCreate(EBusterState::CreatePull);
+		}
+		BusterDelayTime = 0.0f;
+		StateChange(EEgseuState::RunDashJumpAttack_Up_End);
+		return;
+	}
+
 	if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
 	{
 		StateChange(EEgseuState::IdleRun_Loop);
@@ -2685,7 +2720,6 @@ void AEgseu::RunDashJumpAttack_Down(float _DeltaTime)
 	// 0.5초가 지났다.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleJump);
 		return;
 	}
@@ -2746,7 +2780,6 @@ void AEgseu::RunDashJumpAttack_Down_Loop(float _DeltaTime)
 	// 0.5초가 지났다.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleJump);
 		return;
 	}
@@ -2805,7 +2838,6 @@ void AEgseu::RunDashJumpAttack_Down_End(float _DeltaTime)
 	// 0.5초
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJump_End);
 		return;
 	}
@@ -2868,11 +2900,11 @@ void AEgseu::RunDashJumpAttack_Up(float _DeltaTime)
 	// 0.5초가 지났다.
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::IdleJump);
 		return;
 	}
 
+	// 0.5초가 지나지 않은 상황에서 애니메이션이 끝나면,
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::RunDashJumpAttack_Up_Loop);
@@ -2882,17 +2914,81 @@ void AEgseu::RunDashJumpAttack_Up(float _DeltaTime)
 
 void AEgseu::RunDashJumpAttack_Up_LoopStart()
 {
-	int CurFrame = PlayerRender->GetCurAnimationFrame();
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
+	if (BusterDelayTime == 0.0f)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
+	}
+	else
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
+	}
 }
 void AEgseu::RunDashJumpAttack_Up_Loop(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+	DirCheck();
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		DashVector = FVector::Left * DashSpeed;
+	}
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		DashVector = FVector::Right * DashSpeed;
+	}
+	RunVector = FVector::Zero;
+	MoveUpdate(_DeltaTime);
+
+	// 또 공격?
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault);
+	}
+
+	// 0.5초
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::RunDashJump_Loop);
+		return;
+	}
+
+	// 땅.
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+		DashVector = FVector::Zero;
+		RunVector = FVector::Zero;
+		if (BusterDelayTime != 0)
+		{
+			StateChange(EEgseuState::RunDashJumpAttack_Up_End);
+			return;
+		}
+		else
+		{
+			if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
+			{
+				StateChange(EEgseuState::IdleRun_Loop);
+				return;
+			}
+			StateChange(EEgseuState::Idle);
+			return;
+		}
+	}
 }
 
 void AEgseu::RunDashJumpAttack_Up_EndStart()
 {
-	int CurFrame = PlayerRender->GetCurAnimationFrame();
-	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
+	if (BusterDelayTime == 0.0f)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
+	}
+	else
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
+	}
 }
 void AEgseu::RunDashJumpAttack_Up_End(float _DeltaTime)
 {
@@ -3109,7 +3205,6 @@ void AEgseu::RunJumpAttack_Down(float _DeltaTime)
 	// 0.5초가 지나면(가능성 낮음)
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJump);
 		return;
 	}
@@ -3159,7 +3254,6 @@ void AEgseu::RunJumpAttack_Down_Loop(float _DeltaTime)
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJump_Loop);
 		return;
 	}
@@ -3208,7 +3302,6 @@ void AEgseu::RunJumpAttack_Down_End(float _DeltaTime) // 공격 모션 착지.
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJump_End);
 		return;
 	}
@@ -3315,7 +3408,6 @@ void AEgseu::RunJumpAttack_Up_Loop(float _DeltaTime)
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJump_Loop);
 		return;
 	}
@@ -3365,7 +3457,6 @@ void AEgseu::RunJumpAttack_Up_End(float _DeltaTime)
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJump_End);
 		return;
 	}
