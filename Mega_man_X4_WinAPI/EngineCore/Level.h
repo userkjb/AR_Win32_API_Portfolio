@@ -51,6 +51,7 @@ public :
 	ActorType* SpawnActor(int _Order = 0)
 	{
 		ActorType* NewActor = new ActorType();
+		NewActor->SetOrder(_Order);
 		ActorInit(NewActor);
 		AllActor[_Order].push_back(NewActor);
 		return NewActor;
@@ -97,14 +98,14 @@ public :
 
 	void SetOtherTimeScale(int _Value, float _Scale)
 	{
-		for (std::pair<const int, float>& TimeScale : TimeScale)
+		for (std::pair<const int, float>& TimeScalePair : TimeScale)
 		{
-			if (TimeScale.first == _Value)
+			if (TimeScalePair.first == _Value)
 			{
 				continue;
 			}
 
-			TimeScale.second = _Scale;
+			TimeScalePair.second = _Scale;
 		}
 	}
 
