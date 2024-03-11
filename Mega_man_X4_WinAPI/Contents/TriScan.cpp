@@ -36,8 +36,8 @@ void ATriScan::TriScanBeginPlay()
 	TriScanRender->SetImage("Triangle.png");
 	TriScanRender->AutoImageScale(2.0f);
 
-	TriScanRender->CreateAnimation("TriScanIdle", "Triangle.png", 0, 4, 1.0f, true);
-	TriScanRender->CreateAnimation("TriScanRun", "Triangle.png", 5, 9, 1.0f, true);
+	TriScanRender->CreateAnimation("TriScanIdle", "Triangle.png", 0, 4, 0.5f, true);
+	TriScanRender->CreateAnimation("TriScanRun", "Triangle.png", 5, 9, 0.5f, true);
 
 	// Fragments Render
 	FragmentsRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
@@ -72,6 +72,9 @@ void ATriScan::StateChange(ETriScanState _State)
 		case ETriScanState::Death:
 			DeathStart();
 			break;
+		case ETriScanState::BusterCollision:
+			DeathStart();
+			break;
 		default:
 			break;
 		}
@@ -93,6 +96,9 @@ void ATriScan::StateUpdate(float _DeltaTime)
 		break;
 	case ETriScanState::Death:
 		Death(_DeltaTime);
+		break;
+	case ETriScanState::BusterCollision:
+		BusterCollision(_DeltaTime);
 		break;
 	default:
 		break;
@@ -162,7 +168,7 @@ void ATriScan::Run(float _DeltaTime)
 	PlayerDir.Normalize2D();
 
 	// 이동!!
-	RunVector = PlayerDir * 100.0f;
+	RunVector = PlayerDir * RunSpeed;
 	MoveUpdate(_DeltaTime);
 
 	FVector DePos = this->GetActorLocation(); // 내 위치.
@@ -194,7 +200,7 @@ void ATriScan::Death(float _DeltaTime)
 {
 	DeathTime += _DeltaTime;
 	
-	RunVector = FVector::Left * 100.0f;
+	RunVector = FVector::Left * RunSpeed;
 	RunVector = RunVector + (FVector::Up * 450.0f);
 
 	MoveUpdate(_DeltaTime, true);
@@ -206,6 +212,41 @@ void ATriScan::Death(float _DeltaTime)
 }
 #pragma endregion
 
+#pragma region BusterCollision
+void ATriScan::BusterCollisionStart()
+{
+	PreState = State;
+	int a = 0;
+}
+void ATriScan::BusterCollision(float _DeltaTime)
+{
+	int BusterType = static_cast<int>(PrevBuster->GetBusterState());
+
+	if (BusterType == static_cast<int>(EBusterState::DefaultCharge))
+	{
+		Hp -= PrevBuster->GetDefaultBusterDamage();
+	}
+	else if (BusterType == static_cast<int>(EBusterState::MiddleCharge))
+	{
+		Hp -= PrevBuster->GetMiddleBusterDamage();
+	}
+	else if (BusterType == static_cast<int>(EBusterState::PullCharge))
+	{
+		Hp -= PrevBuster->GetPullBusterDamage();
+	}
+
+	if (Hp <= 0)
+	{
+		PlayerDir = FVector::Zero;
+		RunVector = FVector::Zero;
+		StateChange(ETriScanState::Death);
+		return;
+	}
+
+	StateChange(PreState);
+	return;
+}
+#pragma endregion
 
 void ATriScan::MoveUpdate(float _DeltaTime, bool _Gravity)
 {
@@ -238,6 +279,7 @@ void ATriScan::MoveLastMoveVector(float _DeltaTime)
 	AddActorLocation(LastMoveVector * _DeltaTime);
 }
 
+// Buster와 중복됨...
 void ATriScan::CollisionCheck()
 {
 	// 중복 충돌 해결 해야 함.
@@ -246,36 +288,9 @@ void ATriScan::CollisionCheck()
 	{
 		//if (0 == CollisionCount)
 		ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
-		if (Prev != Buster)
-		{
-			//CollisionCount++;
-			//ABuster* Buster = (ABuster*)Result[0]->GetOwner();
-			//ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
-			int BusterType = static_cast<int>(Buster->GetBusterState());
-
-			if (BusterType == 1)
-			{
-				Hp -= Buster->GetDefaultBusterDamage();
-			}
-			else if (BusterType == 2)
-			{
-				Hp -= Buster->GetMiddleBusterDamage();
-			}
-			else if (BusterType == 3)
-			{
-				Hp -= Buster->GetPullBusterDamage();
-			}
-
-			if (Hp <= 0)
-			{
-				PlayerDir = FVector::Zero;
-				RunVector = FVector::Zero;
-				StateChange(ETriScanState::Death);
-				return;
-			}
-
-			Prev = Buster;
-		}
+		PrevBuster = Buster;
+		StateChange(ETriScanState::BusterCollision);
+		return;
 	}
 }
 

@@ -40,6 +40,8 @@ private :
 	void Run(float _DeltaTime);
 	void DeathStart();
 	void Death(float _DeltaTime);
+	void BusterCollisionStart();
+	void BusterCollision(float _DeltaTime);
 
 
 	void MoveUpdate(float _DeltaTime, bool _Gravity = false);
@@ -51,6 +53,7 @@ private :
 
 
 	ETriScanState State = ETriScanState::None;
+	ETriScanState PreState = ETriScanState::None;
 
 	UImageRenderer* TriScanRender = nullptr;
 	UCollision* TriScanCollision = nullptr;
@@ -74,7 +77,7 @@ private :
 	//int CollisionCount = 0;
 	int Hp = 3;
 
-	ABuster* Prev = nullptr;
+	ABuster* PrevBuster = nullptr;
 };
 
 /*
