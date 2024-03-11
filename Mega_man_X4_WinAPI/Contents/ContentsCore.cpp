@@ -10,6 +10,7 @@
 #include "IntroLevel.h"
 #include "TitleLevel.h"
 #include "CyberSpaceLevel.h"
+#include "CyberSpaceBossLevel.h"
 
 ContentsCore::ContentsCore()
 {
@@ -46,8 +47,10 @@ void ContentsCore::BeginPlay()
 	CreateLevel<UTitleLevel>("TitleLevel");
 	CreateLevel<UIntroLevel>("IntroLevel");
 	CreateLevel<UCyberSpaceLevel>("CyberSpaceLevel");
+	CreateLevel<UCyberSpaceBossLevel>("CyberSpaceBossLevel");
 
-	ChangeLevel("CyberSpaceLevel");
+	//ChangeLevel("CyberSpaceLevel");
+	ChangeLevel("CyberSpaceBossLevel");
 }
 
 void ContentsCore::Tick(float _DeltaTime)
