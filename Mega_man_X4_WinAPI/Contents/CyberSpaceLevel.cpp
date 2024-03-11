@@ -79,7 +79,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("HurryUp.png", 3, 1);
 
 	// Map
-	CyberSpaceMap = SpawnActor<ACyberSpaceMap>();
+	CyberSpaceMap = SpawnActor<ACyberSpaceMap>(static_cast<int>(EActorType::Map));
 	CyberSpaceMap->SetActorLocation({ 0, 0 });
 	CyberSpaceMap->SetMapImage("CyberPeacock-Area1-1.png");
 	CyberSpaceMap->SetColMapImage("CyberPeacock-Area1-1Col.png");
@@ -90,7 +90,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	//NewPlayer->SetActorLocation({ 200, 0 }); // 400 ¿Ã ºæ≈Õ.
 
 	// Player
-	NewX = SpawnActor<AEgseu>();
+	NewX = SpawnActor<AEgseu>(static_cast<int>(EActorType::Player));
 	NewX->SetActorLocation({ 200, 90 });
 	CyberSpaceMap->SetPlayer(NewX);
 
@@ -102,7 +102,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	//TryScan_1 = SpawnActor<ATriScan>();
 	//TryScan_1->SetActorLocation({ 1160 , 135 });
 	//TryScan_1->SetTriScanState(ETriScanState::Idle);
-	TryScan_1 = SpawnActor<ATriScan>();
+	TryScan_1 = SpawnActor<ATriScan>(static_cast<int>(EActorType::Enemy));
 	TryScan_1->SetActorLocation({ 520 , 500 });
 	TryScan_1->SetTriScanState(ETriScanState::Idle);
 

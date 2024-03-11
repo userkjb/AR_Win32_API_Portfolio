@@ -126,7 +126,7 @@ void UIntroLevel::BeginPlay()
 	// == Actor ==
 
 	// Map
-	IntroStageMap = SpawnActor<AIntroStageMap>();
+	IntroStageMap = SpawnActor<AIntroStageMap>(static_cast<int>(EActorType::Map));
 	IntroStageMap->SetMapImage("IntroStage_1.png");
 	IntroStageMap->SetColMapImage("IntroStage_Col_1.png");
 
