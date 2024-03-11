@@ -29,7 +29,7 @@ void UCollision::SetOrder(int _Order)
 	Collisions[GetOrder()].push_back(this);
 }
 
-bool UCollision::CollisionCheck(int _Order, std::vector<UCollision*>& _Result)
+bool UCollision::CollisionCheck(int _Order, std::vector<UCollision*>& _Result, FVector _NextPos = FVector::Zero)
 {
 	if(false == IsActive())
 	{
@@ -45,6 +45,7 @@ bool UCollision::CollisionCheck(int _Order, std::vector<UCollision*>& _Result)
 	std::list<UCollision*>& Collisions = Level->Collisions[_Order];
 
 	FTransform ThisTransform = GetActorBaseTransform();
+	ThisTransform.AddPosition(_NextPos);
 
 	for (UCollision* _OtherCollision : Collisions)
 	{
