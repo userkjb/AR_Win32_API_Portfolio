@@ -83,7 +83,12 @@ public :
 		}
 	}
 
-	// 이거는 기존의 타임스케일이 존재 해야만 가능하다.
+	/// <summary>
+	/// 이거는 기존의 타임스케일이 존재 해야만 가능하다.
+	/// </summary>
+	/// <typeparam name="EnumType">SpawnActor할 때 넣어준 Enum</typeparam>
+	/// <param name="_Value">해당 Enum을 제외하고.</param>
+	/// <param name="_Scale"></param>
 	template<typename EnumType>
 	void SetOtherTimeScale(EnumType _Value, float _Scale)
 	{
