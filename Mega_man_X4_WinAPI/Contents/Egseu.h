@@ -3,9 +3,11 @@
 #include "ContentsGlobalData.h"
 
 class ABuster;
+class ACyberSpaceMap;
 
 class AEgseu : public AActor
 {
+	friend ACyberSpaceMap;
 public :
 	// constrcuter destructer
 	AEgseu();
@@ -176,11 +178,12 @@ private :
 	void WallKick(float _DeltaTime);
 	void HitStart();
 	void Hit(float _DeltaTime);
+	void FocusCreateStart();
+	void FocusCreate(float _DeltaTime);
 	//#pragma endregion
 
 
 	// Vector Funcion
-	
 	void CalMoveVector();
 	void CalGravityVector(float _DeltaTime);
  	void MoveLastMoveVector(float _DeltaTime);
