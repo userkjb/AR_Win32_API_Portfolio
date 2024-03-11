@@ -212,6 +212,15 @@ enum class ECyberPeacockState
 	Death,
 };
 
+enum class ECyberSpaceMapState
+{
+	None,
+
+	PlayerFocus_Start,
+	PlayerFocus_Loop,
+	PlayerFocus_End,
+};
+
 /// <summary>
 /// Enemy TriScans ป๓ลย.
 /// </summary>
