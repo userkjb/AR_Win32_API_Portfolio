@@ -7,7 +7,7 @@ class AEgseu;
 class ATriScan;
 class ASpikeMarl;
 class AMiruTorearu;
-class APlayerFocus;
+//class APlayerFocus;
 
 class UCyberSpaceLevel : public ULevel
 {
@@ -34,15 +34,10 @@ private :
 	/// </summary>
 	void MoveCameraVector();
 
-	void ActorGeneration(float _DeltaTime);
-
-	float FocusTime = 0.0f;
-	int FocusCount = 0;
-
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
 	//APlayer* NewPlayer = nullptr;
 	AEgseu* NewX = nullptr;
-	APlayerFocus* Focus = nullptr;
+	//APlayerFocus* Focus = nullptr;
 	ATriScan* TryScan_1 = nullptr;
 	ATriScan* TryScan_2 = nullptr;
 	ASpikeMarl* SpikeMarl = nullptr;

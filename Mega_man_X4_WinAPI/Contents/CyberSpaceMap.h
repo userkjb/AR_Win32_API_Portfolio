@@ -1,6 +1,9 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+class AEgseu;
+class APlayerFocus;
+
 class ACyberSpaceMap : public AActor
 {
 public :
@@ -21,6 +24,10 @@ public :
 	// Map Object
 	void SetMapExitImage(std::string_view _MapImageName);
 
+	void SetPlayer(AEgseu* _Player)
+	{
+		Player = _Player;
+	}
 
 	void SwitchDebug();
 
@@ -34,6 +41,12 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private :
+	void PlayerPosEvent(float _DeltaTime);
+	float FocusTime = 0.0f;
+	APlayerFocus* Focus = nullptr;
+	AEgseu* Player = nullptr;
+	int FocusCount = 0;
+
 	UImageRenderer* MapRenderer = nullptr;	// Map 이미지
 	UImageRenderer* ColRenderer = nullptr;	// ColMap 이미지
 	UImageRenderer* MapExit = nullptr;

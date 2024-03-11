@@ -6,7 +6,7 @@
 #include "TriScan.h"
 #include "SpikeMarl.h"
 #include "MiruTorearu.h"
-#include "PlayerFocus.h"
+//#include "PlayerFocus.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
@@ -42,7 +42,7 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 	ULevel::Tick(_DeltaTime);
 
 	MoveCameraVector();
-	ActorGeneration(_DeltaTime);
+	//ActorGeneration(_DeltaTime);
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)
@@ -92,6 +92,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	// Player
 	NewX = SpawnActor<AEgseu>();
 	NewX->SetActorLocation({ 200, 90 });
+	CyberSpaceMap->SetPlayer(NewX);
 
 	// Boss
 	//ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
@@ -156,41 +157,3 @@ void UCyberSpaceLevel::MoveCameraVector()
 
 	SetCameraPos(CameraPos);
 }
-
-void UCyberSpaceLevel::ActorGeneration(float _DeltaTime) // Tick
-{
-	FVector PlayerPos = NewX->GetActorLocation();
-	//UEngineDebug::OutPutDebugText(std::to_string(PlayerPos.X));
-
-
-	//----- 포커스 ----------
-	// 1. 좌표.
-	// 2. 픽셀.
-	// 좌표로 했을 경우.
-	// 아래의 조건에 만족하는 경우
-	//if (990.0f <= PlayerPos.X && PlayerPos.X <= 1000.0f) // 게임에서 포커스가 생기는 좌표.
-	if (300.0f <= PlayerPos.X && PlayerPos.X <= 350.0f) // test
-	{
-		// 포커스가 없으면 만들어 주고.
-		if (Focus == nullptr)
-		{
-			Focus = SpawnActor<APlayerFocus>();
-			Focus->SetActorLocation({ PlayerPos.iX(), PlayerPos .iY() - 50});
-			Focus->SetFocusState(EFocusState::CallCreate);
-			FocusCount = 0;
-		}
-	}
-	//FocusTime += _DeltaTime;
-
-	// 정산.
-	if (FocusCount == 0)
-	{
-		//if (4400.0f <= PlayerPos.X && PlayerPos.X <= 4450.0f) // 정산
-		if (500.0f <= PlayerPos.X && PlayerPos.X <= 550.0f) // test
-		{
-			FocusCount++;
-			Focus->SetFocusState(EFocusState::Rank);
-		}
-	}
-}
-
