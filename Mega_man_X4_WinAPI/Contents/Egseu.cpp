@@ -367,7 +367,6 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::RunDash_End:
 			RunDash_EndStart();
 			break;
-
 		case EEgseuState:: RunDashAttack_Down:
 			RunDashAttack_DownStart();
 			break;
@@ -386,7 +385,6 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState:: RunDashAttack_Up_End:
 			RunDashAttack_Up_EndStart();
 			break;
-
 		case EEgseuState::RunDashJump:
 			RunDashJumpStart();
 			break;
@@ -452,6 +450,9 @@ void AEgseu::StateChange(EEgseuState _State)
 			break;
 		case EEgseuState::Hit:
 			HitStart();
+			break;
+		case EEgseuState::FocusCreate:
+			FocusCreateStart();
 			break;
 		default :
 			break;
@@ -581,7 +582,6 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::RunDash_End:
 		RunDash_End(_DeltaTime);
 		break;
-
 	case EEgseuState::RunDashAttack_Down:
 		RunDashAttack_Down(_DeltaTime);
 		break;
@@ -600,7 +600,6 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::RunDashAttack_Up_End:
 		RunDashAttack_Up_End(_DeltaTime);
 		break;
-
 	case EEgseuState::RunDashJump:
 		RunDashJump(_DeltaTime);
 		break;
@@ -666,6 +665,9 @@ void AEgseu::StateUpdate(float _DeltaTime)
 		break;
 	case EEgseuState::Hit:
 		Hit(_DeltaTime);
+		break;
+	case EEgseuState::FocusCreate:
+		FocusCreate(_DeltaTime);
 		break;
 	default :
 		break;
@@ -3738,6 +3740,15 @@ void AEgseu::Hit(float _DeltaTime)
 }
 #pragma endregion
 
+void AEgseu::FocusCreateStart()
+{
+	GetWorld()->SetOtherTimeScale(EActorType::Map, 0.0f);
+}
+void AEgseu::FocusCreate(float _DeltaTime)
+{
+	GetWorld()->SetOtherTimeScale(EActorType::Map, 0.0f);
+}
+
 
 // === Vector =============================================
 #pragma region Vector
@@ -3915,7 +3926,7 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 
 void AEgseu::BusterCreate(EBusterState _BusterState)
 {
-	ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>();
+	ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>(static_cast<int>(EActorType::Buster));
 	FVector BusterPos = GetActorLocation();
 	A_Buster->SetActorLocation({ BusterPos.iX(), BusterPos.iY() - 64 }); // 상세 위치 조절 TODO
 	
