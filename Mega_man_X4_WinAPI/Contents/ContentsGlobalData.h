@@ -237,6 +237,8 @@ enum class ETriScanState
 	Idle,
 	Run,
 	Death,
+
+	BusterCollision,
 };
 
 enum class EMiruTorearuState
