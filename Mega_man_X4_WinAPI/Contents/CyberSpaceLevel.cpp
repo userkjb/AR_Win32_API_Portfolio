@@ -109,7 +109,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	//TryScan_1->SetActorLocation({ 1160 , 135 });
 	//TryScan_1->SetTriScanState(ETriScanState::Idle);
 	TryScan_1 = SpawnActor<ATriScan>(static_cast<int>(EActorType::Enemy));
-	TryScan_1->SetActorLocation({ 520 , 500 });
+	TryScan_1->SetActorLocation({ 600 , 500 });
 	TryScan_1->SetTriScanState(ETriScanState::Idle);
 
 	//TryScan_2 = SpawnActor<ATriScan>();
