@@ -36,6 +36,7 @@ public :
 
 	void SwitchDebug();
 
+	// Level에서 Camera에 사용.
 	FVector GetImageScale() const
 	{
 		return ImageScale;

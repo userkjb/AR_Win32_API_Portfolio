@@ -7,7 +7,6 @@ class AEgseu;
 class ATriScan;
 class ASpikeMarl;
 class AMiruTorearu;
-//class APlayerFocus;
 
 class UCyberSpaceLevel : public ULevel
 {
@@ -36,10 +35,14 @@ private :
 
 	void TestCameraMove();
 
+	// Map
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
 	//APlayer* NewPlayer = nullptr;
+
+	// Player
 	AEgseu* NewX = nullptr;
-	//APlayerFocus* Focus = nullptr;
+
+	// Enemy 
 	ATriScan* TryScan_1 = nullptr;
 	ATriScan* TryScan_2 = nullptr;
 	ASpikeMarl* SpikeMarl = nullptr;

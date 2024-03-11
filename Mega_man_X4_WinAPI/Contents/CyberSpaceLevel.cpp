@@ -1,8 +1,8 @@
 #include "CyberSpaceLevel.h"
 #include "CyberSpaceMap.h"
-#include "Player.h"
+//#include "Player.h"
 #include "Egseu.h"
-#include "CyberPeacock.h"
+//#include "CyberPeacock.h"
 #include "TriScan.h"
 #include "SpikeMarl.h"
 #include "MiruTorearu.h"
@@ -50,12 +50,6 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	// 리소스 로드.
 	// 액터 생성.
 	ULevel::LevelStart(_Level);
-
-	UEngineResourcesManager::GetInst().CuttingImage("Peacock_Intro.png", 8, 4);
-	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Right.png", 1, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Left.png", 6, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Right.png", 3, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Left.png", 3, 1);
 
 	// Enemy
 	UEngineResourcesManager::GetInst().CuttingImage("Triangle.png", 10, 1);
