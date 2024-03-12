@@ -79,7 +79,7 @@ void AEgseu::PlayerBeginPlay()
 {
 	PlayerRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Player));
 	PlayerRender->SetImage("x_Idle_Right.png");
-	PlayerRender->AutoImageScale(2.0f);
+	PlayerRender->AutoImageScale(2.0f); // 2.5
 	//PlayerRender->SetTransform({ {0,0}, {35 * 3, 80 * 3} });
 
 	PlayerCollision = CreateCollision(ECollisionOrder::Player);
