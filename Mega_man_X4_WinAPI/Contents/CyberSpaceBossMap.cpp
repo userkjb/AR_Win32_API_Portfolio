@@ -22,6 +22,7 @@ void ACyberSpaceBossMap::BeginPlay()
 	BossDoor_2 = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 
 	StateChange(ECyberBossMapState::Idle);
+	Player = AEgseu::GetMainPlayer();
 }
 
 void ACyberSpaceBossMap::Tick(float _DeltaTime)
@@ -174,10 +175,12 @@ void ACyberSpaceBossMap::Idle(float _DeltaTime)
 	// 평상시.
 }
 
+// 앞 문 충돌.
 void ACyberSpaceBossMap::SlowMoveStart()
 {
 	BossDoor_1->ChangeAnimation("Open");
 	RunVector = FVector::Zero;
+	Player->StateChange(EEgseuState::BossRoomAutoRun);
 }
 
 void ACyberSpaceBossMap::SlowMove(float _DeltaTime)
@@ -214,6 +217,7 @@ void ACyberSpaceBossMap::SlowMove(float _DeltaTime)
 void ACyberSpaceBossMap::CheckPointRoomStart()
 {
 	BossDoor_1->ChangeAnimation("Close");
+	Player->StateChange(EEgseuState::Idle);
 	// 체크포인트 수정.
 }
 
@@ -229,11 +233,13 @@ void ACyberSpaceBossMap::CheckPointRoom(float _DeltaTime)
 	//}
 }
 
+// 뒷 문 충돌.
 void ACyberSpaceBossMap::BossSlowMoveStart()
 {
 	// Collision에서 상태가 바뀌어서 들어옴.
 	BossDoor_2->ChangeAnimation("Open");
 	RunVector = FVector::Zero;
+	Player->StateChange(EEgseuState::BossRoomAutoRun);
 }
 
 void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
@@ -256,6 +262,7 @@ void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
 void ACyberSpaceBossMap::BossRoomStart()
 {
 	BossDoor_2->ChangeAnimation("Close");
+	Player->StateChange(EEgseuState::Idle);
 }
 
 void ACyberSpaceBossMap::BossRoom(float _DeltaTime)
