@@ -263,6 +263,8 @@ void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 		ExitAni->SetActive(true);
 	}
 
+	// 랭크에 따라 나오는 맵이 달라야 한다.
+	// 일단 구현.
 	if (EndingTime >= 3.0f && b_Stage == false)
 	{
 		b_Stage = true;
