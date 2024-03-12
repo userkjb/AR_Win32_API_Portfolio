@@ -274,6 +274,7 @@ void ACyberSpaceBossMap::BossRoomStart()
 	BossDoor_2->ChangeAnimation("Close"); // 문 닫힘 애니메이션.
 	Player->StateChange(EEgseuState::Idle); // 플레이어 상태를 Idle로.
 	IsBoss = true; // 기존에 사용하던 MoveCameraVector 동작하지 않음.
+	// 경고 애니메이션 시작.
 }
 
 // 보스전 Start
@@ -282,6 +283,11 @@ void ACyberSpaceBossMap::BossRoom(float _DeltaTime)
 	// 카메라 조정.
 	BossCameraVector();
 
+	// 경고 애니메이션 끝나면,
+	// 텍스트 출력.
+	// 텍스트 출력 끝나면, 보스 싸움 준비.
+	// 준비 애니메이션 끝나면 보스 UI 출력.
+	// 보스 UI 출력이 완료되면 보스전 시작.
 
 	int a = 0;
 }
