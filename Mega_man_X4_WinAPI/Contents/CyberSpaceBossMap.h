@@ -73,4 +73,7 @@ private :
 	UImageRenderer* BossDoor_2 = nullptr;
 	UCollision* BossDoor_Coll_1 = nullptr;
 	UCollision* BossDoor_Coll_2 = nullptr;
+
+	int CollisionCount_1 = 0;
+	int CollisionCount_2 = 0;
 };
