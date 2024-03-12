@@ -467,6 +467,9 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::AutoRunRight:
 			AutoRunRightStart();
 			break;
+		case EEgseuState::BossRoomAutoRun:
+			BossRoomAutoRunStart();
+			break;
 		default :
 			break;
 		}
@@ -693,6 +696,9 @@ void AEgseu::StateUpdate(float _DeltaTime)
 		break;
 	case EEgseuState::AutoRunRight:
 		AutoRunRight(_DeltaTime);
+		break;
+	case EEgseuState::BossRoomAutoRun:
+		BossRoomAutoRun(_DeltaTime);
 		break;
 	default :
 		break;
@@ -3796,6 +3802,7 @@ void AEgseu::Hit(float _DeltaTime)
 }
 #pragma endregion
 
+#pragma region Hit_MiruTorearu
 void AEgseu::Hit_MiruTorearuStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName(""));
@@ -3806,8 +3813,9 @@ void AEgseu::Hit_MiruTorearu(float _DeltaTime)
 	// 이동 속도.
 
 }
+#pragma endregion
 
-
+#pragma region Focus
 void AEgseu::FocusCreateStart()
 {
 	GetWorld()->SetAllTimeScale(0.0f);
@@ -3853,7 +3861,9 @@ void AEgseu::FocusEnd(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
+#pragma region AutoRunRight / Next Stage
 void AEgseu::AutoRunRightStart()
 {
 	RunVector = FVector::Zero;
@@ -3865,6 +3875,20 @@ void AEgseu::AutoRunRight(float _DeltaTime)
 	RunVector = FVector::Right * MoveSpeed * _DeltaTime;
 	AddActorLocation(RunVector);
 }
+#pragma endregion
+
+#pragma region BossRoomAutoRun
+void AEgseu::BossRoomAutoRunStart()
+{
+	std::string CurAniName = PlayerRender->GetCurAnimation()->Name;
+	PlayerRender->ChangeAnimation(CurAniName);
+}
+
+void AEgseu::BossRoomAutoRun(float _DeltaTime)
+{
+
+}
+#pragma endregion
 
 
 

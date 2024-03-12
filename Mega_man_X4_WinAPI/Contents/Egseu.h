@@ -190,6 +190,9 @@ private :
 	void FocusEnd(float _DeltaTime);
 	void AutoRunRightStart();
 	void AutoRunRight(float _DeltaTime);
+
+	void BossRoomAutoRunStart();
+	void BossRoomAutoRun(float _DeltaTime);
 	//#pragma endregion
 
 
