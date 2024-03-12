@@ -2,6 +2,8 @@
 #include <EngineCore/Actor.h>
 #include "ContentsGlobalData.h"
 
+class AEgseu;
+
 class ACyberSpaceBossMap : public AActor
 {
 public :
@@ -73,6 +75,8 @@ private :
 	UImageRenderer* BossDoor_2 = nullptr;
 	UCollision* BossDoor_Coll_1 = nullptr;
 	UCollision* BossDoor_Coll_2 = nullptr;
+
+	AEgseu* Player = nullptr;
 
 	int CollisionCount_1 = 0;
 	int CollisionCount_2 = 0;

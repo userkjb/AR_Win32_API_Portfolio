@@ -1,6 +1,6 @@
 #include "CyberSpaceBossMap.h"
 #include "ContentsGlobalData.h"
-#include <EngineCore/EngineResourcesManager.h> // test
+#include "Egseu.h"
 
 
 ACyberSpaceBossMap::ACyberSpaceBossMap()
@@ -250,7 +250,7 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 		if (CollisionCount_1 == 0)
 		{
 			CollisionCount_1 = 1;
-
+			Player = dynamic_cast<AEgseu*>(PlayerResult[0]->GetOwner());
 			StateChange(ECyberBossMapState::SlowMove);
 			return;
 		}
