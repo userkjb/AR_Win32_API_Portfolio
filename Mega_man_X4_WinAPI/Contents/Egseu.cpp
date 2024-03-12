@@ -132,26 +132,28 @@ void AEgseu::PlayerBeginPlay()
 	//PlayerRender->CreateAnimation("Dash_Right", "x_Dash_Left.png", 4, 7, 0.1f, false);
 	//PlayerRender->CreateAnimation("Dash_Left", "x_Dash_Left.png", 4, 7, 0.1f, false);
 
-	// Attack
-	// x_Attack_Right 이미지가 좋은 이미지가 아니여서 후에 바꿔야 함.
-	PlayerRender->CreateAnimation("Idle_Attack_Start_Right", "X_Idle_Attack_Right.png", 0, 2, 0.2f, false);
-	PlayerRender->CreateAnimation("Idle_Attack_Start_Left", "X_Idle_Attack_Left.png", 0, 2, 0.2f, false);
-	PlayerRender->CreateAnimation("Idle_Attack_Loop_Right", "X_Idle_Attack_Right.png", 0, 0, 0.5f, true);
-	PlayerRender->CreateAnimation("Idle_Attack_Loop_Left", "X_Idle_Attack_Left.png", 0, 0, 0.5f, true);
-	PlayerRender->CreateAnimation("Idle_Attack_End_Right", "X_Idle_Attack_End_Right.png", 0, 1, 0.1f, false);
-	PlayerRender->CreateAnimation("Idle_Attack_End_Left", "X_Idle_Attack_End_Left.png", 0, 1, 0.1f, false);
+	// Attack.
+	// Idle - Attack
+	PlayerRender->CreateAnimation("Idle_Attack_Start_Right", "X_Idle_Attack_Right.png", 0, 2, 0.1f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_Start_Left", "X_Idle_Attack_Left.png", 0, 2, 0.1f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_Loop_Right", "X_Idle_Attack_Right.png", 0, 0, 0.25f, true);
+	PlayerRender->CreateAnimation("Idle_Attack_Loop_Left", "X_Idle_Attack_Left.png", 0, 0, 0.25f, true);
+	PlayerRender->CreateAnimation("Idle_Attack_End_Right", "X_Idle_Attack_End_Right.png", 0, 1, 0.05f, false);
+	PlayerRender->CreateAnimation("Idle_Attack_End_Left", "X_Idle_Attack_End_Left.png", 0, 1, 0.05f, false);
 
-	PlayerRender->CreateAnimation("Run_Attack_Start_Right", "Run_Attack_Right.png", 0, 1, 0.05f, false);
-	PlayerRender->CreateAnimation("Run_Attack_Start_Left", "Run_Attack_Left.png", 0, 1, 0.05f, false);
-	PlayerRender->CreateAnimation("Run_Attack_Loop_Right", "Run_Attack_Right.png", 2, 15, 0.1f, true);
-	PlayerRender->CreateAnimation("Run_Attack_Loop_Left", "Run_Attack_Left.png", 2, 15, 0.1f, true);
+	// Run - Attack
+	PlayerRender->CreateAnimation("Run_Attack_Start_Right", "Run_Attack_Right.png", 0, 1, 0.025f, false);
+	PlayerRender->CreateAnimation("Run_Attack_Start_Left", "Run_Attack_Left.png", 0, 1, 0.025f, false);
+	PlayerRender->CreateAnimation("Run_Attack_Loop_Right", "Run_Attack_Right.png", 2, 15, 0.05f, true);
+	PlayerRender->CreateAnimation("Run_Attack_Loop_Left", "Run_Attack_Left.png", 2, 15, 0.05f, true);
 
-	PlayerRender->CreateAnimation("Dash_Attack_Start_Right", "x_Dash_Attack_Right.png", { 0, 2 }, 0.05f, false);
-	PlayerRender->CreateAnimation("Dash_Attack_Start_Left", "x_Dash_Attack_Left.png", { 0, 2 }, 0.05f, false);
-	PlayerRender->CreateAnimation("Dash_Attack_Loop_Right", "x_Dash_Attack_Right.png", { 4, 6 }, 0.05f, true);
-	PlayerRender->CreateAnimation("Dash_Attack_Loop_Left", "x_Dash_Attack_Left.png", { 4, 6 }, 0.05f, true);
-	PlayerRender->CreateAnimation("Dash_Attack_End_Right", "x_Dash_Attack_Right.png", { 8, 10, 12, 14 }, 0.05f, false);
-	PlayerRender->CreateAnimation("Dash_Attack_End_Left", "x_Dash_Attack_Left.png", { 8, 10, 12, 14 }, 0.05f, false);
+	// Dash - Attack
+	PlayerRender->CreateAnimation("Dash_Attack_Start_Right", "x_Dash_Attack_Right.png", { 0, 2 }, 0.025f, false);
+	PlayerRender->CreateAnimation("Dash_Attack_Start_Left", "x_Dash_Attack_Left.png", { 0, 2 }, 0.025f, false);
+	PlayerRender->CreateAnimation("Dash_Attack_Loop_Right", "x_Dash_Attack_Right.png", { 4, 6 }, 0.025f, true);
+	PlayerRender->CreateAnimation("Dash_Attack_Loop_Left", "x_Dash_Attack_Left.png", { 4, 6 }, 0.025f, true);
+	PlayerRender->CreateAnimation("Dash_Attack_End_Right", "x_Dash_Attack_Right.png", { 8, 10, 12, 14 }, 0.025f, false);
+	PlayerRender->CreateAnimation("Dash_Attack_End_Left", "x_Dash_Attack_Left.png", { 8, 10, 12, 14 }, 0.025f, false);
 
 
 	//PlayerRender->CreateAnimation("Run_Attack_Shoot_Start_Right", "x_Move_Attack_Right.png", { 1, 3 }, 0.05f, true);
