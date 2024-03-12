@@ -22,7 +22,6 @@ void ACyberSpaceBossMap::BeginPlay()
 	BossDoor_2 = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 
 	StateChange(ECyberBossMapState::Idle);
-	Player = AEgseu::GetMainPlayer();
 }
 
 void ACyberSpaceBossMap::Tick(float _DeltaTime)
