@@ -309,6 +309,8 @@ enum class ECollisionOrder
 
 	Boss,
 	Enemy,
+
+	BossDoor,
 };
 
 class UContentsGlobalData
