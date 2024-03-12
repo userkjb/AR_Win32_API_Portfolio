@@ -38,7 +38,6 @@ void ACyberSpaceMap::SetMapExitImage(std::string_view _MapImageName)
 void ACyberSpaceMap::SetRankRenderImage(std::string_view _MapImageName)
 {
 	RankRender->SetImage(_MapImageName);
-	MapExit->AutoImageScale();
 	
 	RankRender->CreateAnimation("B_Rank", _MapImageName, 0, 0, 0.1f, false);
 	RankRender->CreateAnimation("A_Rank", _MapImageName, 1, 1, 0.1f, false);
@@ -84,7 +83,7 @@ void ACyberSpaceMap::BeginPlay()
 	MapRenderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Map));
 	ColRenderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Map));
 	ColRenderer->SetActive(false);
-	MapExit = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
+	MapExit = CreateImageRenderer(static_cast<int>(ERenderOrder::MapSub));
 
 	// Focus
 	Focus = GetWorld()->SpawnActor<APlayerFocus>(static_cast<int>(EActorType::MapObject));
@@ -165,11 +164,10 @@ void ACyberSpaceMap::PlayerFocus_StartBegin()
 	//GetWorld()->SetTimeScale(static_cast<int>(EActorType::MapObject), 1.0f);
 	
 	Focus->SetFocusState(EFocusState::CallCreate);
-	Focus->ActiveOn();
+	Focus->SetActive(true);
 
 	Player->StateChange(EEgseuState::FocusCreate);
 }
-
 void ACyberSpaceMap::PlayerFocus_Start(float _DeltaTime)
 {
 	if (FocusCreateTime <= 2.0f)
@@ -193,7 +191,6 @@ void ACyberSpaceMap::PlayerFocus_LoopBegin()
 	GetWorld()->SetAllTimeScale(1.0f);
 	FocusTime = 0.0f;
 }
-
 void ACyberSpaceMap::PlayerFocus_Loop(float _DeltaTime)
 {
 	FocusTime += _DeltaTime;
@@ -201,28 +198,28 @@ void ACyberSpaceMap::PlayerFocus_Loop(float _DeltaTime)
 
 void ACyberSpaceMap::PlayerFocus_EndBegin()
 {
-	Player->StateChange(EEgseuState::FocusEnd);
-	Focus->SetFocusState(EFocusState::Rank);
+	Player->StateChange(EEgseuState::FocusEnd); // 플레이어 상태 변환.
+	Focus->SetFocusState(EFocusState::Rank); // 포커스 상태 변환.
 }
-
 void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 {
-	float x = FocusTime;
+	float x = FocusTime; // 도착까지 걸린 시간.
 
 	//bool nbx = Focus->IsDestroy();
 	if (Focus->IsDestroy())
 	{
-		if(x <= 10.0f)
+		bool s = RankRender->IsActive();
+		if (x <= 15.0f)
 		{
 			// S
 			Player->AutoRightRun = true;
 		}
-		else if (10.0f < x || x <= 15.0f)
+		else if (15.0f < x || x <= 25.0f)
 		{
 			// A
 			Player->AutoRightRun = true;
 		}
-		else if (x > 15.0f)
+		else if (x > 25.0f)
 		{
 			// B
 			Player->AutoRightRun = true;
@@ -254,7 +251,7 @@ void ACyberSpaceMap::PlayerPosEvent(float _DeltaTime)
 	if (State == ECyberSpaceMapState::PlayerFocus_Loop)
 	{
 		//if (500.0f <= PlayerPos.X && PlayerPos.X <= 550.0f) // test
-		if (4400.0f <= PlayerPos.X && PlayerPos.X <= 4450.0f) // 정산
+		if (4500.0f <= PlayerPos.X && PlayerPos.X <= 4590.0f) // 정산
 		{
 			StateChange(ECyberSpaceMapState::PlayerFocus_End);
 			return;
