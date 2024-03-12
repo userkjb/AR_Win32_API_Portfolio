@@ -4,10 +4,12 @@
 
 class ABuster;
 class ACyberSpaceMap;
+class ACyberSpaceBossMap;
 
 class AEgseu : public AActor
 {
 	friend ACyberSpaceMap;
+	friend ACyberSpaceBossMap;
 public :
 	// constrcuter destructer
 	AEgseu();
