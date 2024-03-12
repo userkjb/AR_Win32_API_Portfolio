@@ -33,7 +33,7 @@ void ACyberSpaceBossMap::Tick(float _DeltaTime)
 		SwitchDebug();
 	}
 
-	MoveCameraVector();
+	MoveCameraVector(IsBoss);
 	StateUpdate(_DeltaTime);
 	CollisionCheck(_DeltaTime);
 }
@@ -245,19 +245,25 @@ void ACyberSpaceBossMap::BossSlowMoveStart()
 	BossDoor_2->ChangeAnimation("Open");
 	RunVector = FVector::Zero;
 	Player->StateChange(EEgseuState::BossRoomAutoRun);
+	IsBoss = true; // 기존에 사용하던 MoveCameraVector 동작하지 않음.
+	CameraRunPos = FVector::Zero;
 }
-
 void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
-{	
+{
+	// 카메라 움직임
+	BossStartCameraVector(_DeltaTime);
+
 	// 캐릭터가 느릐게 움직이면서 들어감.
 	if (true == BossDoor_2->IsCurAnimationEnd())
 	{
 		RunVector = FVector::Right * RunSpeed * _DeltaTime;
 		Player->AddActorLocation(RunVector);
 
+		// 문을 통과하면,
 		if (IsBCollision == false)
 		{
-			// 문을 통과하면, 다음 상태로 이동.
+			FVector CameraPos = GetWorld()->GetCameraPos();
+			//다음 상태로 이동.
 			StateChange(ECyberBossMapState::BossRoom);
 			return;
 		}
@@ -266,17 +272,23 @@ void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
 
 void ACyberSpaceBossMap::BossRoomStart()
 {
-	BossDoor_2->ChangeAnimation("Close");
-	Player->StateChange(EEgseuState::Idle);
+	BossDoor_2->ChangeAnimation("Close"); // 문 닫힘 애니메이션.
+	Player->StateChange(EEgseuState::Idle); // 플레이어 상태를 Idle로.
+	IsBoss = true; // 기존에 사용하던 MoveCameraVector 동작하지 않음.
 }
 
+// 보스전 Start
 void ACyberSpaceBossMap::BossRoom(float _DeltaTime)
 {
-	// 보스전 Start
+	// 카메라 조정.
+	BossCameraVector();
+
+
+	int a = 0;
 }
 
 
-
+// Collicion
 void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 {
 	std::vector<UCollision*> PlayerResult;
@@ -312,8 +324,12 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 	}
 }
 
-void ACyberSpaceBossMap::MoveCameraVector()
+void ACyberSpaceBossMap::MoveCameraVector(bool _IsBoss)
 {
+	if (_IsBoss == true)
+	{
+		return;
+	}
 	if (Player == nullptr)
 	{
 		return;
@@ -333,6 +349,50 @@ void ACyberSpaceBossMap::MoveCameraVector()
 	if (CameraPos.X >= ImageScale.X - WindowScale.X)
 	{
 		CameraPos.X = ImageScale.X - WindowScale.X;
+	}
+
+	if (0.0f >= CameraPos.Y)
+	{
+		CameraPos.Y = 0.0f;
+	}
+
+	GetWorld()->SetCameraPos(CameraPos);
+}
+
+void ACyberSpaceBossMap::BossStartCameraVector(float _DeltaTime)
+{
+	FVector CameraPos = GetWorld()->GetCameraPos();
+
+	CameraRunPos = FVector::Right * CameraSpeed * _DeltaTime;
+	if (CameraPos.iX() <= 1838)
+	{
+		GetWorld()->AddCameraPos(CameraRunPos);
+	}
+	else
+	{
+		GetWorld()->AddCameraPos(FVector::Zero);
+	}
+}
+
+void ACyberSpaceBossMap::BossCameraVector()
+{
+	// Boss Room X : 1838 ~ 2042
+	FVector CameraPos = GetWorld()->GetCameraPos();
+	FVector PlayerPos = Player->GetActorLocation();
+	
+	FVector WindowScale = GEngine->MainWindow.GetWindowScale();
+	FVector ImageScale = this->GetImageScale();
+
+	CameraPos.X = PlayerPos.X - WindowScale.hX();
+	CameraPos.Y = PlayerPos.Y - 562;
+
+	if (1838.0f >= CameraPos.X)
+	{
+		CameraPos.X = 1838.0f;
+	}
+	if (2042.0f <= CameraPos.X)
+	{
+		CameraPos.X = 2042.0f;
 	}
 
 	if (0.0f >= CameraPos.Y)

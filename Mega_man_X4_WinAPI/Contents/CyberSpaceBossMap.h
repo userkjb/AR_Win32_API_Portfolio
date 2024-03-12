@@ -61,11 +61,13 @@ private :
 	void BossRoom(float _DeltaTime);
 
 	void CollisionCheck(float _DeltaTime);
-	void MoveCameraVector();
+	void MoveCameraVector(bool _IsBoss);
+	void BossStartCameraVector(float _DeltaTime);
+	void BossCameraVector();
 
 	FVector ImageScale;
-	FVector BossDoorPos_1 = { 1080, 480 };
-	FVector BossDoorPos_2 = { 1840, 480 };
+	FVector BossDoorPos_1 = { 1080, 480 }; // 문 위치
+	FVector BossDoorPos_2 = { 1840, 480 }; // 문 위치
 
 	ECyberBossMapState State = ECyberBossMapState::None;
 
@@ -80,9 +82,13 @@ private :
 	AEgseu* Player = nullptr;
 	FVector RunVector = FVector::Zero;
 	const float RunSpeed = 100.0f;
+	FVector StartCameraPos = FVector::Zero;
+	const float CameraSpeed = 170.0f;
+	FVector CameraRunPos = FVector::Zero;
 
-	int CollisionCount_1 = 0;
-	int CollisionCount_2 = 0;
 	bool IsFCollision = false;
 	bool IsBCollision = false;
+	bool IsBoss = false;
+	int CollisionCount_1 = 0;
+	int CollisionCount_2 = 0;
 };
