@@ -44,10 +44,16 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 	//TestCameraMove();
 	MoveCameraVector();
 
-	if (true == UEngineInput::IsDown('R'))
+	if (true == CyberSpaceMap->GetStageEnd())
 	{
 		GEngine->ChangeLevel("CyberSpaceBossLevel");
 	}
+
+	// Test
+	//if (true == UEngineInput::IsDown('R'))
+	//{
+	//	GEngine->ChangeLevel("CyberSpaceBossLevel");
+	//}
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)

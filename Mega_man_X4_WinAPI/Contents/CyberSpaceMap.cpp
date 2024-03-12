@@ -224,7 +224,7 @@ void ACyberSpaceMap::PlayerFocus_EndBegin()
 void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 {
 	// test
-	TestTime += _DeltaTime;
+	EndingTime += _DeltaTime;
 
 	//bool nbx = Focus->IsDestroy();
 	if (Focus->IsDestroy()) // 자동으로 딜레이를 주게 됨. 2초.
@@ -258,9 +258,14 @@ void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 		}
 	}
 
-	if (TestTime >= 2.0f)
+	if (EndingTime >= 2.0f)
 	{
 		ExitAni->SetActive(true);
+	}
+
+	if (EndingTime >= 3.0f && b_Stage == false)
+	{
+		b_Stage = true;
 	}
 }
 

@@ -42,6 +42,11 @@ public :
 		return ImageScale;
 	}
 
+	bool GetStageEnd() const
+	{
+		return b_Stage;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -60,10 +65,11 @@ private :
 	void PlayerPosEvent(float _DeltaTime);
 
 	ECyberSpaceMapState State = ECyberSpaceMapState::None;
+	bool b_Stage = false;
 	float FocusCreateTime = 0.0f;
 	float FocusTime = 0.0f;
 	float TimeResult = 0.0f;
-	float TestTime = 0.0f;
+	float EndingTime = 0.0f;
 	APlayerFocus* Focus = nullptr;
 	AEgseu* Player = nullptr;
 	EFocusState FocusState = EFocusState::None;
