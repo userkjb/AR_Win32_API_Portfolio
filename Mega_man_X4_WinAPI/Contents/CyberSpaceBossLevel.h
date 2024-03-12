@@ -27,7 +27,7 @@ protected :
 
 private :
 
-	void MoveCameraVector();
+	//void MoveCameraVector();
 
 	// Map
 	ACyberSpaceBossMap* CyberBossMap = nullptr;

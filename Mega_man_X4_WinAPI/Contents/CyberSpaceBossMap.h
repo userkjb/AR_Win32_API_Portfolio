@@ -61,6 +61,7 @@ private :
 	void BossRoom(float _DeltaTime);
 
 	void CollisionCheck(float _DeltaTime);
+	void MoveCameraVector();
 
 	FVector ImageScale;
 	FVector BossDoorPos_1 = { 1080, 480 };

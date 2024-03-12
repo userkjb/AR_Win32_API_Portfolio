@@ -33,6 +33,7 @@ void ACyberSpaceBossMap::Tick(float _DeltaTime)
 		SwitchDebug();
 	}
 
+	MoveCameraVector();
 	StateUpdate(_DeltaTime);
 	CollisionCheck(_DeltaTime);
 }
@@ -173,6 +174,10 @@ void ACyberSpaceBossMap::IdleStart()
 void ACyberSpaceBossMap::Idle(float _DeltaTime)
 {
 	// 평상시.
+	if (Player == nullptr)
+	{
+		Player = AEgseu::GetMainPlayer();
+	}	
 }
 
 // 앞 문 충돌.
@@ -305,4 +310,35 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 	{
 		IsBCollision = false;
 	}
+}
+
+void ACyberSpaceBossMap::MoveCameraVector()
+{
+	if (Player == nullptr)
+	{
+		return;
+	}
+	FVector CameraPos = GetWorld()->GetCameraPos();
+	FVector PlayerPos = Player->GetActorLocation();
+	FVector ImageScale = this->GetImageScale();
+	FVector WindowScale = GEngine->MainWindow.GetWindowScale();
+
+	CameraPos.X = PlayerPos.X - WindowScale.hX();
+	CameraPos.Y = PlayerPos.Y - 564.0f;
+
+	if (0.0f >= CameraPos.X)
+	{
+		CameraPos.X = 0.0f;
+	}
+	if (CameraPos.X >= ImageScale.X - WindowScale.X)
+	{
+		CameraPos.X = ImageScale.X - WindowScale.X;
+	}
+
+	if (0.0f >= CameraPos.Y)
+	{
+		CameraPos.Y = 0.0f;
+	}
+
+	GetWorld()->SetCameraPos(CameraPos);
 }

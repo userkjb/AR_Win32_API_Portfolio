@@ -35,7 +35,7 @@ void UCyberSpaceBossLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
 
-	MoveCameraVector();
+	//MoveCameraVector();
 }
 
 void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
@@ -66,32 +66,4 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 
 void UCyberSpaceBossLevel::LevelEnd(ULevel* _Level)
 {
-}
-
-
-void UCyberSpaceBossLevel::MoveCameraVector()
-{
-	FVector CameraPos = GetCameraPos();
-	FVector PlayerPos = Player->GetActorLocation();
-	FVector ImageScale = CyberBossMap->GetImageScale();
-	FVector WindowScale = GEngine->MainWindow.GetWindowScale();
-
-	CameraPos.X = PlayerPos.X - WindowScale.hX();
-	CameraPos.Y = PlayerPos.Y - 564.0f;
-
-	if (0.0f >= CameraPos.X)
-	{
-		CameraPos.X = 0.0f;
-	}
-	if (CameraPos.X >= ImageScale.X - WindowScale.X)
-	{
-		CameraPos.X = ImageScale.X - WindowScale.X;
-	}
-
-	if (0.0f >= CameraPos.Y)
-	{
-		CameraPos.Y = 0.0f;
-	}
-
-	SetCameraPos(CameraPos);
 }
