@@ -182,13 +182,15 @@ enum class EBusterState
 /// <summary>
 /// 보스 문 상태.
 /// </summary>
-enum class EBossDoorState
+enum class ECyberBossMapState
 {
 	None,
-	Create,
+	
 	Idle,
-	Open,
-	Close,
+	SlowMove,
+	CheckPointRoom,
+	BossSlowMove,
+	BossRoom,
 };
 
 enum class EFocusState
