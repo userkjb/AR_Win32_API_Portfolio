@@ -954,7 +954,9 @@ void AEgseu::IdleJump(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
+#pragma region IdleJump_Loop
 void AEgseu::IdleJump_LoopStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
@@ -1021,8 +1023,9 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
-
+#pragma region IdleJump_End
 void AEgseu::IdleJump_EndStart()
 {
 	JumpVector = FVector::Zero;
@@ -1053,7 +1056,7 @@ void AEgseu::IdleJump_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region JumpAttack Down
+#pragma region JumpAttack_Down
 void AEgseu::JumpAttack_DownStart()
 {
 	int CurFrame  = PlayerRender->GetCurAnimationFrame();
@@ -1098,7 +1101,9 @@ void AEgseu::JumpAttack_Down(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
+#pragma region JumpAttack_Down_Loop
 void AEgseu::JumpAttack_Down_LoopStart()
 {
 	int CurFrame = PlayerRender->GetCurAnimationFrame();
@@ -1140,7 +1145,9 @@ void AEgseu::JumpAttack_Down_Loop(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
+#pragma region JumpAttack_Down_End
 void AEgseu::JumpAttack_Down_EndStart()
 {
 	int CurFrame = PlayerRender->GetCurAnimationFrame();
@@ -3865,7 +3872,6 @@ void AEgseu::WallKick(float _DeltaTime)
 #pragma endregion
 
 #pragma region WallKickAttack_Down
-
 void AEgseu::WallKickAttack_DownStart()
 {
 }
@@ -3875,7 +3881,6 @@ void AEgseu::WallKickAttack_Down(float _DeltaTime)
 #pragma endregion
 
 #pragma region WallKickAttack_Up
-
 void AEgseu::WallKickAttack_UpStart()
 {
 }
