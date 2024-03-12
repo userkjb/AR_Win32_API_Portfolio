@@ -47,6 +47,14 @@ private :
 	void StateChange(EBossDoorState _State);
 	void StateUpdate(float _DeltaTime);
 
+	void CreateStart();
+	void Create(float _DeltaTime);
+	void IdleStart();
+	void Idle(float _DeltaTime);
+	void OpenStart();
+	void Open(float _DeltaTime);
+	void CloseStart();
+	void Close(float _DeltaTime);
 
 
 	void CollisionCheck(float _DeltaTime);

@@ -119,18 +119,21 @@ void ACyberSpaceBossMap::StateChange(EBossDoorState _State)
 		switch (_State)
 		{
 		case EBossDoorState::Create:
+			CreateStart();
 			break;
 		case EBossDoorState::Idle:
+			IdleStart();
 			break;
 		case EBossDoorState::Open:
+			OpenStart();
 			break;
 		case EBossDoorState::Close:
+			CloseStart();
 			break;
 		default :
 			break;
 		}
 	}
-
 	State = _State;
 }
 
@@ -139,16 +142,54 @@ void ACyberSpaceBossMap::StateUpdate(float _DeltaTime)
 	switch (State)
 	{
 	case EBossDoorState::Create:
+		Create(_DeltaTime);
 		break;
 	case EBossDoorState::Idle:
+		Idle(_DeltaTime);
 		break;
 	case EBossDoorState::Open:
+		Open(_DeltaTime);
 		break;
 	case EBossDoorState::Close:
+		Close(_DeltaTime);
 		break;
 	default:
 		break;
 	}
+}
+
+void ACyberSpaceBossMap::CreateStart()
+{
+	// 처음 시작하면 이 곳을 한 번 시작한다.
+}
+
+void ACyberSpaceBossMap::Create(float _DeltaTime)
+{
+	// 처음 시작하면 이 곳을 돌고 있다.
+}
+
+void ACyberSpaceBossMap::IdleStart()
+{
+}
+
+void ACyberSpaceBossMap::Idle(float _DeltaTime)
+{
+}
+
+void ACyberSpaceBossMap::OpenStart()
+{
+}
+
+void ACyberSpaceBossMap::Open(float _DeltaTime)
+{
+}
+
+void ACyberSpaceBossMap::CloseStart()
+{
+}
+
+void ACyberSpaceBossMap::Close(float _DeltaTime)
+{
 }
 
 
