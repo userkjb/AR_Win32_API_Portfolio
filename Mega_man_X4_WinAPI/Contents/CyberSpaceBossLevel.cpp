@@ -49,12 +49,15 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Right.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Left.png", 3, 1);
 
+	// Map Door
+	UEngineResourcesManager::GetInst().CuttingImage("mmx4-bossdoor.png", 5, 3);
 
 	// Map
 	CyberBossMap = SpawnActor<ACyberSpaceBossMap>(static_cast<int>(EActorType::Map));
 	CyberBossMap->SetActorLocation({ 0, 0 });
 	CyberBossMap->SetMapImage("CyberSpace_Stage_BossMap.png");
 	CyberBossMap->SetMapColImage("CyberSpace_Stage_BossMapCol.png");
+	CyberBossMap->SetDoorImage("mmx4-bossdoor.png");
 
 	// Player
 	Player = SpawnActor<AEgseu>(static_cast<int>(EActorType::Player));
