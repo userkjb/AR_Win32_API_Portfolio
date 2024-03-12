@@ -62,6 +62,7 @@ private :
 	ECyberSpaceMapState State = ECyberSpaceMapState::None;
 	float FocusCreateTime = 0.0f;
 	float FocusTime = 0.0f;
+	float TimeResult = 0.0f;
 	APlayerFocus* Focus = nullptr;
 	AEgseu* Player = nullptr;
 	EFocusState FocusState = EFocusState::None;

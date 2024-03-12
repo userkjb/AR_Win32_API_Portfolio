@@ -38,19 +38,20 @@ void ACyberSpaceMap::SetMapExitImage(std::string_view _MapImageName)
 void ACyberSpaceMap::SetRankRenderImage(std::string_view _MapImageName)
 {
 	RankRender->SetImage(_MapImageName);
+	RankRender->AutoImageScale(2.0f);
 	
-	RankRender->CreateAnimation("B_Rank", _MapImageName, 0, 0, 0.1f, false);
-	RankRender->CreateAnimation("A_Rank", _MapImageName, 1, 1, 0.1f, false);
-	RankRender->CreateAnimation("S_Rank", _MapImageName, 2, 2, 0.1f, false);
+	RankRender->CreateAnimation("B_Rank", _MapImageName, 0, 0, 0.1f, true);
+	RankRender->CreateAnimation("A_Rank", _MapImageName, 1, 1, 0.1f, true);
+	RankRender->CreateAnimation("S_Rank", _MapImageName, 2, 2, 0.1f, true);
 
 	RankRender->ChangeAnimation("B_Rank");
-	RankRender->ActiveOff();
+	RankRender->SetActive(false);
 }
 
 void ACyberSpaceMap::SetExitAniImage(std::string_view _MapImageName)
 {
 	ExitAni->SetImage(_MapImageName);
-	ExitAni->AutoImageScale();
+	ExitAni->AutoImageScale(2.0f);
 
 	ExitAni->CreateAnimation("ExitAni", _MapImageName, 0, 13, 0.5f, false);
 
@@ -91,8 +92,8 @@ void ACyberSpaceMap::BeginPlay()
 	Focus->SetActive(false);
 	
 	// Exit
-	RankRender = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
-	ExitAni = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
+	RankRender = CreateImageRenderer(static_cast<int>(ERenderOrder::MapSub));
+	ExitAni = CreateImageRenderer(static_cast<int>(ERenderOrder::MapSub));
 }
 
 void ACyberSpaceMap::Tick(float _DeltaTime)
@@ -200,28 +201,54 @@ void ACyberSpaceMap::PlayerFocus_EndBegin()
 {
 	Player->StateChange(EEgseuState::FocusEnd); // 플레이어 상태 변환.
 	Focus->SetFocusState(EFocusState::Rank); // 포커스 상태 변환.
+	TimeResult = 0.0f;
+	TimeResult = FocusTime;
+
+	ExitAni->SetPosition({ 4770, 400 });
+	RankRender->SetPosition({ 4770 , 200 });
+	if (TimeResult <= 15.0f)
+	{
+		RankRender->ChangeAnimation("S_Rank");
+	}
+	else if (15.0f < TimeResult || TimeResult <= 25.0f)
+	{
+		RankRender->ChangeAnimation("A_Rank");
+	}
+	else if (TimeResult > 25.0f)
+	{
+		RankRender->ChangeAnimation("B_Rank");
+	}
 }
 void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 {
-	float x = FocusTime; // 도착까지 걸린 시간.
-
 	//bool nbx = Focus->IsDestroy();
-	if (Focus->IsDestroy())
+	if (Focus->IsDestroy()) // 자동으로 딜레이를 주게 됨. 2초.
 	{
-		bool s = RankRender->IsActive();
-		if (x <= 15.0f)
+		if (TimeResult <= 15.0f)
 		{
 			// S
+			if (false == RankRender->IsActive())
+			{
+				RankRender->SetActive(true);
+			}
 			Player->AutoRightRun = true;
 		}
-		else if (15.0f < x || x <= 25.0f)
+		else if (15.0f < TimeResult || TimeResult <= 25.0f)
 		{
 			// A
+			if (false == RankRender->IsActive())
+			{
+				RankRender->SetActive(true);
+			}
 			Player->AutoRightRun = true;
 		}
-		else if (x > 25.0f)
+		else if (TimeResult > 25.0f)
 		{
 			// B
+			if (false == RankRender->IsActive())
+			{
+				RankRender->SetActive(true);
+			}
 			Player->AutoRightRun = true;
 		}
 	}
@@ -258,3 +285,4 @@ void ACyberSpaceMap::PlayerPosEvent(float _DeltaTime)
 		}
 	}
 }
+
