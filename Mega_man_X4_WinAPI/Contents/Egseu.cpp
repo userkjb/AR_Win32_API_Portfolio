@@ -458,8 +458,26 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::WallCling_Loop:
 			WallCling_LoopStart();
 			break;
+		case EEgseuState::WallClingAttack_Down:
+			WallClingAttack_DownStart();
+			break;
+		case EEgseuState::WallClingAttack_Down_Loop:
+			WallClingAttack_Down_LoopStart();
+			break;
+		case EEgseuState::WallClingAttack_Up:
+			WallClingAttack_UpStart();
+			break;
+		case EEgseuState::WallClingAttack_Up_Loop:
+			WallClingAttack_Up_LoopStart();
+			break;
 		case EEgseuState::WallKick:
 			WallKickStart();
+			break;
+		case EEgseuState::WallKickAttack_Down:
+			WallKickAttack_DownStart();
+			break;
+		case EEgseuState::WallKickAttack_Up:
+			WallKickAttack_UpStart();
 			break;
 		case EEgseuState::Hit:
 			HitStart();
@@ -688,8 +706,26 @@ void AEgseu::StateUpdate(float _DeltaTime)
 	case EEgseuState::WallCling_Loop:
 		WallCling_Loop(_DeltaTime);
 		break;
+	case EEgseuState::WallClingAttack_Down:
+		WallClingAttack_Down(_DeltaTime);
+		break;
+	case EEgseuState::WallClingAttack_Down_Loop:
+		WallClingAttack_Down_Loop(_DeltaTime);
+		break;
+	case EEgseuState::WallClingAttack_Up:
+		WallClingAttack_Up(_DeltaTime);
+		break;
+	case EEgseuState::WallClingAttack_Up_Loop:
+		WallClingAttack_Up_Loop(_DeltaTime);
+		break;
 	case EEgseuState::WallKick:
 		WallKick(_DeltaTime);
+		break;
+	case EEgseuState::WallKickAttack_Down:
+		WallKickAttack_Down(_DeltaTime);
+		break;
+	case EEgseuState::WallKickAttack_Up:
+		WallKickAttack_Up(_DeltaTime);
 		break;
 	case EEgseuState::Hit:
 		Hit(_DeltaTime);
@@ -3610,6 +3646,12 @@ void AEgseu::WallCling(float _DeltaTime)
 	ClingVector = ClingPower;
 	AActor::AddActorLocation(ClingVector * _DeltaTime);
 
+	// 벽 잡는 중에 공격
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EEgseuState::WallClingAttack_Down);
+		return;
+	}
 
 	// 벽 잡는 중 중에 점프
 	if (true == UEngineInput::IsDown('C'))
@@ -3671,7 +3713,11 @@ void AEgseu::WallCling_Loop(float _DeltaTime)
 	AActor::AddActorLocation(ClingVector * _DeltaTime);
 
 	// 벽을 잡고 있는 중에 공격
-	// -----
+	if (true == UEngineInput::IsDown('X'))
+	{
+		StateChange(EEgseuState::WallClingAttack_Down_Loop);
+		return;
+	}
 
 	// 벽을 잡고 있는 중에 다시 점프
 	if (true == UEngineInput::IsDown('C'))
@@ -3711,6 +3757,44 @@ void AEgseu::WallCling_Loop(float _DeltaTime)
 			return;
 		}
 	}
+}
+#pragma endregion
+
+#pragma region WallClingAttack_Down
+void AEgseu::WallClingAttack_DownStart()
+{
+	int a = 0;
+}
+void AEgseu::WallClingAttack_Down(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region WallClingAttack_Down_Loop
+void AEgseu::WallClingAttack_Down_LoopStart()
+{
+	int a = 0;
+}
+void AEgseu::WallClingAttack_Down_Loop(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region WallClingAttack_Up
+void AEgseu::WallClingAttack_UpStart()
+{
+}
+void AEgseu::WallClingAttack_Up(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region WallClingAttack_Up_Loop
+void AEgseu::WallClingAttack_Up_LoopStart()
+{
+}
+void AEgseu::WallClingAttack_Up_Loop(float _DeltaTime)
+{
 }
 #pragma endregion
 
@@ -3780,6 +3864,26 @@ void AEgseu::WallKick(float _DeltaTime)
 }
 #pragma endregion
 
+#pragma region WallKickAttack_Down
+
+void AEgseu::WallKickAttack_DownStart()
+{
+}
+void AEgseu::WallKickAttack_Down(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region WallKickAttack_Up
+
+void AEgseu::WallKickAttack_UpStart()
+{
+}
+void AEgseu::WallKickAttack_Up(float _DeltaTime)
+{
+}
+#pragma endregion
+
 #pragma region Hit
 void AEgseu::HitStart()
 {
@@ -3819,7 +3923,8 @@ void AEgseu::Hit(float _DeltaTime)
 #pragma region Hit_MiruTorearu
 void AEgseu::Hit_MiruTorearuStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName(""));
+	//PlayerRender->ChangeAnimation(GetAnimationName(""));
+	int a = 0;
 }
 void AEgseu::Hit_MiruTorearu(float _DeltaTime)
 {

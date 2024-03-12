@@ -176,8 +176,24 @@ private :
 	void WallCling(float _DeltaTime);
 	void WallCling_LoopStart();
 	void WallCling_Loop(float _DeltaTime);
+
+	void WallClingAttack_DownStart();
+	void WallClingAttack_Down(float _DeltaTime);
+	void WallClingAttack_Down_LoopStart();
+	void WallClingAttack_Down_Loop(float _DeltaTime);
+	void WallClingAttack_UpStart();
+	void WallClingAttack_Up(float _DeltaTime);
+	void WallClingAttack_Up_LoopStart();
+	void WallClingAttack_Up_Loop(float _DeltaTime);
+
 	void WallKickStart();
 	void WallKick(float _DeltaTime);
+
+	void WallKickAttack_DownStart();
+	void WallKickAttack_Down(float _DeltaTime);
+	void WallKickAttack_UpStart();
+	void WallKickAttack_Up(float _DeltaTime);
+
 	void HitStart();
 	void Hit(float _DeltaTime);
 	void Hit_MiruTorearuStart();
