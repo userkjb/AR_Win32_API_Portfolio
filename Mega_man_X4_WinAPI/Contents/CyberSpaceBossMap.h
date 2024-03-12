@@ -44,12 +44,21 @@ private :
 
 	void CreateDoorAni();
 
+
+
+
+
+	void CollisionCheck(float _DeltaTime);
+
 	FVector ImageScale;
 	FVector BossDoorPos_1 = { 1080, 480 };
 	FVector BossDoorPos_2 = { 1840, 480 };
 
 	UImageRenderer* MapRenderer = nullptr;
 	UImageRenderer* MapColRenderer = nullptr;
+
 	UImageRenderer* BossDoor_1 = nullptr;
 	UImageRenderer* BossDoor_2 = nullptr;
+	UCollision* BossDoor_Coll_1 = nullptr;
+	UCollision* BossDoor_Coll_2 = nullptr;
 };
