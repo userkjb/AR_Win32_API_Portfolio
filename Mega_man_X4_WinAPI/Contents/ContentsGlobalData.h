@@ -158,7 +158,8 @@ enum class EEgseuState
 	FocusLoop,
 	FocusEnd,
 
-	AutoRunRight,
+	AutoRunRight, // 스테이지 이동할 때 사용.
+	BossRoomAutoRun,
 };
 
 /// <summary>
