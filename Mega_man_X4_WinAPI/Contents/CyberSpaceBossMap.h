@@ -77,7 +77,11 @@ private :
 	UCollision* BossDoor_Coll_2 = nullptr;
 
 	AEgseu* Player = nullptr;
+	FVector RunVector = FVector::Zero;
+	const float RunSpeed = 100.0f;
 
 	int CollisionCount_1 = 0;
 	int CollisionCount_2 = 0;
+	bool IsFCollision = false;
+	bool IsBCollision = false;
 };

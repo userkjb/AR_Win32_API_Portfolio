@@ -177,6 +177,7 @@ void ACyberSpaceBossMap::Idle(float _DeltaTime)
 void ACyberSpaceBossMap::SlowMoveStart()
 {
 	BossDoor_1->ChangeAnimation("Open");
+	RunVector = FVector::Zero;
 }
 
 void ACyberSpaceBossMap::SlowMove(float _DeltaTime)
@@ -186,12 +187,21 @@ void ACyberSpaceBossMap::SlowMove(float _DeltaTime)
 	if (true == BossDoor_1->IsCurAnimationEnd())
 	{
 		// 캐릭터 움직이고
-	}
+		//UAnimationInfo* PlayerAni = Player->PlayerRender->GetCurAnimation();
+		//std::string AniName = PlayerAni->Name;
+		//Player->PlayerRender->ChangeAnimation(AniName);
 
-	// 문을 통과하면, 다음 상태로 이동.
-	//StateChange(ECyberBossMapState::CheckPointRoom);
-	//return;
-	
+		RunVector = FVector::Right * RunSpeed * _DeltaTime;
+		Player->AddActorLocation(RunVector);
+
+		if (IsFCollision == false)
+		{
+			// 문을 통과하면, 다음 상태로 이동.
+			StateChange(ECyberBossMapState::CheckPointRoom);
+			return;
+		}
+	}
+		
 
 	// Test
 	//if (true == UEngineInput::IsDown('T'))
@@ -223,11 +233,24 @@ void ACyberSpaceBossMap::BossSlowMoveStart()
 {
 	// Collision에서 상태가 바뀌어서 들어옴.
 	BossDoor_2->ChangeAnimation("Open");
+	RunVector = FVector::Zero;
 }
 
 void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
 {	
 	// 캐릭터가 느릐게 움직이면서 들어감.
+	if (true == BossDoor_2->IsCurAnimationEnd())
+	{
+		RunVector = FVector::Right * RunSpeed * _DeltaTime;
+		Player->AddActorLocation(RunVector);
+
+		if (IsBCollision == false)
+		{
+			// 문을 통과하면, 다음 상태로 이동.
+			StateChange(ECyberBossMapState::BossRoom);
+			return;
+		}
+	}
 }
 
 void ACyberSpaceBossMap::BossRoomStart()
@@ -247,6 +270,7 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 	std::vector<UCollision*> PlayerResult;
 	if (true == BossDoor_Coll_1->CollisionCheck(ECollisionOrder::Player, PlayerResult))
 	{
+		IsFCollision = true;
 		if (CollisionCount_1 == 0)
 		{
 			CollisionCount_1 = 1;
@@ -255,14 +279,23 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 			return;
 		}
 	}
+	else
+	{
+		IsFCollision = false;
+	}
 
 	if (true == BossDoor_Coll_2->CollisionCheck(ECollisionOrder::Player, PlayerResult))
 	{
+		IsBCollision = true;
 		if (CollisionCount_2 == 0)
 		{
 			CollisionCount_2 = 1;
 			StateChange(ECyberBossMapState::BossSlowMove);
 			return;
 		}
+	}
+	else
+	{
+		IsBCollision = false;
 	}
 }
