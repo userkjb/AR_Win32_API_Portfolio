@@ -2667,6 +2667,14 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 	RunVector = FVector::Zero;
 	MoveUpdate(_DeltaTime);
 
+	// 점프 중 벽 체크
+	bool WallChecl = CalWallCheck();
+	if (true == WallChecl)
+	{
+		StateChange(EEgseuState::WallCling);
+		return;
+	}
+
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
@@ -3162,14 +3170,6 @@ void AEgseu::RunJump(float _DeltaTime)
 	}
 
 
-	// 점프 중 벽 체크
-	bool WallChecl = CalWallCheck();
-	if (true == WallChecl)
-	{
-		StateChange(EEgseuState::WallCling);
-		return;
-	}
-
 	if (true == PlayerRender->IsCurAnimationEnd())
 	{
 		StateChange(EEgseuState::RunJump_Loop);
@@ -3310,14 +3310,6 @@ void AEgseu::RunJumpAttack_Down(float _DeltaTime)
 		BusterCreate(EBusterState::CreateDefault);
 	}
 
-	// 점프 중 벽 체크
-	bool WallChecl = CalWallCheck();
-	if (true == WallChecl)
-	{
-		StateChange(EEgseuState::WallCling);
-		return;
-	}
-
 	// 0.5초가 지나면(가능성 낮음)
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
@@ -3374,6 +3366,7 @@ void AEgseu::RunJumpAttack_Down_Loop(float _DeltaTime)
 		return;
 	}
 
+	// 벽 체크
 	bool WallChecl = CalWallCheck();
 	if (true == WallChecl)
 	{
@@ -3528,6 +3521,7 @@ void AEgseu::RunJumpAttack_Up_Loop(float _DeltaTime)
 		return;
 	}
 
+	// 벽 체크
 	bool WallChecl = CalWallCheck();
 	if (true == WallChecl)
 	{
