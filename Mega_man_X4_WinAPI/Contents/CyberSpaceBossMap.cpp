@@ -21,7 +21,7 @@ void ACyberSpaceBossMap::BeginPlay()
 	BossDoor_1 = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 	BossDoor_2 = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 
-	StateChange(EBossDoorState::Create);
+	StateChange(ECyberBossMapState::Idle);
 }
 
 void ACyberSpaceBossMap::Tick(float _DeltaTime)
@@ -112,23 +112,14 @@ void ACyberSpaceBossMap::CreateDoorAni()
 	BossDoor_2->ChangeAnimation("Idle");
 }
 
-void ACyberSpaceBossMap::StateChange(EBossDoorState _State)
+void ACyberSpaceBossMap::StateChange(ECyberBossMapState _State)
 {
 	if (State != _State)
 	{
 		switch (_State)
 		{
-		case EBossDoorState::Create:
-			CreateStart();
-			break;
-		case EBossDoorState::Idle:
+		case ECyberBossMapState::Idle:
 			IdleStart();
-			break;
-		case EBossDoorState::Open:
-			OpenStart();
-			break;
-		case EBossDoorState::Close:
-			CloseStart();
 			break;
 		default :
 			break;
@@ -141,55 +132,22 @@ void ACyberSpaceBossMap::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
-	case EBossDoorState::Create:
-		Create(_DeltaTime);
-		break;
-	case EBossDoorState::Idle:
+	case ECyberBossMapState::Idle:
 		Idle(_DeltaTime);
-		break;
-	case EBossDoorState::Open:
-		Open(_DeltaTime);
-		break;
-	case EBossDoorState::Close:
-		Close(_DeltaTime);
 		break;
 	default:
 		break;
 	}
 }
 
-void ACyberSpaceBossMap::CreateStart()
-{
-	// 처음 시작하면 이 곳을 한 번 시작한다.
-}
-
-void ACyberSpaceBossMap::Create(float _DeltaTime)
-{
-	// 처음 시작하면 이 곳을 돌고 있다.
-}
-
 void ACyberSpaceBossMap::IdleStart()
 {
+	// 적어도 한 번은 탄다.
 }
 
 void ACyberSpaceBossMap::Idle(float _DeltaTime)
 {
-}
-
-void ACyberSpaceBossMap::OpenStart()
-{
-}
-
-void ACyberSpaceBossMap::Open(float _DeltaTime)
-{
-}
-
-void ACyberSpaceBossMap::CloseStart()
-{
-}
-
-void ACyberSpaceBossMap::Close(float _DeltaTime)
-{
+	
 }
 
 
@@ -199,7 +157,7 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 	std::vector<UCollision*> PlayerResult;
 	if (true == BossDoor_Coll_1->CollisionCheck(ECollisionOrder::Player, PlayerResult))
 	{
-		int a = 0;
+		//StateChange(ECyberBossMapState::);
 		return;
 	}
 

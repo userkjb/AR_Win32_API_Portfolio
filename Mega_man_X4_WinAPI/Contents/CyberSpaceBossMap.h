@@ -44,17 +44,11 @@ private :
 
 	void CreateDoorAni();
 
-	void StateChange(EBossDoorState _State);
+	void StateChange(ECyberBossMapState _State);
 	void StateUpdate(float _DeltaTime);
 
-	void CreateStart();
-	void Create(float _DeltaTime);
 	void IdleStart();
 	void Idle(float _DeltaTime);
-	void OpenStart();
-	void Open(float _DeltaTime);
-	void CloseStart();
-	void Close(float _DeltaTime);
 
 
 	void CollisionCheck(float _DeltaTime);
@@ -63,7 +57,7 @@ private :
 	FVector BossDoorPos_1 = { 1080, 480 };
 	FVector BossDoorPos_2 = { 1840, 480 };
 
-	EBossDoorState State = EBossDoorState::None;
+	ECyberBossMapState State = ECyberBossMapState::None;
 
 	UImageRenderer* MapRenderer = nullptr;
 	UImageRenderer* MapColRenderer = nullptr;
