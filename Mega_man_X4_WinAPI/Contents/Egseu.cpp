@@ -111,12 +111,12 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Jump_End_Left", "x_Jump_Left.png", 8, 10, 0.025f, false);
 
 	// Jump Attack
-	PlayerRender->CreateAnimation("Jump_Start_Attack_Right", "JumpAttack_Right.png", { 0, 2, 4, 6, 8, 10, 12, 14 }, 0.05f, false);
-	PlayerRender->CreateAnimation("Jump_Start_Attack_Left", "JumpAttack_Left.png", { 0, 2, 4, 6, 8, 10, 12, 14 }, 0.05f, false);
-	PlayerRender->CreateAnimation("Jump_Ing_Attack_Right", "JumpAttack_Right.png", 14, 14, 0.05f, false);
-	PlayerRender->CreateAnimation("Jump_Ing_Attack_Left", "JumpAttack_Left.png", 14, 14, 0.05f, false);
-	PlayerRender->CreateAnimation("Jump_End_Attack_Right", "JumpAttack_Right.png", { 16, 18, 20 }, 0.05f, false);
-	PlayerRender->CreateAnimation("Jump_End_Attack_Left", "JumpAttack_Left.png", { 16, 18, 20 }, 0.05f, false);
+	PlayerRender->CreateAnimation("Jump_Start_Attack_Right", "JumpAttack_Right.png", { 0, 2, 4, 6, 8, 10, 12, 14 }, 0.025f, false);
+	PlayerRender->CreateAnimation("Jump_Start_Attack_Left", "JumpAttack_Left.png", { 0, 2, 4, 6, 8, 10, 12, 14 }, 0.025f, false);
+	PlayerRender->CreateAnimation("Jump_Ing_Attack_Right", "JumpAttack_Right.png", 14, 14, 0.025f, false);
+	PlayerRender->CreateAnimation("Jump_Ing_Attack_Left", "JumpAttack_Left.png", 14, 14, 0.025f, false);
+	PlayerRender->CreateAnimation("Jump_End_Attack_Right", "JumpAttack_Right.png", { 16, 18, 20 }, 0.025f, false);
+	PlayerRender->CreateAnimation("Jump_End_Attack_Left", "JumpAttack_Left.png", { 16, 18, 20 }, 0.025f, false);
 
 	//PlayerRender->CreateAnimation("Jump_Attack_Shoot_Right", "JumpAttack_Right.png", { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 }, 0.05f, false);
 	//PlayerRender->CreateAnimation("Jump_Attack_Shoot_Left", "JumpAttack_Left.png", { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 }, 0.05f, false);
@@ -4085,18 +4085,22 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 void AEgseu::BusterCreate(EBusterState _BusterState)
 {
 	ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>(static_cast<int>(EActorType::Buster));
-	FVector BusterPos = GetActorLocation();
-	A_Buster->SetActorLocation({ BusterPos.iX(), BusterPos.iY() - 64 }); // 상세 위치 조절 TODO
-	
-	std::string BusterName;
+	FVector ShotPos = FVector::Zero;
+	FVector PlayerPos = GetActorLocation();
+
+	ShotPos.Y = PlayerPos.Y - 79.0f;
 	if (DirState == EActorDir::Right)
 	{
 		A_Buster->SetDirState(EActorDir::Right);
+		ShotPos.X = PlayerPos.X + 22.0f;
 	}
 	else if (DirState == EActorDir::Left)
 	{
 		A_Buster->SetDirState(EActorDir::Left);
+		ShotPos.X = PlayerPos.X - 22.0f;
 	}
+
+	A_Buster->SetActorLocation(ShotPos);
 	A_Buster->SetBusterState(_BusterState);
 }
 
