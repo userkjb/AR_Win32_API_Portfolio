@@ -4155,7 +4155,7 @@ bool AEgseu::CalWallCheck()
 		break;
 	}
 	CheckPos_1.Y -= 10;
-	CheckPos_2.Y -= PlayerRender->GetImage()->GetScale().iY() / 4; // 캐릭터 중앙.
+	CheckPos_2.Y -= PlayerRender->GetImage()->GetScale().Y / 4.0f; // 캐릭터 중앙.
 
 	// 위의 CheckPos를 사용해서 Map의 충돌 체크를 한다.
 	Color8Bit Color_1 = UContentsGlobalData::ColMapImage->GetColor(CheckPos_1.iX(), CheckPos_1.iY(), Color8Bit::MagentaA);
