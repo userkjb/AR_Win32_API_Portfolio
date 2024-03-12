@@ -49,7 +49,14 @@ private :
 
 	void IdleStart();
 	void Idle(float _DeltaTime);
-
+	void SlowMoveStart();
+	void SlowMove(float _DeltaTime);
+	void CheckPointRoomStart();
+	void CheckPointRoom(float _DeltaTime);
+	void BossSlowMoveStart();
+	void BossSlowMove(float _DeltaTime);
+	void BossRoomStart();
+	void BossRoom(float _DeltaTime);
 
 	void CollisionCheck(float _DeltaTime);
 

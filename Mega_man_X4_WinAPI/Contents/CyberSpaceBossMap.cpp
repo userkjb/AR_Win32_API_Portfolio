@@ -147,7 +147,39 @@ void ACyberSpaceBossMap::IdleStart()
 
 void ACyberSpaceBossMap::Idle(float _DeltaTime)
 {
-	
+	// Æò»ó½Ã.
+}
+
+void ACyberSpaceBossMap::SlowMoveStart()
+{
+}
+
+void ACyberSpaceBossMap::SlowMove(float _DeltaTime)
+{
+}
+
+void ACyberSpaceBossMap::CheckPointRoomStart()
+{
+}
+
+void ACyberSpaceBossMap::CheckPointRoom(float _DeltaTime)
+{
+}
+
+void ACyberSpaceBossMap::BossSlowMoveStart()
+{
+}
+
+void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
+{
+}
+
+void ACyberSpaceBossMap::BossRoomStart()
+{
+}
+
+void ACyberSpaceBossMap::BossRoom(float _DeltaTime)
+{
 }
 
 
@@ -157,13 +189,13 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 	std::vector<UCollision*> PlayerResult;
 	if (true == BossDoor_Coll_1->CollisionCheck(ECollisionOrder::Player, PlayerResult))
 	{
-		//StateChange(ECyberBossMapState::);
+		StateChange(ECyberBossMapState::SlowMove);
 		return;
 	}
 
 	if (true == BossDoor_Coll_2->CollisionCheck(ECollisionOrder::Player, PlayerResult))
 	{
-		int a = 0;
+		StateChange(ECyberBossMapState::BossSlowMove);
 		return;
 	}
 }
