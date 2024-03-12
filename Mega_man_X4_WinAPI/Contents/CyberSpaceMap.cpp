@@ -53,9 +53,10 @@ void ACyberSpaceMap::SetExitAniImage(std::string_view _MapImageName)
 	ExitAni->SetImage(_MapImageName);
 	ExitAni->AutoImageScale(2.0f);
 
-	ExitAni->CreateAnimation("ExitAni", _MapImageName, 0, 13, 0.5f, false);
+	ExitAni->CreateAnimation("Idle", _MapImageName, 0, 0, 0.005f, false);
+	ExitAni->CreateAnimation("ExitAnies", _MapImageName, 0, 13, 0.025f, true); // 0~13
 
-	ExitAni->ChangeAnimation("ExitAni");
+	ExitAni->ChangeAnimation("Idle");
 	ExitAni->ActiveOff();
 }
 
@@ -204,7 +205,8 @@ void ACyberSpaceMap::PlayerFocus_EndBegin()
 	TimeResult = 0.0f;
 	TimeResult = FocusTime;
 
-	ExitAni->SetPosition({ 4770, 400 });
+	ExitAni->ChangeAnimation("ExitAnies");
+	ExitAni->SetPosition({ 4760, 400 });
 	RankRender->SetPosition({ 4770 , 200 });
 	if (TimeResult <= 15.0f)
 	{
@@ -221,6 +223,9 @@ void ACyberSpaceMap::PlayerFocus_EndBegin()
 }
 void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 {
+	// test
+	TestTime += _DeltaTime;
+
 	//bool nbx = Focus->IsDestroy();
 	if (Focus->IsDestroy()) // 자동으로 딜레이를 주게 됨. 2초.
 	{
@@ -251,6 +256,11 @@ void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 			}
 			Player->AutoRightRun = true;
 		}
+	}
+
+	if (TestTime >= 2.0f)
+	{
+		ExitAni->SetActive(true);
 	}
 }
 
