@@ -113,8 +113,8 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Kick_Right.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Kick_Left.png", 3, 1);
 	// 캐릭터 벽 잡기 공격
-	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Attack_Right.png", 3, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Attack_Left.png", 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Attack_Right.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Attack_Left.png", 4, 1);
 	// 캐릭터 벽 차기 공격
 	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Kick_Attack_Right.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Wall_Cling_Kick_Attack_Left.png", 3, 1);
