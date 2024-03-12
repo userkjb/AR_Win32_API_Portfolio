@@ -184,6 +184,7 @@ enum class EBusterState
 /// </summary>
 enum class EBossDoorState
 {
+	None,
 	Create,
 	Idle,
 	Open,
