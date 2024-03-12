@@ -105,8 +105,8 @@ void ACyberSpaceBossMap::CreateDoorAni()
 	BossDoor_1->CreateAnimation("Close", "mmx4-bossdoor.png", { 12, 12, 10, 9, 9, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 5, 6, 7, 8, 9, 0, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0 }, 0.05f, false);
 
 	BossDoor_2->CreateAnimation("Idle", "mmx4-bossdoor.png", 0, 0, 0.5f, true);
-	BossDoor_2->CreateAnimation("Open", "mmx4-bossdoor.png", 1, 12, 0.5f, false);
-	BossDoor_2->CreateAnimation("Close", "mmx4-bossdoor.png", { 12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 }, 0.5f, false);
+	BossDoor_2->CreateAnimation("Open", "mmx4-bossdoor.png", { 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 5, 6, 7, 8, 9, 0, 5, 6, 7, 8, 9, 0, 10, 11, 12 }, 0.05f, false);
+	BossDoor_2->CreateAnimation("Close", "mmx4-bossdoor.png", { 12, 12, 10, 9, 9, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 5, 6, 7, 8, 9, 0, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0 }, 0.05f, false);
 
 	BossDoor_1->ChangeAnimation("Idle");
 	BossDoor_2->ChangeAnimation("Idle");
