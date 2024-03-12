@@ -780,6 +780,14 @@ void AEgseu::IdleStart()
 
 void AEgseu::Idle(float _DeltaTime)
 {
+	// 보스 문 통과 Error 체크
+	FVector Dash = DashVector;
+	if (DashVector.X != 0.0f)
+	{
+		DashVector = FVector::Zero;
+	}
+
+
 	// 가만히 있는데 뱡향 키가 눌렸을 때.
 	if (true == UEngineInput::IsPress(VK_LEFT) ||
 		true == UEngineInput::IsPress(VK_RIGHT))
@@ -830,7 +838,7 @@ void AEgseu::Idle(float _DeltaTime)
 		return;
 	}
 
-	MoveUpdate(_DeltaTime);
+	//MoveUpdate(_DeltaTime);
 }
 
 //void AEgseu::Idle_Loop(float _DeltaTime)
@@ -1515,9 +1523,9 @@ void AEgseu::IdleDash_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsUp('Z'))
 	{
 		DashTime = 0.0f;
+		DashVector = FVector::Zero;
 		if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
 		{
-			DashVector = FVector::Zero;
 			StateChange(EEgseuState::IdleRun_Loop);
 			return;
 		}
