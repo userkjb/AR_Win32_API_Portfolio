@@ -43,6 +43,11 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 
 	//TestCameraMove();
 	MoveCameraVector();
+
+	if (true == UEngineInput::IsDown('R'))
+	{
+		GEngine->ChangeLevel("CyberSpaceBossLevel");
+	}
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)
@@ -129,6 +134,13 @@ void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
 	// 리소스 삭제.
 	// 액터 삭제.
 	ULevel::LevelEnd(_Level);
+
+	CyberSpaceMap->Destroy(0.0f);
+	CyberSpaceMap = nullptr;
+	NewX->Destroy(0.0f);
+	NewX = nullptr;
+	TryScan_1->Destroy(0.0f);
+	TryScan_1 = nullptr;
 }
 
 void UCyberSpaceLevel::MoveCameraVector()
