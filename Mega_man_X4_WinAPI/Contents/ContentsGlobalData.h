@@ -148,8 +148,15 @@ enum class EEgseuState
 
 	WallCling,
 	WallCling_Loop,
+
+	WallClingAttack_Down,
+	WallClingAttack_Down_Loop,
+	WallClingAttack_Up,
+	WallClingAttack_Up_Loop,
 	
 	WallKick,
+	WallKickAttack_Down,
+	WallKickAttack_Up,
 
 	Hit,
 	Hit_MiruTorearu,
