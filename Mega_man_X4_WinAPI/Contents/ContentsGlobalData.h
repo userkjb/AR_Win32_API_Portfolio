@@ -306,6 +306,7 @@ enum class ERenderOrder
 	Map,
 	Player,
 	MapObject,
+	MapSub,
 	Buster,
 	EnemyPrev,
 	Enemy,
