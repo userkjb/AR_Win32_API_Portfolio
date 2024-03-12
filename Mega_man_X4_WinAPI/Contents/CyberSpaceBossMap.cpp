@@ -25,6 +25,10 @@ void ACyberSpaceBossMap::BeginPlay()
 void ACyberSpaceBossMap::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+	if (true == UEngineInput::IsDown('O'))
+	{
+		SwitchDebug();
+	}
 }
 
 void ACyberSpaceBossMap::SetMapImage(std::string_view _MapImageName)
@@ -46,4 +50,14 @@ void ACyberSpaceBossMap::SetMapColImage(std::string_view _MapColImageName)
 
 void ACyberSpaceBossMap::SwitchDebug()
 {
+	if (true == MapRenderer->IsActive())
+	{
+		MapRenderer->SetActive(false);
+		MapColRenderer->SetActive(true);
+	}
+	else
+	{
+		MapRenderer->SetActive(true);
+		MapColRenderer->SetActive(false);
+	}
 }
