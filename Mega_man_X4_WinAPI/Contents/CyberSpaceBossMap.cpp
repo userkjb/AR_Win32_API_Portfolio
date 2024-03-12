@@ -21,7 +21,7 @@ void ACyberSpaceBossMap::BeginPlay()
 	BossDoor_1 = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 	BossDoor_2 = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 
-
+	StateChange(EBossDoorState::Create);
 }
 
 void ACyberSpaceBossMap::Tick(float _DeltaTime)
@@ -32,6 +32,7 @@ void ACyberSpaceBossMap::Tick(float _DeltaTime)
 		SwitchDebug();
 	}
 
+	StateUpdate(_DeltaTime);
 	CollisionCheck(_DeltaTime);
 }
 
@@ -109,6 +110,45 @@ void ACyberSpaceBossMap::CreateDoorAni()
 
 	BossDoor_1->ChangeAnimation("Idle");
 	BossDoor_2->ChangeAnimation("Idle");
+}
+
+void ACyberSpaceBossMap::StateChange(EBossDoorState _State)
+{
+	if (State != _State)
+	{
+		switch (_State)
+		{
+		case EBossDoorState::Create:
+			break;
+		case EBossDoorState::Idle:
+			break;
+		case EBossDoorState::Open:
+			break;
+		case EBossDoorState::Close:
+			break;
+		default :
+			break;
+		}
+	}
+
+	State = _State;
+}
+
+void ACyberSpaceBossMap::StateUpdate(float _DeltaTime)
+{
+	switch (State)
+	{
+	case EBossDoorState::Create:
+		break;
+	case EBossDoorState::Idle:
+		break;
+	case EBossDoorState::Open:
+		break;
+	case EBossDoorState::Close:
+		break;
+	default:
+		break;
+	}
 }
 
 

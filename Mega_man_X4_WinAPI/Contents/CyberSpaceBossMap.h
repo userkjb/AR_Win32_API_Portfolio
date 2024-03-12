@@ -44,7 +44,8 @@ private :
 
 	void CreateDoorAni();
 
-
+	void StateChange(EBossDoorState _State);
+	void StateUpdate(float _DeltaTime);
 
 
 
@@ -53,6 +54,8 @@ private :
 	FVector ImageScale;
 	FVector BossDoorPos_1 = { 1080, 480 };
 	FVector BossDoorPos_2 = { 1840, 480 };
+
+	EBossDoorState State = EBossDoorState::None;
 
 	UImageRenderer* MapRenderer = nullptr;
 	UImageRenderer* MapColRenderer = nullptr;
