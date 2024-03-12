@@ -179,6 +179,17 @@ enum class EBusterState
 	BusterEnd,		// 종료.
 };
 
+/// <summary>
+/// 보스 문 상태.
+/// </summary>
+enum class EBossDoorState
+{
+	Create,
+	Idle,
+	Open,
+	Close,
+};
+
 enum class EFocusState
 {
 	None,
