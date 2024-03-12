@@ -173,8 +173,18 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("WallCling_Start_Left", "Wall_Cling_Left.png", 0, 3, 0.025f, false);
 	PlayerRender->CreateAnimation("WallCling_Loop_Right", "Wall_Cling_Right.png", 3, 3, 0.25f, false);
 	PlayerRender->CreateAnimation("WallCling_Loop_Left", "Wall_Cling_Left.png", 3, 3, 0.25f, false);
+	// Wall Attack
+	PlayerRender->CreateAnimation("WallCling_Attack_Start_Right", "Wall_Cling_Attack_Right.png", 0, 3, 0.025f, false);
+	PlayerRender->CreateAnimation("WallCling_Attack_Start_Left", "Wall_Cling_Attack_Left.png", 0, 3, 0.025f, false);
+	PlayerRender->CreateAnimation("WallCling_Attack_Loop_Right", "Wall_Cling_Attack_Right.png", 3, 3, 0.025f, false);
+	PlayerRender->CreateAnimation("WallCling_Attack_Loop_Left", "Wall_Cling_Attack_Left.png", 3, 3, 0.025f, false);
+
+	// Wall Kick
 	PlayerRender->CreateAnimation("WallKick_Right", "Wall_Cling_Kick_Right.png", 0, 2, 0.025f, false);
 	PlayerRender->CreateAnimation("WallKick_Left", "Wall_Cling_Kick_Left.png", 0, 2, 0.025f, false);
+	// Wall Kick Attack
+	PlayerRender->CreateAnimation("WallKick_Attack_Right", "Wall_Cling_Kick_Attack_Right.png", 0, 2, 0.025f, false);
+	PlayerRender->CreateAnimation("WallKick_Attack_Left", "Wall_Cling_Kick_Attack_Left.png", 0, 2, 0.025f, false);
 
 	// Wall Effect
 	//PlayerRender->CreateAnimation("WallCling_Effect_Right", "WallEffect_Right.png", 0, 7, 0.5f, false);
