@@ -350,6 +350,7 @@ public :
 	static const Color8Bit WhiteA;
 	static const Color8Bit MagentaA;
 	static const Color8Bit OrangeA;
+	static const Color8Bit CyanA;
 
 	// 알파값인 A를 생각해야 하니까
 	// 똑같은 이름 2개를 사용해야 하므로
