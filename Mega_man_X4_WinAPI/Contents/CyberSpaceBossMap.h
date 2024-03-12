@@ -21,6 +21,14 @@ public :
 	// Map Col
 	void SetMapColImage(std::string_view _MapColImageName);
 
+	// Door_1
+	void SetDoorImage(std::string_view _DoorImageName);
+
+	// Door_2
+
+	/// <summary>
+	/// Debug Function
+	/// </summary>
 	void SwitchDebug();
 
 	FVector GetImageScale() const
@@ -34,8 +42,14 @@ protected:
 
 private :
 
+	void CreateDoorAni();
+
 	FVector ImageScale;
+	FVector BossDoorPos_1 = { 1080, 480 };
+	FVector BossDoorPos_2 = { 1840, 480 };
 
 	UImageRenderer* MapRenderer = nullptr;
 	UImageRenderer* MapColRenderer = nullptr;
+	UImageRenderer* BossDoor_1 = nullptr;
+	UImageRenderer* BossDoor_2 = nullptr;
 };
