@@ -1,6 +1,7 @@
 #include "EngineCore.h"
 #include <Windows.h>
 #include "Level.h"
+#include <EnginePlatform/EngineSound.h>
 #include <EnginePlatform/EngineInput.h>
 
 bool UEngineCore::IsDebugValue = false;
@@ -40,9 +41,6 @@ void UEngineCore::BeginPlay()
 {}
 
 void UEngineCore::Tick(float _DeltaTime)
-{}
-
-void UEngineCore::End()
 {}
 
 void UEngineCore::DestroyLevel(std::string_view _Name)
@@ -97,7 +95,26 @@ void UEngineCore::CoreTick()
 		DeltaTime = 1.0f / 60.0f;
 	}
 
+	UEngineSound::Update();
 	UEngineInput::KeyCheckTick(DeltaTime);
+
+	for (size_t i = 0; i < DestroyLevelName.size(); i++)
+	{
+		std::string UpperName = UEngineString::ToUpper(DestroyLevelName[i]);
+
+		ULevel* Level = AllLevel[UpperName];
+
+		AllLevel.erase(DestroyLevelName[i]);
+
+		Level->End();
+
+		if (nullptr != Level)
+		{
+			delete Level;
+			Level = nullptr;
+		}
+	}
+	DestroyLevelName.clear();
 
 	// 한 프레임 동안 레벨이 절대 변하지 않고,
 	// 프레임이 시작할 때 Level이 변화 한다.
@@ -119,21 +136,6 @@ void UEngineCore::CoreTick()
 		DeltaTime = MainTimer.TimeCheck();
 		CurFrameTime = 0.0f;
 	}
-
-	for (size_t i = 0; i < DestroyLevelName.size(); i++)
-	{
-		std::string UpperName = UEngineString::ToUpper(DestroyLevelName[i]);
-
-		ULevel* Level = AllLevel[UpperName];
-		if (nullptr != Level)
-		{
-			delete Level;
-			Level = nullptr;
-		}
-
-		AllLevel.erase(DestroyLevelName[i]);
-	}
-	DestroyLevelName.clear();
 
 	if (nullptr == CurLevel)
 	{
