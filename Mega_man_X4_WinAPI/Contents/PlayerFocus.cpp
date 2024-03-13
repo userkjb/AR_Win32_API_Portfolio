@@ -32,11 +32,11 @@ void APlayerFocus::ForcusComponent()
 
 	FocusRender = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 	FocusRender->SetImage("Focus.png");
-	FocusRender->AutoImageScale(2.0f);
+	FocusRender->AutoImageScale(3.0f);
 
 	FocusArrow = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 	FocusArrow->SetImage("Focus.png");
-	FocusArrow->AutoImageScale(2.0f);
+	FocusArrow->AutoImageScale(3.0f);
 
 	//RightUpRender = 
 	//LeftUpRender = 
@@ -44,7 +44,7 @@ void APlayerFocus::ForcusComponent()
 	
 	HurryUpRender = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 	HurryUpRender->SetImage("HurryUp.png");
-	HurryUpRender->AutoImageScale(2.0f);
+	HurryUpRender->AutoImageScale(3.0f);
 	HurryUpRender->SetPosition({ 0, 80 });
 
 	CreateAnimations();
