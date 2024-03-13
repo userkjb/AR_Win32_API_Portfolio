@@ -3780,7 +3780,7 @@ void AEgseu::WallCling_Loop(float _DeltaTime)
 	// 벽을 잡고 있는 중에 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		WallBusterCreate(EBusterState::CreateDefault); //// ------------ DIR TODO
+		WallBusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::WallClingAttack_Down_Loop);
 		return;
 	}
