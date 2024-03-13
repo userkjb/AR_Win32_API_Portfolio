@@ -36,6 +36,6 @@ private :
 	AEgseu* Player = nullptr;
 
 	// Boss
-	ACyberPeacock* Boss = nullptr;
+	ACyberPeacock* CyberBoss = nullptr;
 };
 
