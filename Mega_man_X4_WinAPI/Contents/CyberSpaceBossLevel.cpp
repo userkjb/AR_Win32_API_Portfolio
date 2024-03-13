@@ -62,6 +62,11 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 	// Player
 	Player = SpawnActor<AEgseu>(static_cast<int>(EActorType::Player));
 	Player->SetActorLocation({ 200, 90 });
+
+	// Boss
+	CyberBoss = SpawnActor<ACyberPeacock>(static_cast<int>(EActorType::Boss));
+	CyberBoss->SetActorLocation({ 2400, 330 });
+	CyberBoss->SetActive(false);
 }
 
 void UCyberSpaceBossLevel::LevelEnd(ULevel* _Level)
