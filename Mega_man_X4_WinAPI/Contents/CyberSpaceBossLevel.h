@@ -44,8 +44,9 @@ private :
 
 
 	// Camera
-	void MoveCameraVector(bool _IsBoss);
-	void CheckPointCameraVector();
+	void MoveCameraVector(); // 일반적인 카메라.
+	void CheckPointCameraVector(); // CheckPointRoom 들어갈 때 카메라.(다 들어가면 일반으로.)
+	void InBossRoomCameraVector(float _DeltaTime); // 보스룸 들어갈 때 카메라.
 	void BossRoomCameraVector();
 
 	// Level State
@@ -59,6 +60,9 @@ private :
 
 	// Boss
 	ACyberPeacock* CyberBoss = nullptr;
+
+	FVector CameraRunPos = FVector::Zero;
+	const float CameraSpeed = 170.0f;
 };
 
 /*

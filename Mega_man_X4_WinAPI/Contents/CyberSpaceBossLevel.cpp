@@ -185,3 +185,80 @@ void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
 {
 }
 #pragma endregion
+
+
+
+void UCyberSpaceBossLevel::MoveCameraVector()
+{
+	FVector CameraPos = GetCameraPos();
+	FVector PlayerPos = Player->GetActorLocation();
+	FVector ImageScale = CyberBossMap->GetImageScale();
+	FVector WindowScale = GEngine->MainWindow.GetWindowScale();
+
+	CameraPos.X = PlayerPos.X - WindowScale.hX();
+	CameraPos.Y = PlayerPos.Y - 564.0f;
+
+	if (0.0f >= CameraPos.X)
+	{
+		CameraPos.X = 0.0f;
+	}
+	if (CameraPos.X >= ImageScale.X - WindowScale.X)
+	{
+		CameraPos.X = ImageScale.X - WindowScale.X;
+	}
+
+	if (0.0f >= CameraPos.Y)
+	{
+		CameraPos.Y = 0.0f;
+	}
+
+	SetCameraPos(CameraPos);
+}
+
+void UCyberSpaceBossLevel::CheckPointCameraVector()
+{
+
+}
+
+void UCyberSpaceBossLevel::InBossRoomCameraVector(float _DeltaTime)
+{
+	FVector CameraPos = GetCameraPos();
+
+	CameraRunPos = FVector::Right * CameraSpeed * _DeltaTime;
+	if (CameraPos.iX() <= 1838)
+	{
+		AddCameraPos(CameraRunPos);
+	}
+	else
+	{
+		AddCameraPos(FVector::Zero);
+	}
+}
+
+void UCyberSpaceBossLevel::BossRoomCameraVector()
+{
+	// Boss Room X : 1838 ~ 2042
+	FVector CameraPos = GetCameraPos();
+	FVector PlayerPos = Player->GetActorLocation();
+
+	FVector WindowScale = GEngine->MainWindow.GetWindowScale();
+
+	CameraPos.X = PlayerPos.X - WindowScale.hX();
+	CameraPos.Y = PlayerPos.Y - 562;
+
+	if (1838.0f >= CameraPos.X)
+	{
+		CameraPos.X = 1838.0f;
+	}
+	if (2042.0f <= CameraPos.X)
+	{
+		CameraPos.X = 2042.0f;
+	}
+
+	if (0.0f >= CameraPos.Y)
+	{
+		CameraPos.Y = 0.0f;
+	}
+
+	SetCameraPos(CameraPos);
+}
