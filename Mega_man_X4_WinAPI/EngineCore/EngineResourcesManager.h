@@ -51,6 +51,13 @@ public :
 	void UnloadImg(std::string_view _Name);
 
 	/// <summary>
+	/// 해당 이미지가 있는지 여부
+	/// </summary>
+	/// <param name="_Name"></param>
+	/// <returns></returns>
+	bool IsImage(std::string_view _Name);
+
+	/// <summary>
 	/// ImageRenderer, CuttingImage 에서 사용.
 	/// 이미지 찾기.
 	/// </summary>
