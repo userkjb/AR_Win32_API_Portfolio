@@ -2025,17 +2025,32 @@ void AEgseu::RunAttack_Up_Loop(float _DeltaTime)
 #pragma endregion
 
 #pragma region RunDash
-void AEgseu::RunDashStart()
+void AEgseu::RunDashStart() //////////
 {
-	if (BusterDelayTime == 0.0f)
+	if (State == EEgseuState::IdleRun_Loop)
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
 	}
-	else // 공격 하다가 왔으면,
+	else if (State == EEgseuState::RunDashAttack_Down)
 	{
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"), false, CurFrame);
 	}
+	else if (State == EEgseuState::RunDashAttack_Up)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"), false, CurFrame);
+	}
+
+	//if (BusterDelayTime == 0.0f)
+	//{
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
+	//}
+	//else // 공격 하다가 왔으면,
+	//{
+	//	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"), false, CurFrame);
+	//}
 }
 void AEgseu::RunDash(float _DeltaTime)
 {
@@ -4439,16 +4454,16 @@ void AEgseu::BusterCreate(EBusterState _BusterState)
 	FVector ShotPos = FVector::Zero;
 	FVector PlayerPos = GetActorLocation();
 
-	ShotPos.Y = PlayerPos.Y - 79.0f;
+	ShotPos.Y = PlayerPos.Y - 49.0f;
 	if (DirState == EActorDir::Right)
 	{
 		A_Buster->SetDirState(EActorDir::Right);
-		ShotPos.X = PlayerPos.X + 22.0f;
+		ShotPos.X = PlayerPos.X + 35.0f;
 	}
 	else if (DirState == EActorDir::Left)
 	{
 		A_Buster->SetDirState(EActorDir::Left);
-		ShotPos.X = PlayerPos.X - 22.0f;
+		ShotPos.X = PlayerPos.X - 35.0f;
 	}
 
 	A_Buster->SetActorLocation(ShotPos);
