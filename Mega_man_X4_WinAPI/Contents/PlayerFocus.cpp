@@ -45,7 +45,7 @@ void APlayerFocus::ForcusComponent()
 	HurryUpRender = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 	HurryUpRender->SetImage("HurryUp.png");
 	HurryUpRender->AutoImageScale(3.0f);
-	HurryUpRender->SetPosition({ 0, 80 });
+	HurryUpRender->SetPosition({ 0, 100 });
 
 	CreateAnimations();
 }
