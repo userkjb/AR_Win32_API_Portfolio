@@ -33,15 +33,19 @@ void ACyberPeacock::BeginPlay()
 
 	// Collision
 	PeacockCollision = CreateCollision(ECollisionOrder::Boss);
-	PeacockCollision->SetScale(PeacockRenderer->GetImage()->GetScale());
 	PeacockCollision->SetColType(ECollisionType::Rect);
+	FVector CollisionScale = PeacockRenderer->GetImage()->GetScale();
+	CollisionScale.X = CollisionScale.X / 7.0f;
+	PeacockCollision->SetScale(CollisionScale);
+	FVector CollisionPos = PeacockRenderer->GetPosition();
+	PeacockCollision->SetPosition({ CollisionPos.X, CollisionPos.Y - 100.0f });
 
 
 	// Animation
 	// Intro
 	PeacockRenderer->CreateAnimation("Peacock_Intro", "Peacock_Intro.png", 0, 30, 0.05f, false);
 
-	PeacockRenderer->CreateAnimation("Fight_Ready_Left_one", "Fight_Ready_Left.png", 0, 6, 0.05f, false);
+	PeacockRenderer->CreateAnimation("Fight_Ready_Left_one", "Fight_Ready_Left.png", 0, 6, 0.1f, false);
 	PeacockRenderer->CreateAnimation("Fight_Ready_Left", "Fight_Ready_Left.png", 6, 6, 1.5f, false);
 	PeacockRenderer->CreateAnimation("Fight_Ready_Right", "Fight_Ready_Right.png", 0, 0, 0.5f, false);
 
