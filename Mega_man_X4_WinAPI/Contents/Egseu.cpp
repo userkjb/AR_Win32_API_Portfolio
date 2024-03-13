@@ -3246,7 +3246,7 @@ void AEgseu::RunJump(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			WallBusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJumpAttack_Up);
@@ -3829,7 +3829,7 @@ void AEgseu::WallClingAttack_Down(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		WallBusterCreate(EBusterState::CreateDefault); ////////////////////////// TODO DIR
+		WallBusterCreate(EBusterState::CreateDefault);
 	}
 
 	// 벽 잡는 중 중에 점프
