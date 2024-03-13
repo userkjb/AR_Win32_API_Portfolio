@@ -17,3 +17,7 @@ void UTickObject::Tick(float _DeltaTime)
 {
 
 }
+
+void UTickObject::End()
+{
+}
