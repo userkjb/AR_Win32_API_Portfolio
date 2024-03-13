@@ -120,12 +120,16 @@ void UCyberSpaceBossLevel::StateUpdate(float _DeltaTime)
 		None(_DeltaTime);
 		break;
 	case EBossLevelState::Front_Door:
+		Front_Door(_DeltaTime);
 		break;
 	case EBossLevelState::CheckPointRoom:
+		CheckPointRoom(_DeltaTime);
 		break;
 	case EBossLevelState::Back_Door:
+		Back_Door(_DeltaTime);
 		break;
 	case EBossLevelState::BossRoom:
+		BossRoom(_DeltaTime);
 		break;
 	default:
 		break;
