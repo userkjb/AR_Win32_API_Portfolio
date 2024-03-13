@@ -39,6 +39,11 @@ public :
 		StateChange(_State);
 	}
 
+	ECyberPeacockState GetCyberPeacockState() const
+	{
+		return State;
+	}
+
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
