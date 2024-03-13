@@ -30,6 +30,15 @@ public :
 		return BodyDamage;
 	}
 
+	/// <summary>
+	/// Level에서 접근.
+	/// </summary>
+	/// <param name="_State"></param>
+	void SetStateChange(ECyberPeacockState _State)
+	{
+		StateChange(_State);
+	}
+
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
