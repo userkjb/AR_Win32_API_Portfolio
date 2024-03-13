@@ -28,15 +28,15 @@ void AMiruTorearu::BeginRender()
 {
 	MiruTorearuRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Enemy));
 	MiruTorearuRender->SetImage("MiruToraeru_Death_Effect.png");
-	MiruTorearuRender->AutoImageScale(2.0f);
+	MiruTorearuRender->AutoImageScale(2.5f);
 
 	MiruTorearuCollision = CreateCollision(ECollisionOrder::Enemy);
-	MiruTorearuCollision->SetScale({ 48 * 2, 46 * 2 });
+	MiruTorearuCollision->SetScale({ 48 * 2.5f, 46 * 2.5f });
 	MiruTorearuCollision->SetColType(ECollisionType::CirCle);
 
 	DeathRender = CreateImageRenderer(static_cast<int>(ERenderOrder::EnemyEffect));
 	DeathRender->SetImage("MiruToraeru_Death_Effect.png");
-	DeathRender->AutoImageScale(2.0f);
+	DeathRender->AutoImageScale(2.5f);
 	DeathRender->ActiveOff();
 
 	StateChange(EMiruTorearuState::None);
@@ -45,14 +45,14 @@ void AMiruTorearu::BeginRender()
 
 void AMiruTorearu::BeginCreateAnimation()
 {
-	MiruTorearuRender->CreateAnimation("Stop", "ElecballAtRest.png", 0, 4, 0.2f, true);
-	MiruTorearuRender->CreateAnimation("Run_Left", "Rotating Elecball.png", 0, 10, 0.2f, true);
-	MiruTorearuRender->CreateAnimation("Run_Right", "Rotating Elecball.png", { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 0.2f, true);
-	MiruTorearuRender->CreateAnimation("Attack", "GetPlayer.png", 0, 5, 0.2f, true);
+	MiruTorearuRender->CreateAnimation("Stop", "ElecballAtRest.png", 0, 4, 0.1f, true);
+	MiruTorearuRender->CreateAnimation("Run_Left", "Rotating Elecball.png", 0, 10, 0.1f, true);
+	MiruTorearuRender->CreateAnimation("Run_Right", "Rotating Elecball.png", { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 0.1f, true);
+	MiruTorearuRender->CreateAnimation("Attack", "GetPlayer.png", 0, 5, 0.1f, true);
 	
-	DeathRender->CreateAnimation("Dummy", "MiruToraeru_Death_Effect.png", 0, 0, 1.0f, true);
-	DeathRender->CreateAnimation("Death_Start", "MiruToraeru_Death_Effect.png", 0, 6, 0.2f, false);
-	MiruTorearuRender->CreateAnimation("Death_Loop", "MiruToraeru_Death.png", 0, 13, 0.2f, false);
+	DeathRender->CreateAnimation("Dummy", "MiruToraeru_Death_Effect.png", 0, 0, 0.5f, true);
+	DeathRender->CreateAnimation("Death_Start", "MiruToraeru_Death_Effect.png", 0, 6, 0.1f, false);
+	MiruTorearuRender->CreateAnimation("Death_Loop", "MiruToraeru_Death.png", 0, 13, 0.1f, false);
 
 	DeathRender->ChangeAnimation("Dummy");
 }

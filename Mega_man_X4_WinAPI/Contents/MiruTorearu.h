@@ -73,7 +73,7 @@ private :
 	EActorDir MiruDir = EActorDir::Left;
 	
 	FVector RunVector = FVector::Zero;
-	float RunSpeed = 100.0f;
+	float RunSpeed = 200.0f;
 	FVector PlayerVector = FVector::Zero;
 	float PlayerMoveSpeed = 100.0f;
 
