@@ -93,6 +93,11 @@ public:
 		return Image;
 	}
 
+	void CameraEffectOff()
+	{
+		CameraEffect = false;
+	}
+
 	// ==== Animation ====
 
 	/// <summary>
