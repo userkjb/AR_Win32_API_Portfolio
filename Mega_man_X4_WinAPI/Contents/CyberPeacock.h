@@ -2,11 +2,15 @@
 #include <EngineCore/Actor.h>
 #include "ContentsGlobalData.h"
 
+
+class ACyberSpaceBossMap;
+
 /// <summary>
 /// 사이버 공작.
 /// </summary>
 class ACyberPeacock : public AActor
 {
+	friend ACyberSpaceBossMap;
 public :
 	// constrcuter destructer
 	ACyberPeacock();
@@ -18,7 +22,9 @@ public :
 	ACyberPeacock& operator=(const ACyberPeacock& _Other) = delete;
 	ACyberPeacock& operator=(ACyberPeacock&& _Other) noexcept = delete;
 
-	inline int GetBodyDamage()
+	static ACyberPeacock* GetMainBoss();
+
+	inline int GetBodyDamage() const
 	{
 		return BodyDamage;
 	}
@@ -65,6 +71,8 @@ protected :
 
 
 private :
+	// 밖에서 사용할 Player를 static 으로 뺌.
+	static ACyberPeacock* MainBoss;
 
 	void CollisionCheck();
 
