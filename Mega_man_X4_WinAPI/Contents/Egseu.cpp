@@ -4457,16 +4457,16 @@ void AEgseu::WallBusterCreate(EBusterState _BusterState)
 	FVector ShotPos = FVector::Zero;
 	FVector PlayerPos = GetActorLocation();
 
-	ShotPos.Y = PlayerPos.Y - 95.0f;
+	ShotPos.Y = PlayerPos.Y - 85.0f;
 	if (DirState == EActorDir::Right)
 	{
 		A_Buster->SetDirState(EActorDir::Left);
-		ShotPos.X = PlayerPos.X - 35.0f;
+		ShotPos.X = PlayerPos.X - 45.0f;
 	}
 	else if (DirState == EActorDir::Left)
 	{
 		A_Buster->SetDirState(EActorDir::Right);
-		ShotPos.X = PlayerPos.X + 100.0f;
+		ShotPos.X = PlayerPos.X + 45.0f;
 	}
 
 	A_Buster->SetActorLocation(ShotPos);
