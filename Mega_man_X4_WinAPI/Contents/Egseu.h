@@ -274,10 +274,15 @@ private :
 	FVector ClingVector = FVector::Zero;
 	const FVector ClingPower = FVector::Down * 200.0f;
 
+	FVector Idle_Muzzle = { 30.0f, 79.0f };
+	FVector Run_Muzzle = { 35.0f, 79.0f };
+	FVector Dash_Muzzle = { 55.0f, 45.0f };
+	FVector Jump_Muzzle = { 35.0f, 95.0f };
+
+
 	// 밖에서 사용할 Player를 static 으로 뺌.
 	static AEgseu* MainPlayer;
 
-	// 
 	std::string CurAnimationName = "None";
 	int Debug_Num = 0;
 
