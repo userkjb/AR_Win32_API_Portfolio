@@ -237,7 +237,9 @@ private :
 	/// Buster 생성.
 	/// </summary>
 	/// <param name="_BusterState">Buster 종류</param>
-	void BusterCreate(EBusterState _BusterState);
+	void WallBusterCreate(EBusterState _BusterState);
+
+	void BusterCreate(EBusterState _BusterState, FVector _Pos);
 
 	// ===========================================================
 
@@ -274,6 +276,7 @@ private :
 	FVector ClingVector = FVector::Zero;
 	const FVector ClingPower = FVector::Down * 200.0f;
 
+	// 버스터 발싸 위치.
 	FVector Idle_Muzzle = { 30.0f, 79.0f };
 	FVector Run_Muzzle = { 35.0f, 79.0f };
 	FVector Dash_Muzzle = { 55.0f, 45.0f };
