@@ -89,6 +89,7 @@ void UCyberSpaceBossLevel::StateChange(EBossLevelState _State)
 		switch (_State)
 		{
 		case EBossLevelState::None:
+			NoneStart();
 			break;
 		default :
 			break;
@@ -103,8 +104,19 @@ void UCyberSpaceBossLevel::StateUpdate(float _DeltaTime)
 	switch (LevelState)
 	{
 	case EBossLevelState::None:
+		None(_DeltaTime);
 		break;
 	default:
 		break;
 	}
 }
+
+#pragma region None
+void UCyberSpaceBossLevel::NoneStart()
+{
+}
+
+void UCyberSpaceBossLevel::None(float _DeltaTime)
+{
+}
+#pragma endregion

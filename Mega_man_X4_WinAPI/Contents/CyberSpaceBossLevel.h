@@ -31,6 +31,11 @@ private :
 	void StateChange(EBossLevelState _State);
 	void StateUpdate(float _DeltaTime);
 
+	void NoneStart();
+	void None(float _DeltaTime);
+
+
+	// Level State
 	EBossLevelState LevelState = EBossLevelState::None;
 
 	// Map
