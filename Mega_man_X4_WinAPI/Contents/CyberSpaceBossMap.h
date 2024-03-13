@@ -121,12 +121,12 @@ private :
 
 	ACyberPeacock* CyberBoss = nullptr;
 
-	bool IsFDCollision = false;
-	bool IsBDCollision = false;
+	bool IsFDCollision = false; // 앞 문 충돌 상태.
+	bool IsBDCollision = false; // 뒷 문 충돌 상태.
 	bool FrontDoor = false;
 	bool BackDoor = false;
-	bool FrontDoorOpen = false;
-	bool BackDoorOpen = false;
+	bool FrontDoorOpen = false; // 앞 문 열림.
+	bool BackDoorOpen = false; // 뒷 문 열림.
 	//bool IsBoss = false;
 	int CollisionCount_1 = 0;
 	int CollisionCount_2 = 0;

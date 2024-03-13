@@ -63,7 +63,7 @@ private :
 
 	FVector CameraRunPos = FVector::Zero;
 	const float FrontDoorCameraSpeed = 170.0f;
-	const float BackDoorCameraSpeed = 170.0f;
+	const float BackDoorCameraSpeed = 270.0f;
 	FVector PlayerRunVector = FVector::Zero;
 	const float PlayerRunSpeed = 100.0f;
 };

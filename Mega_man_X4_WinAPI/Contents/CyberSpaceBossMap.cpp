@@ -233,25 +233,27 @@ void ACyberSpaceBossMap::BossSlowMoveStart()
 {
 	// Collision에서 상태가 바뀌어서 들어옴.
 	BossDoor_2->ChangeAnimation("Open");
-	RunVector = FVector::Zero;
-	Player->StateChange(EEgseuState::BossRoomAutoRun);
-	CameraRunPos = FVector::Zero;
+	BackDoor = true; // Level
 }
 void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
 {
 	// 카메라 움직임
-	BossStartCameraVector(_DeltaTime);
+	//BossStartCameraVector(_DeltaTime);
 
 	// 캐릭터가 느릐게 움직이면서 들어감.
 	if (true == BossDoor_2->IsCurAnimationEnd())
 	{
-		RunVector = FVector::Right * RunSpeed * _DeltaTime;
-		Player->AddActorLocation(RunVector);
+		//RunVector = FVector::Right * RunSpeed * _DeltaTime;
+		//Player->AddActorLocation(RunVector);
+		if (BackDoorOpen == false)
+		{
+			BackDoorOpen = true;
+		}
 
 		// 문을 통과하면,
 		if (IsBDCollision == false)
 		{
-			FVector CameraPos = GetWorld()->GetCameraPos();
+			//FVector CameraPos = GetWorld()->GetCameraPos();
 			//다음 상태로 이동.
 			StateChange(ECyberBossMapState::BossRoom);
 			return;
@@ -295,7 +297,7 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 		if (CollisionCount_1 == 0)
 		{
 			CollisionCount_1 = 1;
-			ColPlayer = dynamic_cast<AEgseu*>(PlayerResult[0]->GetOwner());
+			//ColPlayer = dynamic_cast<AEgseu*>(PlayerResult[0]->GetOwner()); // 주석 남김.
 			StateChange(ECyberBossMapState::SlowMove);
 			return;
 		}

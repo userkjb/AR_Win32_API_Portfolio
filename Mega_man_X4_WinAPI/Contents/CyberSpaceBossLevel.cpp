@@ -174,7 +174,7 @@ void UCyberSpaceBossLevel::Front_Door(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region str
+#pragma region CheckPointRoom
 void UCyberSpaceBossLevel::CheckPointRoomStart()
 {
 	PlayerRunVector = FVector::Zero;
@@ -183,23 +183,43 @@ void UCyberSpaceBossLevel::CheckPointRoomStart()
 
 void UCyberSpaceBossLevel::CheckPointRoom(float _DeltaTime)
 {
-
+	// 뒷 문 충돌 체크.
+	if (true == CyberBossMap->GetBackFoor())
+	{
+		StateChange(EBossLevelState::Back_Door);
+		return;
+	}
 }
 #pragma endregion
 
-#pragma region str
+#pragma region Back_Door
 void UCyberSpaceBossLevel::Back_DoorStart()
 {
+	PlayerRunVector = FVector::Zero;
+	Player->SetStateChange(EEgseuState::BossRoomAutoRun);
 }
 
 void UCyberSpaceBossLevel::Back_Door(float _DeltaTime)
 {
+	if (true == CyberBossMap->GetBackDoorOpen())
+	{
+		PlayerRunVector = FVector::Right * PlayerRunSpeed * _DeltaTime;
+		Player->AddActorLocation(PlayerRunVector);
+
+		if (false == CyberBossMap->GetBackDoorCollision())
+		{
+			StateChange(EBossLevelState::BossRoom);
+			return;
+		}
+	}
+	InBossRoomCameraVector(_DeltaTime);
 }
 #pragma endregion
 
 #pragma region str
 void UCyberSpaceBossLevel::BossRoomStart()
 {
+	int a = 0;
 }
 
 void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
