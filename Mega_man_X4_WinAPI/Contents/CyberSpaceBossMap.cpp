@@ -187,8 +187,7 @@ void ACyberSpaceBossMap::Idle(float _DeltaTime)
 void ACyberSpaceBossMap::SlowMoveStart()
 {
 	BossDoor_1->ChangeAnimation("Open");
-	RunVector = FVector::Zero;
-	Player->StateChange(EEgseuState::BossRoomAutoRun);
+	FrontDoor = true; // Level
 }
 
 void ACyberSpaceBossMap::SlowMove(float _DeltaTime)
@@ -197,36 +196,24 @@ void ACyberSpaceBossMap::SlowMove(float _DeltaTime)
 	// 문이 다 열림.
 	if (true == BossDoor_1->IsCurAnimationEnd())
 	{
-		// 캐릭터 움직이고
-		//UAnimationInfo* PlayerAni = Player->PlayerRender->GetCurAnimation();
-		//std::string AniName = PlayerAni->Name;
-		//Player->PlayerRender->ChangeAnimation(AniName);
+		if (FrontDoorOpen == false)
+		{
+			FrontDoorOpen = true;
+		}
 
-		RunVector = FVector::Right * RunSpeed * _DeltaTime;
-		Player->AddActorLocation(RunVector);
-
-		if (IsFCollision == false)
+		if (IsFDCollision == false)
 		{
 			// 문을 통과하면, 다음 상태로 이동.
 			StateChange(ECyberBossMapState::CheckPointRoom);
 			return;
 		}
 	}
-		
-
-	// Test
-	//if (true == UEngineInput::IsDown('T'))
-	//{
-	//	StateChange(ECyberBossMapState::CheckPointRoom);
-	//	return;
-	//}
 }
 
 void ACyberSpaceBossMap::CheckPointRoomStart()
 {
 	BossDoor_1->ChangeAnimation("Close");
-	Player->StateChange(EEgseuState::Idle);
-	// 체크포인트 수정.
+	// 체크포인트 수정. - TODO....
 }
 
 void ACyberSpaceBossMap::CheckPointRoom(float _DeltaTime)
@@ -248,7 +235,6 @@ void ACyberSpaceBossMap::BossSlowMoveStart()
 	BossDoor_2->ChangeAnimation("Open");
 	RunVector = FVector::Zero;
 	Player->StateChange(EEgseuState::BossRoomAutoRun);
-	IsBoss = true; // 기존에 사용하던 MoveCameraVector 동작하지 않음.
 	CameraRunPos = FVector::Zero;
 }
 void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
@@ -263,7 +249,7 @@ void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
 		Player->AddActorLocation(RunVector);
 
 		// 문을 통과하면,
-		if (IsBCollision == false)
+		if (IsBDCollision == false)
 		{
 			FVector CameraPos = GetWorld()->GetCameraPos();
 			//다음 상태로 이동.
@@ -276,8 +262,7 @@ void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
 void ACyberSpaceBossMap::BossRoomStart()
 {
 	BossDoor_2->ChangeAnimation("Close"); // 문 닫힘 애니메이션.
-	Player->StateChange(EEgseuState::Idle); // 플레이어 상태를 Idle로.
-	IsBoss = true; // 기존에 사용하던 MoveCameraVector 동작하지 않음.
+	Player->StateChange(EEgseuState::Idle); // 플레이어 상태를 Idle로
 	// 경고 애니메이션 시작.
 
 	//CyberBoss->SetActive(true);
@@ -306,7 +291,7 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 	std::vector<UCollision*> PlayerResult;
 	if (true == BossDoor_Coll_1->CollisionCheck(ECollisionOrder::Player, PlayerResult))
 	{
-		IsFCollision = true;
+		IsFDCollision = true;
 		if (CollisionCount_1 == 0)
 		{
 			CollisionCount_1 = 1;
@@ -317,12 +302,12 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 	}
 	else
 	{
-		IsFCollision = false;
+		IsFDCollision = false;
 	}
 
 	if (true == BossDoor_Coll_2->CollisionCheck(ECollisionOrder::Player, PlayerResult))
 	{
-		IsBCollision = true;
+		IsBDCollision = true;
 		if (CollisionCount_2 == 0)
 		{
 			CollisionCount_2 = 1;
@@ -332,7 +317,7 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 	}
 	else
 	{
-		IsBCollision = false;
+		IsBDCollision = false;
 	}
 }
 

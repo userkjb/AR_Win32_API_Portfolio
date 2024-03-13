@@ -39,6 +39,37 @@ public :
 		return ImageScale;
 	}
 
+	
+	bool GetFrontDoorCollision() const
+	{
+		return IsFDCollision;
+	}
+
+	bool GetBackDoorCollision() const
+	{
+		return IsBDCollision;
+	}
+
+	bool GetFrontDoor() const
+	{
+		return FrontDoor;
+	}
+
+	bool GetBackFoor() const
+	{
+		return BackDoor;
+	}
+	
+	bool GetFrontDoorOpen() const
+	{
+		return FrontDoorOpen;
+	}
+
+	bool GetBackDoorOpen() const
+	{
+		return BackDoorOpen;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -90,9 +121,13 @@ private :
 
 	ACyberPeacock* CyberBoss = nullptr;
 
-	bool IsFCollision = false;
-	bool IsBCollision = false;
-	bool IsBoss = false;
+	bool IsFDCollision = false;
+	bool IsBDCollision = false;
+	bool FrontDoor = false;
+	bool BackDoor = false;
+	bool FrontDoorOpen = false;
+	bool BackDoorOpen = false;
+	//bool IsBoss = false;
 	int CollisionCount_1 = 0;
 	int CollisionCount_2 = 0;
 };

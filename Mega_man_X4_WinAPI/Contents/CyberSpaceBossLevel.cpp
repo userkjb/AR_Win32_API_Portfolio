@@ -143,26 +143,47 @@ void UCyberSpaceBossLevel::StateUpdate(float _DeltaTime)
 void UCyberSpaceBossLevel::None(float _DeltaTime)
 {
 	MoveCameraVector();
+	if (true == CyberBossMap->GetFrontDoor())
+	{
+		StateChange(EBossLevelState::Front_Door);
+		return;
+	}
 }
 #pragma endregion
 
-#pragma region str
+#pragma region Front_Door
 void UCyberSpaceBossLevel::Front_DoorStart()
 {
+	PlayerRunVector = FVector::Zero;
+	Player->SetStateChange(EEgseuState::BossRoomAutoRun);
 }
 
 void UCyberSpaceBossLevel::Front_Door(float _DeltaTime)
 {
+	if (true == CyberBossMap->GetFrontDoorOpen())
+	{
+		PlayerRunVector = FVector::Right * PlayerRunSpeed * _DeltaTime;
+		Player->AddActorLocation(PlayerRunVector);
+		if (false == CyberBossMap->GetFrontDoorCollision())
+		{
+			StateChange(EBossLevelState::CheckPointRoom);
+			return;
+		}
+	}
+	CheckPointCameraVector(_DeltaTime);
 }
 #pragma endregion
 
 #pragma region str
 void UCyberSpaceBossLevel::CheckPointRoomStart()
 {
+	PlayerRunVector = FVector::Zero;
+	Player->SetStateChange(EEgseuState::Idle);
 }
 
 void UCyberSpaceBossLevel::CheckPointRoom(float _DeltaTime)
 {
+
 }
 #pragma endregion
 
@@ -215,16 +236,26 @@ void UCyberSpaceBossLevel::MoveCameraVector()
 	SetCameraPos(CameraPos);
 }
 
-void UCyberSpaceBossLevel::CheckPointCameraVector()
+void UCyberSpaceBossLevel::CheckPointCameraVector(float _DeltaTime)
 {
+	FVector CameraPos = GetCameraPos();
 
+	CameraPos = FVector::Right * FrontDoorCameraSpeed * _DeltaTime;
+	if (CameraPos.iX() <= 1000)
+	{
+		AddCameraPos(CameraPos);
+	}
+	else
+	{
+		AddCameraPos(FVector::Zero);
+	}
 }
 
 void UCyberSpaceBossLevel::InBossRoomCameraVector(float _DeltaTime)
 {
 	FVector CameraPos = GetCameraPos();
 
-	CameraRunPos = FVector::Right * CameraSpeed * _DeltaTime;
+	CameraRunPos = FVector::Right * BackDoorCameraSpeed * _DeltaTime;
 	if (CameraPos.iX() <= 1838)
 	{
 		AddCameraPos(CameraRunPos);
