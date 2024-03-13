@@ -49,8 +49,8 @@ void ContentsCore::BeginPlay()
 	CreateLevel<UCyberSpaceLevel>("CyberSpaceLevel");
 	CreateLevel<UCyberSpaceBossLevel>("CyberSpaceBossLevel");
 
-	ChangeLevel("CyberSpaceLevel");
-	//ChangeLevel("CyberSpaceBossLevel");
+	//ChangeLevel("CyberSpaceLevel");
+	ChangeLevel("CyberSpaceBossLevel");
 }
 
 void ContentsCore::Tick(float _DeltaTime)
@@ -63,7 +63,3 @@ void ContentsCore::Tick(float _DeltaTime)
 	}
 }
 
-void ContentsCore::End()
-{
-	UEngineCore::End();
-}
