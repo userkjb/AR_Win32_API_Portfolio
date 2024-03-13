@@ -22,16 +22,18 @@ ACyberPeacock* ACyberPeacock::GetMainBoss()
 void ACyberPeacock::BeginPlay()
 {
 	AActor::BeginPlay();
+	MainBoss = this;
 
 	PeacockRenderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Boss));
 	PeacockRenderer->SetImage("Fight_Ready_Right.png");
-	UWindowImage* Image = PeacockRenderer->GetImage();
-	FVector ImageScale = Image->GetScale();
-	PeacockRenderer->SetTransform({ {0, 0}, ImageScale * 2 });
+	PeacockRenderer->AutoImageScale(2.5f);
+	//UWindowImage* Image = PeacockRenderer->GetImage();
+	//FVector ImageScale = Image->GetScale();
+	//PeacockRenderer->SetTransform({ {0, 0}, ImageScale * 2 });
 
 	// Collision
 	PeacockCollision = CreateCollision(ECollisionOrder::Boss);
-	PeacockCollision->SetScale(ImageScale);
+	PeacockCollision->SetScale(PeacockRenderer->GetImage()->GetScale());
 	PeacockCollision->SetColType(ECollisionType::Rect);
 
 
@@ -43,8 +45,8 @@ void ACyberPeacock::BeginPlay()
 	PeacockRenderer->CreateAnimation("Fight_Ready_Left", "Fight_Ready_Left.png", 6, 6, 1.5f, false);
 	PeacockRenderer->CreateAnimation("Fight_Ready_Right", "Fight_Ready_Right.png", 0, 0, 0.5f, false);
 
-	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 2, 0.05f, true); // ÀÌ¹ÌÁö ÀÌ½´
-	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 2, 0.05f, true);
+	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 3, 0.05f, true); // ÀÌ¹ÌÁö ÀÌ½´
+	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 3, 0.05f, true);
 
 	PeacockRenderer->ChangeAnimation("Peacock_Intro");
 

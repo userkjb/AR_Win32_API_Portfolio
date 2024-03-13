@@ -3,6 +3,7 @@
 #include "ContentsGlobalData.h"
 
 
+class AEgseu;
 class ACyberSpaceBossMap;
 
 /// <summary>
@@ -96,4 +97,6 @@ private :
 
 	ECyberPeacockState State = ECyberPeacockState::None;
 	ERenderOrder Order = ERenderOrder::None;
+
+	AEgseu* Player = nullptr;
 };

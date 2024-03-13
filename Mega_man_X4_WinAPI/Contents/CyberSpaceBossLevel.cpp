@@ -46,8 +46,8 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("Peacock_Intro.png", 8, 4);
 	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Right.png", 1, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Left.png", 6, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Right.png", 3, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Left.png", 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Right.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Left.png", 4, 1);
 
 	// Map Door
 	UEngineResourcesManager::GetInst().CuttingImage("mmx4-bossdoor.png", 5, 3);
