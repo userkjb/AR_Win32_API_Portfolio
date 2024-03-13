@@ -130,12 +130,12 @@ void ATriScan::Idle(float _DeltaTime)
 
 	// Player 와 TriScan 의 거리가 수치 이하일 때,
 	// if (Between <= 500) /////////////////////////////////////////// Test
-	if (Between <= 300)
+	if (Between <= 400)
 	{
 		SearchTime += _DeltaTime;
 		// 수치 만큼의 딜레이를 가지고.
 		//if (SearchTime < 1.0f)  //////////////////////////////////// Test
-		if (SearchTime < 5.0f)
+		if (SearchTime < 3.0f)
 		{
 			return;
 		}
