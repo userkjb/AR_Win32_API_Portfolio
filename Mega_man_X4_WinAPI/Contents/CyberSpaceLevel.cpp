@@ -54,6 +54,20 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 	//{
 	//	GEngine->ChangeLevel("CyberSpaceBossLevel");
 	//}
+	if (true == UEngineInput::IsDown('F'))
+	{
+		if (false == Test_b)
+		{
+			Test_b = true;
+		}
+		else
+		{
+			Test_b = false;
+		}
+	}
+
+	// Enemy º“»Ø.
+	EnemySpawn(Test_b);
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)
@@ -108,31 +122,7 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	// Boss
 	//ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
 	//NewBoss->SetActorLocation({ 520, 500 });
-
-	// Enemy
-	//TryScan_1 = SpawnActor<ATriScan>();
-	//TryScan_1->SetActorLocation({ 1160 , 135 });
-	//TryScan_1->SetTriScanState(ETriScanState::Idle);
-	TryScan_1 = SpawnActor<ATriScan>(static_cast<int>(EActorType::Enemy));
-	TryScan_1->SetActorLocation({ 600 , 500 });
-	TryScan_1->SetTriScanState(ETriScanState::Idle);
-
-	//TryScan_2 = SpawnActor<ATriScan>();
-	//TryScan_2->SetActorLocation({ 1160 , 200 });
-	//TryScan_2->SetTriScanState(ETriScanState::Idle);
-
-	//SpikeMarl = SpawnActor<ASpikeMarl>();
-	//SpikeMarl->SetActorLocation({ 520, 400 });
-	//SpikeMarl->SetSpikeMarlState(ESpikeMarlState::SummonStart);
-
-	//MiruTorearu_1 = SpawnActor<AMiruTorearu>();
-	//MiruTorearu_1->SetActorLocation({ 520, 400 });
-	//MiruTorearu_1->SetMiruTorearuState(EMiruTorearuState::StopCreate);
-
-	//MiruTorearu_2 = SpawnActor<AMiruTorearu>();
-	//MiruTorearu_2->SetActorLocation({ 520, 400 });
-	//MiruTorearu_2->SetMiruDir(EActorDir::Left);
-	//MiruTorearu_2->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		
 } // LevelStart
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
@@ -142,11 +132,13 @@ void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
 	ULevel::LevelEnd(_Level);
 
 	CyberSpaceMap->Destroy(0.0f);
-	CyberSpaceMap = nullptr;
 	NewX->Destroy(0.0f);
-	NewX = nullptr;
 	TryScan_1->Destroy(0.0f);
+	TryScan_2->Destroy(0.0f);
+	CyberSpaceMap = nullptr;
+	NewX = nullptr;
 	TryScan_1 = nullptr;
+	TryScan_2 = nullptr;
 }
 
 void UCyberSpaceLevel::MoveCameraVector()
@@ -174,6 +166,162 @@ void UCyberSpaceLevel::MoveCameraVector()
 	}
 
 	SetCameraPos(CameraPos);
+}
+
+void UCyberSpaceLevel::EnemySpawn(bool _Test)
+{
+	if (true == _Test)
+	{
+		//FVector PlayerPos = NewX->GetActorLocation();
+		float PlayerPos = NewX->GetActorLocation().X;
+		int a = 0;
+	}
+
+	float PlayerPos = NewX->GetActorLocation().X;
+	if (520.0f <= PlayerPos && PlayerPos <= 530.0f)
+	{
+		if (TryScan_1 == nullptr && TryScan_2 == nullptr)
+		{
+			TryScan_1 = SpawnActor<ATriScan>(static_cast<int>(EActorType::Enemy));
+			TryScan_1->SetActorLocation(TryScan_1_Pos);
+			TryScan_1->SetTriScanState(ETriScanState::Idle);
+			//TryScan_1->SetActorLocation({ 600 , 500 });
+
+			TryScan_2 = SpawnActor<ATriScan>(static_cast<int>(EActorType::Enemy));
+			TryScan_2->SetActorLocation(TryScan_2_Pos);
+			TryScan_2->SetTriScanState(ETriScanState::Idle);
+		}
+	}
+
+	if (760.0f <= PlayerPos && PlayerPos <= 770.0f)
+	{
+		if (MiruTorearu_1 == nullptr)
+		{
+			MiruTorearu_1 = SpawnActor<AMiruTorearu>(static_cast<int>(EActorType::Enemy));
+			MiruTorearu_1->SetActorLocation({ MiruTorearu_1_Pos });
+			MiruTorearu_1->SetMiruDir(EActorDir::Left);
+			MiruTorearu_1->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		}
+	}
+
+	if (1185.0f <= PlayerPos && PlayerPos <= 1190.0f)
+	{
+		if (MiruTorearu_2 == nullptr)
+		{
+			MiruTorearu_2 = SpawnActor<AMiruTorearu>(static_cast<int>(EActorType::Enemy));
+			MiruTorearu_2->SetActorLocation({ MiruTorearu_2_Pos });
+			MiruTorearu_2->SetMiruDir(EActorDir::Left);
+			MiruTorearu_2->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		}
+	}
+
+	if (1460.0f <= PlayerPos && PlayerPos <= 1465.0f)
+	{
+		// 2∞≥
+		if (MiruTorearu_3 == nullptr)
+		{
+			MiruTorearu_3 = SpawnActor<AMiruTorearu>(static_cast<int>(EActorType::Enemy));
+			MiruTorearu_3->SetActorLocation({ MiruTorearu_3_Pos });
+			MiruTorearu_3->SetMiruDir(EActorDir::Left);
+			MiruTorearu_3->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		}
+
+		if (MiruTorearu_4 == nullptr)
+		{
+			MiruTorearu_4 = SpawnActor<AMiruTorearu>(static_cast<int>(EActorType::Enemy));
+			MiruTorearu_4->SetActorLocation({ MiruTorearu_4_Pos });
+			MiruTorearu_4->SetMiruDir(EActorDir::Left);
+			MiruTorearu_4->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		}
+	}
+
+	if (1650.0f <= PlayerPos && PlayerPos <= 1670.0f)
+	{
+		if (MiruTorearu_5 == nullptr)
+		{
+			MiruTorearu_5 = SpawnActor<AMiruTorearu>(static_cast<int>(EActorType::Enemy));
+			MiruTorearu_5->SetActorLocation({ MiruTorearu_5_Pos });
+			MiruTorearu_5->SetMiruDir(EActorDir::Left);
+			MiruTorearu_5->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		}
+
+		if (MiruTorearu_6 == nullptr)
+		{
+			MiruTorearu_6 = SpawnActor<AMiruTorearu>(static_cast<int>(EActorType::Enemy));
+			MiruTorearu_6->SetActorLocation({ MiruTorearu_6_Pos });
+			MiruTorearu_6->SetMiruDir(EActorDir::Left);
+			MiruTorearu_6->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		}
+
+		if (TryScan_3 == nullptr)
+		{
+			TryScan_3 = SpawnActor<ATriScan>(static_cast<int>(EActorType::Enemy));
+			TryScan_3->SetActorLocation(TryScan_3_Pos);
+			TryScan_3->SetTriScanState(ETriScanState::Idle);
+		}
+
+		if (TryScan_4 == nullptr)
+		{
+			TryScan_4 = SpawnActor<ATriScan>(static_cast<int>(EActorType::Enemy));
+			TryScan_4->SetActorLocation(TryScan_4_Pos);
+			TryScan_4->SetTriScanState(ETriScanState::Idle);
+		}
+	}
+
+	if (2135.0f <= PlayerPos && PlayerPos <= 2140.0f)
+	{
+		if (MiruTorearu_7 == nullptr)
+		{
+			MiruTorearu_7 = SpawnActor<AMiruTorearu>(static_cast<int>(EActorType::Enemy));
+			MiruTorearu_7->SetActorLocation({ MiruTorearu_7_Pos });
+			MiruTorearu_7->SetMiruDir(EActorDir::Left);
+			MiruTorearu_7->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		}
+	}
+
+	if (2750.0f <= PlayerPos && PlayerPos <= 2755.0f)
+	{
+		if (MiruTorearu_8 == nullptr)
+		{
+			MiruTorearu_8 = SpawnActor<AMiruTorearu>(static_cast<int>(EActorType::Enemy));
+			MiruTorearu_8->SetActorLocation({ MiruTorearu_8_Pos });
+			MiruTorearu_8->SetMiruDir(EActorDir::Left);
+			MiruTorearu_8->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		}
+
+		if (MiruTorearu_9 == nullptr)
+		{
+			MiruTorearu_9 = SpawnActor<AMiruTorearu>(static_cast<int>(EActorType::Enemy));
+			MiruTorearu_9->SetActorLocation({ MiruTorearu_9_Pos });
+			MiruTorearu_9->SetMiruDir(EActorDir::Left);
+			MiruTorearu_9->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		}
+	}
+
+	if (2950.0f <= PlayerPos && PlayerPos <= 3955.0f)
+	{
+		if (MiruTorearu_10 == nullptr)
+		{
+			MiruTorearu_10 = SpawnActor<AMiruTorearu>(static_cast<int>(EActorType::Enemy));
+			MiruTorearu_10->SetActorLocation({ MiruTorearu_10_Pos });
+			MiruTorearu_10->SetMiruDir(EActorDir::Left);
+			MiruTorearu_10->SetMiruTorearuState(EMiruTorearuState::RunCreate);
+		}
+	}
+	
+
+	//SpikeMarl = SpawnActor<ASpikeMarl>();
+	//SpikeMarl->SetActorLocation({ 520, 400 });
+	//SpikeMarl->SetSpikeMarlState(ESpikeMarlState::SummonStart);
+
+	//MiruTorearu_1 = SpawnActor<AMiruTorearu>();
+	//MiruTorearu_1->SetActorLocation({ 520, 400 });
+	//MiruTorearu_1->SetMiruTorearuState(EMiruTorearuState::StopCreate);
+
+	//MiruTorearu_2 = SpawnActor<AMiruTorearu>();
+	//MiruTorearu_2->SetActorLocation({ 520, 400 });
+	//MiruTorearu_2->SetMiruDir(EActorDir::Left);
+	//MiruTorearu_2->SetMiruTorearuState(EMiruTorearuState::RunCreate);
 }
 
 void UCyberSpaceLevel::TestCameraMove()
