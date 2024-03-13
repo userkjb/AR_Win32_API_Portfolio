@@ -1738,9 +1738,8 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	{
 		RunVector = FVector::Right * MoveSpeed;
 	}
-
 	MoveUpdate(_DeltaTime);
-
+		
 	// มกวม
 	if (true == UEngineInput::IsDown('C'))
 	{
@@ -1791,6 +1790,18 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	{
 		//StateChange(EEgseuState::IdleRun_End);
 		StateChange(EEgseuState::Idle);
+		return;
+	}
+
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	std::string colorR = std::to_string(Color.R);
+	std::string colorG = std::to_string(Color.G);
+	std::string colorB = std::to_string(Color.B);
+	UEngineDebug::OutPutDebugText("R : " + colorR + "// G : " + colorG + "// B : " + colorB);
+
+	if (Color == Color8Bit(0, 0, 0, 0))
+	{
+		StateChange(EEgseuState::IdleJump_Loop);
 		return;
 	}
 }
