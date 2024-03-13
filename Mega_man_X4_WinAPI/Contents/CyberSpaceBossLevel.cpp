@@ -224,6 +224,7 @@ void UCyberSpaceBossLevel::BossRoomStart()
 
 void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
 {
+	BossRoomCameraVector();
 }
 #pragma endregion
 
