@@ -219,7 +219,8 @@ void UCyberSpaceBossLevel::Back_Door(float _DeltaTime)
 #pragma region str
 void UCyberSpaceBossLevel::BossRoomStart()
 {
-	int a = 0;
+	CyberBoss->SetActive(true);
+	CyberBoss->SetStateChange(ECyberPeacockState::Intro);
 }
 
 void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
