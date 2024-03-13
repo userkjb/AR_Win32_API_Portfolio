@@ -1,7 +1,7 @@
 #include "CyberSpaceBossMap.h"
 #include "ContentsGlobalData.h"
 #include "Egseu.h"
-
+#include "CyberPeacock.h"
 
 ACyberSpaceBossMap::ACyberSpaceBossMap()
 {
@@ -176,7 +176,11 @@ void ACyberSpaceBossMap::Idle(float _DeltaTime)
 	if (Player == nullptr)
 	{
 		Player = AEgseu::GetMainPlayer();
-	}	
+	}
+	if (CyberBoss == nullptr)
+	{
+		CyberBoss = ACyberPeacock::GetMainBoss();
+	}
 }
 
 // 앞 문 충돌.
@@ -275,6 +279,7 @@ void ACyberSpaceBossMap::BossRoomStart()
 	Player->StateChange(EEgseuState::Idle); // 플레이어 상태를 Idle로.
 	IsBoss = true; // 기존에 사용하던 MoveCameraVector 동작하지 않음.
 	// 경고 애니메이션 시작.
+	CyberBoss->StateChange(ECyberPeacockState::Intro);
 }
 
 // 보스전 Start
@@ -303,7 +308,7 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 		if (CollisionCount_1 == 0)
 		{
 			CollisionCount_1 = 1;
-			Player = dynamic_cast<AEgseu*>(PlayerResult[0]->GetOwner());
+			ColPlayer = dynamic_cast<AEgseu*>(PlayerResult[0]->GetOwner());
 			StateChange(ECyberBossMapState::SlowMove);
 			return;
 		}

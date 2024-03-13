@@ -3,6 +3,7 @@
 #include "ContentsGlobalData.h"
 
 class AEgseu;
+class ACyberPeacock;
 
 class ACyberSpaceBossMap : public AActor
 {
@@ -80,11 +81,14 @@ private :
 	UCollision* BossDoor_Coll_2 = nullptr;
 
 	AEgseu* Player = nullptr;
+	AEgseu* ColPlayer = nullptr;
 	FVector RunVector = FVector::Zero;
 	const float RunSpeed = 100.0f;
 	FVector StartCameraPos = FVector::Zero;
 	const float CameraSpeed = 170.0f;
 	FVector CameraRunPos = FVector::Zero;
+
+	ACyberPeacock* CyberBoss = nullptr;
 
 	bool IsFCollision = false;
 	bool IsBCollision = false;
