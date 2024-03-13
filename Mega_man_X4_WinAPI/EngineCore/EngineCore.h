@@ -31,7 +31,6 @@ public :
 
 	virtual void BeginPlay();
 	virtual void Tick(float _DeltaTime);
-	virtual void End();
 
 	template<typename LevelType>
 	void CreateLevel(std::string_view _Name)
