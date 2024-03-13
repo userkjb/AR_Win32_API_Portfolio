@@ -12,6 +12,12 @@ ACyberPeacock::~ACyberPeacock()
 {
 }
 
+ACyberPeacock* ACyberPeacock::MainBoss = nullptr;
+
+ACyberPeacock* ACyberPeacock::GetMainBoss()
+{
+	return MainBoss;
+}
 
 void ACyberPeacock::BeginPlay()
 {
@@ -42,7 +48,7 @@ void ACyberPeacock::BeginPlay()
 
 	PeacockRenderer->ChangeAnimation("Peacock_Intro");
 
-	StateChange(ECyberPeacockState::Intro);
+	StateChange(ECyberPeacockState::None);
 }
 
 void ACyberPeacock::Tick(float _DeltaTime)
@@ -153,52 +159,19 @@ std::string ACyberPeacock::GetAnimationName(std::string _Name)
 	return _Name + DirName;
 }
 
+#pragma region None
+#pragma endregion
+
 void ACyberPeacock::IntroStart()
 {
-	
+	int a = 0;
 }
-
-void ACyberPeacock::IntroEndStart()
-{
-	PeacockRenderer->ChangeAnimation("Fight_Ready_Left_one");
-}
-
-void ACyberPeacock::DisappearStart()
-{
-	//RandValue = rand() % 3; // 0 ~ 2
-	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2);
-	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
-}
-
-void ACyberPeacock::AppearStart()
-{
-	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
-}
-
-void ACyberPeacock::FeatherAttackStart()
-{
-}
-
-void ACyberPeacock::RisingSlashStart()
-{
-}
-
-void ACyberPeacock::TrackingShotStart()
-{
-}
-
-void ACyberPeacock::DeathStart()
-{
-}
-
-
-
 
 void ACyberPeacock::Intro(float _DeltaTime)
 {
 	// 주와아앙 나오고.
 	BossPatternTime += _DeltaTime;
-	
+
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
 		// 대사진행.
@@ -213,13 +186,18 @@ void ACyberPeacock::Intro(float _DeltaTime)
 	}
 }
 
+void ACyberPeacock::IntroEndStart()
+{
+	PeacockRenderer->ChangeAnimation("Fight_Ready_Left_one");
+}
+
 void ACyberPeacock::IntroEnd(float _DeltaTime)
 {
 	// 파칭 한 다음
 	BossPatternTime += _DeltaTime;
 
 	// UI 체력바 올라간 다음.
-	
+
 
 	// 사라짐.
 	if (true == PeacockRenderer->IsCurAnimationEnd())
@@ -231,10 +209,17 @@ void ACyberPeacock::IntroEnd(float _DeltaTime)
 	}
 }
 
+void ACyberPeacock::DisappearStart()
+{
+	//RandValue = rand() % 3; // 0 ~ 2
+	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2);
+	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
+}
+
 void ACyberPeacock::Disappear(float _DeltaTime)
 {
 	BossPatternTime += _DeltaTime;
-	
+
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
 		// 사라졌음.
@@ -295,11 +280,16 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 	}
 }
 
+void ACyberPeacock::AppearStart()
+{
+	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
+}
+
 void ACyberPeacock::Appear(float _DeltaTime)
 {
 	// 나타남. 나타날 때는 피격 판정이 없음.
 	PeacockRenderer->ActiveOn();
-	
+
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
 		if (RandValue == 0)
@@ -315,11 +305,14 @@ void ACyberPeacock::Appear(float _DeltaTime)
 		else if (RandValue == 2)
 		{
 			StateChange(ECyberPeacockState::TrackingShot);
-			return;	
+			return;
 		}
 	}
 }
 
+void ACyberPeacock::FeatherAttackStart()
+{
+}
 
 void ACyberPeacock::FeatherAttack(float _DeltaTime)
 {
@@ -331,6 +324,10 @@ void ACyberPeacock::FeatherAttack(float _DeltaTime)
 	}
 }
 
+void ACyberPeacock::RisingSlashStart()
+{
+}
+
 void ACyberPeacock::RisingSlash(float _DeltaTime)
 {
 	PeacockCollision->ActiveOn();
@@ -339,6 +336,10 @@ void ACyberPeacock::RisingSlash(float _DeltaTime)
 	{
 		int a = 0;
 	}
+}
+
+void ACyberPeacock::TrackingShotStart()
+{
 }
 
 void ACyberPeacock::TrackingShot(float _DeltaTime)
@@ -352,7 +353,9 @@ void ACyberPeacock::TrackingShot(float _DeltaTime)
 	}
 }
 
-
+void ACyberPeacock::DeathStart()
+{
+}
 
 void ACyberPeacock::Death(float _DeltaTime)
 {
