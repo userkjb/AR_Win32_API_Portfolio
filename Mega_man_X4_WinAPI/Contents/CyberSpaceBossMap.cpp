@@ -32,7 +32,7 @@ void ACyberSpaceBossMap::Tick(float _DeltaTime)
 		SwitchDebug();
 	}
 
-	MoveCameraVector(IsBoss);
+	//MoveCameraVector(IsBoss);
 	StateUpdate(_DeltaTime);
 	CollisionCheck(_DeltaTime);
 }

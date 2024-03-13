@@ -142,7 +142,7 @@ void UCyberSpaceBossLevel::StateUpdate(float _DeltaTime)
 
 void UCyberSpaceBossLevel::None(float _DeltaTime)
 {
-	
+	MoveCameraVector();
 }
 #pragma endregion
 
