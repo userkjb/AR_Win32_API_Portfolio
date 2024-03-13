@@ -32,7 +32,6 @@ void ACyberSpaceBossMap::Tick(float _DeltaTime)
 		SwitchDebug();
 	}
 
-	//MoveCameraVector(IsBoss);
 	StateUpdate(_DeltaTime);
 	CollisionCheck(_DeltaTime);
 }
@@ -237,9 +236,6 @@ void ACyberSpaceBossMap::BossSlowMoveStart()
 }
 void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
 {
-	// 카메라 움직임
-	//BossStartCameraVector(_DeltaTime);
-
 	// 캐릭터가 느릐게 움직이면서 들어감.
 	if (true == BossDoor_2->IsCurAnimationEnd())
 	{
@@ -274,9 +270,6 @@ void ACyberSpaceBossMap::BossRoomStart()
 // 보스전 Start
 void ACyberSpaceBossMap::BossRoom(float _DeltaTime)
 {
-	// 카메라 조정.
-	BossCameraVector();
-
 	// 경고 애니메이션 끝나면,
 	// 텍스트 출력.
 	// 텍스트 출력 끝나면, 보스 싸움 준비.
@@ -323,81 +316,3 @@ void ACyberSpaceBossMap::CollisionCheck(float _DeltaTime)
 	}
 }
 
-void ACyberSpaceBossMap::MoveCameraVector(bool _IsBoss)
-{
-	if (_IsBoss == true)
-	{
-		return;
-	}
-	if (Player == nullptr)
-	{
-		return;
-	}
-	FVector CameraPos = GetWorld()->GetCameraPos();
-	FVector PlayerPos = Player->GetActorLocation();
-	FVector ImageScale = this->GetImageScale();
-	FVector WindowScale = GEngine->MainWindow.GetWindowScale();
-
-	CameraPos.X = PlayerPos.X - WindowScale.hX();
-	CameraPos.Y = PlayerPos.Y - 564.0f;
-
-	if (0.0f >= CameraPos.X)
-	{
-		CameraPos.X = 0.0f;
-	}
-	if (CameraPos.X >= ImageScale.X - WindowScale.X)
-	{
-		CameraPos.X = ImageScale.X - WindowScale.X;
-	}
-
-	if (0.0f >= CameraPos.Y)
-	{
-		CameraPos.Y = 0.0f;
-	}
-
-	GetWorld()->SetCameraPos(CameraPos);
-}
-
-void ACyberSpaceBossMap::BossStartCameraVector(float _DeltaTime)
-{
-	FVector CameraPos = GetWorld()->GetCameraPos();
-
-	CameraRunPos = FVector::Right * CameraSpeed * _DeltaTime;
-	if (CameraPos.iX() <= 1838)
-	{
-		GetWorld()->AddCameraPos(CameraRunPos);
-	}
-	else
-	{
-		GetWorld()->AddCameraPos(FVector::Zero);
-	}
-}
-
-void ACyberSpaceBossMap::BossCameraVector()
-{
-	// Boss Room X : 1838 ~ 2042
-	FVector CameraPos = GetWorld()->GetCameraPos();
-	FVector PlayerPos = Player->GetActorLocation();
-	
-	FVector WindowScale = GEngine->MainWindow.GetWindowScale();
-	FVector ImageScale = this->GetImageScale();
-
-	CameraPos.X = PlayerPos.X - WindowScale.hX();
-	CameraPos.Y = PlayerPos.Y - 562;
-
-	if (1838.0f >= CameraPos.X)
-	{
-		CameraPos.X = 1838.0f;
-	}
-	if (2042.0f <= CameraPos.X)
-	{
-		CameraPos.X = 2042.0f;
-	}
-
-	if (0.0f >= CameraPos.Y)
-	{
-		CameraPos.Y = 0.0f;
-	}
-
-	GetWorld()->SetCameraPos(CameraPos);
-}
