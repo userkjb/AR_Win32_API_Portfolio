@@ -37,6 +37,11 @@ public :
 		StateChange(_State);
 	}
 
+	EEgseuState GetPlayerState() const
+	{
+		return State;
+	}
+
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
