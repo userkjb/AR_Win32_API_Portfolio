@@ -776,10 +776,12 @@ void AEgseu::StateUpdate(float _DeltaTime)
 #pragma region Wait
 void AEgseu::WaitStart()
 {
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
 }
 
 void AEgseu::Wait(float _DeltaTime)
 {
+
 }
 #pragma endregion
 
