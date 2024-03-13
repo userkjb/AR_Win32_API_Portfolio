@@ -42,32 +42,33 @@ protected :
 
 	std::string GetAnimationName(std::string _Name);
 
-	// 상태 시작 함수들
+	// 상태 함수들
+	void WaitStart();
+	void Wait(float _DeltaTime);
 	void IntroStart();
-	void IntroEndStart();
-	void DisappearStart();
-	void AppearStart();
-	void FeatherAttackStart();
-	void RisingSlashStart();
-	void TrackingShotStart();
-	void DeathStart();
-
-	// 상태 Tick 함수들
 	void Intro(float _DeltaTime);
+	void IntroEndStart();
 	void IntroEnd(float _DeltaTime);
+	void DisappearStart();
 	/// <summary>
 	/// 사라지다.
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Disappear(float _DeltaTime);
+	void AppearStart();
 	/// <summary>
 	/// 생기다.
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void Appear(float _DeltaTime);
+
+	void FeatherAttackStart();
 	void FeatherAttack(float _DeltaTime);
+	void RisingSlashStart();
 	void RisingSlash(float _DeltaTime);
+	void TrackingShotStart();
 	void TrackingShot(float _DeltaTime);
+	void DeathStart();
 	void Death(float _DeltaTime);
 
 

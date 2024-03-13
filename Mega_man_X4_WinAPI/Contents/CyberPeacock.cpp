@@ -73,6 +73,9 @@ void ACyberPeacock::StateChange(ECyberPeacockState _State)
 	{
 		switch (_State)
 		{
+		case ECyberPeacockState::Wait:
+			WaitStart();
+			break;
 		case ECyberPeacockState::Intro:
 			IntroStart();
 			break;
@@ -109,6 +112,9 @@ void ACyberPeacock::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
+	case ECyberPeacockState::Wait:
+		Wait(_DeltaTime);
+		break;
 	case ECyberPeacockState::Intro :
 		Intro(_DeltaTime);
 		break;
@@ -164,6 +170,16 @@ std::string ACyberPeacock::GetAnimationName(std::string _Name)
 #pragma region None
 #pragma endregion
 
+void ACyberPeacock::WaitStart()
+{
+}
+
+void ACyberPeacock::Wait(float _DeltaTime)
+{
+}
+
+#pragma region None
+#pragma endregion
 void ACyberPeacock::IntroStart()
 {
 	int a = 0;
@@ -188,6 +204,8 @@ void ACyberPeacock::Intro(float _DeltaTime)
 	}
 }
 
+#pragma region None
+#pragma endregion
 void ACyberPeacock::IntroEndStart()
 {
 	PeacockRenderer->ChangeAnimation("Fight_Ready_Left_one");
@@ -211,6 +229,8 @@ void ACyberPeacock::IntroEnd(float _DeltaTime)
 	}
 }
 
+#pragma region None
+#pragma endregion
 void ACyberPeacock::DisappearStart()
 {
 	//RandValue = rand() % 3; // 0 ~ 2
@@ -282,6 +302,8 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 	}
 }
 
+#pragma region None
+#pragma endregion
 void ACyberPeacock::AppearStart()
 {
 	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
@@ -312,6 +334,8 @@ void ACyberPeacock::Appear(float _DeltaTime)
 	}
 }
 
+#pragma region None
+#pragma endregion
 void ACyberPeacock::FeatherAttackStart()
 {
 }
@@ -326,6 +350,8 @@ void ACyberPeacock::FeatherAttack(float _DeltaTime)
 	}
 }
 
+#pragma region None
+#pragma endregion
 void ACyberPeacock::RisingSlashStart()
 {
 }
@@ -340,6 +366,8 @@ void ACyberPeacock::RisingSlash(float _DeltaTime)
 	}
 }
 
+#pragma region None
+#pragma endregion
 void ACyberPeacock::TrackingShotStart()
 {
 }
@@ -355,6 +383,8 @@ void ACyberPeacock::TrackingShot(float _DeltaTime)
 	}
 }
 
+#pragma region None
+#pragma endregion
 void ACyberPeacock::DeathStart()
 {
 }

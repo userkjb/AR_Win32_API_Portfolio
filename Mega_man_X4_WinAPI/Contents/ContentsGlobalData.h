@@ -226,6 +226,7 @@ enum class EFocusState
 enum class ECyberPeacockState
 {
 	None,
+	Wait,
 
 	Intro, // 원에서 나타남.
 	IntroEnd,
