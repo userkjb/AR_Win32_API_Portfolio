@@ -41,6 +41,8 @@ private :
 	void StateUpdate(float _DeltaTime);
 
 	//#pragma region Start Function
+	void WaitStart();
+	void Wait(float _DeltaTime);
 	void SummonStart();
 	void Summon(float _DeltaTime);
 	void Summon_LoopStart();

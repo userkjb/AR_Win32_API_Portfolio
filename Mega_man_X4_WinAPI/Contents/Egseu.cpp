@@ -276,6 +276,9 @@ void AEgseu::StateChange(EEgseuState _State)
 	{
 		switch (_State)
 		{
+		case EEgseuState::Wait:
+			WaitStart();
+			break;
 		case EEgseuState::Summon :
 			SummonStart();
 			break;
@@ -524,6 +527,9 @@ void AEgseu::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
+	case EEgseuState::Wait:
+		Wait(_DeltaTime);
+		break;
 	case EEgseuState::Summon:
 		Summon(_DeltaTime);
 		break;
@@ -767,6 +773,15 @@ void AEgseu::StateUpdate(float _DeltaTime)
 }
 
 // Begin & Tick
+#pragma region Wait
+void AEgseu::WaitStart()
+{
+}
+
+void AEgseu::Wait(float _DeltaTime)
+{
+}
+#pragma endregion
 
 #pragma region Summon
 void AEgseu::SummonStart()

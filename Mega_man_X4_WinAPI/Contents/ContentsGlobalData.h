@@ -64,6 +64,7 @@ enum class EPlayerState
 enum class EEgseuState
 {
 	None,
+	Wait,
 
 	Summon,			// 소환 이동.(레이저로 내려옴.)
 	Summon_Loop,	// 소환 중.(땅에 닿으면 Character로 변화.)
