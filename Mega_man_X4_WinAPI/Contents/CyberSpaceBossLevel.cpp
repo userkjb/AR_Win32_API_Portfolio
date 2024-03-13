@@ -43,11 +43,18 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 	ULevel::LevelStart(_Level);
 
 	// Boss Image
-	UEngineResourcesManager::GetInst().CuttingImage("Peacock_Intro.png", 8, 4);
-	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Right.png", 1, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Left.png", 6, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Peacock_Intro.png", 6, 6);
+	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Right.png", 7, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Left.png", 7, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Right.png", 4, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Left.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("FeatherAttack_Right.png", 5, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("FeatherAttack_Left.png", 5, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("TrackingShot_Right.png", 5, 4);
+	UEngineResourcesManager::GetInst().CuttingImage("TrackingShot_Left.png", 5, 4);
+	UEngineResourcesManager::GetInst().CuttingImage("RisingSlash_Right.png", 3, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("RisingSlash_Left.png", 3, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("missile.png", 16, 2); // 이미지 이상함.
 
 	// Map Door
 	UEngineResourcesManager::GetInst().CuttingImage("mmx4-bossdoor.png", 5, 3);
