@@ -31,9 +31,22 @@ private :
 	void StateChange(EBossLevelState _State);
 	void StateUpdate(float _DeltaTime);
 
-	void NoneStart();
+	//void NoneStart();
 	void None(float _DeltaTime);
+	void Front_DoorStart();
+	void Front_Door(float _DeltaTime);
+	void CheckPointRoomStart();
+	void CheckPointRoom(float _DeltaTime);
+	void Back_DoorStart();
+	void Back_Door(float _DeltaTime);
+	void BossRoomStart();
+	void BossRoom(float _DeltaTime);
 
+
+	// Camera
+	void MoveCameraVector(bool _IsBoss);
+	void CheckPointCameraVector();
+	void BossRoomCameraVector();
 
 	// Level State
 	EBossLevelState LevelState = EBossLevelState::None;
@@ -48,3 +61,7 @@ private :
 	ACyberPeacock* CyberBoss = nullptr;
 };
 
+/*
+#pragma region str
+#pragma endregion
+*/

@@ -1,10 +1,9 @@
 #include "CyberSpaceBossLevel.h"
-#include "CyberSpaceBossMap.h"
-
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
 
+#include "CyberSpaceBossMap.h"
 #include "Egseu.h"
 #include "CyberPeacock.h"
 
@@ -56,11 +55,12 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("TrackingShot_Left.png", 5, 4);
 	UEngineResourcesManager::GetInst().CuttingImage("RisingSlash_Right.png", 3, 3);
 	UEngineResourcesManager::GetInst().CuttingImage("RisingSlash_Left.png", 3, 3);
-	UEngineResourcesManager::GetInst().CuttingImage("missile.png", 16, 2); // 이미지 이상함.
+	UEngineResourcesManager::GetInst().CuttingImage("missile.png", 16, 2); // 이미지 이상함. TODO
 
 	// Map Door
 	UEngineResourcesManager::GetInst().CuttingImage("mmx4-bossdoor.png", 5, 3);
 
+	// Setting
 	// Map
 	CyberBossMap = SpawnActor<ACyberSpaceBossMap>(static_cast<int>(EActorType::Map));
 	CyberBossMap->SetActorLocation({ 0, 0 });
@@ -89,8 +89,21 @@ void UCyberSpaceBossLevel::StateChange(EBossLevelState _State)
 		switch (_State)
 		{
 		case EBossLevelState::None:
-			NoneStart();
+			//NoneStart();
 			break;
+		case EBossLevelState::Front_Door:
+			Front_DoorStart();
+			break;
+		case EBossLevelState::CheckPointRoom:
+			CheckPointRoomStart();
+			break;
+		case EBossLevelState::Back_Door:
+			Back_DoorStart();
+			break;
+		case EBossLevelState::BossRoom:
+			BossRoomStart();
+			break;
+
 		default :
 			break;
 		}
@@ -106,17 +119,65 @@ void UCyberSpaceBossLevel::StateUpdate(float _DeltaTime)
 	case EBossLevelState::None:
 		None(_DeltaTime);
 		break;
+	case EBossLevelState::Front_Door:
+		break;
+	case EBossLevelState::CheckPointRoom:
+		break;
+	case EBossLevelState::Back_Door:
+		break;
+	case EBossLevelState::BossRoom:
+		break;
 	default:
 		break;
 	}
 }
 
 #pragma region None
-void UCyberSpaceBossLevel::NoneStart()
+//void UCyberSpaceBossLevel::NoneStart()
+//{}
+
+void UCyberSpaceBossLevel::None(float _DeltaTime)
+{
+	
+}
+#pragma endregion
+
+#pragma region str
+void UCyberSpaceBossLevel::Front_DoorStart()
 {
 }
 
-void UCyberSpaceBossLevel::None(float _DeltaTime)
+void UCyberSpaceBossLevel::Front_Door(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region str
+void UCyberSpaceBossLevel::CheckPointRoomStart()
+{
+}
+
+void UCyberSpaceBossLevel::CheckPointRoom(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region str
+void UCyberSpaceBossLevel::Back_DoorStart()
+{
+}
+
+void UCyberSpaceBossLevel::Back_Door(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region str
+void UCyberSpaceBossLevel::BossRoomStart()
+{
+}
+
+void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
 {
 }
 #pragma endregion

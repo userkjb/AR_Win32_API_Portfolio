@@ -304,6 +304,10 @@ enum class EBossLevelState
 {
 	None,
 
+	Front_Door,
+	CheckPointRoom,
+	Back_Door,
+	BossRoom,
 };
 
 /// <summary>

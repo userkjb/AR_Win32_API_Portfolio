@@ -25,9 +25,9 @@ public :
 	void SetMapColImage(std::string_view _MapColImageName);
 
 	// Door_1
+	// Door_2
 	void SetDoorImage(std::string_view _DoorImageName);
 
-	// Door_2
 
 	/// <summary>
 	/// Debug Function
