@@ -279,8 +279,9 @@ void ACyberSpaceBossMap::BossRoomStart()
 	Player->StateChange(EEgseuState::Idle); // 플레이어 상태를 Idle로.
 	IsBoss = true; // 기존에 사용하던 MoveCameraVector 동작하지 않음.
 	// 경고 애니메이션 시작.
-	CyberBoss->SetActive(true);
-	CyberBoss->StateChange(ECyberPeacockState::Intro);
+
+	//CyberBoss->SetActive(true);
+	//CyberBoss->StateChange(ECyberPeacockState::Intro);
 }
 
 // 보스전 Start
