@@ -227,7 +227,7 @@ enum class ECyberPeacockState
 {
 	None,
 
-	Intro,
+	Intro, // 원에서 나타남.
 	IntroEnd,
 
 	Disappear,		// 사라짐.
@@ -293,6 +293,15 @@ enum class ESpikeMarlState
 	AttackReady,
 	Attack,
 	Death,
+};
+
+/// <summary>
+/// 보스전 Level에 대한 State.
+/// </summary>
+enum class EBossLevelState
+{
+	None,
+
 };
 
 /// <summary>

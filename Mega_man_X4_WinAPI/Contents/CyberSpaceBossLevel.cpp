@@ -29,13 +29,15 @@ void UCyberSpaceBossLevel::BeginPlay()
 	//{
 	//	UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	//}
+
+	StateChange(EBossLevelState::None);
 }
 
 void UCyberSpaceBossLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
 
-	//MoveCameraVector();
+	StateUpdate(_DeltaTime);
 }
 
 void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
@@ -78,4 +80,31 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 
 void UCyberSpaceBossLevel::LevelEnd(ULevel* _Level)
 {
+}
+
+void UCyberSpaceBossLevel::StateChange(EBossLevelState _State)
+{
+	if (LevelState != _State)
+	{
+		switch (_State)
+		{
+		case EBossLevelState::None:
+			break;
+		default :
+			break;
+		}
+	}
+
+	LevelState = _State;
+}
+
+void UCyberSpaceBossLevel::StateUpdate(float _DeltaTime)
+{
+	switch (LevelState)
+	{
+	case EBossLevelState::None:
+		break;
+	default:
+		break;
+	}
 }

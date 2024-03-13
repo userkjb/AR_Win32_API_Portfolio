@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Level.h>
+#include "ContentsGlobalData.h"
 
 class ACyberSpaceBossMap;
 class AEgseu;
@@ -27,7 +28,10 @@ protected :
 
 private :
 
-	//void MoveCameraVector();
+	void StateChange(EBossLevelState _State);
+	void StateUpdate(float _DeltaTime);
+
+	EBossLevelState LevelState = EBossLevelState::None;
 
 	// Map
 	ACyberSpaceBossMap* CyberBossMap = nullptr;
