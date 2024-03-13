@@ -868,7 +868,7 @@ void AEgseu::Idle(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Idle_Muzzle);
 		StateChange(EEgseuState::IdleAttack_Down);
 		return;
 	}
@@ -881,11 +881,11 @@ void AEgseu::Idle(float _DeltaTime)
 			BusterDelayTime = 0.0f;
 			if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 			{
-				BusterCreate(EBusterState::CreateMiddle);
+				BusterCreate(EBusterState::CreateMiddle, Idle_Muzzle);
 			}
 			else if (2.0f <= BusterChargTime)
 			{
-				BusterCreate(EBusterState::CreatePull);
+				BusterCreate(EBusterState::CreatePull, Idle_Muzzle);
 			}
 			StateChange(EEgseuState::IdleAttack_Up);
 			return;
@@ -937,7 +937,7 @@ void AEgseu::IdleJump(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 		StateChange(EEgseuState::JumpAttack_Down);
 		return;
 	}
@@ -950,11 +950,11 @@ void AEgseu::IdleJump(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Jump_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::JumpAttack_Up);
@@ -994,7 +994,7 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 		StateChange(EEgseuState::JumpAttack_Down_Loop);
 		return;
 	}
@@ -1008,11 +1008,11 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Jump_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::JumpAttack_Up_Loop);
@@ -1050,7 +1050,7 @@ void AEgseu::IdleJump_End(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 		StateChange(EEgseuState::JumpAttack_Down_End);
 		return;
 	}
@@ -1095,7 +1095,7 @@ void AEgseu::JumpAttack_Down(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	// 0.5초가 지났다.
@@ -1140,7 +1140,7 @@ void AEgseu::JumpAttack_Down_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	// 특정 시간동안 이벤트가 없으면 다시 IdleJump_Loop로 이동.
@@ -1184,7 +1184,7 @@ void AEgseu::JumpAttack_Down_End(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
@@ -1226,7 +1226,7 @@ void AEgseu::JumpAttack_Up(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	// 0.5초가 지났다.
@@ -1292,7 +1292,7 @@ void AEgseu::JumpAttack_Up_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	bool WallChecl = CalWallCheck();
@@ -1348,7 +1348,7 @@ void AEgseu::JumpAttack_Up_End(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	if (true == PlayerRender->IsCurAnimationEnd())
@@ -1378,7 +1378,7 @@ void AEgseu::IdleAttack_Down(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Idle_Muzzle);
 	}
 
 	if (true == UEngineInput::IsDown('C'))
@@ -1415,7 +1415,7 @@ void AEgseu::IdleAttack_Down_Loop(float _DeltaTime) // Down 이던 Press 이던 여기
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Idle_Muzzle);
 	}
 
 	// 0.5초가 지났다면,
@@ -1492,7 +1492,7 @@ void AEgseu::IdleAttack_Up_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Idle_Muzzle);
 	}
 }
 
@@ -1686,7 +1686,7 @@ void AEgseu::IdleRun(float _DeltaTime)
 	// Down
 	if (true == UEngineInput::IsDown('X'))
 	{
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Run_Muzzle);
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunAttack_Down);
 		return;
@@ -1701,11 +1701,11 @@ void AEgseu::IdleRun(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Run_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Run_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunAttack_Up);
@@ -1752,7 +1752,7 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterChargTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Run_Muzzle);
 		StateChange(EEgseuState::RunAttack_Down_Loop);
 		return;
 	}
@@ -1766,11 +1766,11 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Run_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Run_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunAttack_Up_Loop);
@@ -1834,7 +1834,7 @@ void AEgseu::RunAttack_Down(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Run_Muzzle);
 	}
 
 	// 딜레이가 끝나면,
@@ -1889,7 +1889,7 @@ void AEgseu::RunAttack_Down_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Run_Muzzle);
 	}
 
 	if (true == UEngineInput::IsDown('C'))
@@ -2086,7 +2086,7 @@ void AEgseu::RunDash(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Run_Muzzle);
 		StateChange(EEgseuState::RunDashAttack_Down);
 		return;
 	}
@@ -2100,11 +2100,11 @@ void AEgseu::RunDash(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Run_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Run_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDashAttack_Up);
@@ -2151,7 +2151,7 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 	{
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDashAttack_Down_Loop);
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Dash_Muzzle);
 		return;
 	}
 
@@ -2164,11 +2164,11 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Dash_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Dash_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDashAttack_Up_Loop);
@@ -2226,7 +2226,7 @@ void AEgseu::RunDash_End(float _DeltaTime)
 	{
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDashAttack_Down_End);
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Dash_Muzzle);
 		return;
 	}
 
@@ -2239,11 +2239,11 @@ void AEgseu::RunDash_End(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Dash_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Dash_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDashAttack_Up_End);
@@ -2291,7 +2291,7 @@ void AEgseu::RunDashAttack_Down(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Dash_Muzzle);
 	}
 	
 	// 점프
@@ -2351,7 +2351,7 @@ void AEgseu::RunDashAttack_Down_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Dash_Muzzle);
 	}
 
 	// 0.5 초가 지났어.
@@ -2493,7 +2493,7 @@ void AEgseu::RunDashAttack_Up(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Dash_Muzzle);
 	}
 
 	// 0.5
@@ -2517,7 +2517,9 @@ void AEgseu::RunDashAttack_Up(float _DeltaTime)
 		}
 	}
 }
+#pragma endregion
 
+#pragma region RunDashAttack Up Loop
 void AEgseu::RunDashAttack_Up_LoopStart()
 {
 	if (BusterDelayTime == 0.0f)
@@ -2551,7 +2553,7 @@ void AEgseu::RunDashAttack_Up_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Dash_Muzzle);
 	}
 
 	// 0.5 초가 지났어.
@@ -2630,6 +2632,8 @@ void AEgseu::RunDashAttack_Up_Loop(float _DeltaTime)
 		}
 	}
 }
+#pragma endregion
+
 
 void AEgseu::RunDashAttack_Up_EndStart()
 {
@@ -2661,7 +2665,6 @@ void AEgseu::RunDashAttack_Up_End(float _DeltaTime)
 		return;
 	}
 }
-
 #pragma endregion
 
 #pragma region RunDashJump
@@ -2688,7 +2691,7 @@ void AEgseu::RunDashJump(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Dash_Muzzle);
 		StateChange(EEgseuState::RunDashJumpAttack_Down);
 		return;
 	}
@@ -2702,11 +2705,11 @@ void AEgseu::RunDashJump(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Dash_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Dash_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDashJumpAttack_Up);
@@ -2759,7 +2762,7 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 		StateChange(EEgseuState::RunDashJumpAttack_Down_Loop);
 		return;
 	}
@@ -2773,11 +2776,11 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Jump_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDashJumpAttack_Up_Loop);
@@ -2804,7 +2807,7 @@ void AEgseu::RunDashJump_End(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDashJumpAttack_Down_End);
 		return;
@@ -2819,11 +2822,11 @@ void AEgseu::RunDashJump_End(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Jump_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunDashJumpAttack_Up_End);
@@ -2871,7 +2874,7 @@ void AEgseu::RunDashJumpAttack_Down(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	// 0.5초가 지났다.
@@ -2931,7 +2934,7 @@ void AEgseu::RunDashJumpAttack_Down_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	// 0.5초가 지났다.
@@ -3041,7 +3044,7 @@ void AEgseu::RunDashJumpAttack_Up(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	// 바닥이네? -> 낮은 바닥...
@@ -3100,7 +3103,7 @@ void AEgseu::RunDashJumpAttack_Up_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	// 0.5초
@@ -3158,7 +3161,7 @@ void AEgseu::RunDashJumpAttack_Up_End(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	// 0.5초
@@ -3225,7 +3228,7 @@ void AEgseu::RunJump(float _DeltaTime)
 	// 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 		StateChange(EEgseuState::RunJumpAttack_Down);
 		return;
 	}
@@ -3239,11 +3242,11 @@ void AEgseu::RunJump(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Jump_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			WallBusterCreate(EBusterState::CreatePull);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJumpAttack_Up);
@@ -3282,7 +3285,7 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 		StateChange(EEgseuState::RunJumpAttack_Down_Loop);
 		return;
 	}
@@ -3296,11 +3299,11 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 		}
 		if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 		{
-			BusterCreate(EBusterState::CreateMiddle);
+			BusterCreate(EBusterState::CreateMiddle, Jump_Muzzle);
 		}
 		else if (2.0f <= BusterChargTime)
 		{
-			BusterCreate(EBusterState::CreatePull);
+			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
 		StateChange(EEgseuState::RunJumpAttack_Up_Loop);
@@ -3388,7 +3391,7 @@ void AEgseu::RunJumpAttack_Down(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	// 0.5초가 지나면(가능성 낮음)
@@ -3438,7 +3441,7 @@ void AEgseu::RunJumpAttack_Down_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
@@ -3499,7 +3502,7 @@ void AEgseu::RunJumpAttack_Down_End(float _DeltaTime) // 공격 모션 착지.
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	if (true == PlayerRender->IsCurAnimationEnd())
@@ -3595,7 +3598,7 @@ void AEgseu::RunJumpAttack_Up_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
 	}
 
 	if (BusterDelayTime >= BusterDelayTimeMax)
@@ -3687,7 +3690,7 @@ void AEgseu::WallCling(float _DeltaTime)
 	// 벽 잡는 중에 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		BusterCreate(EBusterState::CreateDefault);
+		WallBusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::WallClingAttack_Down);
 		return;
 	}
@@ -3754,7 +3757,7 @@ void AEgseu::WallCling_Loop(float _DeltaTime)
 	// 벽을 잡고 있는 중에 공격
 	if (true == UEngineInput::IsDown('X'))
 	{
-		BusterCreate(EBusterState::CreateDefault); //// ------------ DIR TODO
+		WallBusterCreate(EBusterState::CreateDefault); //// ------------ DIR TODO
 		StateChange(EEgseuState::WallClingAttack_Down_Loop);
 		return;
 	}
@@ -3826,7 +3829,7 @@ void AEgseu::WallClingAttack_Down(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault); ////////////////////////// TODO DIR
+		WallBusterCreate(EBusterState::CreateDefault); ////////////////////////// TODO DIR
 	}
 
 	// 벽 잡는 중 중에 점프
@@ -3909,7 +3912,7 @@ void AEgseu::WallClingAttack_Down_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		BusterDelayTime = 0.0f;
-		BusterCreate(EBusterState::CreateDefault);
+		WallBusterCreate(EBusterState::CreateDefault);
 	}
 
 	// 0.5초가 지났다.
@@ -4448,22 +4451,44 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 	}
 }
 
-void AEgseu::BusterCreate(EBusterState _BusterState)
+void AEgseu::WallBusterCreate(EBusterState _BusterState)
 {
 	ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>(static_cast<int>(EActorType::Buster));
 	FVector ShotPos = FVector::Zero;
 	FVector PlayerPos = GetActorLocation();
 
-	ShotPos.Y = PlayerPos.Y - 49.0f;
+	ShotPos.Y = PlayerPos.Y - 95.0f;
+	if (DirState == EActorDir::Right)
+	{
+		A_Buster->SetDirState(EActorDir::Left);
+		ShotPos.X = PlayerPos.X - 35.0f;
+	}
+	else if (DirState == EActorDir::Left)
+	{
+		A_Buster->SetDirState(EActorDir::Right);
+		ShotPos.X = PlayerPos.X + 100.0f;
+	}
+
+	A_Buster->SetActorLocation(ShotPos);
+	A_Buster->SetBusterState(_BusterState);
+}
+
+void AEgseu::BusterCreate(EBusterState _BusterState, FVector _Pos)
+{
+	ABuster* A_Buster = GetWorld()->SpawnActor<ABuster>(static_cast<int>(EActorType::Buster));
+	FVector ShotPos = FVector::Zero;
+	FVector PlayerPos = GetActorLocation();
+
+	ShotPos.Y = PlayerPos.Y - _Pos.Y;
 	if (DirState == EActorDir::Right)
 	{
 		A_Buster->SetDirState(EActorDir::Right);
-		ShotPos.X = PlayerPos.X + 35.0f;
+		ShotPos.X = PlayerPos.X + _Pos.X;
 	}
 	else if (DirState == EActorDir::Left)
 	{
 		A_Buster->SetDirState(EActorDir::Left);
-		ShotPos.X = PlayerPos.X - 35.0f;
+		ShotPos.X = PlayerPos.X - _Pos.X;
 	}
 
 	A_Buster->SetActorLocation(ShotPos);
