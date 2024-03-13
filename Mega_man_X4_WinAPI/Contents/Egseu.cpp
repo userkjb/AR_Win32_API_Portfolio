@@ -38,10 +38,23 @@ void AEgseu::Tick(float _DeltaTime)
 	BusterChargeTime(_DeltaTime);
 	CollisionCheck(_DeltaTime);
 	// Debug
+	// Player State Ãâ·Â
 	if (Debug_Num != static_cast<int>(State))
 	{
 		UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
 		Debug_Num = static_cast<int>(State);
+	}
+	// Debug
+	if (true == UEngineInput::IsDown(VK_F3))
+	{
+		if (true == PlayerCollision->IsActive())
+		{
+			PlayerCollision->ActiveOff();
+		}
+		else
+		{
+			PlayerCollision->ActiveOn();
+		}
 	}
 }
 
@@ -3897,7 +3910,7 @@ void AEgseu::WallClingAttack_Down_Loop(float _DeltaTime)
 		StateChange(EEgseuState::WallKickAttack_Down);
 		return;
 	}
-
+	
 	// ¶¥ Ã¼Å©
 	FVector CheckPos = GetActorLocation();
 	switch (DirState)
