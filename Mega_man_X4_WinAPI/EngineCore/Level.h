@@ -126,6 +126,8 @@ public :
 		TimeScale[_Value] = _Scale;
 	}
 
+	virtual void End() {}
+
 protected :
 
 private :
