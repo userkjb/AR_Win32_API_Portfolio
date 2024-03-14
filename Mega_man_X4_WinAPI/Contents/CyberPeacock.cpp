@@ -249,6 +249,10 @@ void ACyberPeacock::Wait(float _DeltaTime)
 #pragma region Intro
 void ACyberPeacock::IntroStart()
 {
+	if (true == TrackingShotScope->IsActive())
+	{
+		TrackingShotScope->SetActive(false);
+	}
 	PeacockRenderer->ChangeAnimation("Peacock_Intro"); // аж©м╬ф╬с
 }
 

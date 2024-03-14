@@ -287,7 +287,7 @@ void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
 #pragma region BossIntro
 void UCyberSpaceBossLevel::BossIntroStart()
 {
-	CyberBoss->SetActive(true);
+	CyberBoss->SetActive(true); // 스코프 나오는 이슈의 원인
 	CyberBoss->SetStateChange(ECyberPeacockState::Intro);
 }
 
