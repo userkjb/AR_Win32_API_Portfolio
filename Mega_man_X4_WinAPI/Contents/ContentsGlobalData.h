@@ -249,6 +249,8 @@ enum class ECyberPeacockMissileState
 	None,
 	Create,
 
+	Run,
+
 	Run_Up,
 	Run_UpToRight,
 	Run_UpToLeft,

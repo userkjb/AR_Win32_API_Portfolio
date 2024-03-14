@@ -95,6 +95,9 @@ void AFeatherMissile::StateChange(ECyberPeacockMissileState _State)
 		case ECyberPeacockMissileState::Create:
 			CreateStart();			
 			break;
+		case ECyberPeacockMissileState::Run:
+			RunStart();
+			break;
 		case ECyberPeacockMissileState::Run_Up:
 			Run_UpStart();			
 			break;
@@ -151,6 +154,9 @@ void AFeatherMissile::StateUpdate(float _DeltaTime)
 		break;
 	case ECyberPeacockMissileState::Create:
 		Create(_DeltaTime);
+		break;
+	case ECyberPeacockMissileState::Run:
+		Run(_DeltaTime);
 		break;
 	case ECyberPeacockMissileState::Run_Up:
 		Run_Up(_DeltaTime);
@@ -216,85 +222,49 @@ void AFeatherMissile::CreateStart()
 
 void AFeatherMissile::Create(float _DeltaTime)
 {
-	if (MissileStartDir == EActorDir::Left)
-	{
-		StateChange(ECyberPeacockMissileState::Run_Left);
-		return;
-	}
-	else
-	{
-		StateChange(ECyberPeacockMissileState::Run_Right);
-		return;
-	}
+	//if (MissileStartDir == EActorDir::Left)
+	//{
+	//	StateChange(ECyberPeacockMissileState::Run_Left);
+	//	return;
+	//}
+	//else
+	//{
+	//	StateChange(ECyberPeacockMissileState::Run_Right);
+	//	return;
+	//}
+
+	StateChange(ECyberPeacockMissileState::Run);
+	return;
 }
 #pragma endregion
 
-#pragma region Up
-void AFeatherMissile::Run_UpStart()
+void AFeatherMissile::RunStart()
 {
-}
-
-void AFeatherMissile::Run_Up(float _DeltaTime)
-{
-}
-#pragma endregion
-
-#pragma region Up To Right
-void AFeatherMissile::Run_UpToRightStart()
-{
-}
-
-void AFeatherMissile::Run_UpToRight(float _DeltaTime)
-{
-}
-#pragma endregion
-
-#pragma region Up To Left
-void AFeatherMissile::Run_UpToLeftStart()
-{
-}
-
-void AFeatherMissile::Run_UpToLeft(float _DeltaTime)
-{
-}
-#pragma endregion
-
-#pragma region Right
-void AFeatherMissile::Run_RightStart()
-{
+	// 미사일 켜고.
 	if (false == MissileRenderer->IsActive())
 	{
 		MissileRenderer->SetActive(true);
 	}
 	MissileRenderer->ChangeAnimation("Right");
 	MissileVector = FVector::Zero;
+	LifeTime = 0.0f;
+	MissileStartDelay = 0.0f;
 }
 
-void AFeatherMissile::Run_Right(float _DeltaTime)
+void AFeatherMissile::Run(float _DeltaTime)
 {
 	MissileStartDelay += _DeltaTime;
+	LifeTime += _DeltaTime;
 
-	// 0.5초 동안 오른쪽으로만 나가다가,
+	// 0.5초 동안 일정 방향 나가다가,
 	if (MissileStartDelay <= 0.2f)
 	{
+		int Count = Boss->GetMissileCreateCount();
 		MissileVector = FVector::Right * Speed * _DeltaTime;
 		AddActorLocation(MissileVector);
 		return;
 	}
 
-	// 미사일이 플레이어로 향할 때의 방향 계산.
-
-	/*{
-		FVector Pos = Boss->GetActorLocation();
-		Pos.Y -= 50.0f;
-		FVector MissilePos = GetActorLocation();
-
-		FVector Len = Pos - MissilePos;
-		FVector Dir = Pos - MissilePos;
-		Dir.Normalize2D();
-	}*/
-
-	
 	{
 		FVector PlayerPos = Player->GetActorLocation();
 		PlayerPos.Y -= 50.0f;
@@ -409,15 +379,183 @@ void AFeatherMissile::Run_Right(float _DeltaTime)
 		AddActorLocation(MissileVector);
 	}
 
-	//{ // bast
-	//	FVector PlayerPos = Player->GetActorLocation();
-	//	PlayerPos.Y -= 50.0f;
-	//	FVector MissilePos = GetActorLocation();
-	//	FVector PlayerDir = PlayerPos - MissilePos;
-	//	PlayerDir.Normalize2D();
-	//	MissileVector = PlayerDir * Speed * _DeltaTime;
-	//	AddActorLocation(MissileVector);
-	//}
+	// 3초가 지나면,
+	if (LifeTime >= 2.0f)
+	{
+		LifeTime = 0.0f;
+		StateChange(ECyberPeacockMissileState::Death);
+		return;
+	}
+}
+
+#pragma region Up
+void AFeatherMissile::Run_UpStart()
+{
+}
+
+void AFeatherMissile::Run_Up(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region Up To Right
+void AFeatherMissile::Run_UpToRightStart()
+{
+}
+
+void AFeatherMissile::Run_UpToRight(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region Up To Left
+void AFeatherMissile::Run_UpToLeftStart()
+{
+}
+
+void AFeatherMissile::Run_UpToLeft(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region Right
+void AFeatherMissile::Run_RightStart()
+{
+	if (false == MissileRenderer->IsActive())
+	{
+		MissileRenderer->SetActive(true);
+	}
+	MissileRenderer->ChangeAnimation("Right");
+	MissileVector = FVector::Zero;
+}
+
+void AFeatherMissile::Run_Right(float _DeltaTime)
+{
+	MissileStartDelay += _DeltaTime;
+
+	// 0.5초 동안 오른쪽으로만 나가다가,
+	if (MissileStartDelay <= 0.2f)
+	{
+		MissileVector = FVector::Right * Speed * _DeltaTime;
+		AddActorLocation(MissileVector);
+		return;
+	}
+
+	// 미사일이 플레이어로 향할 때의 방향 계산.
+		
+	{
+		FVector PlayerPos = Player->GetActorLocation();
+		PlayerPos.Y -= 50.0f;
+		FVector MissilePos = GetActorLocation();
+
+		FVector PlayerDir = PlayerPos - MissilePos;
+		PlayerDir.Normalize2D();
+
+		if (PlayerDir.X >= 0.0f) // 양
+		{
+			if (PlayerDir.Y >= 0.0f) // 양
+			{
+				// + +
+				if (0.0f <= PlayerDir.X && PlayerDir.X < 0.125f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom");
+				}
+				else if (0.125f <= PlayerDir.X && PlayerDir.X <= 0.375f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom-To-Bottom-Right");
+				}
+				else if (0.375f < PlayerDir.X && PlayerDir.X < 0.625f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom-Right");
+				}
+				else if (0.625f <= PlayerDir.X && PlayerDir.X <= 0.875)
+				{
+					MissileRenderer->ChangeAnimation("Right-To-Bottom-Right");
+				}
+				else if (0.875 < PlayerDir.X && PlayerDir.X <= 1.0f)
+				{
+					MissileRenderer->ChangeAnimation("Right");
+				}
+			}
+			else if (PlayerDir.Y < 0.0f) // 음
+			{
+				// + -
+				if (1.0f <= PlayerDir.X && PlayerDir.X < 0.875f)
+				{
+					MissileRenderer->ChangeAnimation("Right");
+				}
+				else if (0.875f <= PlayerDir.X && PlayerDir.X <= 0.625f)
+				{
+					MissileRenderer->ChangeAnimation("Right-To-Top-Right");
+				}
+				else if (0.625f < PlayerDir.X && PlayerDir.X < 0.375f)
+				{
+					MissileRenderer->ChangeAnimation("Top-Right");
+				}
+				else if (0.375f <= PlayerDir.X && PlayerDir.X <= 0.125f)
+				{
+					MissileRenderer->ChangeAnimation("Top-To-Top-Right");
+				}
+				else if (0.125f < PlayerDir.X && PlayerDir.X <= 0.0f)
+				{
+					MissileRenderer->ChangeAnimation("Top");
+				}
+			}
+		}
+		else if (PlayerDir.X < 0.0f) // 음
+		{
+			if (PlayerDir.Y >= 0.0f) // 양
+			{
+				// - +
+				if (-1.0f <= PlayerDir.X && PlayerDir.X < -0.875f)
+				{
+					MissileRenderer->ChangeAnimation("Left");
+				}
+				else if (-0.875f <= PlayerDir.X && PlayerDir.X <= -0.625f)
+				{
+					MissileRenderer->ChangeAnimation("Left-To-Bottom-Left");
+				}
+				else if (-0.625f < PlayerDir.X && PlayerDir.X < -0.375f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom-Left");
+				}
+				else if (-0.375f <= PlayerDir.X && PlayerDir.X <= -0.125f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom-To-Bottom-Left");
+				}
+				else if (-0.125f < PlayerDir.X && PlayerDir.X <= 0.0f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom");
+				}
+			}
+			else if (PlayerDir.Y < 0.0f) // 음
+			{
+				// - -
+				if (-1.0f <= PlayerDir.X && PlayerDir.X < -0.875f)
+				{
+					MissileRenderer->ChangeAnimation("Left");
+				}
+				else if (-0.875f <= PlayerDir.X && PlayerDir.X <= -0.625f)
+				{
+					MissileRenderer->ChangeAnimation("Left-To-Top-Left");
+				}
+				else if (-0.625f < PlayerDir.X && PlayerDir.X < -0.375f)
+				{
+					MissileRenderer->ChangeAnimation("Top-Left");
+				}
+				else if (-0.375f <= PlayerDir.X && PlayerDir.X <= -0.125f)
+				{
+					MissileRenderer->ChangeAnimation("Top-To-Top-Left");
+				}
+				else if (0.125f < PlayerDir.X && PlayerDir.X <= 0.0f)
+				{
+					MissileRenderer->ChangeAnimation("Top");
+				}
+			}
+		}
+		MissileVector = PlayerDir * Speed * _DeltaTime;
+		AddActorLocation(MissileVector);
+	}
 }
 #pragma endregion
 
@@ -507,16 +645,19 @@ void AFeatherMissile::Run_DownToLeft(float _DeltaTime)
 #pragma endregion
 void AFeatherMissile::DeathStart()
 {
+	this->Destroy(0.0f);
 }
 
 void AFeatherMissile::Death(float _DeltaTime)
 {
+
 }
 
 
 
 #pragma region CollisionCheck
-#pragma endregion
 void AFeatherMissile::CollisionCheck()
 {
+
 }
+#pragma endregion

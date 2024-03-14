@@ -23,10 +23,10 @@ public :
 	/// 발싸 방향 설정.
 	/// </summary>
 	/// <param name="_Dir">오른쪽? 왼쪽?</param>
-	void SetMissileStartDir(EActorDir _Dir)
-	{
-		MissileStartDir = _Dir;
-	}
+	//void SetMissileStartDir(EActorDir _Dir)
+	//{
+	//	MissileStartDir = _Dir;
+	//}
 
 	void SetMissileState(ECyberPeacockMissileState _State)
 	{
@@ -45,6 +45,8 @@ private :
 	void None(float _DeltaTime);
 	void CreateStart();
 	void Create(float _DeltaTime);
+	void RunStart();
+	void Run(float _DeltaTime);
 	void Run_UpStart();
 	void Run_Up(float _DeltaTime);
 	void Run_UpToRightStart();
@@ -78,7 +80,7 @@ private :
 	UCollision* MissileCollision = nullptr;
 
 	ECyberPeacockMissileState MissileState = ECyberPeacockMissileState::None;
-	EActorDir MissileStartDir = EActorDir::Left;
+	//EActorDir MissileStartDir = EActorDir::Left;
 
 	float LifeTime = 0.0f;
 	FVector MissileVector = FVector::Zero;
