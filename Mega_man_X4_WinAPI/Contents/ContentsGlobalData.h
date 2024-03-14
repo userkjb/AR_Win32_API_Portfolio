@@ -308,10 +308,10 @@ enum class EBossLevelState
 	CheckPointRoom,
 	Back_Door,
 	BossRoom, // Warning
-	BossIntro,
-	BossText,
-	BossReady,
-	BossBattle,
+	BossIntro, // 보스 나타남.
+	BossText, // 텍스트 출력
+	BossReady, // 보스 싸움 준비.(UI)
+	BossBattle, // 보스전.
 	BossEnd, // 보스 터짐.
 	PlayerReverseSummon,
 }; // EBossLevelState

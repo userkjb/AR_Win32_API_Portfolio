@@ -217,14 +217,7 @@ void ACyberSpaceBossMap::CheckPointRoomStart()
 
 void ACyberSpaceBossMap::CheckPointRoom(float _DeltaTime)
 {
-	// 딱히 할 것 없음.
-
-	// Test
-	//if (true == UEngineInput::IsDown('Y'))
-	//{
-	//	StateChange(ECyberBossMapState::SlowMove);
-	//	return;
-	//}
+	
 }
 
 // 뒷 문 충돌.
@@ -260,22 +253,11 @@ void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
 void ACyberSpaceBossMap::BossRoomStart()
 {
 	BossDoor_2->ChangeAnimation("Close"); // 문 닫힘 애니메이션.
-	Player->StateChange(EEgseuState::Idle); // 플레이어 상태를 Idle로
-	// 경고 애니메이션 시작.
-
-	//CyberBoss->SetActive(true);
-	//CyberBoss->StateChange(ECyberPeacockState::Intro);
 }
 
 // 보스전 Start
 void ACyberSpaceBossMap::BossRoom(float _DeltaTime)
 {
-	// 경고 애니메이션 끝나면,
-	// 텍스트 출력.
-	// 텍스트 출력 끝나면, 보스 싸움 준비.
-	// 준비 애니메이션 끝나면 보스 UI 출력.
-	// 보스 UI 출력이 완료되면 보스전 시작.
-
 	int a = 0;
 }
 
