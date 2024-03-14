@@ -37,6 +37,10 @@ void UCyberSpaceBossLevel::Tick(float _DeltaTime)
 	ULevel::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
+	if (true == b_BossBattle)
+	{
+		BossRoomCameraVector();
+	}
 }
 
 void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
@@ -75,6 +79,7 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 	// Boss
 	CyberBoss = SpawnActor<ACyberPeacock>(static_cast<int>(EActorType::Boss));
 	CyberBoss->SetActorLocation({ 2400, 330 });
+	CyberBoss->SetStateChange(ECyberPeacockState::None);
 	CyberBoss->SetActive(false);
 }
 
@@ -103,7 +108,24 @@ void UCyberSpaceBossLevel::StateChange(EBossLevelState _State)
 		case EBossLevelState::BossRoom:
 			BossRoomStart();
 			break;
-
+		case EBossLevelState::BossIntro:
+			BossIntroStart();
+			break;
+		case EBossLevelState::BossText:
+			BossTextStart();
+			break;
+		case EBossLevelState::BossReady:
+			BossReadyStart();
+			break;
+		case EBossLevelState::BossBattle:
+			BossBattleStart();
+			break;
+		case EBossLevelState::BossEnd:
+			BossEndStart();
+			break;
+		case EBossLevelState::PlayerReverseSummon:
+			PlayerReverseSummonStart();
+			break;
 		default :
 			break;
 		}
@@ -130,6 +152,24 @@ void UCyberSpaceBossLevel::StateUpdate(float _DeltaTime)
 		break;
 	case EBossLevelState::BossRoom:
 		BossRoom(_DeltaTime);
+		break;
+	case EBossLevelState::BossIntro:
+		BossIntro(_DeltaTime);
+		break;
+	case EBossLevelState::BossText:
+		BossText(_DeltaTime);
+		break;
+	case EBossLevelState::BossReady:
+		BossReady(_DeltaTime);
+		break;
+	case EBossLevelState::BossBattle:
+		BossBattle(_DeltaTime);
+		break;
+	case EBossLevelState::BossEnd:
+		BossEnd(_DeltaTime);
+		break;
+	case EBossLevelState::PlayerReverseSummon:
+		PlayerReverseSummon(_DeltaTime);
 		break;
 	default:
 		break;
@@ -178,7 +218,7 @@ void UCyberSpaceBossLevel::Front_Door(float _DeltaTime)
 void UCyberSpaceBossLevel::CheckPointRoomStart()
 {
 	PlayerRunVector = FVector::Zero;
-	Player->SetStateChange(EEgseuState::Idle);
+	Player->SetStateChange(EEgseuState::Wait);
 }
 
 void UCyberSpaceBossLevel::CheckPointRoom(float _DeltaTime)
@@ -216,21 +256,93 @@ void UCyberSpaceBossLevel::Back_Door(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region str
+#pragma region BossRoom
 void UCyberSpaceBossLevel::BossRoomStart()
+{
+	b_BossBattle = true; // 보스전 카메라 적용.
+	// 워닝.
+	
+}
+
+void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
+{
+	WarningTime += _DeltaTime;
+	if (WarningTime >= 2.0f)
+	{
+		StateChange(EBossLevelState::BossIntro);
+		return;
+	}
+}
+#pragma endregion
+
+#pragma region BossIntro
+void UCyberSpaceBossLevel::BossIntroStart()
 {
 	CyberBoss->SetActive(true);
 	CyberBoss->SetStateChange(ECyberPeacockState::Intro);
 }
 
-void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
+void UCyberSpaceBossLevel::BossIntro(float _DeltaTime)
 {
-	BossRoomCameraVector();
+
 }
 #pragma endregion
 
+#pragma region BossText
+void UCyberSpaceBossLevel::BossTextStart()
+{
+}
+
+void UCyberSpaceBossLevel::BossText(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region BossReady
+void UCyberSpaceBossLevel::BossReadyStart()
+{
+	
+}
+
+void UCyberSpaceBossLevel::BossReady(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region BossBattle
+void UCyberSpaceBossLevel::BossBattleStart()
+{
+	Player->SetStateChange(EEgseuState::Idle);
+}
+
+void UCyberSpaceBossLevel::BossBattle(float _DeltaTime)
+{
+}
+#pragma endregion
+
+#pragma region str
+#pragma endregion
+void UCyberSpaceBossLevel::BossEndStart()
+{
+}
+
+void UCyberSpaceBossLevel::BossEnd(float _DeltaTime)
+{
+}
+
+#pragma region str
+#pragma endregion
+void UCyberSpaceBossLevel::PlayerReverseSummonStart()
+{
+}
+
+void UCyberSpaceBossLevel::PlayerReverseSummon(float _DeltaTime)
+{
+}
 
 
+
+#pragma region Camera
 void UCyberSpaceBossLevel::MoveCameraVector()
 {
 	FVector CameraPos = GetCameraPos();
@@ -315,3 +427,4 @@ void UCyberSpaceBossLevel::BossRoomCameraVector()
 
 	SetCameraPos(CameraPos);
 }
+#pragma endregion

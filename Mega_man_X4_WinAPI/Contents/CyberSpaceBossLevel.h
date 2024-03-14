@@ -41,7 +41,18 @@ private :
 	void Back_Door(float _DeltaTime);
 	void BossRoomStart();
 	void BossRoom(float _DeltaTime);
-
+	void BossIntroStart();
+	void BossIntro(float _DeltaTime);
+	void BossTextStart();
+	void BossText(float _DeltaTime);
+	void BossReadyStart();
+	void BossReady(float _DeltaTime);
+	void BossBattleStart();
+	void BossBattle(float _DeltaTime);
+	void BossEndStart();
+	void BossEnd(float _DeltaTime);
+	void PlayerReverseSummonStart();
+	void PlayerReverseSummon(float _DeltaTime);
 
 	// Camera
 	void MoveCameraVector(); // 일반적인 카메라.
@@ -66,6 +77,9 @@ private :
 	const float BackDoorCameraSpeed = 270.0f;
 	FVector PlayerRunVector = FVector::Zero;
 	const float PlayerRunSpeed = 100.0f;
+
+	bool b_BossBattle = false;
+	float WarningTime = 0.0f; // test
 };
 
 /*
