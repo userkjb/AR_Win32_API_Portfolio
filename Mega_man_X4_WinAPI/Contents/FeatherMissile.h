@@ -18,6 +18,15 @@ public :
 	AFeatherMissile& operator=(const AFeatherMissile& _Other) = delete;
 	AFeatherMissile& operator=(AFeatherMissile&& _Other) noexcept = delete;
 
+	/// <summary>
+	/// 발싸 방향 설정.
+	/// </summary>
+	/// <param name="_Dir">오른쪽? 왼쪽?</param>
+	void SetMissileStartDir(EActorDir _Dir)
+	{
+		MissileStartDir = _Dir;
+	}
+
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -62,7 +71,8 @@ private :
 	UImageRenderer* MissileRenderer = nullptr;
 	UCollision* MissileCollision = nullptr;
 
-	ECyberPeacockMissileState MillileState = ECyberPeacockMissileState::None;
+	ECyberPeacockMissileState MissileState = ECyberPeacockMissileState::None;
+	EActorDir MissileStartDir = EActorDir::Left;
 
 	float LifeTime = 0.0f;
 	FVector MissileVector = FVector::Zero;

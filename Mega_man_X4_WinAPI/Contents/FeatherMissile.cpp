@@ -60,7 +60,7 @@ void AFeatherMissile::Tick(float _DeltaTime)
 
 void AFeatherMissile::StateChange(ECyberPeacockMissileState _State)
 {
-	if (MillileState != _State)
+	if (MissileState != _State)
 	{
 		switch (_State)
 		{
@@ -114,12 +114,12 @@ void AFeatherMissile::StateChange(ECyberPeacockMissileState _State)
 		}
 	}
 
-	MillileState = _State;
+	MissileState = _State;
 }
 
 void AFeatherMissile::StateUpdate(float _DeltaTime)
 {
-	switch (MillileState)
+	switch (MissileState)
 	{
 	case ECyberPeacockMissileState::None:
 		None(_DeltaTime);
