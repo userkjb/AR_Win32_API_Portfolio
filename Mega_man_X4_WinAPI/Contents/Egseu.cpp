@@ -777,6 +777,10 @@ void AEgseu::StateUpdate(float _DeltaTime)
 void AEgseu::WaitStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
+	if (DashTime != 0.0f)
+	{
+		DashTime = 0.0f;
+	}
 }
 
 void AEgseu::Wait(float _DeltaTime)
@@ -864,7 +868,10 @@ void AEgseu::Idle(float _DeltaTime)
 	{
 		DashVector = FVector::Zero;
 	}
-
+	if (DashTime != 0.0f)
+	{
+		DashTime = 0.0f;
+	}
 
 	// 가만히 있는데 뱡향 키가 눌렸을 때.
 	if (true == UEngineInput::IsPress(VK_LEFT) ||
