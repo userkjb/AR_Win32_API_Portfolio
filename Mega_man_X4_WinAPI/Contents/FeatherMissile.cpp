@@ -43,10 +43,13 @@ void AFeatherMissile::BeginPlay()
 	MissileRenderer->CreateAnimation("Bottom", "missile.png",				  { 12, 28 }, 0.5f, true);
 	MissileRenderer->CreateAnimation("Left", "missile.png",					  { 0, 16 }, 0.5f, true);
 	MissileRenderer->CreateAnimation("Right", "missile.png",				  { 8, 24 }, 0.5f, true);
+
 	MissileRenderer->CreateAnimation("Top-Left", "missile.png",				  { 2, 18 }, 0.5f, true);
 	MissileRenderer->CreateAnimation("Top-Right", "missile.png",			  { 6, 22 }, 0.5f, true);
+
 	MissileRenderer->CreateAnimation("Bottom-Left", "missile.png",			  { 10, 26 }, 0.5f, true);
 	MissileRenderer->CreateAnimation("Bottom-Right", "missile.png",			  { 14, 30 }, 0.5f, true);
+
 	MissileRenderer->CreateAnimation("Top-To-Top-Right", "missile.png",		  { 5, 21 }, 0.5f, true);
 	MissileRenderer->CreateAnimation("Top-To-Top-Left", "missile.png",		  { 3, 19 }, 0.5f, true);
 	MissileRenderer->CreateAnimation("Left-To-Top-Left", "missile.png",		  { 1, 17 }, 0.5f, true);
@@ -305,15 +308,50 @@ void AFeatherMissile::Run_Right(float _DeltaTime)
 			if (PlayerDir.Y >= 0.0f) // 양
 			{
 				// + +
-				if (0.0f <= PlayerDir.X && PlayerDir.X < 0.127f)
+				if (0.0f <= PlayerDir.X && PlayerDir.X < 0.125f)
 				{
-					// Bottom
+					MissileRenderer->ChangeAnimation("Bottom");
 				}
-				//else if(0.127f <= PlayerDir.X && PlayerDir.X < 0.f)
+				else if (0.125f <= PlayerDir.X && PlayerDir.X <= 0.375f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom-To-Bottom-Right");
+				}
+				else if (0.375f < PlayerDir.X && PlayerDir.X < 0.625f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom-Right");
+				}
+				else if (0.625f <= PlayerDir.X && PlayerDir.X <= 0.875)
+				{
+					MissileRenderer->ChangeAnimation("Right-To-Bottom-Right");
+				}
+				else if (0.875 < PlayerDir.X && PlayerDir.X <= 1.0f)
+				{
+					MissileRenderer->ChangeAnimation("Right");
+				}
 			}
 			else if (PlayerDir.Y < 0.0f) // 음
 			{
 				// + -
+				if (1.0f <= PlayerDir.X && PlayerDir.X < 0.875f)
+				{
+					MissileRenderer->ChangeAnimation("Right");
+				}
+				else if (0.875f <= PlayerDir.X && PlayerDir.X <= 0.625f)
+				{
+					MissileRenderer->ChangeAnimation("Right-To-Top-Right");
+				}
+				else if (0.625f < PlayerDir.X && PlayerDir.X < 0.375f)
+				{
+					MissileRenderer->ChangeAnimation("Top-Right");
+				}
+				else if (0.375f <= PlayerDir.X && PlayerDir.X <= 0.125f)
+				{
+					MissileRenderer->ChangeAnimation("Top-To-Top-Right");
+				}
+				else if (0.125f < PlayerDir.X && PlayerDir.X <= 0.0f)
+				{
+					MissileRenderer->ChangeAnimation("Top");
+				}
 			}
 		}
 		else if (PlayerDir.X < 0.0f) // 음
@@ -321,34 +359,65 @@ void AFeatherMissile::Run_Right(float _DeltaTime)
 			if (PlayerDir.Y >= 0.0f) // 양
 			{
 				// - +
+				if (-1.0f <= PlayerDir.X && PlayerDir.X < -0.875f)
+				{
+					MissileRenderer->ChangeAnimation("Left");
+				}
+				else if (-0.875f <= PlayerDir.X && PlayerDir.X <= -0.625f)
+				{
+					MissileRenderer->ChangeAnimation("Left-To-Bottom-Left");
+				}
+				else if (-0.625f < PlayerDir.X && PlayerDir.X < -0.375f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom-Left");
+				}
+				else if (-0.375f <= PlayerDir.X && PlayerDir.X <= -0.125f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom-To-Bottom-Left");
+				}
+				else if (-0.125f < PlayerDir.X && PlayerDir.X <= 0.0f)
+				{
+					MissileRenderer->ChangeAnimation("Bottom");
+				}
 			}
 			else if (PlayerDir.Y < 0.0f) // 음
 			{
 				// - -
+				if (-1.0f <= PlayerDir.X && PlayerDir.X < -0.875f)
+				{
+					MissileRenderer->ChangeAnimation("Left");
+				}
+				else if (-0.875f <= PlayerDir.X && PlayerDir.X <= -0.625f)
+				{
+					MissileRenderer->ChangeAnimation("Left-To-Top-Left");
+				}
+				else if (-0.625f < PlayerDir.X && PlayerDir.X < -0.375f)
+				{
+					MissileRenderer->ChangeAnimation("Top-Left");
+				}
+				else if (-0.375f <= PlayerDir.X && PlayerDir.X <= -0.125f)
+				{
+					MissileRenderer->ChangeAnimation("Top-To-Top-Left");
+				}
+				else if (0.125f < PlayerDir.X && PlayerDir.X <= 0.0f)
+				{
+					MissileRenderer->ChangeAnimation("Top");
+				}
 			}
 		}
-
-
-
-
-
-
-
 		MissileVector = PlayerDir * Speed * _DeltaTime;
 		AddActorLocation(MissileVector);
 	}
 
-	{ // bast
-		FVector PlayerPos = Player->GetActorLocation();
-		PlayerPos.Y -= 50.0f;
-		FVector MissilePos = GetActorLocation();
-
-		FVector PlayerDir = PlayerPos - MissilePos;
-		PlayerDir.Normalize2D();
-
-		MissileVector = PlayerDir * Speed * _DeltaTime;
-		AddActorLocation(MissileVector);
-	}
+	//{ // bast
+	//	FVector PlayerPos = Player->GetActorLocation();
+	//	PlayerPos.Y -= 50.0f;
+	//	FVector MissilePos = GetActorLocation();
+	//	FVector PlayerDir = PlayerPos - MissilePos;
+	//	PlayerDir.Normalize2D();
+	//	MissileVector = PlayerDir * Speed * _DeltaTime;
+	//	AddActorLocation(MissileVector);
+	//}
 }
 #pragma endregion
 
