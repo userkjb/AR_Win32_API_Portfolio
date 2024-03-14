@@ -55,6 +55,15 @@ public :
 	}
 
 	/// <summary>
+	/// 타이틀 명 변경 함수.
+	/// </summary>
+	/// <param name="_Text"></param>
+	void SetWindowTitle(std::string_view _Text)
+	{
+		SetWindowTextA(hWnd, _Text.data());
+	}
+
+	/// <summary>
 	/// X4 에서 사용 안함. 좌표 확인용으로 사용.
 	/// </summary>
 	/// <returns></returns>
