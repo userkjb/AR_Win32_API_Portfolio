@@ -230,7 +230,7 @@ enum class ECyberPeacockState
 	Wait,
 
 	Intro, // 원에서 나타남.
-	IntroEnd,
+	IntroEnd, // 파칭~!
 
 	Disappear,		// 사라짐.
 	Appear,			// 나타남.
@@ -307,8 +307,14 @@ enum class EBossLevelState
 	Front_Door,
 	CheckPointRoom,
 	Back_Door,
-	BossRoom,
-};
+	BossRoom, // Warning
+	BossIntro,
+	BossText,
+	BossReady,
+	BossBattle,
+	BossEnd, // 보스 터짐.
+	PlayerReverseSummon,
+}; // EBossLevelState
 
 /// <summary>
 /// Actor의 방향.
