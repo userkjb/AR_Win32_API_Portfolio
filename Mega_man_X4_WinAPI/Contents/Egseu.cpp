@@ -39,11 +39,11 @@ void AEgseu::Tick(float _DeltaTime)
 	CollisionCheck(_DeltaTime);
 	// Debug
 	// Player State Ãâ·Â
-	if (Debug_Num != static_cast<int>(State))
-	{
-		UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
-		Debug_Num = static_cast<int>(State);
-	}
+	//if (Debug_Num != static_cast<int>(State))
+	//{
+	//	UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
+	//	Debug_Num = static_cast<int>(State);
+	//}
 	// Debug
 	if (true == UEngineInput::IsDown(VK_F3))
 	{

@@ -40,6 +40,11 @@ public :
 		return b_BattleReady;
 	}
 
+	inline int GetMissileCreateCount() const
+	{
+		return MissileCreateCount;
+	}
+
 
 	/// <summary>
 	/// Level에서 접근.
@@ -62,9 +67,8 @@ public :
 
 protected :
 	void BeginPlay() override;
+	void Renderer();
 	void Tick(float _DeltaTime) override;
-
-	void DirCheck();
 
 	void StateChange(ECyberPeacockState _State);
 
@@ -108,7 +112,7 @@ private :
 
 	void CollisionCheck();
 
-	void CreateMissile();
+	void CreateMissile(int _Count);
 	////////////////////////////////////////////
 
 	bool b_Intro = false; // 인트로 애니메이션 여부.
@@ -121,6 +125,7 @@ private :
 	float BossPatternTime = 0.0f;
 	int Hp = 48;
 	int HitCount = 0;
+	int MissileCreateCount = 0; // ~7
 
 	int BodyDamage = 5;
 	int FeatherAttackDamage = 9;
@@ -130,12 +135,27 @@ private :
 	FVector RisingSlashVector = FVector::Zero;
 	const float RisingSlashSpeed = 500.0f;
 	float RisingSlashTargetPos = 0.0f;
-	FVector MissileStartPos = FVector::Zero;
+	//FVector MissileStartPos = FVector::Zero;
 
 	UImageRenderer* PeacockRenderer = nullptr; // 보스
 	UCollision* PeacockCollision = nullptr; // 보스 몸통 Collision
 	UImageRenderer* TrackingShotScope = nullptr; // 스코프
 	UCollision* FeatherAttackCollision = nullptr; // 보스 스킬 Collision
+	
+
+	UImageRenderer* TestImage = nullptr;
+	FVector BossImageCenterPos = { 6.0f, -117.0f };
+	bool b_test = false;
+	void TestFunction(bool _test);
+	std::vector<FVector> MissileCount;
+	//FVector Count_0 = { 70, 0 };
+	//FVector Count_1 = { 71, -42  };
+	//FVector Count_2 = { 52, -71  };
+	//FVector Count_3 = { 22, -86  };
+	//FVector Count_4 = { -32, -86 };
+	//FVector Count_5 = { -69, -75 };
+	//FVector Count_6 = { -89, -40 };
+	//FVector Count_7 = { -94, 2  };
 
 	EActorDir CyberPeacockDir = EActorDir::Left;
 	EActorDir TrackingShotDir = EActorDir::Left; // TrackingShot 상태일 때 방향

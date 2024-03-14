@@ -25,6 +25,21 @@ void ACyberPeacock::BeginPlay()
 	AActor::BeginPlay();
 	MainBoss = this;
 
+	MissileCount.reserve(8);
+	MissileCount.push_back({ 70, 0 });
+	MissileCount.push_back({ 71, -42 });
+	MissileCount.push_back({ 52, -71 });
+	MissileCount.push_back({ 22, -86 });
+	MissileCount.push_back({ -32, -86 });
+	MissileCount.push_back({ -69, -75 });
+	MissileCount.push_back({ -89, -40 });
+	MissileCount.push_back({ -94, 2 });
+		
+	Renderer();
+}
+
+void ACyberPeacock::Renderer()
+{
 	PeacockRenderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Boss));
 	PeacockRenderer->SetImage("Fight_Ready_Right.png");
 	PeacockRenderer->AutoImageScale(2.5f);
@@ -44,6 +59,11 @@ void ACyberPeacock::BeginPlay()
 	FVector CollisionPos = PeacockRenderer->GetPosition();
 	PeacockCollision->SetPosition({ 0.0f, -100.0f });
 
+	// test
+	TestImage = CreateImageRenderer(static_cast<int>(ERenderOrder::BossObject));
+	TestImage->SetImage("Scope.png");
+	TestImage->AutoImageScale();
+	///---
 
 	// Animation
 	// Intro
@@ -73,7 +93,7 @@ void ACyberPeacock::BeginPlay()
 
 	PeacockRenderer->ChangeAnimation("Peacock_Intro");
 	TrackingShotScope->ChangeAnimation("Scope");
-	
+
 	//TrackingShotScope->SetActive(false);
 
 	StateChange(ECyberPeacockState::None);
@@ -90,13 +110,24 @@ void ACyberPeacock::Tick(float _DeltaTime)
 	// test
 	if (true == UEngineInput::IsDown('K'))
 	{
-		CreateMissile();
+		CreateMissile(0);
 	}
-}
-
-void ACyberPeacock::DirCheck()
-{
-	
+	if (true == UEngineInput::IsDown('M'))
+	{
+		if (false == b_test)
+		{
+			b_test = true;
+		}
+	}
+	TestFunction(b_test);
+	if (true == UEngineInput::IsDown('N'))
+	{
+		if (false == TestImage->IsActive())
+		{
+			TestImage->SetPosition(BossImageCenterPos);
+			TestImage->SetActive(true);
+		}
+	}
 }
 
 void ACyberPeacock::StateChange(ECyberPeacockState _State)
@@ -270,6 +301,12 @@ void ACyberPeacock::IntroStart()
 	{
 		TrackingShotScope->SetActive(false);
 	}
+	// test
+	if (true == TestImage->IsActive())
+	{
+		TestImage->SetActive(false);
+	}
+
 	PeacockRenderer->ChangeAnimation("Peacock_Intro"); // 주와아앙
 }
 
@@ -589,10 +626,10 @@ void ACyberPeacock::TrackingShot_Loop(float _DeltaTime)
 	FVector ScopGlobalPos = ScopLocalPos + GetActorLocation();
 	ScopGlobalPos.Y += 60.0f;
 	
-	if (MissileStartPos.X == 0.0f && MissileStartPos.Y == 0.0f)
-	{
-		MissileStartPos = ScopGlobalPos;
-	}
+	//if (MissileStartPos.X == 0.0f && MissileStartPos.Y == 0.0f)
+	//{
+	//	MissileStartPos = ScopGlobalPos;
+	//}
 
 	FVector PlayerDir = PlayerPos - ScopGlobalPos;
 	PlayerDir.Normalize2D();
@@ -633,24 +670,66 @@ void ACyberPeacock::CollisionCheck()
 	}
 }
 
-void ACyberPeacock::CreateMissile()
+void ACyberPeacock::CreateMissile(int _Count)
 {
 	AFeatherMissile* Missile = GetWorld()->SpawnActor<AFeatherMissile>(static_cast<int>(EActorType::BossObject));
 	
-	if (TrackingShotDir == EActorDir::Left)
+
+
+	Missile->SetMissileState(ECyberPeacockMissileState::Create); // 미사일 상태 설정.
+
+	FVector BossCenter = BossImageCenterPos + GetActorLocation();
+	FVector MissileCreatePos = BossCenter + MissileCount.at(_Count);
+	Missile->SetActorLocation(MissileCreatePos); // 생성 위치 설정.
+	
+
+
+	// Bast
+	//if (TrackingShotDir == EActorDir::Left)
+	//{
+	//	Missile->SetMissileState(ECyberPeacockMissileState::Create);
+	//	Missile->SetMissileStartDir(EActorDir::Right);
+	//	FVector Pos = MissileStartPos; // 미사일 생성 위치.
+	//	Pos.Y -= 60.0f;
+	//	Missile->SetActorLocation(Pos);
+	//}
+	//else if (TrackingShotDir == EActorDir::Right)
+	//{
+	//	Missile->SetMissileState(ECyberPeacockMissileState::Create);
+	//	Missile->SetMissileStartDir(EActorDir::Left);
+	//	FVector Pos = MissileStartPos;
+	//	Pos.Y -= 60.0f;
+	//	Missile->SetActorLocation(Pos);
+	//}
+}
+
+void ACyberPeacock::TestFunction(bool _test)
+{
+	if (_test == false)
 	{
-		Missile->SetMissileState(ECyberPeacockMissileState::Create);
-		Missile->SetMissileStartDir(EActorDir::Right);
-		FVector Pos = MissileStartPos;
-		Pos.Y -= 60.0f;
-		Missile->SetActorLocation(Pos);
+		return;
 	}
-	else if (TrackingShotDir == EActorDir::Right)
+
+	if (true == UEngineInput::IsDown(VK_RIGHT))
 	{
-		Missile->SetMissileState(ECyberPeacockMissileState::Create);
-		Missile->SetMissileStartDir(EActorDir::Left);
-		FVector Pos = MissileStartPos;
-		Pos.Y -= 60.0f;
-		Missile->SetActorLocation(Pos);
+		BossImageCenterPos.X += 1.0f;
+		UEngineDebug::OutPutDebugText(std::to_string(BossImageCenterPos.X) + " , " + std::to_string(BossImageCenterPos.Y));
 	}
+	if (true == UEngineInput::IsDown(VK_LEFT))
+	{
+		BossImageCenterPos.X -= 1.0f;
+		UEngineDebug::OutPutDebugText(std::to_string(BossImageCenterPos.X) + " , " + std::to_string(BossImageCenterPos.Y));
+	}
+	if (true == UEngineInput::IsDown(VK_UP))
+	{
+		BossImageCenterPos.Y -= 1.0f;
+		UEngineDebug::OutPutDebugText(std::to_string(BossImageCenterPos.X) + " , " + std::to_string(BossImageCenterPos.Y));
+	}
+	if (true == UEngineInput::IsDown(VK_DOWN))
+	{
+		BossImageCenterPos.Y += 1.0f;
+		UEngineDebug::OutPutDebugText(std::to_string(BossImageCenterPos.X) + " , " + std::to_string(BossImageCenterPos.Y));
+	}
+
+	TestImage->SetPosition(BossImageCenterPos);
 }
