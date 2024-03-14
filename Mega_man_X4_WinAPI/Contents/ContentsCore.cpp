@@ -20,6 +20,17 @@ ContentsCore::~ContentsCore()
 {
 }
 
+void ContentsCore::WindowOpen(std::string& _OutWindowTitle, std::string& _SmallIconPath)
+{
+	UEngineDirectory NewDir;
+	NewDir.MoveToSearchChild("ContentsResources");
+
+	_OutWindowTitle = "TestMyTitle";
+
+	std::string IconPath = NewDir.AppendPath("Icon.ico");
+	_SmallIconPath = IconPath;
+}
+
 /// <summary>
 /// EngineCore -- 
 /// Game Start

@@ -15,6 +15,13 @@ public :
 	ContentsCore& operator=(ContentsCore&& _Other) noexcept = delete;
 
 protected :
+	/// <summary>
+	/// EngineCore에 있는 WindowOpen 가상 함수.
+	/// </summary>
+	/// <param name="_OutWindowTitle"></param>
+	/// <param name="_SmallIconPath"></param>
+	void WindowOpen(std::string& _OutWindowTitle, std::string& _SmallIconPath) override;
+
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
