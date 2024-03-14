@@ -30,6 +30,17 @@ public :
 		return BodyDamage;
 	}
 
+	inline bool GetIntro() const
+	{
+		return b_Intro;
+	}
+
+	inline bool GetBattleReady() const
+	{
+		return b_BattleReady;
+	}
+
+
 	/// <summary>
 	/// Level에서 접근.
 	/// </summary>
@@ -57,6 +68,8 @@ protected :
 	std::string GetAnimationName(std::string _Name);
 
 	// 상태 함수들
+	void NoneStart();
+	void None(float _DeltaTime);
 	void WaitStart();
 	void Wait(float _DeltaTime);
 	void IntroStart();
@@ -92,7 +105,13 @@ private :
 
 	void CollisionCheck();
 
-	int RandValue = 0;
+
+	////////////////////////////////////////////
+
+	bool b_Intro = false; // 인트로 애니메이션 여부.
+	bool b_BattleReady = false; // 파칭~! 애니메이션 여부.
+
+	int RandValue = 0; // 패턴 전용 랜덤 변수.
 
 	std::string CurAnimationName = "None";
 
@@ -108,10 +127,11 @@ private :
 	UImageRenderer* PeacockRenderer = nullptr;
 	UCollision* PeacockCollision = nullptr;
 
-	EActorDir DirState = EActorDir::Left;
+	EActorDir CyberPeacockDir = EActorDir::Left;
 
 	ECyberPeacockState State = ECyberPeacockState::None;
 	ERenderOrder Order = ERenderOrder::None;
 
 	AEgseu* Player = nullptr;
 };
+// X : 1838 ~ 2042

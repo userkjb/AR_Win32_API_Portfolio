@@ -218,7 +218,7 @@ void UCyberSpaceBossLevel::Front_Door(float _DeltaTime)
 void UCyberSpaceBossLevel::CheckPointRoomStart()
 {
 	PlayerRunVector = FVector::Zero;
-	Player->SetStateChange(EEgseuState::Wait);
+	Player->SetStateChange(EEgseuState::Idle);
 }
 
 void UCyberSpaceBossLevel::CheckPointRoom(float _DeltaTime)
@@ -260,6 +260,7 @@ void UCyberSpaceBossLevel::Back_Door(float _DeltaTime)
 void UCyberSpaceBossLevel::BossRoomStart()
 {
 	b_BossBattle = true; // 보스전 카메라 적용.
+	Player->SetStateChange(EEgseuState::Wait);
 	// 워닝.
 	
 }
@@ -284,28 +285,46 @@ void UCyberSpaceBossLevel::BossIntroStart()
 
 void UCyberSpaceBossLevel::BossIntro(float _DeltaTime)
 {
-
+	if (CyberBoss->GetIntro()) // Cyber에서 Intro 애니메이션이 끝나면,
+	{
+		StateChange(EBossLevelState::BossText);
+		return;
+	}
 }
 #pragma endregion
 
 #pragma region BossText
 void UCyberSpaceBossLevel::BossTextStart()
 {
+
 }
 
 void UCyberSpaceBossLevel::BossText(float _DeltaTime)
 {
+	TextTime += _DeltaTime;
+	// 지금은 그냥 넘김.
+	if (TextTime >= 2.0f)
+	{
+		StateChange(EBossLevelState::BossReady);
+		return;
+	}
 }
 #pragma endregion
 
 #pragma region BossReady
 void UCyberSpaceBossLevel::BossReadyStart()
 {
-	
+	// 보스 파칭~!
+	CyberBoss->SetStateChange(ECyberPeacockState::IntroEnd);
 }
 
 void UCyberSpaceBossLevel::BossReady(float _DeltaTime)
 {
+	if (CyberBoss->GetBattleReady())
+	{
+		StateChange(EBossLevelState::BossBattle);
+		return;
+	}
 }
 #pragma endregion
 
@@ -313,10 +332,12 @@ void UCyberSpaceBossLevel::BossReady(float _DeltaTime)
 void UCyberSpaceBossLevel::BossBattleStart()
 {
 	Player->SetStateChange(EEgseuState::Idle);
+	CyberBoss->SetStateChange(ECyberPeacockState::Disappear);
 }
 
 void UCyberSpaceBossLevel::BossBattle(float _DeltaTime)
 {
+
 }
 #pragma endregion
 

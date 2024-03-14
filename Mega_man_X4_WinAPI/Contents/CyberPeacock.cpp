@@ -49,8 +49,9 @@ void ACyberPeacock::BeginPlay()
 	PeacockRenderer->CreateAnimation("Fight_Ready_Left", "Fight_Ready_Left.png", 6, 6, 1.5f, false);
 	PeacockRenderer->CreateAnimation("Fight_Ready_Right", "Fight_Ready_Right.png", 0, 0, 0.5f, false);
 
-	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 3, 0.05f, true);
-	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 3, 0.05f, true);
+	//PeacockRenderer->CreateAnimation("Disappear_Appear_Left_one", "Disappear_Appear_Right.png", 0, 3, 0.05f, true);
+	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 3, 0.1f, true);
+	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 3, 0.1f, true);
 
 	PeacockRenderer->ChangeAnimation("Peacock_Intro");
 
@@ -77,6 +78,9 @@ void ACyberPeacock::StateChange(ECyberPeacockState _State)
 	{
 		switch (_State)
 		{
+		case ECyberPeacockState::None:
+			NoneStart();
+			break;
 		case ECyberPeacockState::Wait:
 			WaitStart();
 			break;
@@ -116,6 +120,9 @@ void ACyberPeacock::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
+	case ECyberPeacockState::None:
+		None(_DeltaTime);
+		break;
 	case ECyberPeacockState::Wait:
 		Wait(_DeltaTime);
 		break;
@@ -152,8 +159,8 @@ std::string ACyberPeacock::GetAnimationName(std::string _Name)
 {
 	std::string DirName = "";
 
-	AEgseu* Player = AEgseu::GetMainPlayer();
 	EActorDir PlayerDir = Player->GetActorDir();
+
 	switch (PlayerDir)
 	{
 	case EActorDir::Left:
@@ -172,8 +179,16 @@ std::string ACyberPeacock::GetAnimationName(std::string _Name)
 }
 
 #pragma region None
+void ACyberPeacock::NoneStart()
+{
+}
+
+void ACyberPeacock::None(float _DeltaTime)
+{
+}
 #pragma endregion
 
+#pragma region Wait
 void ACyberPeacock::WaitStart()
 {
 }
@@ -181,65 +196,56 @@ void ACyberPeacock::WaitStart()
 void ACyberPeacock::Wait(float _DeltaTime)
 {
 }
-
-#pragma region None
 #pragma endregion
+
+#pragma region Intro
 void ACyberPeacock::IntroStart()
 {
-	int a = 0;
+	PeacockRenderer->ChangeAnimation("Peacock_Intro"); // 주와아앙
 }
 
 void ACyberPeacock::Intro(float _DeltaTime)
 {
-	// 주와아앙 나오고.
-	BossPatternTime += _DeltaTime;
+	if (Player == nullptr)
+	{
+		Player = AEgseu::GetMainPlayer();
+	}
 
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
-		// 대사진행.
-
-		// 대사 종료 후 파칭.
-		if (5.0f <= BossPatternTime)
+		if (false == b_Intro)
 		{
-			BossPatternTime = 0.0f;
-			StateChange(ECyberPeacockState::IntroEnd);
-			return;
+			b_Intro = true;
 		}
 	}
 }
-
-#pragma region None
 #pragma endregion
+
+#pragma region IntroEnd
 void ACyberPeacock::IntroEndStart()
 {
-	PeacockRenderer->ChangeAnimation("Fight_Ready_Left_one");
+	PeacockRenderer->ChangeAnimation("Fight_Ready_Left_one"); // 파칭~
 }
 
 void ACyberPeacock::IntroEnd(float _DeltaTime)
 {
-	// 파칭 한 다음
-	BossPatternTime += _DeltaTime;
-
-	// UI 체력바 올라간 다음.
-
-
-	// 사라짐.
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
-		BossPatternTime = 0.0f;
-		PeacockCollision->ActiveOff();
-		StateChange(ECyberPeacockState::Disappear);
-		return;
+		if (false == b_BattleReady)
+		{
+			b_BattleReady = true;
+		}
 	}
 }
-
-#pragma region None
 #pragma endregion
+
+#pragma region Disappear
 void ACyberPeacock::DisappearStart()
 {
 	//RandValue = rand() % 3; // 0 ~ 2
 	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2);
-	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
+	PeacockCollision->ActiveOff(); // 콜리전 끄고.
+	PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
 }
 
 void ACyberPeacock::Disappear(float _DeltaTime)
@@ -249,10 +255,12 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
 		// 사라졌음.
-		PeacockRenderer->ActiveOff();
+		if (true == PeacockRenderer->IsActive())
+		{
+			PeacockRenderer->ActiveOff();
+		}
 
 		// 플레이어 위치를 기반으로 나타나야 함.
-		AEgseu* Player = AEgseu::GetMainPlayer();
 		if (nullptr == Player)
 		{
 			MsgBoxAssert("Player가 없습니다.");
@@ -276,7 +284,12 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 		{
 			if (PlayerDir == EActorDir::Right)
 			{
-				this->SetActorLocation({ PlayerPos.iX() - 50, PlayerPos.iY() - 50 });
+				int x = PlayerPos.iX() - 50;
+				if (x < 1838)
+				{
+					x = 1838;
+				}
+				this->SetActorLocation({ x, PlayerPos.iY() - 50 });
 			}
 			else if (PlayerDir == EActorDir::Right)
 			{
@@ -305,6 +318,7 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
 #pragma region None
 #pragma endregion
