@@ -49,7 +49,7 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 
 	// Boss Image
 	UEngineResourcesManager::GetInst().CuttingImage("Peacock_Intro.png", 6, 6);
-	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Right.png", 7, 1);
+	//UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Right.png", 7, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Fight_Ready_Left.png", 7, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Right.png", 4, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Disappear_Appear_Left.png", 4, 1);
@@ -114,6 +114,9 @@ void UCyberSpaceBossLevel::StateChange(EBossLevelState _State)
 		case EBossLevelState::BossText:
 			BossTextStart();
 			break;
+		case EBossLevelState::BossBattleReadySound:
+			BossBattleReadySoundStart();
+			break;
 		case EBossLevelState::BossReady:
 			BossReadyStart();
 			break;
@@ -158,6 +161,9 @@ void UCyberSpaceBossLevel::StateUpdate(float _DeltaTime)
 		break;
 	case EBossLevelState::BossText:
 		BossText(_DeltaTime);
+		break;
+	case EBossLevelState::BossBattleReadySound:
+		BossBattleReadySound(_DeltaTime);
 		break;
 	case EBossLevelState::BossReady:
 		BossReady(_DeltaTime);
@@ -262,7 +268,7 @@ void UCyberSpaceBossLevel::BossRoomStart()
 	b_BossBattle = true; // 보스전 카메라 적용.
 	Player->SetStateChange(EEgseuState::Wait);
 	// 워닝.
-	
+	WarningTime = 0.0f;
 }
 
 void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
@@ -296,7 +302,7 @@ void UCyberSpaceBossLevel::BossIntro(float _DeltaTime)
 #pragma region BossText
 void UCyberSpaceBossLevel::BossTextStart()
 {
-
+	TextTime = 0.0f;
 }
 
 void UCyberSpaceBossLevel::BossText(float _DeltaTime)
@@ -304,6 +310,26 @@ void UCyberSpaceBossLevel::BossText(float _DeltaTime)
 	TextTime += _DeltaTime;
 	// 지금은 그냥 넘김.
 	if (TextTime >= 2.0f)
+	{
+		StateChange(EBossLevelState::BossBattleReadySound);
+		return;
+	}
+}
+#pragma endregion
+
+#pragma region BossReady
+void UCyberSpaceBossLevel::BossBattleReadySoundStart()
+{
+	// UI 출력.
+	// 보스 싸움 준비 소리.
+	SoundTime = 0.0f;
+}
+
+void UCyberSpaceBossLevel::BossBattleReadySound(float _DeltaTime)
+{
+	SoundTime += _DeltaTime;
+	// 소리 끝나면,
+	if(0.2f <= SoundTime)
 	{
 		StateChange(EBossLevelState::BossReady);
 		return;
@@ -315,15 +341,21 @@ void UCyberSpaceBossLevel::BossText(float _DeltaTime)
 void UCyberSpaceBossLevel::BossReadyStart()
 {
 	// 보스 파칭~!
-	CyberBoss->SetStateChange(ECyberPeacockState::IntroEnd);
+	CyberBoss->SetStateChange(ECyberPeacockState::BattleReady);
+	HpUIEvent = 0.0f;
 }
 
 void UCyberSpaceBossLevel::BossReady(float _DeltaTime)
 {
 	if (CyberBoss->GetBattleReady())
 	{
-		StateChange(EBossLevelState::BossBattle);
-		return;
+		HpUIEvent += _DeltaTime;
+		if (HpUIEvent >= 2.0f)
+		{
+			// UI 채력바 올라가고,
+			StateChange(EBossLevelState::BossBattle);
+			return;
+		}
 	}
 }
 #pragma endregion

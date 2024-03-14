@@ -230,7 +230,7 @@ enum class ECyberPeacockState
 	Wait,
 
 	Intro, // 원에서 나타남.
-	IntroEnd, // 파칭~!
+	BattleReady, // 파칭~!
 
 	Disappear,		// 사라짐.
 	Appear,			// 나타남.
@@ -310,7 +310,8 @@ enum class EBossLevelState
 	BossRoom, // Warning
 	BossIntro, // 보스 나타남.
 	BossText, // 텍스트 출력
-	BossReady, // 보스 싸움 준비.(UI)
+	BossBattleReadySound, // UI-> 소리
+	BossReady, // 보스 싸움 준비.(UI) [ -> 파칭 -> UI]
 	BossBattle, // 보스전.
 	BossEnd, // 보스 터짐.
 	PlayerReverseSummon,
