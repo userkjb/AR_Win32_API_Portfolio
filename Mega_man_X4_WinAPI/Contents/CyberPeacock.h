@@ -86,6 +86,8 @@ protected :
 	void FeatherAttack(float _DeltaTime);
 	void RisingSlashStart();
 	void RisingSlash(float _DeltaTime);
+	void RisingSlash_LoopStart();
+	void RisingSlash_Loop(float _DeltaTime);
 	void TrackingShotStart();
 	void TrackingShot(float _DeltaTime);
 	void DeathStart();
@@ -117,8 +119,13 @@ private :
 	int RisingSlashDamage = 6;
 	int TrackingShotDamage = 6;
 
+	FVector RisingSlashVector = FVector::Zero;
+	const float RisingSlashSpeed = 100.0f;
+	float RisingSlashTargetPos = 0.0f;
+
 	UImageRenderer* PeacockRenderer = nullptr;
 	UCollision* PeacockCollision = nullptr;
+	UImageRenderer* TrackingShotScope = nullptr;
 
 	EActorDir CyberPeacockDir = EActorDir::Left;
 

@@ -235,9 +235,10 @@ enum class ECyberPeacockState
 	Disappear,		// 사라짐.
 	Appear,			// 나타남.
 
-	FeatherAttack,
-	RisingSlash,
-	TrackingShot,
+	FeatherAttack, // 날개 공격
+	RisingSlash, // 위로!
+	RisingSlash_Loop,
+	TrackingShot, // 미사일 공격
 
 	Death,
 };
@@ -342,6 +343,7 @@ enum class ERenderOrder
 	EnemyNext,
 	EnemyEffect,
 	Boss,
+	BossObject,
 };
 
 /// <summary>

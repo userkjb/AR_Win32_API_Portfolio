@@ -30,6 +30,10 @@ void ACyberPeacock::BeginPlay()
 	//UWindowImage* Image = PeacockRenderer->GetImage();
 	//FVector ImageScale = Image->GetScale();
 	//PeacockRenderer->SetTransform({ {0, 0}, ImageScale * 2 });
+	TrackingShotScope = CreateImageRenderer(static_cast<int>(ERenderOrder::BossObject));
+	TrackingShotScope->SetImage("Scope.png");
+	TrackingShotScope->AutoImageScale(2.0f);
+	TrackingShotScope->SetActive(false);
 
 	// Collision
 	PeacockCollision = CreateCollision(ECollisionOrder::Boss);
@@ -44,16 +48,27 @@ void ACyberPeacock::BeginPlay()
 	// Animation
 	// Intro
 	PeacockRenderer->CreateAnimation("Peacock_Intro", "Peacock_Intro.png", 0, 30, 0.05f, false);
-
+	// 파칭
 	PeacockRenderer->CreateAnimation("Fight_Ready_One", "Fight_Ready_Left.png", 0, 6, 0.05f, false);
-	//PeacockRenderer->CreateAnimation("Fight_Ready_Left", "Fight_Ready_Left.png", 6, 6, 1.5f, false);
-	//PeacockRenderer->CreateAnimation("Fight_Ready_Right", "Fight_Ready_Right.png", 0, 0, 0.5f, false);
+	// 사라짐. & 나타남.
+	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 3, 0.05f, true);
+	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 3, 0.05f, true);
+	// FeatherAttack (날개)
+	PeacockRenderer->CreateAnimation("FeatherAttack_Right", "FeatherAttack_Right.png", 0, 14, 0.05f, false);
+	PeacockRenderer->CreateAnimation("FeatherAttack_Left", "FeatherAttack_Left.png", 0, 14, 0.05f, false);
+	// RisingSlash (위로)
+	PeacockRenderer->CreateAnimation("RisingSlash_Right", "RisingSlash_Right.png", 0, 4, 0.05f, false);
+	PeacockRenderer->CreateAnimation("RisingSlash_Left", "RisingSlash_Left.png", 0, 4, 0.05f, false);
+	PeacockRenderer->CreateAnimation("RisingSlash_Loop_Right", "RisingSlash_Right.png", 5, 7, 0.05f, true);
+	PeacockRenderer->CreateAnimation("RisingSlash_Loop_Left", "RisingSlash_Left.png", 5, 7, 0.05f, true);
+	// TrackingShot (미사일)
+	PeacockRenderer->CreateAnimation("TrackingShot_Right", "TrackingShot_Right.png", 0, 16, 0.05f, false);
+	PeacockRenderer->CreateAnimation("TrackingShot_Left", "TrackingShot_Left.png", 0, 16, 0.05f, false);
+	TrackingShotScope->CreateAnimation("Scope", "Scope.png", 9, 9, 1.0f, false);
 
-	//PeacockRenderer->CreateAnimation("Disappear_Appear_Left_one", "Disappear_Appear_Right.png", 0, 3, 0.05f, true);
-	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 3, 0.1f, true);
-	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 3, 0.1f, true);
 
 	PeacockRenderer->ChangeAnimation("Peacock_Intro");
+	TrackingShotScope->ChangeAnimation("Scope");
 
 	StateChange(ECyberPeacockState::None);
 }
@@ -102,6 +117,9 @@ void ACyberPeacock::StateChange(ECyberPeacockState _State)
 		case ECyberPeacockState::RisingSlash:
 			RisingSlashStart();
 			break;
+		case ECyberPeacockState::RisingSlash_Loop:
+			RisingSlash_LoopStart();
+			break;
 		case ECyberPeacockState::TrackingShot:
 			TrackingShotStart();
 			break;
@@ -143,6 +161,9 @@ void ACyberPeacock::StateUpdate(float _DeltaTime)
 		break;
 	case ECyberPeacockState::RisingSlash:
 		RisingSlash(_DeltaTime);
+		break;
+	case ECyberPeacockState::RisingSlash_Loop:
+		RisingSlash_Loop(_DeltaTime);
 		break;
 	case ECyberPeacockState::TrackingShot:
 		TrackingShot(_DeltaTime);
@@ -271,7 +292,8 @@ void ACyberPeacock::DisappearStart()
 	//RandValue = rand() % 3; // 0 ~ 2
 	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // 랜덤 패턴.
 	PeacockCollision->ActiveOff(); // 콜리전 끄고.
-	PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
+	//PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
+	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
 }
 
 void ACyberPeacock::Disappear(float _DeltaTime)
@@ -281,7 +303,7 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
 		// 사라졌음.
-		if (true == PeacockRenderer->IsActive())
+		if (true == PeacockRenderer->IsActive()) // 만약 살아 있다면 끈다.
 		{
 			PeacockRenderer->ActiveOff();
 		}
@@ -322,16 +344,16 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 				this->SetActorLocation({ PlayerPos.iX() + 50, PlayerPos.iY() - 50 });
 			}
 		}
-		else if (RandValue == 2) // hp 반 조건 넣어야 함.
+		else if (RandValue == 2) // hp 반 조건 넣어야 함. // 미사일
 		{
 			// Player 위치에 따라 나타나는 좌표가 2개로 나뉨.
 			if (PlayerDir == EActorDir::Right)
 			{
-				this->SetActorLocation({ 550, 320 });
+				this->SetActorLocation({ 2050, 320 });
 			}
 			else if (PlayerDir == EActorDir::Right)
 			{
-				this->SetActorLocation({ 130, 320 });
+				this->SetActorLocation({ 2550, 320 });
 			}
 		}
 	}
@@ -376,43 +398,72 @@ void ACyberPeacock::Appear(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region FeatherAttack
+#pragma region FeatherAttack (날개!!)
 void ACyberPeacock::FeatherAttackStart()
 {
-	PeacockRenderer->ActiveOn();
+	PeacockCollision->ActiveOn();
+	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("FeatherAttack"));
 }
 
 void ACyberPeacock::FeatherAttack(float _DeltaTime)
 {
-	PeacockCollision->ActiveOn();
-
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
-		int a = 0;
+		StateChange(ECyberPeacockState::Disappear);
+		return;
 	}
 }
 #pragma endregion
 
-#pragma region RisingSlash
+#pragma region RisingSlash (위로!!)
 void ACyberPeacock::RisingSlashStart()
 {
-	PeacockRenderer->ActiveOn();
+	PeacockCollision->ActiveOn();
+	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("RisingSlash"));
 }
 
 void ACyberPeacock::RisingSlash(float _DeltaTime)
 {
-	PeacockCollision->ActiveOn();
-
-	if (true == PeacockRenderer->IsCurAnimationEnd())
+	int Frame = PeacockRenderer->GetCurAnimationImageFrame();
+	
+	if (Frame == 4)
 	{
-		int a = 0;
+		StateChange(ECyberPeacockState::RisingSlash_Loop);
+		return;
 	}
 }
 #pragma endregion
 
-#pragma region TrackingShot
+#pragma region RisingSlash_Loop
+void ACyberPeacock::RisingSlash_LoopStart()
+{
+	if (RisingSlashTargetPos != 0.0f)
+	{
+		RisingSlashTargetPos = 0.0f;
+	}
+	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("RisingSlash_Loop"));
+	FVector Pos = GetActorLocation();
+	RisingSlashTargetPos = Pos.Y - 100.0f;
+	RisingSlashVector = FVector::Zero;
+}
+void ACyberPeacock::RisingSlash_Loop(float _DeltaTime)
+{
+	RisingSlashVector = FVector::Up * RisingSlashSpeed * _DeltaTime;
+	AddActorLocation(RisingSlashVector);
+	
+	FVector BossPos = GetActorLocation();
+	if (BossPos.Y <= RisingSlashTargetPos)
+	{
+		StateChange(ECyberPeacockState::Disappear);
+		return;
+	}
+}
+#pragma endregion
+
+#pragma region TrackingShot (미사일!!)
 void ACyberPeacock::TrackingShotStart()
 {
+	TrackingShotScope->ActiveOn();
 	PeacockRenderer->ActiveOn();
 }
 
