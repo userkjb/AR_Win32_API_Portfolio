@@ -20,7 +20,27 @@ void AFeatherMissile::BeginPlay()
 	MissileCollision = CreateCollision(ECollisionOrder::BossSkill);
 	MissileCollision->SetColType(ECollisionType::Rect);
 
+	// L               U               R               D        
+	// 0  |  1  2  3 |  4 |  5  6  7 |  8 |  9 10 11 | 12 | 13 14 15
+	// 16 | 17 18 19 | 20 | 21 22 23 | 24 | 25 26 27 | 28 | 29 30 31
+	MissileRenderer->CreateAnimation("Up", "missile.png", { 4, 20 }, 0.5f, true);
+	MissileRenderer->CreateAnimation("UpToRight", "missile.png", { 5, 21, 6, 22, 7, 23 }, 0.5f, true);
+	MissileRenderer->CreateAnimation("UpToLeft", "missile.png", { 3, 19, 2, 18, 1, 17 }, 0.5f, true);
+	
+	MissileRenderer->CreateAnimation("Right", "missile.png", { 8, 24 }, 0.5f, true);
+	MissileRenderer->CreateAnimation("RightToUp", "missile.png", { 7, 23, 6, 22, 5, 21 }, 0.5f, true);
+	MissileRenderer->CreateAnimation("RightToDown", "missile.png", { 15, 31, 14, 30, 13, 29 }, 0.5f, true);
 
+	MissileRenderer->CreateAnimation("Left", "missile.png", {0, 16}, 0.5f, true);
+	MissileRenderer->CreateAnimation("LeftToUp", "missile.png", { 1, 17, 2, 18, 3, 19 }, 0.5f, true);
+	MissileRenderer->CreateAnimation("LeftToDown", "missile.png", { 9, 25, 10, 26, 11, 27 }, 0.5f, true);
+
+	MissileRenderer->CreateAnimation("Down", "missile.png", { 12, 28 }, 0.5f, true);
+	MissileRenderer->CreateAnimation("DownToRight", "missile.png", { 13, 29, 14, 30, 15, 31 }, 0.5f, true);
+	MissileRenderer->CreateAnimation("DownToLeft", "missile.png", { 11, 27, 10, 26, 9, 25 }, 0.5f, true);
+
+
+	MissileRenderer->ChangeAnimation("Left");
 
 	// Player
 	if (Player == nullptr)
