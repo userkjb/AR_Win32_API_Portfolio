@@ -238,7 +238,8 @@ enum class ECyberPeacockState
 	FeatherAttack, // 날개 공격
 	RisingSlash, // 위로!
 	RisingSlash_Loop,
-	TrackingShot, // 미사일 공격
+	TrackingShot, // 미사일 공격 시작
+	TrackingShot_Loop, // 미사일 공격 진행 중.
 
 	Death,
 };

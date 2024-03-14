@@ -182,6 +182,7 @@
     <ClInclude Include="CyberSpaceLevel.h" />
     <ClInclude Include="CyberSpaceMap.h" />
     <ClInclude Include="Egseu.h" />
+    <ClInclude Include="FeatherMissile.h" />
     <ClInclude Include="HoverGunner.h" />
     <ClInclude Include="IntroStageMap.h" />
     <ClInclude Include="BackGroundMap.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="CyberSpaceLevel.cpp" />
     <ClCompile Include="CyberSpaceMap.cpp" />
     <ClCompile Include="Egseu.cpp" />
+    <ClCompile Include="FeatherMissile.cpp" />
     <ClCompile Include="HoverGunner.cpp" />
     <ClCompile Include="IntroStageMap.cpp" />
     <ClCompile Include="BackGroundMap.cpp" />

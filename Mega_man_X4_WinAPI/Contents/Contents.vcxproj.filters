@@ -67,6 +67,9 @@
     <ClInclude Include="CyberSpaceBossLevel.h">
       <Filter>01_Level\04_Stages_Level\03_Cyber_Space_Level</Filter>
     </ClInclude>
+    <ClInclude Include="FeatherMissile.h">
+      <Filter>02_Actor\Bosses\03_Cyber_Peacock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -134,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="CyberSpaceBossLevel.cpp">
       <Filter>01_Level\04_Stages_Level\03_Cyber_Space_Level</Filter>
+    </ClCompile>
+    <ClCompile Include="FeatherMissile.cpp">
+      <Filter>02_Actor\Bosses\03_Cyber_Peacock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
