@@ -65,9 +65,6 @@ public :
 		SetWindowTextA(hWnd, _Text.data());
 	}
 
-	/// <summary>
-	/// 아이콘 설정 함수.
-	/// </summary>
 	void SetWindowSmallIcon();
 
 	/// <summary>

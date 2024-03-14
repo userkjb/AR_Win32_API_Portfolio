@@ -95,6 +95,10 @@ void UEngineWindow::ScreenUpdate()
 	WindowImage->BitCopy(BackBufferImage, CopyTrans);
 }
 
+void UEngineWindow::SetWindowSmallIcon()
+{
+}
+
 FVector UEngineWindow::GetMousePosition()
 {
 	POINT MousePoint;
