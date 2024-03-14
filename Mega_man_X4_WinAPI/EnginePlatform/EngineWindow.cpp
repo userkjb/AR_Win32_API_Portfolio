@@ -108,6 +108,11 @@ FVector UEngineWindow::GetMousePosition()
 	return FVector(MousePoint.x, MousePoint.y);
 }
 
+void UEngineWindow::CursorOff()
+{
+	ShowCursor(FALSE);
+}
+
 LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)

@@ -81,6 +81,11 @@ public :
 		WindowLive = false;
 	}
 
+	/// <summary>
+	/// 게임에 커서가 올라오지 못하도록 설정하는 함수.
+	/// </summary>
+	void CursorOff();
+
 protected :
 
 private :
