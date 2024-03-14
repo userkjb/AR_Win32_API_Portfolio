@@ -120,7 +120,7 @@ private :
 	int TrackingShotDamage = 6;
 
 	FVector RisingSlashVector = FVector::Zero;
-	const float RisingSlashSpeed = 100.0f;
+	const float RisingSlashSpeed = 500.0f;
 	float RisingSlashTargetPos = 0.0f;
 
 	UImageRenderer* PeacockRenderer = nullptr;

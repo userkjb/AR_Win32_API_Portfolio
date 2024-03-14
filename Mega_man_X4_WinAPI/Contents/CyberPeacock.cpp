@@ -56,10 +56,11 @@ void ACyberPeacock::BeginPlay()
 	PeacockRenderer->CreateAnimation("FeatherAttack_Right", "FeatherAttack_Right.png", 0, 14, 0.08f, false);
 	PeacockRenderer->CreateAnimation("FeatherAttack_Left", "FeatherAttack_Left.png", 0, 14, 0.08f, false);
 	// RisingSlash (위로)
-	PeacockRenderer->CreateAnimation("RisingSlash_Right", "RisingSlash_Right.png", 0, 4, 0.05f, false);
-	PeacockRenderer->CreateAnimation("RisingSlash_Left", "RisingSlash_Left.png", 0, 4, 0.05f, false);
-	PeacockRenderer->CreateAnimation("RisingSlash_Loop_Right", "RisingSlash_Right.png", 5, 7, 0.05f, true);
-	PeacockRenderer->CreateAnimation("RisingSlash_Loop_Left", "RisingSlash_Left.png", 5, 7, 0.05f, true);
+	float RisingSlashSpeed = 0.05f;
+	PeacockRenderer->CreateAnimation("RisingSlash_Right", "RisingSlash_Right.png", 0, 4, RisingSlashSpeed, false);
+	PeacockRenderer->CreateAnimation("RisingSlash_Left", "RisingSlash_Left.png", 0, 4, RisingSlashSpeed, false);
+	PeacockRenderer->CreateAnimation("RisingSlash_Loop_Right", "RisingSlash_Right.png", 5, 7, RisingSlashSpeed, true);
+	PeacockRenderer->CreateAnimation("RisingSlash_Loop_Left", "RisingSlash_Left.png", 5, 7, RisingSlashSpeed, true);
 	// TrackingShot (미사일)
 	PeacockRenderer->CreateAnimation("TrackingShot_Right", "TrackingShot_Right.png", 0, 16, 0.05f, false);
 	PeacockRenderer->CreateAnimation("TrackingShot_Left", "TrackingShot_Left.png", 0, 16, 0.05f, false);
@@ -296,7 +297,7 @@ void ACyberPeacock::DisappearStart()
 {
 	//RandValue = rand() % 3; // 0 ~ 2
 	//RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // 랜덤 패턴.
-	RandValue = 0;
+	RandValue = 1;
 	PeacockCollision->ActiveOff(); // 콜리전 끄고.
 	//PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
@@ -343,11 +344,16 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 				{
 					x = 1838;
 				}
-				this->SetActorLocation({ x, PlayerPos.iY() - 50 });
+				this->SetActorLocation({ x, PlayerPos.iY() });
 			}
 			else if (PlayerDir == EActorDir::Left)
 			{
-				this->SetActorLocation({ PlayerPos.iX() + 50, PlayerPos.iY() - 50 });
+				int x = PlayerPos.iX() + 50;
+				if (x >= 2042)
+				{
+					x = 2042;
+				}
+				this->SetActorLocation({ x, PlayerPos.iY() });
 			}
 		}
 		else if (RandValue == 2) // hp 반 조건 넣어야 함. // 미사일
@@ -473,7 +479,7 @@ void ACyberPeacock::RisingSlash_LoopStart()
 	}
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("RisingSlash_Loop"));
 	FVector Pos = GetActorLocation();
-	RisingSlashTargetPos = Pos.Y - 100.0f;
+	RisingSlashTargetPos = Pos.Y - 200.0f;
 	RisingSlashVector = FVector::Zero;
 }
 void ACyberPeacock::RisingSlash_Loop(float _DeltaTime)
