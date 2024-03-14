@@ -66,6 +66,7 @@ protected :
 	void StateUpdate(float _DeltaTime);
 
 	std::string GetAnimationName(std::string _Name);
+	std::string GetPlayerOppositeAnimationName(std::string _Name);
 
 	// 상태 함수들
 	void NoneStart();
@@ -74,20 +75,12 @@ protected :
 	void Wait(float _DeltaTime);
 	void IntroStart();
 	void Intro(float _DeltaTime);
-	void IntroEndStart();
-	void IntroEnd(float _DeltaTime);
-	void DisappearStart();
-	/// <summary>
-	/// 사라지다.
-	/// </summary>
-	/// <param name="_DeltaTime"></param>
-	void Disappear(float _DeltaTime);
-	void AppearStart();
-	/// <summary>
-	/// 생기다.
-	/// </summary>
-	/// <param name="_DeltaTime"></param>
-	void Appear(float _DeltaTime);
+	void BattleReadyStart();
+	void BattleReady(float _DeltaTime);
+	void DisappearStart(); // 사라짐.
+	void Disappear(float _DeltaTime); // 사라짐.
+	void AppearStart(); // 나타남.
+	void Appear(float _DeltaTime); // 나타남.
 
 	void FeatherAttackStart();
 	void FeatherAttack(float _DeltaTime);

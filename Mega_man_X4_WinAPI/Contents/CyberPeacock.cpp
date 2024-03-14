@@ -45,9 +45,9 @@ void ACyberPeacock::BeginPlay()
 	// Intro
 	PeacockRenderer->CreateAnimation("Peacock_Intro", "Peacock_Intro.png", 0, 30, 0.05f, false);
 
-	PeacockRenderer->CreateAnimation("Fight_Ready_Left_one", "Fight_Ready_Left.png", 0, 6, 0.1f, false);
-	PeacockRenderer->CreateAnimation("Fight_Ready_Left", "Fight_Ready_Left.png", 6, 6, 1.5f, false);
-	PeacockRenderer->CreateAnimation("Fight_Ready_Right", "Fight_Ready_Right.png", 0, 0, 0.5f, false);
+	PeacockRenderer->CreateAnimation("Fight_Ready_One", "Fight_Ready_Left.png", 0, 6, 0.05f, false);
+	//PeacockRenderer->CreateAnimation("Fight_Ready_Left", "Fight_Ready_Left.png", 6, 6, 1.5f, false);
+	//PeacockRenderer->CreateAnimation("Fight_Ready_Right", "Fight_Ready_Right.png", 0, 0, 0.5f, false);
 
 	//PeacockRenderer->CreateAnimation("Disappear_Appear_Left_one", "Disappear_Appear_Right.png", 0, 3, 0.05f, true);
 	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 3, 0.1f, true);
@@ -87,8 +87,8 @@ void ACyberPeacock::StateChange(ECyberPeacockState _State)
 		case ECyberPeacockState::Intro:
 			IntroStart();
 			break;
-		case ECyberPeacockState::IntroEnd:
-			IntroEndStart();
+		case ECyberPeacockState::BattleReady:
+			BattleReadyStart();
 			break;
 		case ECyberPeacockState::Disappear:
 			DisappearStart();
@@ -129,8 +129,8 @@ void ACyberPeacock::StateUpdate(float _DeltaTime)
 	case ECyberPeacockState::Intro :
 		Intro(_DeltaTime);
 		break;
-	case ECyberPeacockState::IntroEnd:
-		IntroEnd(_DeltaTime);
+	case ECyberPeacockState::BattleReady:
+		BattleReady(_DeltaTime);
 		break;
 	case ECyberPeacockState::Disappear:
 		Disappear(_DeltaTime);
@@ -170,6 +170,32 @@ std::string ACyberPeacock::GetAnimationName(std::string _Name)
 		DirName = "_Right";
 		break;
 	default :
+		break;
+	}
+
+	// 함수 기능과 관련 없음.
+	// 하지만 현재 애니메이션을 알 수 있도록 하는 변수를 설정하는 곳이
+	// 해당 함수가 적당해서 이 곳에 변수를 설정함.
+	CurAnimationName = _Name;
+
+	return _Name + DirName;
+}
+
+std::string ACyberPeacock::GetPlayerOppositeAnimationName(std::string _Name)
+{
+	std::string DirName = "";
+
+	EActorDir PlayerDir = Player->GetActorDir();
+	
+	switch (PlayerDir)
+	{
+	case EActorDir::Left:
+		DirName = "_Right";
+		break;
+	case EActorDir::Right:
+		DirName = "_Left";
+		break;
+	default:
 		break;
 	}
 
@@ -221,13 +247,13 @@ void ACyberPeacock::Intro(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region IntroEnd
-void ACyberPeacock::IntroEndStart()
+#pragma region BattleReady
+void ACyberPeacock::BattleReadyStart()
 {
-	PeacockRenderer->ChangeAnimation("Fight_Ready_Left_one"); // 파칭~
+	PeacockRenderer->ChangeAnimation("Fight_Ready_One"); // 파칭~
 }
 
-void ACyberPeacock::IntroEnd(float _DeltaTime)
+void ACyberPeacock::BattleReady(float _DeltaTime)
 {
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
@@ -243,7 +269,7 @@ void ACyberPeacock::IntroEnd(float _DeltaTime)
 void ACyberPeacock::DisappearStart()
 {
 	//RandValue = rand() % 3; // 0 ~ 2
-	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2);
+	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // 랜덤 패턴.
 	PeacockCollision->ActiveOff(); // 콜리전 끄고.
 	PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
 }
@@ -320,8 +346,7 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region None
-#pragma endregion
+#pragma region Appear
 void ACyberPeacock::AppearStart()
 {
 	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
@@ -329,9 +354,7 @@ void ACyberPeacock::AppearStart()
 
 void ACyberPeacock::Appear(float _DeltaTime)
 {
-	// 나타남. 나타날 때는 피격 판정이 없음.
-	PeacockRenderer->ActiveOn();
-
+	// 나타남.
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
 		if (RandValue == 0)
@@ -351,11 +374,12 @@ void ACyberPeacock::Appear(float _DeltaTime)
 		}
 	}
 }
-
-#pragma region None
 #pragma endregion
+
+#pragma region FeatherAttack
 void ACyberPeacock::FeatherAttackStart()
 {
+	PeacockRenderer->ActiveOn();
 }
 
 void ACyberPeacock::FeatherAttack(float _DeltaTime)
@@ -367,11 +391,12 @@ void ACyberPeacock::FeatherAttack(float _DeltaTime)
 		int a = 0;
 	}
 }
-
-#pragma region None
 #pragma endregion
+
+#pragma region RisingSlash
 void ACyberPeacock::RisingSlashStart()
 {
+	PeacockRenderer->ActiveOn();
 }
 
 void ACyberPeacock::RisingSlash(float _DeltaTime)
@@ -383,11 +408,12 @@ void ACyberPeacock::RisingSlash(float _DeltaTime)
 		int a = 0;
 	}
 }
-
-#pragma region None
 #pragma endregion
+
+#pragma region TrackingShot
 void ACyberPeacock::TrackingShotStart()
 {
+	PeacockRenderer->ActiveOn();
 }
 
 void ACyberPeacock::TrackingShot(float _DeltaTime)
@@ -400,9 +426,9 @@ void ACyberPeacock::TrackingShot(float _DeltaTime)
 		int a = 0;
 	}
 }
-
-#pragma region None
 #pragma endregion
+
+#pragma region Death
 void ACyberPeacock::DeathStart()
 {
 }
@@ -412,7 +438,7 @@ void ACyberPeacock::Death(float _DeltaTime)
 	int a = 0;
 	return;
 }
-
+#pragma endregion
 
 
 void ACyberPeacock::CollisionCheck()
