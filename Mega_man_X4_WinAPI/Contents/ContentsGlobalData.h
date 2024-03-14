@@ -12,6 +12,7 @@ enum class EActorType
 	Player,
 	Buster,
 	Boss,
+	BossObject,
 	Enemy,
 };
 
@@ -242,6 +243,11 @@ enum class ECyberPeacockState
 	TrackingShot_Loop, // 미사일 공격 진행 중.
 
 	Death,
+};
+enum class ECyberPeacockMissileState
+{
+	None,
+
 };
 
 enum class ECyberSpaceMapState
