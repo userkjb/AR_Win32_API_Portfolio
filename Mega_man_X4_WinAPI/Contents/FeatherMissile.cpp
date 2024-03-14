@@ -1,5 +1,7 @@
 #include "FeatherMissile.h"
 #include <EngineCore/EngineCore.h> // Helper
+#include "Egseu.h"
+#include "CyberPeacock.h"
 
 AFeatherMissile::AFeatherMissile()
 {
@@ -47,8 +49,13 @@ void AFeatherMissile::BeginPlay()
 	{
 		Player = AEgseu::GetMainPlayer();
 	}
-
-	StateChange(ECyberPeacockMissileState::None);
+	// Boss
+	if (Boss == nullptr)
+	{
+		Boss = ACyberPeacock::GetMainBoss();
+	}
+	
+	StateChange(ECyberPeacockMissileState::Create);
 }
 
 void AFeatherMissile::Tick(float _DeltaTime)
@@ -171,22 +178,40 @@ void AFeatherMissile::StateUpdate(float _DeltaTime)
 	}
 }
 
+#pragma region None
 void AFeatherMissile::NoneStart()
 {
+	int a = 0;
 }
 
 void AFeatherMissile::None(float _DeltaTime)
 {
+	int a = 0;
 }
+#pragma endregion
 
+#pragma region Create
 void AFeatherMissile::CreateStart()
 {
+	int a = 0;
 }
 
 void AFeatherMissile::Create(float _DeltaTime)
 {
+	if (MissileStartDir == EActorDir::Left)
+	{
+		StateChange(ECyberPeacockMissileState::Run_Left);
+		return;
+	}
+	else
+	{
+		StateChange(ECyberPeacockMissileState::Run_Right);
+		return;
+	}
 }
+#pragma endregion
 
+#pragma region Up
 void AFeatherMissile::Run_UpStart()
 {
 }
@@ -194,7 +219,9 @@ void AFeatherMissile::Run_UpStart()
 void AFeatherMissile::Run_Up(float _DeltaTime)
 {
 }
+#pragma endregion
 
+#pragma region Up To Right
 void AFeatherMissile::Run_UpToRightStart()
 {
 }
@@ -202,7 +229,9 @@ void AFeatherMissile::Run_UpToRightStart()
 void AFeatherMissile::Run_UpToRight(float _DeltaTime)
 {
 }
+#pragma endregion
 
+#pragma region Up To Left
 void AFeatherMissile::Run_UpToLeftStart()
 {
 }
@@ -210,15 +239,48 @@ void AFeatherMissile::Run_UpToLeftStart()
 void AFeatherMissile::Run_UpToLeft(float _DeltaTime)
 {
 }
+#pragma endregion
 
+#pragma region Right
 void AFeatherMissile::Run_RightStart()
 {
+	if (false == MissileRenderer->IsActive())
+	{
+		MissileRenderer->SetActive(true);
+	}
+	MissileRenderer->ChangeAnimation("Right");
+	MissileVector = FVector::Zero;
 }
 
 void AFeatherMissile::Run_Right(float _DeltaTime)
 {
-}
+	MissileStartDelay += _DeltaTime;
 
+	// 0.5초 동안 오른쪽으로만 나가다가,
+	if (MissileStartDelay <= 0.2f)
+	{
+		MissileVector = FVector::Right * Speed * _DeltaTime;
+		AddActorLocation(MissileVector);
+		return;
+	}
+
+	// 미사일이 플레이어로 향할 때의 방향 계산.
+
+	{
+		FVector PlayerPos = Player->GetActorLocation();
+		PlayerPos.Y -= 50.0f;
+		FVector MissilePos = GetActorLocation();
+
+		FVector PlayerDir = PlayerPos - MissilePos;
+		PlayerDir.Normalize2D();
+
+		MissileVector = PlayerDir * Speed * _DeltaTime;
+		AddActorLocation(MissileVector);
+	}
+}
+#pragma endregion
+
+#pragma region Right To Up
 void AFeatherMissile::Run_RightToUpStart()
 {
 }
@@ -226,7 +288,9 @@ void AFeatherMissile::Run_RightToUpStart()
 void AFeatherMissile::Run_RightToUp(float _DeltaTime)
 {
 }
+#pragma endregion
 
+#pragma region Right To Down
 void AFeatherMissile::Run_RightToDownStart()
 {
 }
@@ -234,15 +298,22 @@ void AFeatherMissile::Run_RightToDownStart()
 void AFeatherMissile::Run_RightToDown(float _DeltaTime)
 {
 }
+#pragma endregion
 
+#pragma region Left
 void AFeatherMissile::Run_LeftStart()
 {
+	int a = 0;
 }
 
 void AFeatherMissile::Run_Left(float _DeltaTime)
 {
+	int a = 0;
 }
+#pragma endregion
 
+#pragma region str
+#pragma endregion
 void AFeatherMissile::Run_LeftToUpStart()
 {
 }
@@ -251,6 +322,8 @@ void AFeatherMissile::Run_LeftToUp(float _DeltaTime)
 {
 }
 
+#pragma region str
+#pragma endregion
 void AFeatherMissile::Run_LeftToDownStart()
 {
 }
@@ -259,6 +332,8 @@ void AFeatherMissile::Run_LeftToDown(float _DeltaTime)
 {
 }
 
+#pragma region str
+#pragma endregion
 void AFeatherMissile::Run_DownStart()
 {
 }
@@ -267,6 +342,8 @@ void AFeatherMissile::Run_Down(float _DeltaTime)
 {
 }
 
+#pragma region str
+#pragma endregion
 void AFeatherMissile::Run_DownToRightStart()
 {
 }
@@ -275,6 +352,8 @@ void AFeatherMissile::Run_DownToRight(float _DeltaTime)
 {
 }
 
+#pragma region str
+#pragma endregion
 void AFeatherMissile::Run_DownToLeftStart()
 {
 }
@@ -283,6 +362,8 @@ void AFeatherMissile::Run_DownToLeft(float _DeltaTime)
 {
 }
 
+#pragma region str
+#pragma endregion
 void AFeatherMissile::DeathStart()
 {
 }
@@ -293,7 +374,8 @@ void AFeatherMissile::Death(float _DeltaTime)
 
 
 
-
+#pragma region CollisionCheck
+#pragma endregion
 void AFeatherMissile::CollisionCheck()
 {
 }

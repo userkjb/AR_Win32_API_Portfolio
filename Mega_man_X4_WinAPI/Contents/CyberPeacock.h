@@ -130,6 +130,7 @@ private :
 	FVector RisingSlashVector = FVector::Zero;
 	const float RisingSlashSpeed = 500.0f;
 	float RisingSlashTargetPos = 0.0f;
+	FVector MissileStartPos = FVector::Zero;
 
 	UImageRenderer* PeacockRenderer = nullptr; // 보스
 	UCollision* PeacockCollision = nullptr; // 보스 몸통 Collision

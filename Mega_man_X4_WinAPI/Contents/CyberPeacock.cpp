@@ -86,6 +86,12 @@ void ACyberPeacock::Tick(float _DeltaTime)
 	CollisionCheck();
 
 	StateUpdate(_DeltaTime);
+
+	// test
+	if (true == UEngineInput::IsDown('K'))
+	{
+		CreateMissile();
+	}
 }
 
 void ACyberPeacock::DirCheck()
@@ -306,8 +312,8 @@ void ACyberPeacock::BattleReady(float _DeltaTime)
 void ACyberPeacock::DisappearStart()
 {
 	//RandValue = rand() % 3; // 0 ~ 2
-	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // ·£´ý ÆÐÅÏ.
-	//RandValue = 2;
+	//RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // ·£´ý ÆÐÅÏ.
+	RandValue = 2;
 	PeacockCollision->ActiveOff(); // ÄÝ¸®Àü ²ô°í.
 	//PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
@@ -582,6 +588,11 @@ void ACyberPeacock::TrackingShot_Loop(float _DeltaTime)
 	FVector ScopLocalPos = TrackingShotScope->GetPosition();
 	FVector ScopGlobalPos = ScopLocalPos + GetActorLocation();
 	ScopGlobalPos.Y += 60.0f;
+	
+	if (MissileStartPos.X == 0.0f && MissileStartPos.Y == 0.0f)
+	{
+		MissileStartPos = ScopGlobalPos;
+	}
 
 	FVector PlayerDir = PlayerPos - ScopGlobalPos;
 	PlayerDir.Normalize2D();
@@ -625,4 +636,21 @@ void ACyberPeacock::CollisionCheck()
 void ACyberPeacock::CreateMissile()
 {
 	AFeatherMissile* Missile = GetWorld()->SpawnActor<AFeatherMissile>(static_cast<int>(EActorType::BossObject));
+	
+	if (TrackingShotDir == EActorDir::Left)
+	{
+		Missile->SetMissileState(ECyberPeacockMissileState::Create);
+		Missile->SetMissileStartDir(EActorDir::Right);
+		FVector Pos = MissileStartPos;
+		Pos.Y -= 60.0f;
+		Missile->SetActorLocation(Pos);
+	}
+	else if (TrackingShotDir == EActorDir::Right)
+	{
+		Missile->SetMissileState(ECyberPeacockMissileState::Create);
+		Missile->SetMissileStartDir(EActorDir::Left);
+		FVector Pos = MissileStartPos;
+		Pos.Y -= 60.0f;
+		Missile->SetActorLocation(Pos);
+	}
 }

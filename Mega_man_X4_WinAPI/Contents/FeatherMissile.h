@@ -1,9 +1,10 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "ContentsGlobalData.h"
-#include "Egseu.h"
+//#include "Egseu.h"
 
 class AEgseu;
+class ACyberPeacock;
 
 class AFeatherMissile : public AActor
 {
@@ -25,6 +26,11 @@ public :
 	void SetMissileStartDir(EActorDir _Dir)
 	{
 		MissileStartDir = _Dir;
+	}
+
+	void SetMissileState(ECyberPeacockMissileState _State)
+	{
+		MissileState = _State;
 	}
 
 protected :
@@ -76,8 +82,10 @@ private :
 
 	float LifeTime = 0.0f;
 	FVector MissileVector = FVector::Zero;
-	const float Speed = 1000.0f;
+	const float Speed = 500.0f;
+	float MissileStartDelay = 0.0f;
 
 	AEgseu* Player = nullptr;
+	ACyberPeacock* Boss = nullptr;
 };
 

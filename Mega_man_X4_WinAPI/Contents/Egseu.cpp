@@ -923,6 +923,13 @@ void AEgseu::Idle(float _DeltaTime)
 		return;
 	}
 
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(0, 0, 0, 0))
+	{
+		StateChange(EEgseuState::IdleJump_Loop);
+		return;
+	}
+
 	//MoveUpdate(_DeltaTime);
 }
 
