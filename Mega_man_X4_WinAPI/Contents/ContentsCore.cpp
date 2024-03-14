@@ -44,6 +44,9 @@ void ContentsCore::BeginPlay()
 	//MainWindow.SetWindowPosition({ 0, 0 }); // 윈도우에서 출력 위치.
 	//MainWindow.SetWindowScale({ 1920, 1080 }); // 해상도
 
+	// 마우스 커서 가림.
+	//MainWindow.CursorOff();
+
 	// 부모 BeginPlay.
 	UEngineCore::BeginPlay();
 
