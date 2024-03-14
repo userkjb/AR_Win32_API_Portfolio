@@ -50,6 +50,11 @@ public :
 		StateChange(_State);
 	}
 
+	UImageRenderer* GetTrackingShotScope() const
+	{
+		return TrackingShotScope;
+	}
+
 	ECyberPeacockState GetCyberPeacockState() const
 	{
 		return State;
@@ -90,6 +95,9 @@ protected :
 	void RisingSlash_Loop(float _DeltaTime);
 	void TrackingShotStart();
 	void TrackingShot(float _DeltaTime);
+	void TrackingShot_LoopStart();
+	void TrackingShot_Loop(float _DeltaTime);
+
 	void DeathStart();
 	void Death(float _DeltaTime);
 
@@ -123,10 +131,10 @@ private :
 	const float RisingSlashSpeed = 500.0f;
 	float RisingSlashTargetPos = 0.0f;
 
-	UImageRenderer* PeacockRenderer = nullptr;
-	UCollision* PeacockCollision = nullptr;
-	UImageRenderer* TrackingShotScope = nullptr;
-	UCollision* FeatherAttackCollision = nullptr;
+	UImageRenderer* PeacockRenderer = nullptr; // 보스
+	UCollision* PeacockCollision = nullptr; // 보스 몸통 Collision
+	UImageRenderer* TrackingShotScope = nullptr; // 스코프
+	UCollision* FeatherAttackCollision = nullptr; // 보스 스킬 Collision
 
 	EActorDir CyberPeacockDir = EActorDir::Left;
 
@@ -136,3 +144,9 @@ private :
 	AEgseu* Player = nullptr;
 };
 // X : 1838 ~ 2042
+// 
+// 1838 ~ 1940 || 1940 ~ 2042
+
+// 1917 ~ 2681
+//  382    382
+// 2299   2299

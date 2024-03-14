@@ -59,7 +59,7 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("TrackingShot_Left.png", 5, 4);
 	UEngineResourcesManager::GetInst().CuttingImage("RisingSlash_Right.png", 3, 3);
 	UEngineResourcesManager::GetInst().CuttingImage("RisingSlash_Left.png", 3, 3);
-	UEngineResourcesManager::GetInst().CuttingImage("Scope.png", 14, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("Scope.png", 1, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("missile.png", 16, 2); // 이미지 이상함. TODO
 
 
@@ -276,7 +276,7 @@ void UCyberSpaceBossLevel::BossRoomStart()
 void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
 {
 	WarningTime += _DeltaTime;
-	if (WarningTime >= 2.0f)
+	if (WarningTime >= 1.0f)
 	{
 		StateChange(EBossLevelState::BossIntro);
 		return;
@@ -311,7 +311,7 @@ void UCyberSpaceBossLevel::BossText(float _DeltaTime)
 {
 	TextTime += _DeltaTime;
 	// 지금은 그냥 넘김.
-	if (TextTime >= 2.0f)
+	if (TextTime >= 1.0f)
 	{
 		StateChange(EBossLevelState::BossBattleReadySound);
 		return;
@@ -352,7 +352,7 @@ void UCyberSpaceBossLevel::BossReady(float _DeltaTime)
 	if (CyberBoss->GetBattleReady())
 	{
 		HpUIEvent += _DeltaTime;
-		if (HpUIEvent >= 2.0f)
+		if (HpUIEvent >= 1.0f)
 		{
 			// UI 채력바 올라가고,
 			StateChange(EBossLevelState::BossBattle);
@@ -371,7 +371,8 @@ void UCyberSpaceBossLevel::BossBattleStart()
 
 void UCyberSpaceBossLevel::BossBattle(float _DeltaTime)
 {
-
+	// 플레이어 피 체크.
+	// 보스 피 체크.
 }
 #pragma endregion
 
