@@ -355,6 +355,7 @@ enum class ECollisionOrder
 	Weapon,
 
 	Boss,
+	BossSkill,
 	Enemy,
 
 	BossDoor,

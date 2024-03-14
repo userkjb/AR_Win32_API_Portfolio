@@ -126,6 +126,7 @@ private :
 	UImageRenderer* PeacockRenderer = nullptr;
 	UCollision* PeacockCollision = nullptr;
 	UImageRenderer* TrackingShotScope = nullptr;
+	UCollision* FeatherAttackCollision = nullptr;
 
 	EActorDir CyberPeacockDir = EActorDir::Left;
 

@@ -404,19 +404,34 @@ void ACyberPeacock::Appear(float _DeltaTime)
 #pragma region FeatherAttack (³¯°³!!)
 void ACyberPeacock::FeatherAttackStart()
 {
+	if (FeatherAttackCollision == nullptr)
+	{
+		FeatherAttackCollision = CreateCollision(ECollisionOrder::BossSkill);
+		FeatherAttackCollision->SetColType(ECollisionType::Rect);
+		FeatherAttackCollision->SetPosition(GetActorLocation());
+		FeatherAttackCollision->SetScale({ 0.0f, 0.0f });
+	}
+
 	PeacockCollision->ActiveOn();
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("FeatherAttack"));
 }
 
 void ACyberPeacock::FeatherAttack(float _DeltaTime)
 {
-	// 1120 | 756
-	FVector ImageScale = PeacockRenderer->GetImage()->GetScale();
-
-	// 224  | 252
-	FVector CollisionScale = { ImageScale.X / 5, ImageScale.Y / 3 };
-
-	//PeacockCollision->SetScale();
+	int Frame = PeacockRenderer->GetCurAnimationImageFrame();
+	if (Frame == 7)
+	{
+		FeatherAttackCollision->SetScale({ 150, 87 });
+	}
+	else if (Frame == 8 || Frame == 9 || Frame == 10 || Frame == 11 || Frame == 12 || Frame == 13)
+	{
+		FeatherAttackCollision->SetScale({ 222, 125 });
+	}
+	else
+	{
+		FeatherAttackCollision->SetScale({ 0, 0 });
+	}
+	
 
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
