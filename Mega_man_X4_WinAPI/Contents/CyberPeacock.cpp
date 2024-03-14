@@ -3,6 +3,7 @@
 #include <EngineBase/EngineRandom.h> // Random
 #include "Egseu.h"
 #include "Buster.h"
+#include "FeatherMissile.h"
 
 ACyberPeacock::ACyberPeacock()
 {
@@ -305,8 +306,8 @@ void ACyberPeacock::BattleReady(float _DeltaTime)
 void ACyberPeacock::DisappearStart()
 {
 	//RandValue = rand() % 3; // 0 ~ 2
-	//RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // 랜덤 패턴.
-	RandValue = 2;
+	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // 랜덤 패턴.
+	//RandValue = 2;
 	PeacockCollision->ActiveOff(); // 콜리전 끄고.
 	//PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
@@ -545,7 +546,7 @@ void ACyberPeacock::TrackingShot(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region TrackingShot_Loop
+#pragma region TrackingShot_Loop (미사일!!)
 void ACyberPeacock::TrackingShot_LoopStart()
 {	
 	// 스코프 생성 위치 설정.
@@ -588,7 +589,7 @@ void ACyberPeacock::TrackingShot_Loop(float _DeltaTime)
 	FVector Move = PlayerDir * 500.0f * _DeltaTime;
 	TrackingShotScope->AddPosition(Move);
 
-
+	// 미사일 생성.
 }
 #pragma endregion
 
@@ -619,4 +620,9 @@ void ACyberPeacock::CollisionCheck()
 
 		Hp -= DefaultBusterDamage;
 	}
+}
+
+void ACyberPeacock::CreateMissile()
+{
+	AFeatherMissile* Missile = GetWorld()->SpawnActor<AFeatherMissile>(static_cast<int>(EActorType::BossObject));
 }

@@ -108,7 +108,7 @@ private :
 
 	void CollisionCheck();
 
-
+	void CreateMissile();
 	////////////////////////////////////////////
 
 	bool b_Intro = false; // 인트로 애니메이션 여부.
