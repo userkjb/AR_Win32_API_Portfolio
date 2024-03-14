@@ -33,7 +33,6 @@ void ACyberPeacock::BeginPlay()
 	TrackingShotScope = CreateImageRenderer(static_cast<int>(ERenderOrder::BossObject));
 	TrackingShotScope->SetImage("Scope.png");
 	TrackingShotScope->AutoImageScale(2.0f);
-	TrackingShotScope->SetActive(false);
 
 	// Collision
 	PeacockCollision = CreateCollision(ECollisionOrder::Boss);
@@ -54,8 +53,8 @@ void ACyberPeacock::BeginPlay()
 	PeacockRenderer->CreateAnimation("Disappear_Appear_Right", "Disappear_Appear_Right.png", 0, 3, 0.05f, true);
 	PeacockRenderer->CreateAnimation("Disappear_Appear_Left", "Disappear_Appear_Left.png", 0, 3, 0.05f, true);
 	// FeatherAttack (날개)
-	PeacockRenderer->CreateAnimation("FeatherAttack_Right", "FeatherAttack_Right.png", 0, 14, 0.05f, false);
-	PeacockRenderer->CreateAnimation("FeatherAttack_Left", "FeatherAttack_Left.png", 0, 14, 0.05f, false);
+	PeacockRenderer->CreateAnimation("FeatherAttack_Right", "FeatherAttack_Right.png", 0, 14, 0.08f, false);
+	PeacockRenderer->CreateAnimation("FeatherAttack_Left", "FeatherAttack_Left.png", 0, 14, 0.08f, false);
 	// RisingSlash (위로)
 	PeacockRenderer->CreateAnimation("RisingSlash_Right", "RisingSlash_Right.png", 0, 4, 0.05f, false);
 	PeacockRenderer->CreateAnimation("RisingSlash_Left", "RisingSlash_Left.png", 0, 4, 0.05f, false);
@@ -69,6 +68,8 @@ void ACyberPeacock::BeginPlay()
 
 	PeacockRenderer->ChangeAnimation("Peacock_Intro");
 	TrackingShotScope->ChangeAnimation("Scope");
+	
+	TrackingShotScope->SetActive(false);
 
 	StateChange(ECyberPeacockState::None);
 }
@@ -290,7 +291,8 @@ void ACyberPeacock::BattleReady(float _DeltaTime)
 void ACyberPeacock::DisappearStart()
 {
 	//RandValue = rand() % 3; // 0 ~ 2
-	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // 랜덤 패턴.
+	//RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // 랜덤 패턴.
+	RandValue = 0;
 	PeacockCollision->ActiveOff(); // 콜리전 끄고.
 	//PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
@@ -321,11 +323,11 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 		{
 			if (PlayerDir == EActorDir::Right)
 			{
-				this->SetActorLocation({ PlayerPos.iX() - 50, PlayerPos.iY() - 50 });
+				this->SetActorLocation({ PlayerPos.iX() - 50, PlayerPos.iY() });
 			}
-			else if (PlayerDir == EActorDir::Right)
+			else if (PlayerDir == EActorDir::Left)
 			{
-				this->SetActorLocation({ PlayerPos.iX() + 50, PlayerPos.iY() - 50 });
+				this->SetActorLocation({ PlayerPos.iX() + 50, PlayerPos.iY() });
 			}
 		}
 		else if (RandValue == 1)
@@ -339,7 +341,7 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 				}
 				this->SetActorLocation({ x, PlayerPos.iY() - 50 });
 			}
-			else if (PlayerDir == EActorDir::Right)
+			else if (PlayerDir == EActorDir::Left)
 			{
 				this->SetActorLocation({ PlayerPos.iX() + 50, PlayerPos.iY() - 50 });
 			}
@@ -351,7 +353,7 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 			{
 				this->SetActorLocation({ 2050, 320 });
 			}
-			else if (PlayerDir == EActorDir::Right)
+			else if (PlayerDir == EActorDir::Left)
 			{
 				this->SetActorLocation({ 2550, 320 });
 			}
@@ -371,7 +373,8 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 #pragma region Appear
 void ACyberPeacock::AppearStart()
 {
-	PeacockRenderer->ChangeAnimation(GetAnimationName("Disappear_Appear"));
+	PeacockRenderer->SetActive(true);
+	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
 }
 
 void ACyberPeacock::Appear(float _DeltaTime)
@@ -407,6 +410,14 @@ void ACyberPeacock::FeatherAttackStart()
 
 void ACyberPeacock::FeatherAttack(float _DeltaTime)
 {
+	// 1120 | 756
+	FVector ImageScale = PeacockRenderer->GetImage()->GetScale();
+
+	// 224  | 252
+	FVector CollisionScale = { ImageScale.X / 5, ImageScale.Y / 3 };
+
+	//PeacockCollision->SetScale();
+
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
 		StateChange(ECyberPeacockState::Disappear);
