@@ -22,7 +22,9 @@ public :
 	UEngineWindow& operator=(const UEngineWindow) = delete;
 	UEngineWindow& operator=(UEngineWindow&& _Other) noexcept = delete;
 
-	void Open(std::string_view _Title = "Title");
+	//void Open(std::string_view _Title = "Title");
+	void Open(std::string_view _Title = "Title", std::string_view _IconPath = "");
+
 
 	static void Init(HINSTANCE _hInst);
 	static unsigned __int64 WindowMessageLoop(void(*_Update)(), void(*_End)());
@@ -62,6 +64,11 @@ public :
 	{
 		SetWindowTextA(hWnd, _Text.data());
 	}
+
+	/// <summary>
+	/// 아이콘 설정 함수.
+	/// </summary>
+	void SetWindowSmallIcon();
 
 	/// <summary>
 	/// X4 에서 사용 안함. 좌표 확인용으로 사용.
