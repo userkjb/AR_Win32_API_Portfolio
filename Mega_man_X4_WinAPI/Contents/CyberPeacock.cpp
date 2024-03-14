@@ -41,7 +41,7 @@ void ACyberPeacock::BeginPlay()
 	CollisionScale.X = CollisionScale.X / 7.0f;
 	PeacockCollision->SetScale(CollisionScale);
 	FVector CollisionPos = PeacockRenderer->GetPosition();
-	PeacockCollision->SetPosition({ CollisionPos.X, CollisionPos.Y - 100.0f });
+	PeacockCollision->SetPosition({ 0.0f, -100.0f });
 
 
 	// Animation
@@ -337,10 +337,12 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 		{
 			if (PlayerDir == EActorDir::Right)
 			{
+				CyberPeacockDir = EActorDir::Right;
 				this->SetActorLocation({ PlayerPos.iX() - 50, PlayerPos.iY() });
 			}
 			else if (PlayerDir == EActorDir::Left)
 			{
+				CyberPeacockDir = EActorDir::Left;
 				this->SetActorLocation({ PlayerPos.iX() + 50, PlayerPos.iY() });
 			}
 		}
@@ -348,6 +350,7 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 		{
 			if (PlayerDir == EActorDir::Right)
 			{
+				CyberPeacockDir = EActorDir::Right;
 				int x = PlayerPos.iX() - 50;
 				if (x < 1917)
 				{
@@ -357,6 +360,7 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 			}
 			else if (PlayerDir == EActorDir::Left)
 			{
+				CyberPeacockDir = EActorDir::Left;
 				int x = PlayerPos.iX() + 50;
 				if (x >= 2681)
 				{
@@ -370,14 +374,14 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 			// Player 위치에 따라 나타나는 좌표가 2개로 나뉨.
 
 			int x = PlayerPos.iX();
-			if (1917 <= x && x <= 2299)
+			if (1917 <= x && x <= 2299) // 왼쪽
 			{
-				CyberPeacockDir = EActorDir::Left;
+				TrackingShotDir = EActorDir::Left;
 				this->SetActorLocation({ 2050, 320 });
 			}
-			else if (2299< x && x <= 2681)
+			else if (2299< x && x <= 2681) // 오른쪽
 			{
-				CyberPeacockDir = EActorDir::Right;
+				TrackingShotDir = EActorDir::Left;
 				this->SetActorLocation({ 2550, 320 });
 			}
 			else
@@ -546,14 +550,14 @@ void ACyberPeacock::TrackingShot_LoopStart()
 {	
 	// 스코프 생성 위치 설정.
 	// 보스의 좌우를 확인 한 다음,
-	if (CyberPeacockDir == EActorDir::Right)
+	if (TrackingShotDir == EActorDir::Left)
 	{
 		// 스코프 생성 위치를 설정.
-		TrackingShotScope->SetPosition({ 33.0f, -60.0f });
+		TrackingShotScope->SetPosition({ 80.0f, -145.0f });
 	}
-	else if (CyberPeacockDir == EActorDir::Left)
+	else if (TrackingShotDir == EActorDir::Right)
 	{
-		TrackingShotScope->SetPosition({ -33.0f, -60.0f });
+		TrackingShotScope->SetPosition({ -80.0f, -145.0f });
 	}	
 
 	// 보스 애니메이션 설정.
@@ -573,8 +577,18 @@ void ACyberPeacock::TrackingShot_LoopStart()
 
 void ACyberPeacock::TrackingShot_Loop(float _DeltaTime)
 {
-	//FVector Move = FVector::Right * 10.0f * _DeltaTime;
-	//TrackingShotScope->AddPosition(Move);
+	FVector PlayerPos = Player->GetActorLocation();
+	FVector ScopLocalPos = TrackingShotScope->GetPosition();
+	FVector ScopGlobalPos = ScopLocalPos + GetActorLocation();
+	ScopGlobalPos.Y += 60.0f;
+
+	FVector PlayerDir = PlayerPos - ScopGlobalPos;
+	PlayerDir.Normalize2D();
+
+	FVector Move = PlayerDir * 500.0f * _DeltaTime;
+	TrackingShotScope->AddPosition(Move);
+
+
 }
 #pragma endregion
 

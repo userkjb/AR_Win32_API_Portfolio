@@ -137,6 +137,7 @@ private :
 	UCollision* FeatherAttackCollision = nullptr; // 보스 스킬 Collision
 
 	EActorDir CyberPeacockDir = EActorDir::Left;
+	EActorDir TrackingShotDir = EActorDir::Left; // TrackingShot 상태일 때 방향
 
 	ECyberPeacockState State = ECyberPeacockState::None;
 	ERenderOrder Order = ERenderOrder::None;
