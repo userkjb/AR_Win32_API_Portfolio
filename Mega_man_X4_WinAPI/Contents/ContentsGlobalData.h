@@ -247,7 +247,25 @@ enum class ECyberPeacockState
 enum class ECyberPeacockMissileState
 {
 	None,
+	Create,
 
+	Run_Up,
+	Run_UpToRight,
+	Run_UpToLeft,
+
+	Run_Right,
+	Run_RightToUp,
+	Run_RightToDown,
+
+	Run_Left,
+	Run_LeftToUp,
+	Run_LeftToDown,
+
+	Run_Down,
+	Run_DownToRight,
+	Run_DownToLeft,
+
+	Death,
 };
 
 enum class ECyberSpaceMapState
