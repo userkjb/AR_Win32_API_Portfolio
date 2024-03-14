@@ -32,7 +32,8 @@ void UEngineCore::CoreInit(HINSTANCE _HINSTANCE)
 	}
 
 	UEngineWindow::Init(_HINSTANCE);
-	MainWindow.Open();
+	WindowOpen(WindowTitle, WindowIconPath);
+	MainWindow.Open(WindowTitle, WindowIconPath);
 
 	EngineInit = true;
 }

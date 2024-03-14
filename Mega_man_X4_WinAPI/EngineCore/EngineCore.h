@@ -45,6 +45,8 @@ public :
 		AllLevel.insert(std::pair<std::string, ULevel*>(UpperName, NewLevel));
 	}
 
+	virtual void WindowOpen(std::string& _OutWindowTitle, std::string& _SmallIconPath) {}
+
 	/// <summary>
 	/// Level 파괴
 	/// </summary>
@@ -88,13 +90,16 @@ private :
 	float CurFrameTime = 0.0f;
 	bool EngineInit = false;
 
+	std::string WindowTitle;
+	std::string WindowIconPath;
+
+	/// <summary>
+	/// Level 들을 담는 Map 선언.
+	/// </summary>
 	std::map<std::string, ULevel*> AllLevel;
 	ULevel* CurLevel = nullptr;
 	ULevel* NextLevel = nullptr; // TODO
 
-	/// <summary>
-	/// Level 들을 담는 vector 선언.
-	/// </summary>
 	std::vector<std::string> DestroyLevelName;
 
 	static void EngineTick();
