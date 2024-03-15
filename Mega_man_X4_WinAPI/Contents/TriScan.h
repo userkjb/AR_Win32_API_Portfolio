@@ -21,6 +21,11 @@ public :
 	{
 		State = _State;
 	}
+	
+	inline int GetDamage() const
+	{
+		return Damage;
+	}
 
 protected :
 	void BeginPlay() override;
@@ -77,6 +82,7 @@ private :
 	//int CollisionCount = 0;
 	//bool Col_Buster = false;
 	int Hp = 3;
+	int Damage = 3;
 
 	ABuster* PrevBuster = nullptr;
 	ABuster* UsingBuster = nullptr;
