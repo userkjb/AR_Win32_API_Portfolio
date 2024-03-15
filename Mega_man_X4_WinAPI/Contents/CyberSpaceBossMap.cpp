@@ -133,6 +133,12 @@ void ACyberSpaceBossMap::StateChange(ECyberBossMapState _State)
 		case ECyberBossMapState::BossRoom:
 			BossRoomStart();
 			break;
+		case ECyberBossMapState::White:
+			WhiteStart();
+			break;
+		case ECyberBossMapState::Restore:
+			RestoreStart();
+			break;
 		default :
 			break;
 		}
@@ -158,6 +164,12 @@ void ACyberSpaceBossMap::StateUpdate(float _DeltaTime)
 		break;
 	case ECyberBossMapState::BossRoom:
 		BossRoom(_DeltaTime);
+		break;
+	case ECyberBossMapState::White:
+		White(_DeltaTime);
+		break;
+	case ECyberBossMapState::Restore:
+		Restore(_DeltaTime);
 		break;
 	default:
 		break;
@@ -260,6 +272,27 @@ void ACyberSpaceBossMap::BossRoom(float _DeltaTime)
 {
 	int a = 0;
 }
+
+#pragma region White - 맵 흰색으로.
+void ACyberSpaceBossMap::WhiteStart()
+{
+}
+void ACyberSpaceBossMap::White(float _DeltaTime)
+{
+	// 전부 진행 되었다면,
+	MapWhite = true;
+}
+#pragma endregion
+
+#pragma region Restore - 흰색 된 맵을 다시 복구.
+void ACyberSpaceBossMap::RestoreStart()
+{
+}
+void ACyberSpaceBossMap::Restore(float _DeltaTime)
+{
+	MapRestore = true;
+}
+#pragma endregion
 
 
 // Collicion

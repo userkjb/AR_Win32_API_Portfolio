@@ -70,6 +70,21 @@ public :
 		return BackDoorOpen;
 	}
 
+	inline bool GetMapWhite() const
+	{
+		return MapWhite;
+	}
+
+	inline bool GetRestoreMap() const
+	{
+		return MapRestore;
+	}
+
+	inline void SetStateChange(ECyberBossMapState _State)
+	{
+		StateChange(_State);
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -91,6 +106,10 @@ private :
 	void BossSlowMove(float _DeltaTime);
 	void BossRoomStart();
 	void BossRoom(float _DeltaTime);
+	void WhiteStart();
+	void White(float _DeltaTime);
+	void RestoreStart();
+	void Restore(float _DeltaTime);
 
 	void CollisionCheck(float _DeltaTime);
 
@@ -125,6 +144,8 @@ private :
 	bool FrontDoorOpen = false; // 앞 문 열림.
 	bool BackDoorOpen = false; // 뒷 문 열림.
 	//bool IsBoss = false;
+	bool MapWhite = false;
+	bool MapRestore = false;
 	int CollisionCount_1 = 0;
 	int CollisionCount_2 = 0;
 };
