@@ -377,12 +377,12 @@ void UCyberSpaceBossLevel::BossBattle(float _DeltaTime)
 	int PlayerHp = Player->GetPlayerHp();
 	int BossHp = CyberBoss->GetCyberPeacockHp();
 	
-	if (0 <= PlayerHp)
+	if (PlayerHp <= 0)
 	{
 
 	}
 
-	if (0 <= BossHp)
+	if (BossHp <= 0)
 	{
 		StateChange(EBossLevelState::BossEnd);
 		return;
