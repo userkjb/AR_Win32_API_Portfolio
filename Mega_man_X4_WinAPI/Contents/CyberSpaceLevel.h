@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Level.h>
+#include <EnginePlatform/EngineSound.h>
 #include <vector>
 
 class ACyberSpaceMap;
@@ -48,6 +49,8 @@ private :
 
 	// Enemy
 	bool Test_b = false;
+
+	UEngineSoundPlayer BGMPlayer;
 
 	ATriScan* TryScan_1 = nullptr;
 	ATriScan* TryScan_2 = nullptr;

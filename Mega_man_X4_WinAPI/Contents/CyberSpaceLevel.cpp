@@ -35,6 +35,9 @@ void UCyberSpaceLevel::BeginPlay()
 	{
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
+
+	BGMPlayer = UEngineSound::SoundPlay("X4-CYBER_KUJACKER_STAGE.mp3");
+	BGMPlayer.Loop();
 }
 
 void UCyberSpaceLevel::Tick(float _DeltaTime)

@@ -57,6 +57,18 @@ void ContentsCore::BeginPlay()
 
 	// ==========================================================================
 
+	UEngineDirectory NewDir;
+	NewDir.MoveParent();
+	NewDir.Move("ContentsResources\\Sound");
+
+	std::list<UEngineFile> NewList = NewDir.AllFile({ ".wav", ".mp3" }, true);
+
+	for (UEngineFile& File : NewList)
+	{
+		UEngineSound::Load(File.GetFullPath());
+	}
+
+
 	// === Level ===
 	CreateLevel<UTitleLevel>("TitleLevel");
 	CreateLevel<UIntroLevel>("IntroLevel");
