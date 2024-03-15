@@ -30,7 +30,7 @@ void AMiruTorearu::BeginRender()
 	MiruTorearuRender->SetImage("MiruToraeru_Death_Effect.png");
 	MiruTorearuRender->AutoImageScale(2.5f);
 
-	MiruTorearuCollision = CreateCollision(ECollisionOrder::Enemy);
+	MiruTorearuCollision = CreateCollision(ECollisionOrder::MiruTorearu);
 	MiruTorearuCollision->SetScale({ 48 * 2.5f, 46 * 2.5f });
 	MiruTorearuCollision->SetColType(ECollisionType::CirCle);
 
@@ -201,18 +201,26 @@ void AMiruTorearu::AttackStart()
 void AMiruTorearu::Attack(float _DeltaTime)
 {
 	FVector PlayerPos = Player->GetActorLocation();
+	PlayerPos.Y -= 50.0f;
 	FVector PlayerDir = PlayerPos - this->GetActorLocation();
 	PlayerDir.Normalize2D();
 
 	PlayerVector = -PlayerDir * PlayerMoveSpeed * _DeltaTime;
 	Player->AddActorLocation(PlayerVector);
 
-	// Test
-	if (true == UEngineInput::IsDown('Y'))
+	int a = Player->GetOpDir();
+	if (Player->GetOpDir() >= 2)
 	{
 		StateChange(EMiruTorearuState::DeathStart);
 		return;
 	}
+
+	// Test
+	//if (true == UEngineInput::IsDown('Y'))
+	//{
+	//	StateChange(EMiruTorearuState::DeathStart);
+	//	return;
+	//}
 }
 #pragma endregion
 
@@ -268,8 +276,8 @@ void AMiruTorearu::CollisionCheck()
 	std::vector<UCollision*> Result;
 	if (true == MiruTorearuCollision->CollisionCheck(ECollisionOrder::Player, Result))
 	{
-		Player = dynamic_cast<AEgseu*>(Result[0]->GetOwner());
-		StateChange(EMiruTorearuState::Attack);
-		return;
+		//Player = dynamic_cast<AEgseu*>(Result[0]->GetOwner());
+		//StateChange(EMiruTorearuState::Attack);
+		//return;
 	}
 }

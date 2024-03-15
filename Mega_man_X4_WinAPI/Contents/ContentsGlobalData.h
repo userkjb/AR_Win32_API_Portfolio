@@ -350,16 +350,16 @@ enum class ERenderOrder
 {
 	None,
 	Map,
-	Player,
 	MapObject,
 	MapSub,
-	Buster,
 	EnemyPrev,
 	Enemy,
 	EnemyNext,
 	EnemyEffect,
 	Boss,
 	BossObject,
+	Player,
+	Buster,
 };
 
 /// <summary>
@@ -377,6 +377,7 @@ enum class ECollisionOrder
 	CyberPeacock_Missile,
 
 	Enemy,
+	MiruTorearu, // Boss
 
 	BossDoor,
 };

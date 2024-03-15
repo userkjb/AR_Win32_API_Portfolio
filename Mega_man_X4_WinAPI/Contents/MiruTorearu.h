@@ -25,6 +25,11 @@ public:
 		{
 			State = _State;
 		}
+		else if (_State == EMiruTorearuState::Attack)
+		{
+			AttackStart();
+			State = _State;
+		}
 		else
 		{
 			return;
@@ -40,6 +45,7 @@ public:
 		MiruDir = _Dir;
 	}
 
+	void SetPlayer(AEgseu* _Set) { Player = _Set; }
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

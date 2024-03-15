@@ -5,6 +5,7 @@
 class ABuster;
 class ACyberSpaceMap;
 class ACyberSpaceBossMap;
+class AMiruTorearu;
 
 class AEgseu : public AActor
 {
@@ -26,6 +27,11 @@ public :
 	EActorDir GetActorDir() const
 	{
 		return DirState;
+	}
+
+	int GetOpDir() const
+	{
+		return OpDir;
 	}
 
 	/// <summary>
@@ -285,6 +291,9 @@ private :
 	UImageRenderer* MiddleChargeRender = nullptr; // 중간 차지
 	UImageRenderer* PullChargeRender = nullptr; // 풀 차지
 
+	AMiruTorearu* PreMiru = nullptr;
+	AMiruTorearu* UseMiru = nullptr;
+
 	//===== Vector ==============
 
 	FVector RunVector = FVector::Zero;
@@ -340,6 +349,7 @@ private :
 	int BusterTickCount = 0; // Buster가 1번 생성되도록.
 	int ChangeAnimationFrame = 0;
 	int Hit_Count = 0; // Hit 중복 방지.
+	int OpDir = 0;
 
 	int MaxHp = 48;
 	int Hp = 32; // 하트탱크 + 2

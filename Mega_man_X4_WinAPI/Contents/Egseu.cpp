@@ -39,11 +39,11 @@ void AEgseu::Tick(float _DeltaTime)
 	CollisionCheck(_DeltaTime);
 	// Debug
 	// Player State 출력
-	//if (Debug_Num != static_cast<int>(State))
-	//{
-	//	UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
-	//	Debug_Num = static_cast<int>(State);
-	//}
+	if (Debug_Num != static_cast<int>(State))
+	{
+		UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
+		Debug_Num = static_cast<int>(State);
+	}
 	// Debug
 	if (true == UEngineInput::IsDown(VK_F3))
 	{
@@ -950,12 +950,12 @@ void AEgseu::Idle(float _DeltaTime)
 		return;
 	}
 
-	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
-	if (Color == Color8Bit(0, 0, 0, 0))
-	{
-		StateChange(EEgseuState::IdleJump_Loop);
-		return;
-	}
+	//Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	//if (Color == Color8Bit(0, 0, 0, 0))
+	//{
+	//	StateChange(EEgseuState::IdleJump_Loop);
+	//	return;
+	//}
 
 	//MoveUpdate(_DeltaTime);
 }
@@ -4271,14 +4271,34 @@ void AEgseu::Hit(float _DeltaTime)
 #pragma region Hit_MiruTorearu
 void AEgseu::Hit_MiruTorearuStart()
 {
-	//PlayerRender->ChangeAnimation(GetAnimationName(""));
-	int a = 0;
+	PlayerRender->ChangeAnimation(GetAnimationName("Death"));
+	OpDir = 0;
 }
 void AEgseu::Hit_MiruTorearu(float _DeltaTime)
 {
-	// 공의 중앙 방향.
-	// 이동 속도.
+	EActorDir PreDir = DirState;
+	DirCheck();
+	
+	if (PreDir != DirState)
+	{
+		OpDir++;
+	}
 
+	if (OpDir >= 3)
+	{
+		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+		{
+			OpDir = 0;
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			OpDir = 0;
+			StateChange(EEgseuState::Idle);
+			return;
+		}
+	}
 }
 #pragma endregion
 
@@ -4497,7 +4517,6 @@ void AEgseu::MoveUpdate(float _DeltaTime)
 void AEgseu::CollisionCheck(float _DeltaTime)
 {
 	std::vector<UCollision*> Result;
-
 	if (true == PlayerCollision->CollisionCheck(ECollisionOrder::Boss, Result))
 	{
 		Hit_Count++;
@@ -4513,15 +4532,37 @@ void AEgseu::CollisionCheck(float _DeltaTime)
 		}
 	}
 
-	if (true == PlayerCollision->CollisionCheck(ECollisionOrder::Enemy, Result))
+	std::vector<UCollision*> MiruTorearuResult;
+	if (true == PlayerCollision->CollisionCheck(ECollisionOrder::MiruTorearu, MiruTorearuResult))
 	{
-		Hit_Count++;
-		if (Hit_Count == 1)
+		//AMiruTorearu* Enemy = (AMiruTorearu*)MiruTorearuResult[0]->GetOwner();
+		AMiruTorearu* Enemy = dynamic_cast<AMiruTorearu*>(MiruTorearuResult[0]->GetOwner());
+		Enemy->SetMiruTorearuState(EMiruTorearuState::Attack);
+		if (PreMiru == Enemy)
 		{
-			AMiruTorearu* Enemy = (AMiruTorearu*)Result[0]->GetOwner();
-			std::string x = Enemy->GetName();
-
+			return;
 		}
+
+		if (PreMiru == nullptr)
+		{
+			PreMiru = Enemy;
+			UseMiru = Enemy;
+
+			StateChange(EEgseuState::Hit_MiruTorearu);
+			return;
+		}
+		else if (PreMiru != Enemy)
+		{
+			PreMiru = Enemy;
+			UseMiru = Enemy;
+
+			StateChange(EEgseuState::Hit_MiruTorearu);
+			return;
+		}
+	}
+	else
+	{
+		int a = 0;
 	}
 }
 
