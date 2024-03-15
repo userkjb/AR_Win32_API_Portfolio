@@ -33,6 +33,11 @@ public :
 		MissileState = _State;
 	}
 
+	inline int GetDamage() const
+	{
+		return Damage;
+	}
+
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -47,30 +52,6 @@ private :
 	void Create(float _DeltaTime);
 	void RunStart();
 	void Run(float _DeltaTime);
-	void Run_UpStart();
-	void Run_Up(float _DeltaTime);
-	void Run_UpToRightStart();
-	void Run_UpToRight(float _DeltaTime);
-	void Run_UpToLeftStart();
-	void Run_UpToLeft(float _DeltaTime);
-	void Run_RightStart();
-	void Run_Right(float _DeltaTime);
-	void Run_RightToUpStart();
-	void Run_RightToUp(float _DeltaTime);
-	void Run_RightToDownStart();
-	void Run_RightToDown(float _DeltaTime);
-	void Run_LeftStart();
-	void Run_Left(float _DeltaTime);
-	void Run_LeftToUpStart();
-	void Run_LeftToUp(float _DeltaTime);
-	void Run_LeftToDownStart();
-	void Run_LeftToDown(float _DeltaTime);
-	void Run_DownStart();
-	void Run_Down(float _DeltaTime);
-	void Run_DownToRightStart();
-	void Run_DownToRight(float _DeltaTime);
-	void Run_DownToLeftStart();
-	void Run_DownToLeft(float _DeltaTime);
 	void DeathStart();
 	void Death(float _DeltaTime);
 
@@ -86,6 +67,8 @@ private :
 	FVector MissileVector = FVector::Zero;
 	const float Speed = 500.0f;
 	float MissileStartDelay = 0.0f;
+
+	int Damage = 6;
 
 	AEgseu* Player = nullptr;
 	ACyberPeacock* Boss = nullptr;
