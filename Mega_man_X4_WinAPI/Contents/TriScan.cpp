@@ -73,7 +73,7 @@ void ATriScan::StateChange(ETriScanState _State)
 			DeathStart();
 			break;
 		case ETriScanState::BusterCollision:
-			DeathStart();
+			BusterCollisionStart();
 			break;
 		default:
 			break;
@@ -159,6 +159,7 @@ void ATriScan::RunStart()
 {
 	SearchTime = 0.0f;
 	PlayerAttackPos = PlayerPos; // 딱 한번 Player의 좌표를 가져오고.
+	PlayerAttackPos.Y -= 50.0f;
 	TriScanRender->ChangeAnimation("TriScanRun");
 }
 
@@ -216,26 +217,26 @@ void ATriScan::Death(float _DeltaTime)
 #pragma region BusterCollision
 void ATriScan::BusterCollisionStart()
 {
-	PreState = State;
-	int a = 0;
+	PreState = State; // 충돌 되기 전 상태 저장.
 }
 void ATriScan::BusterCollision(float _DeltaTime)
 {
-	int BusterType = static_cast<int>(PrevBuster->GetBusterState());
+	int BusterType = static_cast<int>(UsingBuster->GetBusterState());
 
 	if (BusterType == static_cast<int>(EBusterState::DefaultCharge))
 	{
-		Hp -= PrevBuster->GetDefaultBusterDamage();
+		Hp -= UsingBuster->GetDefaultBusterDamage();
 	}
 	else if (BusterType == static_cast<int>(EBusterState::MiddleCharge))
 	{
-		Hp -= PrevBuster->GetMiddleBusterDamage();
+		Hp -= UsingBuster->GetMiddleBusterDamage();
 	}
 	else if (BusterType == static_cast<int>(EBusterState::PullCharge))
 	{
-		Hp -= PrevBuster->GetPullBusterDamage();
+		Hp -= UsingBuster->GetPullBusterDamage();
 	}
 
+	UEngineDebug::OutPutDebugText(std::to_string(Hp));
 	if (Hp <= 0)
 	{
 		PlayerDir = FVector::Zero;
@@ -243,12 +244,15 @@ void ATriScan::BusterCollision(float _DeltaTime)
 		StateChange(ETriScanState::Death);
 		return;
 	}
-
-	StateChange(PreState);
-	return;
+	else
+	{
+		StateChange(PreState);
+		return;
+	}
 }
 #pragma endregion
 
+#pragma region Vector
 void ATriScan::MoveUpdate(float _DeltaTime)
 {
 	CalGravityVector(_DeltaTime);
@@ -272,6 +276,8 @@ void ATriScan::MoveLastMoveVector(float _DeltaTime)
 {
 	AddActorLocation(LastMoveVector * _DeltaTime);
 }
+#pragma endregion
+
 
 // Buster와 중복됨...
 void ATriScan::CollisionCheck()
@@ -280,11 +286,29 @@ void ATriScan::CollisionCheck()
 	std::vector<UCollision*> Result;
 	if (true == TriScanCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
-		//if (0 == CollisionCount)
 		ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
-		PrevBuster = Buster;
-		StateChange(ETriScanState::BusterCollision);
-		return;
+		if (PrevBuster == Buster)
+		{
+			return;
+		}
+		
+		// 최초 충돌.
+		if (PrevBuster == nullptr)
+		{
+			PrevBuster = Buster;
+
+			UsingBuster = Buster;
+			StateChange(ETriScanState::BusterCollision);
+			return;
+		}
+		else if (PrevBuster != Buster)
+		{
+			PrevBuster = Buster;
+
+			UsingBuster = Buster;
+			StateChange(ETriScanState::BusterCollision);
+			return;
+		}
 	}
 }
 

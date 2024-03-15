@@ -75,9 +75,11 @@ private :
 	FVector PlayerDir = FVector::Zero; // Player¿« πÊ«‚.
 
 	//int CollisionCount = 0;
+	//bool Col_Buster = false;
 	int Hp = 3;
 
 	ABuster* PrevBuster = nullptr;
+	ABuster* UsingBuster = nullptr;
 };
 
 /*
