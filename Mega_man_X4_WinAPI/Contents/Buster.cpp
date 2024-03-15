@@ -288,17 +288,17 @@ void ABuster::BusterCrashStart()
 	BusterCollision->ActiveOff();
 	CrashBusterRender->ActiveOn();
 	BusterVector = FVector::Zero;
+
 }
 
 void ABuster::BusterCrash(float _DeltaTime)
 {
-	AddActorLocation(BusterVector);
-
 	if (true == CrashBusterRender->IsCurAnimationEnd())
 	{
 		StateChange(EBusterState::BusterEnd);
 		return;
 	}
+	//AddActorLocation(BusterVector);
 }
 #pragma endregion
 
@@ -324,20 +324,20 @@ void ABuster::CollisionCheck()
 	// 2. Enemy
 	// 3. Boss
 
-	std::vector<UCollision*> EnemyResult;
-	//std::vector<UCollision*> MapObjectResult;
-	
-	// 老馆 各
-	if (true == BusterCollision->CollisionCheck(ECollisionOrder::Enemy, EnemyResult))
-	{
-		//StateChange(EBusterState::BusterCrash);
-		return;
-	}
+	//std::vector<UCollision*> EnemyResult;
+	////std::vector<UCollision*> MapObjectResult;
+	//
+	//// 老馆 各
+	//if (true == BusterCollision->CollisionCheck(ECollisionOrder::Enemy, EnemyResult))
+	//{
+	//	//StateChange(EBusterState::BusterCrash);
+	//	return;
+	//}
 
-	// 焊胶
-	if (true == BusterCollision->CollisionCheck(ECollisionOrder::Boss, EnemyResult))
-	{
-		//StateChange(EBusterState::BusterCrash);
-		return;
-	}
+	//// 焊胶
+	//if (true == BusterCollision->CollisionCheck(ECollisionOrder::Boss, EnemyResult))
+	//{
+	//	//StateChange(EBusterState::BusterCrash);
+	//	return;
+	//}
 }

@@ -1,5 +1,6 @@
 #include "MiruTorearu.h"
 #include "Egseu.h"
+#include "Buster.h"
 
 AMiruTorearu::AMiruTorearu()
 {
@@ -274,10 +275,9 @@ void AMiruTorearu::DeathEnd(float _DeltaTime)
 void AMiruTorearu::CollisionCheck()
 {
 	std::vector<UCollision*> Result;
-	if (true == MiruTorearuCollision->CollisionCheck(ECollisionOrder::Player, Result))
+	if (true == MiruTorearuCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
-		//Player = dynamic_cast<AEgseu*>(Result[0]->GetOwner());
-		//StateChange(EMiruTorearuState::Attack);
-		//return;
+		ABuster* Buster = dynamic_cast<ABuster*>(Result[0]->GetOwner());
+		Buster->SetBusterState(EBusterState::BusterCrash);
 	}
 }

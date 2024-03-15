@@ -24,7 +24,15 @@ public :
 
 	void SetBusterState(EBusterState _State)
 	{
-		E_BusterState = _State;
+		if (_State == EBusterState::BusterCrash)
+		{
+			BusterCrashStart();
+			E_BusterState = _State;
+		}
+		else
+		{
+			E_BusterState = _State;
+		}
 	}
 
 	EBusterState GetBusterState() const
