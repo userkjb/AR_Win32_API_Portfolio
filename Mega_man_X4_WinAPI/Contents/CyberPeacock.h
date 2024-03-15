@@ -148,6 +148,7 @@ private :
 	bool b_test = false;
 	void TestFunction(bool _test);
 	std::vector<FVector> MissileCount;
+	float MissileFireDelay = 0.0f;
 	//FVector Count_0 = { 70, 0 };
 	//FVector Count_1 = { 71, -42  };
 	//FVector Count_2 = { 52, -71  };

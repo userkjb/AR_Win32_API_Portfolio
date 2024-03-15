@@ -614,6 +614,8 @@ void ACyberPeacock::TrackingShot_LoopStart()
 		PeacockRenderer->ChangeAnimation("TrackingShot_Loop_Right");
 	}
 
+	MissileCreateCount = 0;
+
 	// 스코프 애니메이션 설정.
 	TrackingShotScope->ChangeAnimation("Scope");
 	TrackingShotScope->SetActive(true);
@@ -621,29 +623,47 @@ void ACyberPeacock::TrackingShot_LoopStart()
 
 void ACyberPeacock::TrackingShot_Loop(float _DeltaTime)
 {
+	MissileFireDelay += _DeltaTime;
 	FVector PlayerPos = Player->GetActorLocation();
 	FVector ScopLocalPos = TrackingShotScope->GetPosition();
 	FVector ScopGlobalPos = ScopLocalPos + GetActorLocation();
 	ScopGlobalPos.Y += 60.0f;
 	
-	//if (MissileStartPos.X == 0.0f && MissileStartPos.Y == 0.0f)
-	//{
-	//	MissileStartPos = ScopGlobalPos;
-	//}
+
+	FVector ScorToPlayerLen = PlayerPos - ScopGlobalPos;
+	float Len  = ScorToPlayerLen.Size2D();
+	UEngineDebug::OutPutDebugText(std::to_string(Len));
 
 	FVector PlayerDir = PlayerPos - ScopGlobalPos;
 	PlayerDir.Normalize2D();
 
-	FVector Move = PlayerDir * 500.0f * _DeltaTime;
+	FVector Move = PlayerDir * 700.0f * _DeltaTime;
 	TrackingShotScope->AddPosition(Move);
 
 	// 미사일 생성.
+	if (MissileFireDelay >= 2.0f && MissileCreateCount <= 7 && Len <= 5.0f)
+	{
+		CreateMissile(MissileCreateCount);
+		MissileCreateCount++;
+		MissileFireDelay = 0.0f;
+	}
+
+	if (MissileCreateCount == 8)
+	{
+		if (MissileFireDelay < 2.0f)
+		{
+			return;
+		}
+		StateChange(ECyberPeacockState::Disappear);
+		return;
+	}
 }
 #pragma endregion
 
 #pragma region Death
 void ACyberPeacock::DeathStart()
 {
+
 }
 
 void ACyberPeacock::Death(float _DeltaTime)
@@ -682,8 +702,6 @@ void ACyberPeacock::CreateMissile(int _Count)
 	FVector MissileCreatePos = BossCenter + MissileCount.at(_Count);
 	Missile->SetActorLocation(MissileCreatePos); // 생성 위치 설정.
 	
-
-
 	// Bast
 	//if (TrackingShotDir == EActorDir::Left)
 	//{
@@ -703,6 +721,7 @@ void ACyberPeacock::CreateMissile(int _Count)
 	//}
 }
 
+// Debug
 void ACyberPeacock::TestFunction(bool _test)
 {
 	if (_test == false)
