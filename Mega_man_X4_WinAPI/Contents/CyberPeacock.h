@@ -122,6 +122,9 @@ protected :
 	void TrackingShot_LoopStart();
 	void TrackingShot_Loop(float _DeltaTime);
 
+	void Buster_CollisionStart();
+	void Buster_Collision(float _DeltaTime);
+
 	void DeathStart();
 	void Death(float _DeltaTime);
 	void ExplosionStart();
@@ -137,12 +140,15 @@ private :
 	void CollisionCheck();
 
 	void CreateMissile(int _Count);
+
+	void CalCollision();
 	//void HpCheck();
 	////////////////////////////////////////////
 
 	bool b_Intro = false; // 인트로 애니메이션 여부.
 	bool b_BattleReady = false; // 파칭~! 애니메이션 여부.
 	bool b_DeathAni = false;
+	bool b_BusterCol = false;
 
 	int RandValue = 0; // 패턴 전용 랜덤 변수.
 
@@ -187,10 +193,12 @@ private :
 	EActorDir TrackingShotDir = EActorDir::Left; // TrackingShot 상태일 때 방향
 
 	ECyberPeacockState State = ECyberPeacockState::None;
+	ECyberPeacockState PreState = ECyberPeacockState::None;
 	ERenderOrder Order = ERenderOrder::None;
 
 	AEgseu* Player = nullptr;
-	ABuster* DuplicationBuster = nullptr;
+	ABuster* PrevBuster = nullptr;
+	ABuster* UsingBuster = nullptr;
 };
 // X : 1838 ~ 2042
 // 

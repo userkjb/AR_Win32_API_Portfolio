@@ -171,6 +171,9 @@ void ACyberPeacock::StateChange(ECyberPeacockState _State)
 		case ECyberPeacockState::TrackingShot_Loop:
 			TrackingShot_LoopStart();
 			break;
+		case ECyberPeacockState::BusterCollision:
+			Buster_CollisionStart();
+			break;
 		case ECyberPeacockState::Death:
 			DeathStart();
 			break;
@@ -224,6 +227,9 @@ void ACyberPeacock::StateUpdate(float _DeltaTime)
 		break;
 	case ECyberPeacockState::TrackingShot_Loop:
 		TrackingShot_Loop(_DeltaTime);
+		break;
+	case ECyberPeacockState::BusterCollision:
+		Buster_Collision(_DeltaTime);
 		break;
 	case ECyberPeacockState::Death:
 		Death(_DeltaTime);
@@ -657,7 +663,7 @@ void ACyberPeacock::TrackingShot_Loop(float _DeltaTime)
 
 	FVector ScorToPlayerLen = PlayerPos - ScopGlobalPos;
 	float Len  = ScorToPlayerLen.Size2D();
-	UEngineDebug::OutPutDebugText(std::to_string(Len));
+	//UEngineDebug::OutPutDebugText(std::to_string(Len));
 
 	FVector PlayerDir = PlayerPos - ScopGlobalPos;
 	PlayerDir.Normalize2D();
@@ -684,6 +690,15 @@ void ACyberPeacock::TrackingShot_Loop(float _DeltaTime)
 	}
 }
 #pragma endregion
+
+void ACyberPeacock::Buster_CollisionStart()
+{
+	
+}
+void ACyberPeacock::Buster_Collision(float _DeltaTime)
+{
+	
+}
 
 #pragma region Death
 void ACyberPeacock::DeathStart()
@@ -721,6 +736,7 @@ void ACyberPeacock::Explosion(float _DeltaTime)
 }
 #pragma endregion
 
+#pragma region End
 void ACyberPeacock::EndStart()
 {
 	PeacockRenderer->SetActive(false);
@@ -730,6 +746,8 @@ void ACyberPeacock::End(float _DeltaTime)
 {
 	this->Destroy(0.0f);
 }
+#pragma endregion
+
 
 
 void ACyberPeacock::CollisionCheck()
@@ -738,38 +756,31 @@ void ACyberPeacock::CollisionCheck()
 	std::vector<UCollision*> Result;
 	if (true == PeacockCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
-		
-
 		// Buster를 가져온다.
 		ABuster* Buster = (ABuster*)Result[0]->GetOwner();
-
-		if (DuplicationBuster == nullptr)
+		if (PrevBuster == Buster)
 		{
-			DuplicationBuster = Buster;
-		}
-		else
-		{
-			if (DuplicationBuster == Buster)
-			{
-				return;
-			}
+			return;
 		}
 
-		EBusterState BusterState = Buster->GetBusterState();
-		if (BusterState == EBusterState::DefaultCharge)
+		// 최초 충돌.
+		if (PrevBuster == nullptr)
 		{
-			int DefaultBusterDamage = Buster->GetDefaultBusterDamage();
-			Hp -= DefaultBusterDamage;
+			PrevBuster = Buster;
+			UsingBuster = Buster;
+			
+			CalCollision();
+			//StateChange(ECyberPeacockState::BusterCollision);
+			return;
 		}
-		else if (BusterState == EBusterState::MiddleCharge)
+		else if (PrevBuster != Buster)
 		{
-			int MiddleChargeDamage = Buster->GetMiddleBusterDamage();
-			Hp -= MiddleChargeDamage;
-		}
-		else if (BusterState == EBusterState::PullCharge)
-		{
-			int PullChargeDamage = Buster->GetPullBusterDamage();
-			Hp -= PullChargeDamage;
+			PrevBuster = Buster;
+			UsingBuster = Buster;
+
+			CalCollision();
+			//StateChange(ECyberPeacockState::BusterCollision);
+			return;
 		}
 	}
 }
@@ -784,6 +795,36 @@ void ACyberPeacock::CreateMissile(int _Count)
 	FVector MissileCreatePos = BossCenter + MissileCount.at(_Count);
 	Missile->SetActorLocation(MissileCreatePos); // 생성 위치 설정.
 }
+
+void ACyberPeacock::CalCollision()
+{
+	EBusterState BusterState = UsingBuster->GetBusterState();
+	if (BusterState == EBusterState::DefaultCharge)
+	{
+		int DefaultBusterDamage = UsingBuster->GetDefaultBusterDamage();
+		Hp -= DefaultBusterDamage;
+	}
+	else if (BusterState == EBusterState::MiddleCharge)
+	{
+		int MiddleChargeDamage = UsingBuster->GetMiddleBusterDamage();
+		Hp -= MiddleChargeDamage;
+	}
+	else if (BusterState == EBusterState::PullCharge)
+	{
+		int PullChargeDamage = UsingBuster->GetPullBusterDamage();
+		Hp -= PullChargeDamage;
+	}
+
+	UEngineDebug::OutPutDebugText(std::to_string(Hp));
+
+	if (Hp <= 0)
+	{
+		StateChange(ECyberPeacockState::Death);
+		return;
+	}
+}
+
+
 
 
 // Debug
