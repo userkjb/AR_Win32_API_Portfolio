@@ -154,6 +154,7 @@ void AFeatherMissile::Create(float _DeltaTime)
 }
 #pragma endregion
 
+#pragma region Run
 void AFeatherMissile::RunStart()
 {
 	// 미사일 켜고.
@@ -303,17 +304,18 @@ void AFeatherMissile::Run(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
 
-#pragma region str
+#pragma region Death
 void AFeatherMissile::DeathStart()
 {
-	this->Destroy(0.0f);
+	
 }
 
 void AFeatherMissile::Death(float _DeltaTime)
 {
-
+	this->Destroy(0.0f);
 }
 #pragma endregion
 
