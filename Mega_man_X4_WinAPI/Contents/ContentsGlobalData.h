@@ -365,6 +365,10 @@ enum class ECollisionOrder
 
 	Boss,
 	BossSkill,
+	CyberPeacock_Feather,
+	CyberPeacock_RisingSlash,
+	CyberPeacock_Missile,
+
 	Enemy,
 
 	BossDoor,

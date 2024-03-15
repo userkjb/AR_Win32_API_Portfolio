@@ -140,7 +140,8 @@ private :
 	UImageRenderer* PeacockRenderer = nullptr; // 보스
 	UCollision* PeacockCollision = nullptr; // 보스 몸통 Collision
 	UImageRenderer* TrackingShotScope = nullptr; // 스코프
-	UCollision* FeatherAttackCollision = nullptr; // 보스 스킬 Collision
+	UCollision* FeatherAttackCollision = nullptr; // 날개 스킬 Collision
+	UCollision* RisingSlashCollision = nullptr; // 날개 스킬 Collision
 	
 
 	UImageRenderer* TestImage = nullptr;

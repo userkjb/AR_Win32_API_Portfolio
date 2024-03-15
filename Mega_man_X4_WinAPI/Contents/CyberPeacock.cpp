@@ -349,8 +349,8 @@ void ACyberPeacock::BattleReady(float _DeltaTime)
 void ACyberPeacock::DisappearStart()
 {
 	//RandValue = rand() % 3; // 0 ~ 2
-	//RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // ·£´ý ÆÐÅÏ.
-	RandValue = 0;
+	RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // ·£´ý ÆÐÅÏ.
+	//RandValue = 1; /////////////////////////////////////////////////////////////////////////////////
 	PeacockCollision->ActiveOff(); // ÄÝ¸®Àü ²ô°í.
 	//PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
@@ -481,7 +481,7 @@ void ACyberPeacock::FeatherAttackStart()
 {
 	if (FeatherAttackCollision == nullptr)
 	{
-		FeatherAttackCollision = CreateCollision(ECollisionOrder::BossSkill);
+		FeatherAttackCollision = CreateCollision(ECollisionOrder::CyberPeacock_Feather);
 		FeatherAttackCollision->SetColType(ECollisionType::Rect);
 		FeatherAttackCollision->SetPosition({ 0.0f, -50.0f });
 		FeatherAttackCollision->SetScale({ 1.0f, 1.0f });
@@ -521,6 +521,13 @@ void ACyberPeacock::FeatherAttack(float _DeltaTime)
 #pragma region RisingSlash (À§·Î!!)
 void ACyberPeacock::RisingSlashStart()
 {
+	if (RisingSlashCollision == nullptr)
+	{
+		RisingSlashCollision = CreateCollision(ECollisionOrder::CyberPeacock_RisingSlash);
+		RisingSlashCollision->SetColType(ECollisionType::Rect);
+		RisingSlashCollision->SetPosition({ 0.0f, -110.0f });
+		RisingSlashCollision->SetScale({ 1.0f, 1.0f });
+	}
 	PeacockCollision->ActiveOn();
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("RisingSlash"));
 }
@@ -548,6 +555,7 @@ void ACyberPeacock::RisingSlash_LoopStart()
 	FVector Pos = GetActorLocation();
 	RisingSlashTargetPos = Pos.Y - 200.0f;
 	RisingSlashVector = FVector::Zero;
+	RisingSlashCollision->SetScale({ 250.0f, 250.0f });
 }
 void ACyberPeacock::RisingSlash_Loop(float _DeltaTime)
 {
@@ -557,6 +565,7 @@ void ACyberPeacock::RisingSlash_Loop(float _DeltaTime)
 	FVector BossPos = GetActorLocation();
 	if (BossPos.Y <= RisingSlashTargetPos)
 	{
+		RisingSlashCollision->SetScale({ 0.0f, 0.0f });
 		StateChange(ECyberPeacockState::Disappear);
 		return;
 	}

@@ -19,7 +19,7 @@ void AFeatherMissile::BeginPlay()
 	MissileRenderer->SetImage("missile.png");
 	MissileRenderer->AutoImageScale(2.0f);
 
-	MissileCollision = CreateCollision(ECollisionOrder::BossSkill);
+	MissileCollision = CreateCollision(ECollisionOrder::CyberPeacock_Missile);
 	MissileCollision->SetColType(ECollisionType::Rect);
 	FVector ImageScale = MissileRenderer->GetImage()->GetScale();
 	MissileCollision->SetScale({ ImageScale.X / 16, ImageScale.Y / 2 });
