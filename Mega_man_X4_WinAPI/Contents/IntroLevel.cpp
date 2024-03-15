@@ -125,6 +125,9 @@ void UIntroLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("WallKick_Right.png", 8, 3);
 	UEngineResourcesManager::GetInst().CuttingImage("WallKick_Left.png", 8, 3);
 
+	// 캐릭터 승리 포즈.
+	UEngineResourcesManager::GetInst().CuttingImage("x_Return.png", 9, 1);
+
 	// 캐릭터 히트
 	UEngineResourcesManager::GetInst().CuttingImage("x_Damage_Right.png", 4, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("x_Damage_Left.png", 4, 1);
