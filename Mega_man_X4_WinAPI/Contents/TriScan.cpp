@@ -169,8 +169,8 @@ void ATriScan::Run(float _DeltaTime)
 	PlayerDir.Normalize2D();
 
 	// 이동!!
-	RunVector = PlayerDir * RunSpeed;
-	MoveUpdate(_DeltaTime);
+	RunVector = PlayerDir * RunSpeed * _DeltaTime;
+	AddActorLocation(RunVector);
 
 	FVector DePos = this->GetActorLocation(); // 내 위치.
 	FVector PlPos = PlayerAttackPos;
@@ -204,7 +204,7 @@ void ATriScan::Death(float _DeltaTime)
 	RunVector = FVector::Left * RunSpeed;
 	RunVector = RunVector + (FVector::Up * 450.0f);
 
-	MoveUpdate(_DeltaTime, true);
+	MoveUpdate(_DeltaTime);
 
 	if (2.0f <= DeathTime)
 	{
@@ -249,23 +249,16 @@ void ATriScan::BusterCollision(float _DeltaTime)
 }
 #pragma endregion
 
-void ATriScan::MoveUpdate(float _DeltaTime, bool _Gravity)
+void ATriScan::MoveUpdate(float _DeltaTime)
 {
-	CalGravityVector(_DeltaTime, _Gravity);
+	CalGravityVector(_DeltaTime);
 	CalLastMoveVector();
 	MoveLastMoveVector(_DeltaTime);
 }
 
-void ATriScan::CalGravityVector(float _DeltaTime, bool _Gravity)
+void ATriScan::CalGravityVector(float _DeltaTime)
 {
-	if (_Gravity)
-	{
-		GravityVector += GravityAcc * _DeltaTime;
-	}
-	else
-	{
-		GravityVector = FVector::Zero;
-	}
+	GravityVector += GravityAcc * _DeltaTime;
 }
 
 void ATriScan::CalLastMoveVector()

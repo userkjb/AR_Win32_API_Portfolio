@@ -44,8 +44,8 @@ private :
 	void BusterCollision(float _DeltaTime);
 
 
-	void MoveUpdate(float _DeltaTime, bool _Gravity = false);
-	void CalGravityVector(float _DeltaTime, bool _Gravity);
+	void MoveUpdate(float _DeltaTime);
+	void CalGravityVector(float _DeltaTime);
 	void CalLastMoveVector();
 	void MoveLastMoveVector(float _DeltaTime);
 
