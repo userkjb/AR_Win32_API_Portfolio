@@ -350,7 +350,7 @@ void ACyberPeacock::DisappearStart()
 {
 	//RandValue = rand() % 3; // 0 ~ 2
 	//RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // 랜덤 패턴.
-	RandValue = 2;
+	RandValue = 0;
 	PeacockCollision->ActiveOff(); // 콜리전 끄고.
 	//PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
@@ -483,8 +483,8 @@ void ACyberPeacock::FeatherAttackStart()
 	{
 		FeatherAttackCollision = CreateCollision(ECollisionOrder::BossSkill);
 		FeatherAttackCollision->SetColType(ECollisionType::Rect);
-		FeatherAttackCollision->SetPosition(GetActorLocation());
-		FeatherAttackCollision->SetScale({ 0.0f, 0.0f });
+		FeatherAttackCollision->SetPosition({ 0.0f, -50.0f });
+		FeatherAttackCollision->SetScale({ 1.0f, 1.0f });
 	}
 
 	PeacockCollision->ActiveOn();
@@ -496,11 +496,13 @@ void ACyberPeacock::FeatherAttack(float _DeltaTime)
 	int Frame = PeacockRenderer->GetCurAnimationImageFrame();
 	if (Frame == 7)
 	{
-		FeatherAttackCollision->SetScale({ 150, 87 });
+		FVector SkillImageScale = PeacockRenderer->GetImage()->GetScale();
+		FeatherAttackCollision->SetScale({ SkillImageScale.X / 2.0f, SkillImageScale.Y / 2.0f });
 	}
 	else if (Frame == 8 || Frame == 9 || Frame == 10 || Frame == 11 || Frame == 12 || Frame == 13)
 	{
-		FeatherAttackCollision->SetScale({ 222, 125 });
+		FVector SkillImageScale = PeacockRenderer->GetImage()->GetScale();
+		FeatherAttackCollision->SetScale({ SkillImageScale.X / 2.0f, SkillImageScale.Y / 2.0f });
 	}
 	else
 	{
@@ -694,31 +696,11 @@ void ACyberPeacock::CreateMissile(int _Count)
 {
 	AFeatherMissile* Missile = GetWorld()->SpawnActor<AFeatherMissile>(static_cast<int>(EActorType::BossObject));
 	
-
-
 	Missile->SetMissileState(ECyberPeacockMissileState::Create); // 미사일 상태 설정.
 
 	FVector BossCenter = BossImageCenterPos + GetActorLocation();
 	FVector MissileCreatePos = BossCenter + MissileCount.at(_Count);
 	Missile->SetActorLocation(MissileCreatePos); // 생성 위치 설정.
-	
-	// Bast
-	//if (TrackingShotDir == EActorDir::Left)
-	//{
-	//	Missile->SetMissileState(ECyberPeacockMissileState::Create);
-	//	Missile->SetMissileStartDir(EActorDir::Right);
-	//	FVector Pos = MissileStartPos; // 미사일 생성 위치.
-	//	Pos.Y -= 60.0f;
-	//	Missile->SetActorLocation(Pos);
-	//}
-	//else if (TrackingShotDir == EActorDir::Right)
-	//{
-	//	Missile->SetMissileState(ECyberPeacockMissileState::Create);
-	//	Missile->SetMissileStartDir(EActorDir::Left);
-	//	FVector Pos = MissileStartPos;
-	//	Pos.Y -= 60.0f;
-	//	Missile->SetActorLocation(Pos);
-	//}
 }
 
 // Debug
