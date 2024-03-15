@@ -209,6 +209,10 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Hit_Right", "x_Damage_Right.png", 0, 3, 0.05f, true);
 	PlayerRender->CreateAnimation("Hit_Left", "x_Damage_Left.png", 0, 3, 0.05f, true);
 
+	// Death
+	PlayerRender->CreateAnimation("Death_Right", "x_Damage_Right.png", 0, 0, 0.05f, true);
+	PlayerRender->CreateAnimation("Death_Left", "x_Damage_Left.png", 0, 0, 0.05f, true);
+
 	// =====================================================================
 
 	PlayerRender->ChangeAnimation("Summon");
@@ -2722,6 +2726,13 @@ void AEgseu::RunDashJump(float _DeltaTime)
 	{
 		DashVector = FVector::Right * DashSpeed;
 	}
+	
+	Color8Bit CeilingColor = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY() - 130, Color8Bit::MagentaA);
+	if (CeilingColor == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+	}
+
 	RunVector = FVector::Zero;
 	MoveUpdate(_DeltaTime);
 
@@ -2785,6 +2796,13 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 	{
 		DashVector = FVector::Right * DashSpeed;
 	}
+
+	Color8Bit CeilingColor = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY() - 130, Color8Bit::MagentaA);
+	if (CeilingColor == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+	}
+
 	RunVector = FVector::Zero;
 	MoveUpdate(_DeltaTime);
 
@@ -3260,6 +3278,12 @@ void AEgseu::RunJump(float _DeltaTime)
 		RunVector = FVector::Right * MoveSpeed;
 	}
 
+	Color8Bit CeilingColor = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY() - 130, Color8Bit::MagentaA);
+	if (CeilingColor == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+	}
+
 	MoveUpdate(_DeltaTime);
 
 	// 공격
@@ -3314,6 +3338,13 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
 		RunVector = FVector::Right * MoveSpeed;
+	}
+
+	// 천장 닿음
+	Color8Bit CeilingColor = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY() - 130, Color8Bit::MagentaA);
+	if (CeilingColor == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
 	}
 
 	MoveUpdate(_DeltaTime);
@@ -4183,6 +4214,7 @@ void AEgseu::WallKickAttack_Up(float _DeltaTime)
 void AEgseu::HitStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Hit"));
+	Hit_InvincibilityTime = 0.0f;
 }
 
 void AEgseu::Hit(float _DeltaTime)
@@ -4200,14 +4232,12 @@ void AEgseu::Hit(float _DeltaTime)
 		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
 		{
 			Hit_Count = 0;
-			Hit_InvincibilityTime = 0.0f;
 			StateChange(EEgseuState::IdleRun_Loop);
 			return;
 		}
 		else
 		{
 			Hit_Count = 0;
-			Hit_InvincibilityTime = 0.0f;
 			StateChange(EEgseuState::Idle);
 			return;
 		}
