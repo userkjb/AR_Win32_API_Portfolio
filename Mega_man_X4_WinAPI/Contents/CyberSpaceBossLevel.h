@@ -83,8 +83,9 @@ private :
 	bool b_BossBattle = false;
 	float WarningTime = 0.0f; // test
 	float TextTime = 0.0f; // test
-	float SoundTime = 0.0f; // test
+	float BossBattleReadySoundTime = 0.0f; // test
 	float HpUIEvent = 0.0f; // test
+	float BossEndTime = 0.0f;
 };
 
 /*

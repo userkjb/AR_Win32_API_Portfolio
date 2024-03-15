@@ -325,14 +325,14 @@ void UCyberSpaceBossLevel::BossBattleReadySoundStart()
 {
 	// UI 출력.
 	// 보스 싸움 준비 소리.
-	SoundTime = 0.0f;
+	BossBattleReadySoundTime = 0.0f;
 }
 
 void UCyberSpaceBossLevel::BossBattleReadySound(float _DeltaTime)
 {
-	SoundTime += _DeltaTime;
+	BossBattleReadySoundTime += _DeltaTime;
 	// 소리 끝나면,
-	if(0.2f <= SoundTime)
+	if(0.2f <= BossBattleReadySoundTime)
 	{
 		StateChange(EBossLevelState::BossReady);
 		return;
@@ -374,29 +374,77 @@ void UCyberSpaceBossLevel::BossBattle(float _DeltaTime)
 {
 	// 플레이어 피 체크.
 	// 보스 피 체크.
+	int PlayerHp = Player->GetPlayerHp();
+	int BossHp = CyberBoss->GetCyberPeacockHp();
+	
+	if (0 <= PlayerHp)
+	{
+
+	}
+
+	if (0 <= BossHp)
+	{
+		StateChange(EBossLevelState::BossEnd);
+		return;
+	}
 }
 #pragma endregion
 
-#pragma region str
-#pragma endregion
+#pragma region BossEnd
 void UCyberSpaceBossLevel::BossEndStart()
 {
+	CyberBoss->SetStateChange(ECyberPeacockState::Death); // 반짝 반짝
+	Player->SetStateChange(EEgseuState::Wait);
 }
 
 void UCyberSpaceBossLevel::BossEnd(float _DeltaTime)
 {
-}
+	if (true == CyberBoss->GetDeathAni()) // 2초 정도 지나면 true를 반환.
+	{
+		// map이 흰색으로 변경,
+		CyberBossMap->SetStateChange(ECyberBossMapState::White);
+	}
+	// 다시 원상 복귀.
+	if (true == CyberBossMap->GetMapWhite()) // 완전히 흰색이 되면,
+	{
+		CyberBoss->SetStateChange(ECyberPeacockState::End); // 보스 지우고.
+		CyberBossMap->SetStateChange(ECyberBossMapState::Restore); // 맵 복귀
+	}
 
-#pragma region str
+	// 맵 복귀가 완료되면,
+	if (true == CyberBossMap->GetRestoreMap())
+	{
+		// 승리 배경 음악 출력.
+
+	}
+
+	// 승리 배경 음악이 끝나면,
+	if (true)
+	{
+		// Player 승리 자세.
+		StateChange(EBossLevelState::PlayerReverseSummon);
+		return;
+	}
+}
 #pragma endregion
+
+#pragma region PlayerReverseSummon
 void UCyberSpaceBossLevel::PlayerReverseSummonStart()
 {
+	Player->SetStateChange(EEgseuState::Victory);
 }
 
 void UCyberSpaceBossLevel::PlayerReverseSummon(float _DeltaTime)
 {
+	// 승리 포즈 끝나면, Player에서 자동으로 귀환.
+	// 귀환이 끝나면,
+	if (true == Player->GetReSummonEnd())
+	{
+		return;
+		GEngine->ChangeLevel("");
+	}
 }
-
+#pragma endregion
 
 
 #pragma region Camera
