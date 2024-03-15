@@ -169,6 +169,9 @@ enum class EEgseuState
 
 	AutoRunRight, // 스테이지 이동할 때 사용.
 	BossRoomAutoRun,
+	Victory,
+	ReSummon,
+	ReSummon_Up,
 };
 
 /// <summary>
@@ -201,6 +204,8 @@ enum class ECyberBossMapState
 	CheckPointRoom,
 	BossSlowMove,
 	BossRoom,
+	White,
+	Restore,
 };
 
 enum class EFocusState
@@ -243,6 +248,8 @@ enum class ECyberPeacockState
 	TrackingShot_Loop, // 미사일 공격 진행 중.
 
 	Death,
+	Explosion, // 폭파.
+	End,
 };
 enum class ECyberPeacockMissileState
 {
