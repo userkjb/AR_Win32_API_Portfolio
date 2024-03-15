@@ -171,9 +171,6 @@ void ACyberPeacock::StateChange(ECyberPeacockState _State)
 		case ECyberPeacockState::TrackingShot_Loop:
 			TrackingShot_LoopStart();
 			break;
-		case ECyberPeacockState::BusterCollision:
-			Buster_CollisionStart();
-			break;
 		case ECyberPeacockState::Death:
 			DeathStart();
 			break;
@@ -227,9 +224,6 @@ void ACyberPeacock::StateUpdate(float _DeltaTime)
 		break;
 	case ECyberPeacockState::TrackingShot_Loop:
 		TrackingShot_Loop(_DeltaTime);
-		break;
-	case ECyberPeacockState::BusterCollision:
-		Buster_Collision(_DeltaTime);
 		break;
 	case ECyberPeacockState::Death:
 		Death(_DeltaTime);
@@ -690,15 +684,6 @@ void ACyberPeacock::TrackingShot_Loop(float _DeltaTime)
 	}
 }
 #pragma endregion
-
-void ACyberPeacock::Buster_CollisionStart()
-{
-	
-}
-void ACyberPeacock::Buster_Collision(float _DeltaTime)
-{
-	
-}
 
 #pragma region Death
 void ACyberPeacock::DeathStart()

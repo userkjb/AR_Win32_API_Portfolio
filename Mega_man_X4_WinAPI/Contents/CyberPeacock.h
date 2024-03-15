@@ -122,9 +122,6 @@ protected :
 	void TrackingShot_LoopStart();
 	void TrackingShot_Loop(float _DeltaTime);
 
-	void Buster_CollisionStart();
-	void Buster_Collision(float _DeltaTime);
-
 	void DeathStart();
 	void Death(float _DeltaTime);
 	void ExplosionStart();
