@@ -38,6 +38,8 @@ void UCyberSpaceLevel::BeginPlay()
 
 	BGMPlayer = UEngineSound::SoundPlay("X4-CYBER_KUJACKER_STAGE.mp3");
 	BGMPlayer.Loop();
+
+	//UEngineSound::SoundPlay("X4-CYBER_KUJACKER_STAGE.mp3");
 }
 
 void UCyberSpaceLevel::Tick(float _DeltaTime)
