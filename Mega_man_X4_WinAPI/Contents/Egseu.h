@@ -47,6 +47,11 @@ public :
 		return Hp;
 	}
 
+	inline bool GetReSummonEnd() const
+	{
+		return ReSummonEnd;
+	}
+
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -230,6 +235,12 @@ private :
 
 	void BossRoomAutoRunStart();
 	void BossRoomAutoRun(float _DeltaTime);
+	void VictoryStart();
+	void Victory(float _DeltaTime);
+	void ReSummonStart();
+	void ReSummon(float _DeltaTime);
+	void ReSummon_UpStart();
+	void ReSummon_Up(float _DeltaTime);
 	//#pragma endregion
 
 
@@ -311,6 +322,7 @@ private :
 	int Debug_Num = 0;
 
 	bool AutoRightRun = false;
+	bool ReSummonEnd = false;
 	const float MoveSpeed = 500.0f;
 	const float DashSpeed = 750.0f;
 	float DashTime = 0.0f;
@@ -319,6 +331,8 @@ private :
 	float ReadToBusterTime = 0.0f; // Buster 준비 시간.
 	float WallKickTime = 0.0f; // 벽 차는 행동을 강제하기 위한 Time
 	float Hit_InvincibilityTime = 0.0f; // 무적 시간.
+	float VictoryTime = 0.0f; // 승리 포즈 유지 시간.
+	float ReSummon_UpTime = 0.0f; // 위로 올라가는 시간.
 
 	float BusterChargTime = 0.0f;
 	float BusterDelayTime = 0.0f;

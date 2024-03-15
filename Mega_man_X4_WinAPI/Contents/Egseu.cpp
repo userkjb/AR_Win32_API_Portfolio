@@ -209,6 +209,11 @@ void AEgseu::PlayerBeginPlay()
 	PlayerRender->CreateAnimation("Hit_Right", "x_Damage_Right.png", 0, 3, 0.05f, true);
 	PlayerRender->CreateAnimation("Hit_Left", "x_Damage_Left.png", 0, 3, 0.05f, true);
 
+	// Victory & ReSummon
+	PlayerRender->CreateAnimation("Victory", "x_Return.png", 0, 3, 0.05f, false);
+	PlayerRender->CreateAnimation("ReSummon", "x_Return.png", 4, 8, 0.05f, false);
+	PlayerRender->CreateAnimation("ReSummon_Up", "x_Return.png", 8, 8, 0.05f, false);
+
 	// Death
 	PlayerRender->CreateAnimation("Death_Right", "x_Damage_Right.png", 0, 0, 0.05f, true);
 	PlayerRender->CreateAnimation("Death_Left", "x_Damage_Left.png", 0, 0, 0.05f, true);
@@ -520,6 +525,15 @@ void AEgseu::StateChange(EEgseuState _State)
 		case EEgseuState::BossRoomAutoRun:
 			BossRoomAutoRunStart();
 			break;
+		case EEgseuState::Victory:
+			VictoryStart();
+			break;
+		case EEgseuState::ReSummon:
+			ReSummonStart();
+			break;
+		case EEgseuState::ReSummon_Up:
+			ReSummon_UpStart();
+			break;
 		default :
 			break;
 		}
@@ -770,6 +784,15 @@ void AEgseu::StateUpdate(float _DeltaTime)
 		break;
 	case EEgseuState::BossRoomAutoRun:
 		BossRoomAutoRun(_DeltaTime);
+		break;
+	case EEgseuState::Victory:
+		Victory(_DeltaTime);
+		break;
+	case EEgseuState::ReSummon:
+		ReSummon(_DeltaTime);
+		break;
+	case EEgseuState::ReSummon_Up:
+		ReSummon_Up(_DeltaTime);
 		break;
 	default :
 		break;
@@ -4334,7 +4357,60 @@ void AEgseu::BossRoomAutoRun(float _DeltaTime)
 }
 #pragma endregion
 
+#pragma region Victory
+void AEgseu::VictoryStart()
+{
+	PlayerRender->ChangeAnimation("Victory");
+}
 
+void AEgseu::Victory(float _DeltaTime)
+{
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		VictoryTime += _DeltaTime;
+		if (VictoryTime >= 1.5f) // 마지막 포즈 살짝 길게 잡고,
+		{
+			StateChange(EEgseuState::ReSummon);
+			return;
+		}
+	}
+}
+#pragma endregion
+
+#pragma region ReSummon
+void AEgseu::ReSummonStart()
+{
+	PlayerRender->ChangeAnimation("ReSummon"); // 레이져 변신!
+}
+
+void AEgseu::ReSummon(float _DeltaTime)
+{
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::ReSummon_Up);
+		return;
+	}
+}
+#pragma endregion
+
+#pragma region ReSummon_Up
+void AEgseu::ReSummon_UpStart()
+{
+	PlayerRender->ChangeAnimation("ReSummon_Up");
+}
+
+void AEgseu::ReSummon_Up(float _DeltaTime)
+{
+	ReSummon_UpTime += _DeltaTime;
+	FVector UpMove = FVector::Up * 1000.0f * _DeltaTime;
+	AddActorLocation(UpMove);
+
+	if (ReSummon_UpTime >= 3.0f)
+	{
+		ReSummonEnd = true;
+	}
+}
+#pragma endregion
 
 
 // === Vector =============================================
