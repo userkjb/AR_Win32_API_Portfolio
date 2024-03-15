@@ -30,6 +30,16 @@ public :
 		return BodyDamage;
 	}
 
+	inline int GetFeatherAttackDamage() const
+	{
+		return FeatherAttackDamage;
+	}
+
+	inline int GetRisingSlashDamage() const
+	{
+		return RisingSlashDamage;
+	}
+
 	inline bool GetIntro() const
 	{
 		return b_Intro;
@@ -130,7 +140,6 @@ private :
 	int BodyDamage = 5;
 	int FeatherAttackDamage = 9;
 	int RisingSlashDamage = 6;
-	int TrackingShotDamage = 6;
 
 	FVector RisingSlashVector = FVector::Zero;
 	const float RisingSlashSpeed = 500.0f;
