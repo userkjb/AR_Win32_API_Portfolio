@@ -63,10 +63,11 @@ private :
 	ECyberPeacockMissileState MissileState = ECyberPeacockMissileState::None;
 	//EActorDir MissileStartDir = EActorDir::Left;
 
-	float LifeTime = 0.0f;
 	FVector MissileVector = FVector::Zero;
 	const float Speed = 500.0f;
+	float LifeTime = 0.0f;
 	float MissileStartDelay = 0.0f;
+	float DeathTime = 0.0f;
 
 	int Damage = 6;
 

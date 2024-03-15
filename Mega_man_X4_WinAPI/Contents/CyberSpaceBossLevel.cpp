@@ -59,6 +59,7 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 	UEngineResourcesManager::GetInst().CuttingImage("TrackingShot_Left.png", 5, 4);
 	UEngineResourcesManager::GetInst().CuttingImage("RisingSlash_Right.png", 3, 3);
 	UEngineResourcesManager::GetInst().CuttingImage("RisingSlash_Left.png", 3, 3);
+	UEngineResourcesManager::GetInst().CuttingImage("Missile_Death.png", 3, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("Scope.png", 1, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("missile.png", 16, 2); // 이미지 이상함. TODO
 

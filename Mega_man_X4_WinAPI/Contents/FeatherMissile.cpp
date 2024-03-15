@@ -58,7 +58,7 @@ void AFeatherMissile::BeginPlay()
 	MissileRenderer->CreateAnimation("Bottom-To-Bottom-Right", "missile.png", { 13, 29 }, AnimationSpeed, true);
 	MissileRenderer->CreateAnimation("Right-To-Top-Right", "missile.png",	  { 7, 23 },  AnimationSpeed, true);
 	MissileRenderer->CreateAnimation("Right-To-Bottom-Right", "missile.png",  { 15, 31 }, AnimationSpeed, true);
-	
+	MissileRenderer->CreateAnimation("Death", "Missile_Death.png", 0, 2, 0.05f, true);
 
 	MissileRenderer->ChangeAnimation("Left");
 
@@ -310,12 +310,17 @@ void AFeatherMissile::Run(float _DeltaTime)
 #pragma region Death
 void AFeatherMissile::DeathStart()
 {
-	
+	MissileRenderer->ChangeAnimation("Death");
+	DeathTime = 0.0f;
 }
 
 void AFeatherMissile::Death(float _DeltaTime)
 {
-	this->Destroy(0.0f);
+	DeathTime += _DeltaTime;
+	if (DeathTime >= 2.0f)
+	{
+		this->Destroy(0.0f);
+	}
 }
 #pragma endregion
 
