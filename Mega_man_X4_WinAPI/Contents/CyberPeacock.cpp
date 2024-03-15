@@ -87,6 +87,8 @@ void ACyberPeacock::Renderer()
 	PeacockRenderer->CreateAnimation("TrackingShot_Left", "TrackingShot_Left.png", 0, 14, 0.05f, false);
 	PeacockRenderer->CreateAnimation("TrackingShot_Loop_Right", "TrackingShot_Right.png", 15, 16, 0.5f, true);
 	PeacockRenderer->CreateAnimation("TrackingShot_Loop_Left", "TrackingShot_Left.png", 15, 16, 0.5f, true);
+	// 죽음
+	PeacockRenderer->CreateAnimation("Death", "Death_Image.png", 0, 0, 0.5f, true);
 	// 스코프
 	TrackingShotScope->CreateAnimation("Scope", "Scope.png", 0, 0, 0.5f, true);
 
@@ -172,6 +174,12 @@ void ACyberPeacock::StateChange(ECyberPeacockState _State)
 		case ECyberPeacockState::Death:
 			DeathStart();
 			break;
+		case ECyberPeacockState::Explosion:
+			ExplosionStart();
+			break;
+		case ECyberPeacockState::End:
+			EndStart();
+			break;
 		default :
 			break;
 		}
@@ -219,6 +227,12 @@ void ACyberPeacock::StateUpdate(float _DeltaTime)
 		break;
 	case ECyberPeacockState::Death:
 		Death(_DeltaTime);
+		break;
+	case ECyberPeacockState::Explosion:
+		Explosion(_DeltaTime);
+		break;
+	case ECyberPeacockState::End:
+		End(_DeltaTime);
 		break;
 	default :
 		break;
@@ -674,15 +688,48 @@ void ACyberPeacock::TrackingShot_Loop(float _DeltaTime)
 #pragma region Death
 void ACyberPeacock::DeathStart()
 {
+	if (true == TrackingShotScope->IsActive())
+	{
+		TrackingShotScope->SetActive(false);
+	}
 
+	PeacockRenderer->ChangeAnimation("Death"); // 반짝 반짝.(터지는거 아님)
+	DeathTime = 0.0f;
 }
 
 void ACyberPeacock::Death(float _DeltaTime)
 {
-	int a = 0;
-	return;
+	DeathTime += _DeltaTime;
+	if (DeathTime >= 2.0f) // 2초 정도 지나면 펑펑펑펑 해야 함.
+	{
+		b_DeathAni = true;
+		StateChange(ECyberPeacockState::Explosion);
+		return;
+	}
 }
 #pragma endregion
+
+#pragma region Explosion
+void ACyberPeacock::ExplosionStart()
+{
+	// 터지는 애니메이션으로 Change.
+	// 터지는 사운드 재생.
+}
+void ACyberPeacock::Explosion(float _DeltaTime)
+{
+
+}
+#pragma endregion
+
+void ACyberPeacock::EndStart()
+{
+	PeacockRenderer->SetActive(false);
+}
+
+void ACyberPeacock::End(float _DeltaTime)
+{
+	this->Destroy(0.0f);
+}
 
 
 void ACyberPeacock::CollisionCheck()
@@ -691,13 +738,39 @@ void ACyberPeacock::CollisionCheck()
 	std::vector<UCollision*> Result;
 	if (true == PeacockCollision->CollisionCheck(ECollisionOrder::Weapon, Result))
 	{
-		HitCount++;
+		
 
-		// buster에 설정한 데미지를 가져온다.
-		ABuster* x = (ABuster*)Result[0]->GetOwner();
-		int DefaultBusterDamage = x->GetDefaultBusterDamage();
+		// Buster를 가져온다.
+		ABuster* Buster = (ABuster*)Result[0]->GetOwner();
 
-		Hp -= DefaultBusterDamage;
+		if (DuplicationBuster == nullptr)
+		{
+			DuplicationBuster = Buster;
+		}
+		else
+		{
+			if (DuplicationBuster == Buster)
+			{
+				return;
+			}
+		}
+
+		EBusterState BusterState = Buster->GetBusterState();
+		if (BusterState == EBusterState::DefaultCharge)
+		{
+			int DefaultBusterDamage = Buster->GetDefaultBusterDamage();
+			Hp -= DefaultBusterDamage;
+		}
+		else if (BusterState == EBusterState::MiddleCharge)
+		{
+			int MiddleChargeDamage = Buster->GetMiddleBusterDamage();
+			Hp -= MiddleChargeDamage;
+		}
+		else if (BusterState == EBusterState::PullCharge)
+		{
+			int PullChargeDamage = Buster->GetPullBusterDamage();
+			Hp -= PullChargeDamage;
+		}
 	}
 }
 
@@ -711,6 +784,7 @@ void ACyberPeacock::CreateMissile(int _Count)
 	FVector MissileCreatePos = BossCenter + MissileCount.at(_Count);
 	Missile->SetActorLocation(MissileCreatePos); // 생성 위치 설정.
 }
+
 
 // Debug
 void ACyberPeacock::TestFunction(bool _test)

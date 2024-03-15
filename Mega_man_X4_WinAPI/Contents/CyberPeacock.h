@@ -4,6 +4,7 @@
 
 
 class AEgseu;
+class ABuster;
 class ACyberSpaceBossMap;
 
 /// <summary>
@@ -55,6 +56,15 @@ public :
 		return MissileCreateCount;
 	}
 
+	inline int GetCyberPeacockHp() const
+	{
+		return Hp;
+	}
+
+	inline bool GetDeathAni() const
+	{
+		return b_DeathAni;
+	}
 
 	/// <summary>
 	/// Level에서 접근.
@@ -114,6 +124,10 @@ protected :
 
 	void DeathStart();
 	void Death(float _DeltaTime);
+	void ExplosionStart();
+	void Explosion(float _DeltaTime);
+	void EndStart();
+	void End(float _DeltaTime);
 
 
 private :
@@ -123,20 +137,21 @@ private :
 	void CollisionCheck();
 
 	void CreateMissile(int _Count);
+	//void HpCheck();
 	////////////////////////////////////////////
 
 	bool b_Intro = false; // 인트로 애니메이션 여부.
 	bool b_BattleReady = false; // 파칭~! 애니메이션 여부.
+	bool b_DeathAni = false;
 
 	int RandValue = 0; // 패턴 전용 랜덤 변수.
 
 	std::string CurAnimationName = "None";
 
 	float BossPatternTime = 0.0f;
-	int Hp = 48;
-	int HitCount = 0;
+	float DeathTime = 0.0f;
+	int Hp = 48;	
 	int MissileCreateCount = 0; // ~7
-
 	int BodyDamage = 5;
 	int FeatherAttackDamage = 9;
 	int RisingSlashDamage = 6;
@@ -175,6 +190,7 @@ private :
 	ERenderOrder Order = ERenderOrder::None;
 
 	AEgseu* Player = nullptr;
+	ABuster* DuplicationBuster = nullptr;
 };
 // X : 1838 ~ 2042
 // 
