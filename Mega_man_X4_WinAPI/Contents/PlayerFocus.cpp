@@ -266,6 +266,7 @@ void APlayerFocus::Rank(float _DeltaTime)
 	FVector PlayerDir = PlayerPos - this->GetActorLocation();
 	PlayerDir.Normalize2D();
 
+	RunSpeed = 500.0f;
 	RunVector = PlayerDir * RunSpeed * _DeltaTime;
 	AddActorLocation(RunVector);
 

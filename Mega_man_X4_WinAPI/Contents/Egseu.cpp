@@ -3991,6 +3991,11 @@ void AEgseu::RunJumpAttack_Up_End(float _DeltaTime)
 #pragma region WallCling
 void AEgseu::WallClingStart()
 {
+	if (DashVector.X != 0.0f || DashVector.Y != 0.0f)
+	{
+		DashVector = FVector::Zero;
+	}
+
 	// 벽 잡는 애니메이션.
 	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Start"));
 }
@@ -4789,6 +4794,10 @@ void AEgseu::FocusCreate(float _DeltaTime)
 void AEgseu::FocusLoopStart()
 {
 	GetWorld()->SetAllTimeScale(1.0f);
+	if (LastMoveVector.X != 0.0f)
+	{
+		LastMoveVector = FVector::Zero;
+	}
 }
 void AEgseu::FocusLoop(float _DeltaTime)
 {
@@ -4812,6 +4821,18 @@ void AEgseu::FocusEndStart()
 
 void AEgseu::FocusEnd(float _DeltaTime)
 {
+	// 땅으로.
+	FVector ToDown = FVector::Zero;
+	ToDown = FVector::Down * 500.0f * _DeltaTime;
+
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		ToDown = FVector::Zero;
+	}
+	
+	AddActorLocation(ToDown);
+
 	// 랭크 받고 오른쪽으로 이동.
 	if (true == AutoRightRun)
 	{
