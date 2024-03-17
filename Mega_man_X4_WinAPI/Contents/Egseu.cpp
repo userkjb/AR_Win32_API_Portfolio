@@ -825,7 +825,7 @@ void AEgseu::SummonStart()
 
 void AEgseu::Summon(float _DeltaTime)
 {
-	SummonVector = FVector::Down * 1000.0f * _DeltaTime;
+	SummonVector = FVector::Down * 1500.0f * _DeltaTime;
 	//MoveUpdate(_DeltaTime);
 	AddActorLocation(SummonVector);
 
