@@ -1,6 +1,7 @@
 #include "Egseu.h"
 #include <EngineCore/EngineCore.h> // Helper
 #include <EnginePlatform/EngineSound.h>
+#include <EngineBase/EngineRandom.h>
 #include "Buster.h"
 #include "CyberPeacock.h"
 #include "MiruTorearu.h"
@@ -988,6 +989,15 @@ void AEgseu::IdleJumpStart()
 	JumpVector = JumpPower;
 	//int CurFrame = PlayerRender->GetCurAnimationFrame();
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	int RandValue = UEngineRandom::MainRandom.RandomInt(0, 1); // 랜덤 패턴.
+	if (RandValue == 0)
+	{
+		UEngineSound::SoundPlay("Jump_1.mp3");
+	}
+	else if (RandValue == 1)
+	{
+		UEngineSound::SoundPlay("Jump_2.mp3");
+	}
 	DirCheck();
 }
 
@@ -2752,6 +2762,15 @@ void AEgseu::RunDashJumpStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
 	JumpVector = JumpPower;
+	int RandValue = UEngineRandom::MainRandom.RandomInt(0, 1); // 랜덤 패턴.
+	if (RandValue == 0)
+	{
+		UEngineSound::SoundPlay("Jump_1.mp3");
+	}
+	else if (RandValue == 1)
+	{
+		UEngineSound::SoundPlay("Jump_2.mp3");
+	}
 	DirCheck();
 }
 void AEgseu::RunDashJump(float _DeltaTime)
@@ -2811,17 +2830,34 @@ void AEgseu::RunDashJump(float _DeltaTime)
 	}
 }
 
+// 1. RunDashJump 에서 넘어오기
 void AEgseu::RunDashJump_LoopStart()
 {
-	if (BusterDelayTime == 0.0f)
+	//if (BusterDelayTime == 0.0f)
+	//{
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	//}
+	if (State == EEgseuState::RunDashJump)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
+	}
+	else if (State == EEgseuState::RunDashJumpAttack_Up_Loop)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jumping"), false, CurFrame);
+		BusterDelayTime = 0.0f;
+	}
+	else if (State == EEgseuState::WallKick)
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
 	}
 	else
 	{
-		int CurFrame = PlayerRender->GetCurAnimationFrame();
-		PlayerRender->ChangeAnimation(GetAnimationName("Jumping"), false, CurFrame);
+		PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
 	}
+
+
+
 	DirCheck();
 }
 void AEgseu::RunDashJump_Loop(float _DeltaTime)
@@ -3261,7 +3297,7 @@ void AEgseu::RunDashJumpAttack_Up_End(float _DeltaTime)
 	// 0.5초
 	if (BusterDelayTime >= BusterDelayTimeMax)
 	{
-		StateChange(EEgseuState::RunDashJump_Loop);
+		StateChange(EEgseuState::RunDashJump_End);
 		return;
 	}
 
@@ -3302,6 +3338,15 @@ void AEgseu::RunJumpStart()
 {
 	JumpVector = JumpPower;
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Start"));
+	int RandValue = UEngineRandom::MainRandom.RandomInt(0, 1); // 랜덤 패턴.
+	if (RandValue == 0)
+	{
+		UEngineSound::SoundPlay("Jump_1.mp3");
+	}
+	else if (RandValue == 1)
+	{
+		UEngineSound::SoundPlay("Jump_2.mp3");
+	}
 	DirCheck();
 }
 
@@ -4113,6 +4158,9 @@ void AEgseu::WallKickStart()
 		PlayerRender->ChangeAnimation(GetAnimationName("WallKick"));
 	}
 
+	
+	UEngineSound::SoundPlay("Jump_1.mp3");
+
 	WallKickTime = 0.0f;
 }
 
@@ -4221,7 +4269,7 @@ void AEgseu::WallKickAttack_Down(float _DeltaTime)
 		// 대쉬 버튼을 누르고 있다면,
 		if (true == UEngineInput::IsPress('Z'))
 		{
-			StateChange(EEgseuState::RunDashJump_Loop);
+			StateChange(EEgseuState::RunDashJumpAttack_Down_Loop);
 			return;
 		}
 		// 대쉬 버튼을 누르고 있지 않다면,
