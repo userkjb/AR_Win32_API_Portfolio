@@ -67,7 +67,7 @@ void ACyberPeacock::Renderer()
 
 	// Animation
 	// Intro
-	PeacockRenderer->CreateAnimation("Peacock_Intro", "Peacock_Intro.png", 0, 30, 0.05f, false);
+	PeacockRenderer->CreateAnimation("Peacock_Intro", "Peacock_Intro.png", 0, 30, 0.025f, false);
 	// 파칭
 	PeacockRenderer->CreateAnimation("Fight_Ready_One", "Fight_Ready_Left.png", 0, 6, 0.05f, false);
 	// 사라짐. & 나타남.
@@ -322,6 +322,7 @@ void ACyberPeacock::IntroStart()
 	}
 
 	PeacockRenderer->ChangeAnimation("Peacock_Intro"); // 주와아앙
+	UEngineSound::SoundPlay("BossIntro.mp3"); // 주와아앙
 }
 
 void ACyberPeacock::Intro(float _DeltaTime)
@@ -368,6 +369,7 @@ void ACyberPeacock::DisappearStart()
 	PeacockCollision->ActiveOff(); // 콜리전 끄고.
 	//PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
+	UEngineSound::SoundPlay("Disappear_Sound.mp3");
 }
 
 void ACyberPeacock::Disappear(float _DeltaTime)
@@ -396,12 +398,25 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 			if (PlayerDir == EActorDir::Right)
 			{
 				CyberPeacockDir = EActorDir::Right;
-				this->SetActorLocation({ PlayerPos.iX() - 50, PlayerPos.iY() });
+				int x = PlayerPos.iX() - 50;
+				if (x < 1917)
+				{
+					x = 1917;
+				}
+				//this->SetActorLocation({ x, PlayerPos.iY() });
+				this->SetActorLocation({ x, 562 });
 			}
 			else if (PlayerDir == EActorDir::Left)
 			{
 				CyberPeacockDir = EActorDir::Left;
-				this->SetActorLocation({ PlayerPos.iX() + 50, PlayerPos.iY() });
+				CyberPeacockDir = EActorDir::Left;
+				int x = PlayerPos.iX() + 50;
+				if (x >= 2681)
+				{
+					x = 2681;
+				}
+				//this->SetActorLocation({ x, PlayerPos.iY() });
+				this->SetActorLocation({ x, 562 });
 			}
 		}
 		else if (RandValue == 1)
@@ -414,7 +429,8 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 				{
 					x = 1917;
 				}
-				this->SetActorLocation({ x, PlayerPos.iY() });
+				//this->SetActorLocation({ x, PlayerPos.iY() });
+				this->SetActorLocation({ x, 562 });
 			}
 			else if (PlayerDir == EActorDir::Left)
 			{
@@ -424,7 +440,8 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 				{
 					x = 2681;
 				}
-				this->SetActorLocation({ x, PlayerPos.iY() });
+				//this->SetActorLocation({ x, PlayerPos.iY() });
+				this->SetActorLocation({ x, 562 });
 			}
 		}
 		else if (RandValue == 2) // hp 반 조건 넣어야 함. // 미사일
@@ -439,7 +456,7 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 			}
 			else if (2299< x && x <= 2681) // 오른쪽
 			{
-				TrackingShotDir = EActorDir::Left;
+				TrackingShotDir = EActorDir::Right;
 				this->SetActorLocation({ 2550, 320 });
 			}
 			else
@@ -464,10 +481,17 @@ void ACyberPeacock::AppearStart()
 {
 	PeacockRenderer->SetActive(true);
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
+	AppearTime = 0.0f;
+	UEngineSound::SoundPlay("Disappear_Sound.mp3");
 }
 
 void ACyberPeacock::Appear(float _DeltaTime)
 {
+	AppearTime += _DeltaTime;
+	if (AppearTime <= 0.5f)
+	{
+		return;
+	}
 	// 나타남.
 	if (true == PeacockRenderer->IsCurAnimationEnd())
 	{
@@ -503,6 +527,8 @@ void ACyberPeacock::FeatherAttackStart()
 
 	PeacockCollision->ActiveOn();
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("FeatherAttack"));
+
+	UEngineSound::SoundPlay("X4_CyberPeacock_FeatherAttack.mp3");
 }
 
 void ACyberPeacock::FeatherAttack(float _DeltaTime)
@@ -544,6 +570,7 @@ void ACyberPeacock::RisingSlashStart()
 	}
 	PeacockCollision->ActiveOn();
 	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("RisingSlash"));
+	UEngineSound::SoundPlay("X4_CyberPeacock_RisingSlash.mp3");
 }
 
 void ACyberPeacock::RisingSlash(float _DeltaTime)
@@ -599,6 +626,7 @@ void ACyberPeacock::TrackingShotStart()
 		PeacockRenderer->ChangeAnimation("TrackingShot_Right");
 	}
 	PeacockCollision->ActiveOn(); // 몸통 Collision 켬.
+	UEngineSound::SoundPlay("X4_CyberPeacock_TrackingShot.mp3");
 }
 
 void ACyberPeacock::TrackingShot(float _DeltaTime)
@@ -756,6 +784,7 @@ void ACyberPeacock::CollisionCheck()
 			
 			CalCollision();
 			//StateChange(ECyberPeacockState::BusterCollision);
+			Buster->SetBusterState(EBusterState::BusterCrash);
 			return;
 		}
 		else if (PrevBuster != Buster)
@@ -765,6 +794,7 @@ void ACyberPeacock::CollisionCheck()
 
 			CalCollision();
 			//StateChange(ECyberPeacockState::BusterCollision);
+			Buster->SetBusterState(EBusterState::BusterCrash);
 			return;
 		}
 	}

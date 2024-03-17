@@ -381,6 +381,7 @@ void UCyberSpaceBossLevel::BossBattleStart()
 {
 	Player->SetStateChange(EEgseuState::Idle);
 	CyberBoss->SetStateChange(ECyberPeacockState::Disappear);
+	UEngineSound::SoundPlay("BossBGM.mp3");
 }
 
 void UCyberSpaceBossLevel::BossBattle(float _DeltaTime)
