@@ -319,7 +319,7 @@ enum class ECyberStageState
 	None,
 
 	Ready,
-	GameStart,
+	GameProgress, // 게임 진행.
 };
 
 /// <summary>

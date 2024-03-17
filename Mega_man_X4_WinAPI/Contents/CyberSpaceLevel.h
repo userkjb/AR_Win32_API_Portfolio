@@ -38,6 +38,8 @@ private :
 	void None(float _DeltaTime);
 	void ReadyStart();
 	void Ready(float _DeltaTime);
+	void GameProgressStart();
+	void GameProgress(float _DeltaTime);
 
 
 	/// <summary>

@@ -146,6 +146,9 @@ void UCyberSpaceLevel::StateChange(ECyberStageState _State)
 		case ECyberStageState::Ready:
 			ReadyStart();
 			break;
+		case ECyberStageState::GameProgress:
+			GameProgressStart();
+			break;
 		default :
 			break;
 		}
@@ -162,6 +165,9 @@ void UCyberSpaceLevel::StateUpdate(float _DeltaTime)
 		break;
 	case ECyberStageState::Ready:
 		Ready(_DeltaTime);
+		break;
+	case ECyberStageState::GameProgress:
+		GameProgress(_DeltaTime);
 		break;
 	default:
 		break;
@@ -192,9 +198,23 @@ void UCyberSpaceLevel::Ready(float _DeltaTime)
 			if (Player->GetPlayerState() == EEgseuState::None)
 			{
 				Player->SetStateChange(EEgseuState::Summon);
+				StateChange(ECyberStageState::GameProgress);
+				return;
 			}
 		}
 	}
+}
+#pragma endregion
+
+#pragma region GameProgress
+void UCyberSpaceLevel::GameProgressStart()
+{
+	SoundTime = 0.0f;
+
+}
+void UCyberSpaceLevel::GameProgress(float _DeltaTime)
+{
+
 }
 #pragma endregion
 
