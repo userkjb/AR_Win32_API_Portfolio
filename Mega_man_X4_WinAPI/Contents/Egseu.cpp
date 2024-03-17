@@ -4693,9 +4693,9 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 		}
 		if (Sound_1 == true)
 		{
-			Buster_Charge_Sound.On();
-			Buster_Charge_Sound.Replay();
-			Buster_Charge_Sound.Off();
+			Buster_Charge_Sound.On(); // 잠깐 켜고
+			Buster_Charge_Sound.Replay(); // 처음으로 돌린다음
+			Buster_Charge_Sound.Off(); // 일시 정지.
 			Sound_1 = false;
 		}
 		if (Sound_2 == true)
