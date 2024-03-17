@@ -304,6 +304,8 @@ private :
 	UEngineSoundPlayer Buster_Charge_Sound;
 	UEngineSoundPlayer Buster_Chargeing_Sound;
 	float BusterSountTime = 0.0f;
+	bool Sound_1 = false;
+	bool Sound_2 = false;
 
 	//===== Vector ==============
 

@@ -91,12 +91,11 @@ void AEgseu::ChargeBeginPlay()
 
 	// Sound
 	Buster_Charge_Sound = UEngineSound::SoundPlay("Charge.mp3");
-	//Buster_Charge_Sound.SetVolume(1.0f);
+	//Buster_Charge_Sound.Loop();
 	Buster_Charge_Sound.Off();
 
 	Buster_Chargeing_Sound = UEngineSound::SoundPlay("Charging.mp3");
-	//Buster_Chargeing_Sound.SetVolume(1.0f);
-	Buster_Chargeing_Sound.Loop(100);
+	//Buster_Chargeing_Sound.Loop();
 	Buster_Chargeing_Sound.Off();
 }
 
@@ -4629,6 +4628,8 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 		State == EEgseuState::Summon_End
 		)
 	{
+		BusterChargTime = 0.0f;
+		BusterSountTime = 0.0f;
 		return;
 	}
 
@@ -4636,7 +4637,7 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 	{
 		BusterChargTime += _DeltaTime;
 	}
-	if (1.0f <= BusterChargTime)
+	if (1.0f <= BusterChargTime) // 1초 부터 시작.
 	{
 		BusterSountTime += _DeltaTime;
 	}
@@ -4645,17 +4646,30 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 	{
 		MiddleChargeRender->ActiveOn();
-		Buster_Charge_Sound.On();
 	}
 	else if (2.0f <= BusterChargTime)
 	{
 		PullChargeRender->ActiveOn();
 	}
 
-	if (3.0f <= BusterSountTime)
+	// 차지 사운드
+	if (0.0f < BusterSountTime && BusterSountTime < 2.0f)
 	{
-		Buster_Charge_Sound.Off();
-		Buster_Chargeing_Sound.On();
+		if (Sound_1 == false)
+		{
+			Sound_1 = true;
+			Buster_Charge_Sound.On();
+		}
+	}
+	else if (2.0f <= BusterSountTime)
+	{
+		if (Sound_2 == false)
+		{
+			Sound_2 = true;
+			Buster_Charge_Sound.Off();
+			Buster_Chargeing_Sound.On();
+			Buster_Chargeing_Sound.Loop();
+		}
 	}
 
 	
@@ -4669,9 +4683,28 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 		{
 			PullChargeRender->ActiveOff();
 		}
-		BusterChargTime = 0.0f;
-		BusterSountTime = 0.0f;
-		Buster_Chargeing_Sound.Off();
+		if (BusterChargTime != 0.0f)
+		{
+			BusterChargTime = 0.0f;
+		}
+		if (BusterSountTime != 0.0f)
+		{
+			BusterSountTime = 0.0f;
+		}
+		if (Sound_1 == true)
+		{
+			Buster_Charge_Sound.On();
+			Buster_Charge_Sound.Replay();
+			Buster_Charge_Sound.Off();
+			Sound_1 = false;
+		}
+		if (Sound_2 == true)
+		{
+			Buster_Chargeing_Sound.On();
+			Buster_Chargeing_Sound.Replay();
+			Buster_Chargeing_Sound.Off();
+			Sound_2 = false;
+		}
 	}
 }
 
