@@ -210,6 +210,7 @@ void UCyberSpaceBossLevel::Front_DoorStart()
 {
 	PlayerRunVector = FVector::Zero;
 	Player->SetStateChange(EEgseuState::BossRoomAutoRun);
+	UEngineSound::SoundPlay("OpenDoor.mp3");
 }
 
 void UCyberSpaceBossLevel::Front_Door(float _DeltaTime)
@@ -251,6 +252,7 @@ void UCyberSpaceBossLevel::Back_DoorStart()
 {
 	PlayerRunVector = FVector::Zero;
 	Player->SetStateChange(EEgseuState::BossRoomAutoRun);
+	UEngineSound::SoundPlay("OpenDoor.mp3");
 }
 
 void UCyberSpaceBossLevel::Back_Door(float _DeltaTime)
