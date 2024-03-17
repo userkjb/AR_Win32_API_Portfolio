@@ -1,5 +1,6 @@
 #include "Egseu.h"
 #include <EngineCore/EngineCore.h> // Helper
+#include <EnginePlatform/EngineSound.h>
 #include "Buster.h"
 #include "CyberPeacock.h"
 #include "MiruTorearu.h"
@@ -821,6 +822,8 @@ void AEgseu::Wait(float _DeltaTime)
 void AEgseu::SummonStart()
 {
 	PlayerRender->ChangeAnimation("Summon");
+
+	UEngineSoundPlayer LazerSound = UEngineSound::SoundPlay("Lazer.mp3");
 }
 
 void AEgseu::Summon(float _DeltaTime)
