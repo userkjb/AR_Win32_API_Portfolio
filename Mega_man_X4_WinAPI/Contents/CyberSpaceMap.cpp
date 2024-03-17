@@ -168,6 +168,7 @@ void ACyberSpaceMap::PlayerFocus_StartBegin()
 	Focus->SetFocusState(EFocusState::CallCreate);
 	Focus->SetActive(true);
 
+	UEngineSound::SoundPlay("Focus.mp3");
 	Player->StateChange(EEgseuState::FocusCreate);
 }
 void ACyberSpaceMap::PlayerFocus_Start(float _DeltaTime)
@@ -207,6 +208,7 @@ void ACyberSpaceMap::PlayerFocus_EndBegin()
 
 	ExitAni->ChangeAnimation("ExitAnies");
 	ExitAni->SetPosition({ 4760, 400 });
+
 	RankRender->SetPosition({ 4770 , 200 });
 	if (TimeResult <= 15.0f)
 	{
@@ -258,14 +260,14 @@ void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 		}
 	}
 
-	if (EndingTime >= 2.0f)
+	if (EndingTime >= 3.0f)
 	{
 		ExitAni->SetActive(true);
 	}
 
 	// 랭크에 따라 나오는 맵이 달라야 한다.
 	// 일단 구현.
-	if (EndingTime >= 3.0f && b_Stage == false)
+	if (EndingTime >= 4.0f && b_Stage == false)
 	{
 		b_Stage = true;
 	}

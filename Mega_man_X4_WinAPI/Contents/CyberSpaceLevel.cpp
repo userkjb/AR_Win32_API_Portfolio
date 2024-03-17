@@ -197,10 +197,10 @@ void UCyberSpaceLevel::ReadyStart()
 void UCyberSpaceLevel::Ready(float _DeltaTime)
 {
 	SoundTime += _DeltaTime;
-	if (SoundTime >= 4.0f)
+	if (SoundTime >= 2.0f)
 	{
 		Ready_Sound.On();
-		if (SoundTime >= 5.0f)
+		if (SoundTime >= 3.0f)
 		{
 			if (Player->GetPlayerState() == EEgseuState::None)
 			{

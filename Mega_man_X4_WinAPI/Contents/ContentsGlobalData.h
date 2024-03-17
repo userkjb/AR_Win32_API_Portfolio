@@ -359,7 +359,6 @@ enum class ERenderOrder
 	None,
 	Map,
 	MapObject,
-	MapSub,
 	EnemyPrev,
 	Enemy,
 	EnemyNext,
@@ -367,6 +366,7 @@ enum class ERenderOrder
 	Boss,
 	BossObject,
 	Player,
+	MapSub,
 	Buster,
 };
 

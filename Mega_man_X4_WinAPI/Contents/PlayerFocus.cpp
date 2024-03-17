@@ -234,6 +234,19 @@ void APlayerFocus::Run(float _DeltaTime)
 	FVector PlayerDir = PlayerPos - this->GetActorLocation();
 	PlayerDir.Normalize2D();
 
+	FVector FocusPos = GetActorLocation();
+	float Dis = std::sqrtf(std::powf(FocusPos.X - PlayerPos.X, 2) + std::powf(FocusPos.Y - PlayerPos.Y, 2));
+	int Dis_i = std::lround(Dis);
+
+	if (Dis_i >= 100)
+	{
+		RunSpeed = 1000.0f;
+	}
+	else
+	{
+		RunSpeed = 500.0f;
+	}
+
 	RunVector = PlayerDir * RunSpeed * _DeltaTime;
 	AddActorLocation(RunVector);
 	if (ForcusTime >= 10.0f)
@@ -247,8 +260,24 @@ void APlayerFocus::Run(float _DeltaTime)
 void APlayerFocus::Rank(float _DeltaTime)
 {
 	ForcusTime = 0.0f;
-	StateChange(EFocusState::RunUp);
-	return;
+
+	FVector PlayerPos = AEgseu::GetMainPlayer()->GetActorLocation();
+	PlayerPos.Y -= 50.0f;
+	FVector PlayerDir = PlayerPos - this->GetActorLocation();
+	PlayerDir.Normalize2D();
+
+	RunVector = PlayerDir * RunSpeed * _DeltaTime;
+	AddActorLocation(RunVector);
+
+	FVector FocusPos = GetActorLocation();
+	float Dis = std::sqrtf(std::powf(FocusPos.X - PlayerPos.X, 2) + std::powf(FocusPos.Y - PlayerPos.Y, 2));
+	int Dis_i = std::lround(Dis);
+
+	if (Dis_i <= 0)
+	{
+		StateChange(EFocusState::RunUp);
+		return;
+	}
 }
 
 #pragma region RunUp

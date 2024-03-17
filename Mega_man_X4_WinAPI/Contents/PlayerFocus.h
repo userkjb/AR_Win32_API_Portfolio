@@ -67,7 +67,7 @@ private :
 	UImageRenderer* HurryUpRender = nullptr;
 
 	FVector RunVector = FVector::Zero;
-	float RunSpeed = 500.0f;
+	float RunSpeed = 500.0f; // 500.0f
 	int UpTargetLen = 150;
 	int UpEndPos = 0;
 
