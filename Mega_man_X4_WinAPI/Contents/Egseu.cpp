@@ -4014,6 +4014,26 @@ void AEgseu::WallCling(float _DeltaTime)
 		return;
 	}
 
+	// 발싸!!!
+	if (true == UEngineInput::IsUp('X'))
+	{
+		if (BusterChargTime >= 1.0f)
+		{
+			BusterDelayTime = 0.0f;
+			if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+			{
+				WallBusterCreate(EBusterState::CreateMiddle);
+			}
+			else if (2.0f <= BusterChargTime)
+			{
+				UEngineSound::SoundPlay("PullBusterShot_X.mp3");
+				WallBusterCreate(EBusterState::CreatePull);
+			}
+			StateChange(EEgseuState::WallClingAttack_Up);
+			return;
+		}
+	}
+
 	// 벽 잡는 중 중에 점프
 	if (true == UEngineInput::IsDown('C'))
 	{
@@ -4094,6 +4114,26 @@ void AEgseu::WallCling_Loop(float _DeltaTime)
 		WallBusterCreate(EBusterState::CreateDefault);
 		StateChange(EEgseuState::WallClingAttack_Down_Loop);
 		return;
+	}
+
+	// 발싸!!!
+	if (true == UEngineInput::IsUp('X'))
+	{
+		if (BusterChargTime >= 1.0f)
+		{
+			BusterDelayTime = 0.0f;
+			if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
+			{
+				WallBusterCreate(EBusterState::CreateMiddle);
+			}
+			else if (2.0f <= BusterChargTime)
+			{
+				UEngineSound::SoundPlay("PullBusterShot_X.mp3");
+				WallBusterCreate(EBusterState::CreatePull);
+			}
+			StateChange(EEgseuState::WallClingAttack_Up_Loop);
+			return;
+		}
 	}
 
 	// 벽을 잡고 있는 중에 다시 점프
