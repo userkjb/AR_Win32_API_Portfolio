@@ -1,5 +1,6 @@
 #include "Buster.h"
 #include <EngineCore/EngineCore.h> // Helper
+#include <EnginePlatform/EngineSound.h>
 
 ABuster::ABuster()
 {
@@ -175,6 +176,7 @@ void ABuster::DefaultChargeStart()
 	BusterCollision->SetScale({ 15.0f, 10.0f });
 	BusterLifeTime = 0.0f;
 	BusterVector = FVector::Zero;
+	UEngineSound::SoundPlay("Buster_Shot.mp3");
 }
 
 void ABuster::DefaultBuster(float _DeltaTime)
@@ -216,6 +218,7 @@ void ABuster::MiddleChargeStart()
 	BusterCollision->SetScale({ 28.0f, 18.0f });
 	BusterLifeTime = 0.0f;
 	BusterVector = FVector::Zero;
+	UEngineSound::SoundPlay("Buster_Shot.mp3");
 }
 
 void ABuster::MiddleCharge(float _DeltaTime)
@@ -257,6 +260,7 @@ void ABuster::PullChargeStart()
 	BusterCollision->SetScale({ 64.0f, 32.0f });
 	BusterLifeTime = 0.0f;
 	BusterVector = FVector::Zero;
+	UEngineSound::SoundPlay("PullBuster_Shot.mp3");
 }
 
 void ABuster::PullCharge(float _DeltaTime)

@@ -43,7 +43,7 @@ public :
 	//void SetBusterAnimation(std::string_view _Name);
 
 	// Level 에서 대미지 변경 해야 함.
-	int GetDefaultBusterDamage()
+	int GetDefaultBusterDamage() const
 	{
 		return DefaultBusterDamage;
 	}
@@ -55,7 +55,7 @@ public :
 	{
 		MiddleBusterDamage = _Damage;
 	}
-	int GetMiddleBusterDamage()
+	int GetMiddleBusterDamage() const
 	{
 		return MiddleBusterDamage;
 	}
@@ -63,7 +63,7 @@ public :
 	{
 		PullBusterDamage = _Damage;
 	}
-	int GetPullBusterDamage()
+	int GetPullBusterDamage() const
 	{
 		return PullBusterDamage;
 	}
