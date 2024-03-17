@@ -45,7 +45,7 @@ private :
 	//APlayer* NewPlayer = nullptr;
 
 	// Player
-	AEgseu* NewX = nullptr;
+	AEgseu* Player = nullptr;
 
 	// Enemy
 	bool Test_b = false;

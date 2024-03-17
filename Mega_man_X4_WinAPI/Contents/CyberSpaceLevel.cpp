@@ -120,9 +120,9 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	//NewPlayer->SetActorLocation({ 200, 0 }); // 400 ¿Ã ºæ≈Õ.
 
 	// Player
-	NewX = SpawnActor<AEgseu>(static_cast<int>(EActorType::Player));
-	NewX->SetActorLocation({ 200, 90 });
-	CyberSpaceMap->SetPlayer(NewX);
+	Player = SpawnActor<AEgseu>(static_cast<int>(EActorType::Player));
+	Player->SetActorLocation({ 200, 90 });
+	CyberSpaceMap->SetPlayer(Player);
 
 	// Boss
 	//ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
@@ -137,11 +137,11 @@ void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
 	ULevel::LevelEnd(_Level);
 
 	CyberSpaceMap->Destroy(0.0f);
-	NewX->Destroy(0.0f);
+	Player->Destroy(0.0f);
 	TryScan_1->Destroy(0.0f);
 	TryScan_2->Destroy(0.0f);
 	CyberSpaceMap = nullptr;
-	NewX = nullptr;
+	Player = nullptr;
 	TryScan_1 = nullptr;
 	TryScan_2 = nullptr;
 }
@@ -149,7 +149,7 @@ void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
 void UCyberSpaceLevel::MoveCameraVector()
 {
 	FVector CameraPos = GetCameraPos();
-	FVector PlayerPos = NewX->GetActorLocation();
+	FVector PlayerPos = Player->GetActorLocation();
 	FVector ImageScale = CyberSpaceMap->GetImageScale();
 	FVector WindowScale = GEngine->MainWindow.GetWindowScale();
 
@@ -178,11 +178,11 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 	if (true == _Test)
 	{
 		//FVector PlayerPos = NewX->GetActorLocation();
-		float PlayerPos = NewX->GetActorLocation().X;
+		float PlayerPos = Player->GetActorLocation().X;
 		int a = 0;
 	}
 
-	float PlayerPos = NewX->GetActorLocation().X;
+	float PlayerPos = Player->GetActorLocation().X;
 	if (520.0f <= PlayerPos && PlayerPos <= 530.0f)
 	{
 		if (TryScan_1 == nullptr && TryScan_2 == nullptr)
@@ -206,7 +206,7 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 			MiruTorearu_1->SetActorLocation({ MiruTorearu_1_Pos });
 			MiruTorearu_1->SetMiruDir(EActorDir::Left);
 			MiruTorearu_1->SetMiruTorearuState(EMiruTorearuState::RunCreate);
-			MiruTorearu_1->SetPlayer(NewX);
+			MiruTorearu_1->SetPlayer(Player);
 		}
 	}
 
@@ -218,7 +218,7 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 			MiruTorearu_2->SetActorLocation({ MiruTorearu_2_Pos });
 			MiruTorearu_2->SetMiruDir(EActorDir::Left);
 			MiruTorearu_2->SetMiruTorearuState(EMiruTorearuState::RunCreate);
-			MiruTorearu_2->SetPlayer(NewX);
+			MiruTorearu_2->SetPlayer(Player);
 		}
 	}
 
@@ -231,7 +231,7 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 			MiruTorearu_3->SetActorLocation({ MiruTorearu_3_Pos });
 			MiruTorearu_3->SetMiruDir(EActorDir::Left);
 			MiruTorearu_3->SetMiruTorearuState(EMiruTorearuState::RunCreate);
-			MiruTorearu_3->SetPlayer(NewX);
+			MiruTorearu_3->SetPlayer(Player);
 		}
 
 		if (MiruTorearu_4 == nullptr)
@@ -240,7 +240,7 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 			MiruTorearu_4->SetActorLocation({ MiruTorearu_4_Pos });
 			MiruTorearu_4->SetMiruDir(EActorDir::Left);
 			MiruTorearu_4->SetMiruTorearuState(EMiruTorearuState::RunCreate);
-			MiruTorearu_4->SetPlayer(NewX);
+			MiruTorearu_4->SetPlayer(Player);
 		}
 	}
 
@@ -252,7 +252,7 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 			MiruTorearu_5->SetActorLocation({ MiruTorearu_5_Pos });
 			MiruTorearu_5->SetMiruDir(EActorDir::Left);
 			MiruTorearu_5->SetMiruTorearuState(EMiruTorearuState::RunCreate);
-			MiruTorearu_5->SetPlayer(NewX);
+			MiruTorearu_5->SetPlayer(Player);
 		}
 
 		if (MiruTorearu_6 == nullptr)
@@ -261,7 +261,7 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 			MiruTorearu_6->SetActorLocation({ MiruTorearu_6_Pos });
 			MiruTorearu_6->SetMiruDir(EActorDir::Left);
 			MiruTorearu_6->SetMiruTorearuState(EMiruTorearuState::RunCreate);
-			MiruTorearu_6->SetPlayer(NewX);
+			MiruTorearu_6->SetPlayer(Player);
 		}
 
 		if (TryScan_3 == nullptr)
@@ -287,7 +287,7 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 			MiruTorearu_7->SetActorLocation({ MiruTorearu_7_Pos });
 			MiruTorearu_7->SetMiruDir(EActorDir::Left);
 			MiruTorearu_7->SetMiruTorearuState(EMiruTorearuState::RunCreate);
-			MiruTorearu_7->SetPlayer(NewX);
+			MiruTorearu_7->SetPlayer(Player);
 		}
 	}
 
@@ -299,7 +299,7 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 			MiruTorearu_8->SetActorLocation({ MiruTorearu_8_Pos });
 			MiruTorearu_8->SetMiruDir(EActorDir::Left);
 			MiruTorearu_8->SetMiruTorearuState(EMiruTorearuState::RunCreate);
-			MiruTorearu_8->SetPlayer(NewX);
+			MiruTorearu_8->SetPlayer(Player);
 		}
 
 		if (MiruTorearu_9 == nullptr)
@@ -308,7 +308,7 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 			MiruTorearu_9->SetActorLocation({ MiruTorearu_9_Pos });
 			MiruTorearu_9->SetMiruDir(EActorDir::Left);
 			MiruTorearu_9->SetMiruTorearuState(EMiruTorearuState::RunCreate);
-			MiruTorearu_9->SetPlayer(NewX);
+			MiruTorearu_9->SetPlayer(Player);
 		}
 	}
 
@@ -320,7 +320,7 @@ void UCyberSpaceLevel::EnemySpawn(bool _Test)
 			MiruTorearu_10->SetActorLocation({ MiruTorearu_10_Pos });
 			MiruTorearu_10->SetMiruDir(EActorDir::Left);
 			MiruTorearu_10->SetMiruTorearuState(EMiruTorearuState::RunCreate);
-			MiruTorearu_10->SetPlayer(NewX);
+			MiruTorearu_10->SetPlayer(Player);
 		}
 	}
 	
