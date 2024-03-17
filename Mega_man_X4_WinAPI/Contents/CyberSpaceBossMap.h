@@ -128,7 +128,7 @@ private :
 	UCollision* BossDoor_Coll_2 = nullptr;
 
 	AEgseu* Player = nullptr;
-	AEgseu* ColPlayer = nullptr;
+	//AEgseu* ColPlayer = nullptr;
 	FVector RunVector = FVector::Zero;
 	const float RunSpeed = 100.0f;
 	FVector StartCameraPos = FVector::Zero;

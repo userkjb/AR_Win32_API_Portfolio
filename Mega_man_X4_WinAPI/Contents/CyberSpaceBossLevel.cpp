@@ -197,6 +197,11 @@ void UCyberSpaceBossLevel::None(float _DeltaTime)
 		StateChange(EBossLevelState::Front_Door);
 		return;
 	}
+
+	if (Player->GetPlayerState() == EEgseuState::None)
+	{
+		Player->SetStateChange(EEgseuState::Summon);
+	}
 }
 #pragma endregion
 

@@ -126,11 +126,11 @@ void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
 	ULevel::LevelEnd(_Level);
 
 	//CyberSpaceMap->Destroy(0.0f);
-	//Player->Destroy(0.0f);
+	Player->Destroy(0.0f);
 	//TryScan_1->Destroy(0.0f);
 	//TryScan_2->Destroy(0.0f);
 	//CyberSpaceMap = nullptr;
-	//Player = nullptr;
+	Player = nullptr;
 	//TryScan_1 = nullptr;
 	//TryScan_2 = nullptr;
 }
