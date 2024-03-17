@@ -345,6 +345,7 @@ private :
 
 	bool AutoRightRun = false;
 	bool ReSummonEnd = false;
+	bool b_IsHit = false;
 	const float MoveSpeed = 500.0f;
 	const float DashSpeed = 750.0f;
 	float DashTime = 0.0f;
@@ -352,6 +353,7 @@ private :
 	float SummonDelayTime = 0.0f;
 	float ReadToBusterTime = 0.0f; // Buster 준비 시간.
 	float WallKickTime = 0.0f; // 벽 차는 행동을 강제하기 위한 Time
+	float HitDelayTime = 0.0f;
 	float Hit_InvincibilityTime = 0.0f; // 무적 시간.
 	float VictoryTime = 0.0f; // 승리 포즈 유지 시간.
 	float ReSummon_UpTime = 0.0f; // 위로 올라가는 시간.

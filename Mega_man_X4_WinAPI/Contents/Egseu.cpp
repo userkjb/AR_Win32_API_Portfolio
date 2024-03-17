@@ -901,7 +901,12 @@ void AEgseu::IdleStart()
 {
 	JumpVector = FVector::Zero; // 벽 타고 내려왔을 대 점프 초기화.
 	BusterDelayTime = 0.0f;
-	Hit_InvincibilityTime = 0.0f; // 무적시간 초기화.
+	LastMoveVector = FVector::Zero;
+	if (State == EEgseuState::Hit)
+	{
+		b_IsHit = true;
+		Hit_InvincibilityTime = 0.0f;
+	}
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
 	DirCheck();
 }
@@ -924,6 +929,22 @@ void AEgseu::Idle(float _DeltaTime)
 	if (DashTime != 0.0f)
 	{
 		DashTime = 0.0f;
+	}
+
+	// 무적
+	if (b_IsHit == true)
+	{
+		Hit_InvincibilityTime += _DeltaTime;
+		if (Hit_InvincibilityTime >= 2.0f)
+		{
+			PlayerCollision->SetActive(true);
+			b_IsHit = false;
+			Hit_InvincibilityTime = 0.0f;
+		}
+		else
+		{
+			PlayerCollision->SetActive(false);
+		}
 	}
 
 	// 가만히 있는데 뱡향 키가 눌렸을 때.
@@ -1830,13 +1851,32 @@ void AEgseu::IdleRun(float _DeltaTime)
 void AEgseu::IdleRun_LoopStart()
 {
 	JumpVector = FVector::Zero; // 벽 타고 왔을 때 점프 Vector 초기화.
-	Hit_InvincibilityTime = 0.0f; // 무적시간 초기화.
+	if (State == EEgseuState::Hit)
+	{
+		b_IsHit = true;
+	}
 	PlayerRender->ChangeAnimation(GetAnimationName("Run"));
 	DirCheck();
 }
 
 void AEgseu::IdleRun_Loop(float _DeltaTime)
 {
+	// 무적
+	if (b_IsHit == true)
+	{
+		Hit_InvincibilityTime += _DeltaTime;
+		if (Hit_InvincibilityTime >= 2.0f)
+		{
+			PlayerCollision->SetActive(true);
+			b_IsHit = false;
+			Hit_InvincibilityTime = 0.0f;
+		}
+		else
+		{
+			PlayerCollision->SetActive(false);
+		}
+	}
+
 	DirCheck();
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
@@ -4765,6 +4805,7 @@ void AEgseu::WallKickAttack_Up(float _DeltaTime)
 void AEgseu::HitStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Hit"));
+	PlayerCollision->SetActive(false);
 	Hit_InvincibilityTime = 0.0f;
 	GravityVector = FVector::Zero;
 	int RandValue = UEngineRandom::MainRandom.RandomInt(0, 1); // 랜덤 패턴.
@@ -4780,7 +4821,7 @@ void AEgseu::HitStart()
 
 void AEgseu::Hit(float _DeltaTime)
 {
-	Hit_InvincibilityTime += _DeltaTime;
+	HitDelayTime += _DeltaTime;
 	CalGravityVector(_DeltaTime);
 
 	FVector HitMove = FVector::Zero;
@@ -4808,21 +4849,24 @@ void AEgseu::Hit(float _DeltaTime)
 
 	AddActorLocation(HitMove);
 
-	// 무적시간.
-	if (Hit_InvincibilityTime < 0.5f)
+	
+	//if (HitDelayTime < 0.5f)
+	if(true == PlayerRender->IsCurAnimationEnd())
 	{
-		return;
+		HitDelayTime += _DeltaTime;
 	}
-	else
+	if (HitDelayTime >= 0.2f)
 	{
 		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
 		{
 			Hit_Count = 0;
+			HitDelayTime = 0.0f;
 			StateChange(EEgseuState::IdleRun_Loop);
 			return;
 		}
 		else
 		{
+			HitDelayTime = 0.0f;
 			Hit_Count = 0;
 			StateChange(EEgseuState::Idle);
 			return;
@@ -4849,18 +4893,9 @@ void AEgseu::Hit_MiruTorearu(float _DeltaTime)
 
 	if (OpDir >= 3)
 	{
-		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
-		{
-			OpDir = 0;
-			StateChange(EEgseuState::IdleRun_Loop);
-			return;
-		}
-		else
-		{
-			OpDir = 0;
-			StateChange(EEgseuState::Idle);
-			return;
-		}
+		OpDir = 0;
+		StateChange(EEgseuState::Idle);
+		return;
 	}
 }
 #pragma endregion

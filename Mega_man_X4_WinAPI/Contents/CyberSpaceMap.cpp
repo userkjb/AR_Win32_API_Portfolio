@@ -193,6 +193,7 @@ void ACyberSpaceMap::PlayerFocus_LoopBegin()
 {
 	GetWorld()->SetAllTimeScale(1.0f);
 	FocusTime = 0.0f;
+	Player->LastMoveVector = FVector::Zero;
 }
 void ACyberSpaceMap::PlayerFocus_Loop(float _DeltaTime)
 {
