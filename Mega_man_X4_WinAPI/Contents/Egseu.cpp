@@ -823,7 +823,7 @@ void AEgseu::SummonStart()
 {
 	PlayerRender->ChangeAnimation("Summon");
 
-	UEngineSoundPlayer LazerSound = UEngineSound::SoundPlay("Lazer.mp3");
+	UEngineSound::SoundPlay("Lazer.mp3");
 }
 
 void AEgseu::Summon(float _DeltaTime)
