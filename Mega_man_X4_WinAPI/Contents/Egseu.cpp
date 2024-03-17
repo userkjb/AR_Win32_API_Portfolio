@@ -2830,7 +2830,6 @@ void AEgseu::RunDashJump(float _DeltaTime)
 	}
 }
 
-// 1. RunDashJump 에서 넘어오기
 void AEgseu::RunDashJump_LoopStart()
 {
 	//if (BusterDelayTime == 0.0f)
@@ -2856,7 +2855,15 @@ void AEgseu::RunDashJump_LoopStart()
 		PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
 	}
 
-
+	int RandValue = UEngineRandom::MainRandom.RandomInt(0, 1); // 랜덤 패턴.
+	if (RandValue == 0)
+	{
+		UEngineSound::SoundPlay("Jump_1.mp3");
+	}
+	else if (RandValue == 1)
+	{
+		UEngineSound::SoundPlay("Jump_2.mp3");
+	}
 
 	DirCheck();
 }
