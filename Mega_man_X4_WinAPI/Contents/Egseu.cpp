@@ -3221,14 +3221,30 @@ void AEgseu::RunDashJumpAttack_Up(float _DeltaTime)
 
 void AEgseu::RunDashJumpAttack_Up_LoopStart()
 {
-	if (BusterDelayTime == 0.0f)
+	//if (BusterDelayTime == 0.0f)
+	//{
+	//	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
+	//}
+	if (State == EEgseuState::RunDashJump_Loop)
+	{
+		BusterDelayTime = 0.0f;
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
+	}
+	else if (State == EEgseuState::RunDashJumpAttack_Up)
 	{
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
 	}
-	else
+	else if (State == EEgseuState::WallKickAttack_Up)
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
+	}
+	else
+	{
+		//PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
+		int a = 0;
 	}
 }
 void AEgseu::RunDashJumpAttack_Up_Loop(float _DeltaTime)
