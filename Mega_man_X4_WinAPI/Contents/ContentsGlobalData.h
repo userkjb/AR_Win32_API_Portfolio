@@ -385,7 +385,8 @@ enum class ECollisionOrder
 	CyberPeacock_Missile,
 
 	Enemy,
-	MiruTorearu, // Boss
+	MiruTorearu,
+	TriScan,
 
 	BossDoor,
 };

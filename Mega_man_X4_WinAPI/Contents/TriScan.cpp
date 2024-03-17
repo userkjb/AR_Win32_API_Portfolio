@@ -46,7 +46,7 @@ void ATriScan::TriScanBeginPlay()
 	FragmentsRender->ActiveOff();
 
 	// Collision
-	TriScanCollision = CreateCollision(ECollisionOrder::Enemy);
+	TriScanCollision = CreateCollision(ECollisionOrder::TriScan);
 	TriScanCollision->SetScale({26, 24});
 	TriScanCollision->SetColType(ECollisionType::CirCle);
 

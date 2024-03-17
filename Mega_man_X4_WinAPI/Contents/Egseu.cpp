@@ -4,6 +4,7 @@
 #include <EngineBase/EngineRandom.h>
 #include "Buster.h"
 #include "CyberPeacock.h"
+#include "TriScan.h"
 #include "MiruTorearu.h"
 
 AEgseu::AEgseu()
@@ -4714,12 +4715,47 @@ void AEgseu::HitStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Hit"));
 	Hit_InvincibilityTime = 0.0f;
+	GravityVector = FVector::Zero;
+	int RandValue = UEngineRandom::MainRandom.RandomInt(0, 1); // 랜덤 패턴.
+	if (RandValue == 0)
+	{
+		UEngineSound::SoundPlay("Hit_1.mp3");
+	}
+	else if (RandValue == 1)
+	{
+		UEngineSound::SoundPlay("Hit_2.mp3");
+	}
 }
 
 void AEgseu::Hit(float _DeltaTime)
 {
 	Hit_InvincibilityTime += _DeltaTime;
-	MoveUpdate(_DeltaTime);
+	CalGravityVector(_DeltaTime);
+
+	FVector HitMove = FVector::Zero;
+	float HitSpeed = 100.0f;
+	FVector Pos = GetActorLocation();
+	if (DirState == EActorDir::Right)
+	{
+		HitMove = FVector::Left * HitSpeed * _DeltaTime;
+		Pos.X -= 40.0f;
+	}
+	else if (DirState == EActorDir::Left)
+	{
+		HitMove = FVector::Right * HitSpeed * _DeltaTime;
+		Pos.X += 40.0f;
+	}
+	HitMove += GravityVector;
+
+
+	// 벽 체크
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(Pos.iX(), Pos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		HitMove = FVector::Zero;
+	}
+
+	AddActorLocation(HitMove);
 
 	// 무적시간.
 	if (Hit_InvincibilityTime < 0.5f)
@@ -5018,6 +5054,21 @@ void AEgseu::CollisionCheck(float _DeltaTime)
 			ACyberPeacock* Boss = (ACyberPeacock*)Result[0]->GetOwner();
 			int BossBodyDamage = Boss->GetBodyDamage();
 			Hp -= BossBodyDamage;
+
+			StateChange(EEgseuState::Hit);
+			return;
+		}
+	}
+
+	std::vector<UCollision*> TriScanResult;
+	if (true == PlayerCollision->CollisionCheck(ECollisionOrder::TriScan, TriScanResult))
+	{
+		Hit_Count++;
+		if (Hit_Count == 1)
+		{
+			ATriScan* Enemy = dynamic_cast<ATriScan*>(TriScanResult[0]->GetOwner());
+			int Damage = Enemy->GetDamage();
+			Hp -= Damage;
 
 			StateChange(EEgseuState::Hit);
 			return;
