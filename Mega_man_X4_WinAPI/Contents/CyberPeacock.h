@@ -128,6 +128,8 @@ protected :
 	void Explosion(float _DeltaTime);
 	void EndStart();
 	void End(float _DeltaTime);
+	void DestroyStart();
+	void Destroy(float _DeltaTime);
 
 
 private :
@@ -154,7 +156,9 @@ private :
 	float BossPatternTime = 0.0f;
 	float DeathTime = 0.0f;
 	float AppearTime = 0.0f;
-	int Hp = 48;	
+	float ExplosionTime = 0.0f;
+	//int Hp = 48;
+	int Hp = 1;
 	int MissileCreateCount = 0; // ~7
 	int BodyDamage = 5;
 	int FeatherAttackDamage = 9;

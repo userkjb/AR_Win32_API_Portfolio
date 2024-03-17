@@ -127,8 +127,17 @@ void UCyberSpaceBossLevel::StateChange(EBossLevelState _State)
 		case EBossLevelState::BossBattle:
 			BossBattleStart();
 			break;
+		case EBossLevelState::BossDefeated:
+			BossDefeatedStart();
+			break;
 		case EBossLevelState::BossEnd:
 			BossEndStart();
+			break;
+		case EBossLevelState::BossEndMiddle:
+			BossEndMiddleStart();
+			break;
+		case EBossLevelState::PlayerVictory:
+			PlayerVictoryStart();
 			break;
 		case EBossLevelState::PlayerReverseSummon:
 			PlayerReverseSummonStart();
@@ -175,8 +184,17 @@ void UCyberSpaceBossLevel::StateUpdate(float _DeltaTime)
 	case EBossLevelState::BossBattle:
 		BossBattle(_DeltaTime);
 		break;
+	case EBossLevelState::BossDefeated:
+		BossDefeated(_DeltaTime);
+		break;
 	case EBossLevelState::BossEnd:
 		BossEnd(_DeltaTime);
+		break;
+	case EBossLevelState::BossEndMiddle:
+		BossEndMiddle(_DeltaTime);
+		break;
+	case EBossLevelState::PlayerVictory:
+		PlayerVictory(_DeltaTime);
 		break;
 	case EBossLevelState::PlayerReverseSummon:
 		PlayerReverseSummon(_DeltaTime);
@@ -381,7 +399,8 @@ void UCyberSpaceBossLevel::BossBattleStart()
 {
 	Player->SetStateChange(EEgseuState::Idle);
 	CyberBoss->SetStateChange(ECyberPeacockState::Disappear);
-	UEngineSound::SoundPlay("BossBGM.mp3");
+	BattelSound = UEngineSound::SoundPlay("BossBGM.mp3");
+	BattelSound.Loop();
 }
 
 void UCyberSpaceBossLevel::BossBattle(float _DeltaTime)
@@ -398,54 +417,96 @@ void UCyberSpaceBossLevel::BossBattle(float _DeltaTime)
 
 	if (BossHp <= 0)
 	{
+		StateChange(EBossLevelState::BossDefeated);
+		return;
+	}
+}
+#pragma endregion
+
+#pragma region BossDefeated
+void UCyberSpaceBossLevel::BossDefeatedStart()
+{
+	CyberBoss->SetStateChange(ECyberPeacockState::Death); // 반짝 반짝
+	Player->SetStateChange(EEgseuState::Wait);
+	BossEndSoundTime = 0.0f;
+	b_BattelSound = false;
+}
+void UCyberSpaceBossLevel::BossDefeated(float _DeltaTime)
+{
+	BossEndSoundTime += _DeltaTime;
+	if (BossEndSoundTime >= 2.0f && b_BattelSound == false) // Death
+	{
+		b_BattelSound = true;
+		BattelSound.Off();
+	}
+
+	if (true == CyberBoss->GetDeathAni()) // 반짝 반짝 끝남.
+	{
 		StateChange(EBossLevelState::BossEnd);
 		return;
 	}
 }
 #pragma endregion
 
+
 #pragma region BossEnd
 void UCyberSpaceBossLevel::BossEndStart()
 {
-	CyberBoss->SetStateChange(ECyberPeacockState::Death); // 반짝 반짝
-	Player->SetStateChange(EEgseuState::Wait);
+	CyberBoss->SetStateChange(ECyberPeacockState::Explosion); // 그럼 터져야지!
+	CyberBossMap->SetStateChange(ECyberBossMapState::White); // 맵은 흰색으로 점점 변한다.
 }
 
 void UCyberSpaceBossLevel::BossEnd(float _DeltaTime)
 {
-	if (true == CyberBoss->GetDeathAni()) // 2초 정도 지나면 true를 반환.
+	if (true == CyberBossMap->GetMapWhite()) // 흰색으로 다 변했으면,
 	{
-		// map이 흰색으로 변경,
-		CyberBossMap->SetStateChange(ECyberBossMapState::White);
+		StateChange(EBossLevelState::BossEndMiddle);
+		return;
 	}
-	// 다시 원상 복귀.
-	if (true == CyberBossMap->GetMapWhite()) // 완전히 흰색이 되면,
-	{
-		CyberBoss->SetStateChange(ECyberPeacockState::End); // 보스 지우고.
-		CyberBossMap->SetStateChange(ECyberBossMapState::Restore); // 맵 복귀
-	}
+}
+#pragma endregion
 
+#pragma region BossEndMiddle
+void UCyberSpaceBossLevel::BossEndMiddleStart()
+{
+	CyberBoss->SetStateChange(ECyberPeacockState::End); // 보스 랜더는 지우고 소리는 남아있음.
+	CyberBossMap->SetStateChange(ECyberBossMapState::Restore); // 흰색을 다시 원상 복귀!
+	UEngineSound::SoundPlay("BossExplosion_4.mp3");
+}
+void UCyberSpaceBossLevel::BossEndMiddle(float _DeltaTime)
+{
 	// 맵 복귀가 완료되면,
 	if (true == CyberBossMap->GetRestoreMap())
 	{
-		// 승리 배경 음악 출력.
-
+		StateChange(EBossLevelState::PlayerVictory);
+		return;
 	}
+}
+#pragma endregion
 
+
+void UCyberSpaceBossLevel::PlayerVictoryStart()
+{
+	BossEndTime = 0.0f;
+	UEngineSound::SoundPlay("Victory_X.mp3");
+}
+void UCyberSpaceBossLevel::PlayerVictory(float _DeltaTime)
+{
 	// 승리 배경 음악이 끝나면,
-	if (true)
+	BossEndTime += _DeltaTime;
+	if (BossEndTime >= 6.0f)
 	{
 		// Player 승리 자세.
 		StateChange(EBossLevelState::PlayerReverseSummon);
 		return;
 	}
 }
-#pragma endregion
 
 #pragma region PlayerReverseSummon
 void UCyberSpaceBossLevel::PlayerReverseSummonStart()
 {
 	Player->SetStateChange(EEgseuState::Victory);
+	CyberBoss->SetStateChange(ECyberPeacockState::Destroy);
 }
 
 void UCyberSpaceBossLevel::PlayerReverseSummon(float _DeltaTime)

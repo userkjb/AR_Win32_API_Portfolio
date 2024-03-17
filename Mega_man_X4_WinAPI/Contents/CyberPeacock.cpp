@@ -180,6 +180,9 @@ void ACyberPeacock::StateChange(ECyberPeacockState _State)
 		case ECyberPeacockState::End:
 			EndStart();
 			break;
+		case ECyberPeacockState::Destroy:
+			DestroyStart();
+			break;
 		default :
 			break;
 		}
@@ -233,6 +236,9 @@ void ACyberPeacock::StateUpdate(float _DeltaTime)
 		break;
 	case ECyberPeacockState::End:
 		End(_DeltaTime);
+		break;
+	case ECyberPeacockState::Destroy:
+		Destroy(_DeltaTime);
 		break;
 	default :
 		break;
@@ -728,10 +734,10 @@ void ACyberPeacock::DeathStart()
 void ACyberPeacock::Death(float _DeltaTime)
 {
 	DeathTime += _DeltaTime;
-	if (DeathTime >= 2.0f) // 2ÃÊ Á¤µµ Áö³ª¸é ÆãÆãÆãÆã ÇØ¾ß ÇÔ.
+	if (DeathTime >= 3.0f) // 2ÃÊ Á¤µµ Áö³ª¸é ÆãÆãÆãÆã ÇØ¾ß ÇÔ.
 	{
 		b_DeathAni = true;
-		StateChange(ECyberPeacockState::Explosion);
+		//StateChange(ECyberPeacockState::Explosion);
 		return;
 	}
 }
@@ -740,12 +746,33 @@ void ACyberPeacock::Death(float _DeltaTime)
 #pragma region Explosion
 void ACyberPeacock::ExplosionStart()
 {
+	ExplosionTime = 0.0f;
 	// ÅÍÁö´Â ¾Ö´Ï¸ÞÀÌ¼ÇÀ¸·Î Change.
 	// ÅÍÁö´Â »ç¿îµå Àç»ý.
 }
 void ACyberPeacock::Explosion(float _DeltaTime)
 {
+	ExplosionTime += _DeltaTime;
 
+	if (ExplosionTime >= 0.25f)
+	{
+		int RandValue = UEngineRandom::MainRandom.RandomInt(0, 2); // ·£´ý ÆÐÅÏ.
+
+		if (RandValue == 0)
+		{
+			UEngineSound::SoundPlay("BossExplosion_1.mp3");
+		}
+		else if (RandValue == 1)
+		{
+			UEngineSound::SoundPlay("BossExplosion_2.mp3");
+		}
+		else if (RandValue == 2)
+		{
+			UEngineSound::SoundPlay("BossExplosion_3.mp3");
+		}
+
+		ExplosionTime = 0.0f;
+	}
 }
 #pragma endregion
 
@@ -757,10 +784,19 @@ void ACyberPeacock::EndStart()
 
 void ACyberPeacock::End(float _DeltaTime)
 {
-	this->Destroy(0.0f);
+	
 }
 #pragma endregion
 
+#pragma region Destroy
+void ACyberPeacock::DestroyStart()
+{
+}
+void ACyberPeacock::Destroy(float _DeltaTime)
+{
+	//this->Destroy(0.0f);
+}
+#pragma endregion
 
 
 void ACyberPeacock::CollisionCheck()

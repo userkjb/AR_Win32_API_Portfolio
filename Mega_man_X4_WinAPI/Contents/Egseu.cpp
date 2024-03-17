@@ -901,6 +901,7 @@ void AEgseu::IdleStart()
 {
 	JumpVector = FVector::Zero; // 벽 타고 내려왔을 대 점프 초기화.
 	BusterDelayTime = 0.0f;
+	Hit_InvincibilityTime = 0.0f; // 무적시간 초기화.
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
 	DirCheck();
 }
@@ -1829,7 +1830,7 @@ void AEgseu::IdleRun(float _DeltaTime)
 void AEgseu::IdleRun_LoopStart()
 {
 	JumpVector = FVector::Zero; // 벽 타고 왔을 때 점프 Vector 초기화.
-	
+	Hit_InvincibilityTime = 0.0f; // 무적시간 초기화.
 	PlayerRender->ChangeAnimation(GetAnimationName("Run"));
 	DirCheck();
 }
@@ -4979,6 +4980,7 @@ void AEgseu::Victory(float _DeltaTime)
 void AEgseu::ReSummonStart()
 {
 	PlayerRender->ChangeAnimation("ReSummon"); // 레이져 변신!
+	UEngineSound::SoundPlay("Lazer.mp3");
 }
 
 void AEgseu::ReSummon(float _DeltaTime)
@@ -5097,14 +5099,14 @@ void AEgseu::CollisionCheck(float _DeltaTime)
 	std::vector<UCollision*> Result;
 	if (true == PlayerCollision->CollisionCheck(ECollisionOrder::Boss, Result))
 	{
-		Hit_Count++;
-		if (Hit_Count == 1)
+		if (Hit_Count == 0)
 		{
 			Hit_InvincibilityTime += _DeltaTime;
 			ACyberPeacock* Boss = (ACyberPeacock*)Result[0]->GetOwner();
 			int BossBodyDamage = Boss->GetBodyDamage();
 			Hp -= BossBodyDamage;
 
+			Hit_Count++;
 			StateChange(EEgseuState::Hit);
 			return;
 		}

@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Level.h>
 #include "ContentsGlobalData.h"
+#include <EnginePlatform/EngineSound.h>
 
 class ACyberSpaceBossMap;
 class AEgseu;
@@ -51,8 +52,15 @@ private :
 	void BossReady(float _DeltaTime);
 	void BossBattleStart();
 	void BossBattle(float _DeltaTime);
+	void BossDefeatedStart();
+	void BossDefeated(float _DeltaTime);
+
 	void BossEndStart();
 	void BossEnd(float _DeltaTime);
+	void BossEndMiddleStart();
+	void BossEndMiddle(float _DeltaTime);
+	void PlayerVictoryStart();
+	void PlayerVictory(float _DeltaTime);
 	void PlayerReverseSummonStart();
 	void PlayerReverseSummon(float _DeltaTime);
 
@@ -81,11 +89,17 @@ private :
 	const float PlayerRunSpeed = 100.0f;
 
 	bool b_BossBattle = false;
+	bool b_MapWhite = false;
+	bool b_Original = false;
+	bool b_BattelSound = false;
 	float WarningTime = 0.0f; // test
 	float TextTime = 0.0f; // test
 	float BossBattleReadySoundTime = 0.0f; // test
 	float HpUIEvent = 0.0f; // test
+	float BossEndSoundTime = 0.0f;
 	float BossEndTime = 0.0f;
+
+	UEngineSoundPlayer BattelSound;
 };
 
 /*

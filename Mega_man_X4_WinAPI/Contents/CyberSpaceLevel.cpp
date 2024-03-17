@@ -7,7 +7,6 @@
 #include <EngineCore/EngineResourcesManager.h>
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
-#include <EngineCore/EngineResourcesManager.h>
 
 UCyberSpaceLevel::UCyberSpaceLevel()
 {

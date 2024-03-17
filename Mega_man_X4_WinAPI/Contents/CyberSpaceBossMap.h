@@ -85,6 +85,11 @@ public :
 		StateChange(_State);
 	}
 
+	inline ECyberBossMapState GetMapState() const
+	{
+		return State;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -148,4 +153,6 @@ private :
 	bool MapRestore = false;
 	int CollisionCount_1 = 0;
 	int CollisionCount_2 = 0;
+	float ToWhitTime = 0.0f;
+	float ToOriginalTime = 0.0f;
 };

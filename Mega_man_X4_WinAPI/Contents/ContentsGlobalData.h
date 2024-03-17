@@ -250,6 +250,7 @@ enum class ECyberPeacockState
 	Death,
 	Explosion, // 폭파.
 	End,
+	Destroy,
 };
 enum class ECyberPeacockMissileState
 {
@@ -338,7 +339,11 @@ enum class EBossLevelState
 	BossBattleReadySound, // UI-> 소리
 	BossReady, // 보스 싸움 준비.(UI) [ -> 파칭 -> UI]
 	BossBattle, // 보스전.
-	BossEnd, // 보스 터짐.
+	BossDefeated, // 보스 패배.
+
+	BossEnd, // 보스 터짐, 맵 흰색으로 진행.
+	BossEndMiddle, // 보스 다 터지고 맵도 흰색 됨.
+	PlayerVictory,
 	PlayerReverseSummon,
 }; // EBossLevelState
 

@@ -278,21 +278,38 @@ void ACyberSpaceBossMap::BossRoom(float _DeltaTime)
 #pragma region White - 맵 흰색으로.
 void ACyberSpaceBossMap::WhiteStart()
 {
+	ToWhitTime = 0.0f;
+	MapWhite = false;
 }
 void ACyberSpaceBossMap::White(float _DeltaTime)
 {
+	ToWhitTime += _DeltaTime;
+
 	// 전부 진행 되었다면,
-	MapWhite = true;
+	if (ToWhitTime >= 3.0f && MapWhite == false)
+	{
+		MapWhite = true;
+	}
+	else
+	{
+		return;
+	}
 }
 #pragma endregion
 
 #pragma region Restore - 흰색 된 맵을 다시 복구.
 void ACyberSpaceBossMap::RestoreStart()
 {
+	ToOriginalTime = 0.0f;
 }
 void ACyberSpaceBossMap::Restore(float _DeltaTime)
 {
-	MapRestore = true;
+	ToOriginalTime += _DeltaTime;
+
+	if (ToOriginalTime >= 2.0f)
+	{
+		MapRestore = true;
+	}
 }
 #pragma endregion
 

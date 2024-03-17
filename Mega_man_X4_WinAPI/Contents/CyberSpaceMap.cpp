@@ -237,6 +237,7 @@ void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 			if (false == RankRender->IsActive())
 			{
 				RankRender->SetActive(true);
+				UEngineSound::SoundPlay("Rank.mp3");
 			}
 			Player->AutoRightRun = true;
 		}
@@ -246,6 +247,7 @@ void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 			if (false == RankRender->IsActive())
 			{
 				RankRender->SetActive(true);
+				UEngineSound::SoundPlay("Rank.mp3");
 			}
 			Player->AutoRightRun = true;
 		}
@@ -255,6 +257,7 @@ void ACyberSpaceMap::PlayerFocus_End(float _DeltaTime)
 			if (false == RankRender->IsActive())
 			{
 				RankRender->SetActive(true);
+				UEngineSound::SoundPlay("Rank.mp3");
 			}
 			Player->AutoRightRun = true;
 		}
