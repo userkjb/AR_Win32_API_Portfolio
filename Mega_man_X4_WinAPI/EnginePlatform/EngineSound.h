@@ -30,6 +30,9 @@ public:
 		Control->setPosition(0, FMOD_TIMEUNIT_MS);
 	}
 
+	/// <summary>
+	/// 일시 중지
+	/// </summary>
 	void OnOffSwitch()
 	{
 		bool Check = false;
