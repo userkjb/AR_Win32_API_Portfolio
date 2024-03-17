@@ -1614,6 +1614,7 @@ void AEgseu::IdleDash_EndStart()
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_End"), false, CurFrame);
 	}
+	UEngineSound::SoundPlay("Dash.mp3");
 }
 
 void AEgseu::IdleDash(float _DeltaTime)
@@ -2119,6 +2120,7 @@ void AEgseu::RunDashStart() //////////
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"), false, CurFrame);
 	}
+	UEngineSound::SoundPlay("Dash.mp3");
 
 	//if (BusterDelayTime == 0.0f)
 	//{
@@ -2349,6 +2351,7 @@ void AEgseu::RunDashAttack_DownStart()
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Start"));
 	}
+	UEngineSound::SoundPlay("Dash.mp3");
 }
 void AEgseu::RunDashAttack_Down(float _DeltaTime)
 {
