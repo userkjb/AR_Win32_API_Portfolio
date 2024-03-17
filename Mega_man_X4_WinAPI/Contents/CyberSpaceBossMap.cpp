@@ -209,6 +209,7 @@ void ACyberSpaceBossMap::SlowMove(float _DeltaTime)
 	{
 		if (FrontDoorOpen == false)
 		{
+			UEngineSound::SoundPlay("InDoor.mp3");
 			FrontDoorOpen = true;
 		}
 
@@ -249,6 +250,7 @@ void ACyberSpaceBossMap::BossSlowMove(float _DeltaTime)
 		if (BackDoorOpen == false)
 		{
 			BackDoorOpen = true;
+			UEngineSound::SoundPlay("InDoor.mp3");
 		}
 
 		// 문을 통과하면,
