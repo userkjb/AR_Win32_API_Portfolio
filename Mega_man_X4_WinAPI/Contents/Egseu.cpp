@@ -3041,13 +3041,23 @@ void AEgseu::RunDashJumpAttack_Down(float _DeltaTime)
 void AEgseu::RunDashJumpAttack_Down_LoopStart()
 {
 	// RunDashJump_Loop 에서 들어오기. -> BusterDelayTime == 0;
-	// RunDashJumpAttack_Down 에 이어서 들어오기. -> BusterDelayTime != 0;
-	if (BusterDelayTime == 0.0f)
+	//// RunDashJumpAttack_Down 에 이어서 들어오기. -> BusterDelayTime != 0;
+	//if (BusterDelayTime == 0.0f)
+	//{
+	//	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
+	//}
+	if (State == EEgseuState::RunDashJump_Loop)
 	{
+		BusterDelayTime = 0.0f;
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"), false, CurFrame);
 	}
-	else
+	else if(State == EEgseuState::RunDashJumpAttack_Down)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
+	}
+	else if (State == EEgseuState::WallKickAttack_Down)
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Jump_Ing_Attack"));
 	}
@@ -3904,7 +3914,22 @@ void AEgseu::WallCling(float _DeltaTime)
 #pragma region WallCling_Loop
 void AEgseu::WallCling_LoopStart()
 {
-	PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Loop"));
+	if (State == EEgseuState::WallCling)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Loop"));
+	}
+	else if (State == EEgseuState::WallClingAttack_Down_Loop)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Loop"), false, CurFrame);
+		BusterDelayTime = 0.0f;
+	}
+	else if (State == EEgseuState::WallClingAttack_Up_Loop)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Loop"), false, CurFrame);
+		BusterDelayTime = 0.0f;
+	}
 }
 
 void AEgseu::WallCling_Loop(float _DeltaTime)
@@ -4123,18 +4148,157 @@ void AEgseu::WallClingAttack_Down_Loop(float _DeltaTime)
 #pragma region WallClingAttack_Up
 void AEgseu::WallClingAttack_UpStart()
 {
+	if (State == EEgseuState::WallCling)
+	{
+		BusterDelayTime = 0.0f;
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Attack_Start"), false, CurFrame);
+	}
+	else
+	{
+		int a = 0;
+	}
 }
 void AEgseu::WallClingAttack_Up(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+
+	ClingVector = FVector::Zero;
+	ClingVector = ClingPower;
+	AActor::AddActorLocation(ClingVector * _DeltaTime);
+
+	// 또 공격?
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		WallBusterCreate(EBusterState::CreateDefault);
+	}
+
+	// 벽 잡는 중 중에 점프
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EEgseuState::WallKickAttack_Down);
+		return;
+	}
+
+	// 0.5초가 지났다.
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::WallCling);
+		return;
+	}
+
+	// 애니메이션이 끝나면,
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		StateChange(EEgseuState::WallClingAttack_Up_Loop);
+		return;
+	}
+
+	// 낮은 땅인 경우가 있다.
+	FVector CheckPos = GetActorLocation();
+	switch (DirState)
+	{
+	case EActorDir::Left:
+		CheckPos.X += 5;
+		break;
+	case EActorDir::Right:
+		CheckPos.X -= 5;
+		break;
+	default:
+		break;
+	}
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+		{
+			JumpVector = FVector::Zero;
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			JumpVector = FVector::Zero;
+			StateChange(EEgseuState::Idle);
+			return;
+		}
+	}
 }
 #pragma endregion
 
 #pragma region WallClingAttack_Up_Loop
 void AEgseu::WallClingAttack_Up_LoopStart()
 {
+	if (State == EEgseuState::WallCling_Loop)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Attack_Loop"), false, CurFrame);
+		BusterDelayTime = 0.0f;
+	}
+	else if (State == EEgseuState::WallClingAttack_Up)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("WallCling_Attack_Loop"));
+	}
 }
 void AEgseu::WallClingAttack_Up_Loop(float _DeltaTime)
 {
+	BusterDelayTime += _DeltaTime;
+
+	ClingVector = FVector::Zero;
+	ClingVector = ClingPower;
+	AActor::AddActorLocation(ClingVector * _DeltaTime);
+
+	// 또 공격?
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		WallBusterCreate(EBusterState::CreateDefault);
+	}
+
+	// 0.5초가 지났다.
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::WallCling_Loop);
+		return;
+	}
+
+	// 벽을 잡고 있는 중에 다시 점프
+	if (true == UEngineInput::IsDown('C'))
+	{
+		StateChange(EEgseuState::WallKickAttack_Up);
+		return;
+	}
+
+	// 땅 체크
+	FVector CheckPos = GetActorLocation();
+	switch (DirState)
+	{
+	case EActorDir::Left:
+		CheckPos.X += 5;
+		break;
+	case EActorDir::Right:
+		CheckPos.X -= 5;
+		break;
+	default:
+		break;
+	}
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
+		{
+			JumpVector = FVector::Zero;
+			StateChange(EEgseuState::IdleRun_Loop);
+			return;
+		}
+		else
+		{
+			JumpVector = FVector::Zero;
+			StateChange(EEgseuState::Idle);
+			return;
+		}
+	}
 }
 #pragma endregion
 
@@ -4157,6 +4321,13 @@ void AEgseu::WallKickStart()
 	// 애니메이션 설정.
 	if (State == EEgseuState::WallKickAttack_Down)
 	{
+		BusterDelayTime = 0.0f;
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("WallKick"), false, CurFrame);
+	}
+	else if (State == EEgseuState::WallKickAttack_Up)
+	{
+		BusterDelayTime = 0.0f;
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("WallKick"), false, CurFrame);
 	}
@@ -4263,6 +4434,12 @@ void AEgseu::WallKickAttack_Down(float _DeltaTime)
 		JumpVector.X = 0.0f;
 	}
 
+	// 또 공격?
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
+	}
 
 	// 0.5초가 지났다.
 	if (BusterDelayTime >= BusterDelayTimeMax)
@@ -4298,9 +4475,88 @@ void AEgseu::WallKickAttack_Down(float _DeltaTime)
 #pragma region WallKickAttack_Up
 void AEgseu::WallKickAttack_UpStart()
 {
+	// 중력 값 초기화.(안하면 계속 쌓여서 점프를 할 수 없음)
+	GravityVector = FVector::Zero;
+
+	// 반대 방향으로 점프
+	if (0 == static_cast<int>(DirState)) // Left
+	{
+		JumpVector = JumpPower + (FVector::Right * MoveSpeed);
+	}
+	else // Right
+	{
+		JumpVector = JumpPower + (FVector::Left * MoveSpeed);
+	}
+
+	// 애니메이션 설정
+	if (State == EEgseuState::WallClingAttack_Up)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("WallKick_Attack"));
+	}
+	else if (State == EEgseuState::WallClingAttack_Up_Loop)
+	{
+		PlayerRender->ChangeAnimation(GetAnimationName("WallKick_Attack"));
+	}
+	else
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("WallKick_Attack"), false, CurFrame);
+	}
+
+	WallKickTime = 0.0f;
 }
 void AEgseu::WallKickAttack_Up(float _DeltaTime)
 {
+	WallKickTime += _DeltaTime;
+	MoveUpdate(_DeltaTime);
+	if (WallKickTime < 0.2f) // 해당 시간 동안 아무것도 못함.(선 딜)
+	{
+		return;
+	}
+	BusterDelayTime += _DeltaTime;
+
+	// JumpVector 에 남아있던 좌우 방향 힘 초기화
+	float JumpXValue = JumpVector.X;
+	if (JumpXValue != 0.0f)
+	{
+		JumpVector.X = 0.0f;
+	}
+
+	// 또 공격?
+	if (true == UEngineInput::IsDown('X'))
+	{
+		BusterDelayTime = 0.0f;
+		BusterCreate(EBusterState::CreateDefault, Jump_Muzzle);
+	}
+
+	// 0.5초가 지났다.
+	if (BusterDelayTime >= BusterDelayTimeMax)
+	{
+		StateChange(EEgseuState::WallKick);
+		return;
+	}
+
+	if (true == PlayerRender->IsCurAnimationEnd())
+	{
+		// 대쉬 버튼을 누르고 있다면,
+		if (true == UEngineInput::IsPress('Z'))
+		{
+			StateChange(EEgseuState::RunDashJumpAttack_Up_Loop);
+			return;
+		}
+		// 대쉬 버튼을 누르고 있지 않다면,
+		else if (true == UEngineInput::IsFree('Z'))
+		{
+			StateChange(EEgseuState::RunJump_Loop);
+			return;
+		}
+		// 방향키를 누르고 있지 않다면,
+		else if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT))
+		{
+			StateChange(EEgseuState::IdleJump_Loop);
+			return;
+		}
+	}
 }
 #pragma endregion
 
