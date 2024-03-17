@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "ContentsGlobalData.h"
+#include <EnginePlatform/EngineSound.h>
 
 class ABuster;
 class ACyberSpaceMap;
@@ -277,6 +278,11 @@ private :
 	/// <param name="_BusterState">Buster 종류</param>
 	void WallBusterCreate(EBusterState _BusterState);
 
+	/// <summary>
+	/// 버스터 생성 함수.
+	/// </summary>
+	/// <param name="_BusterState">생성할 버스터 상태.</param>
+	/// <param name="_Pos">생성되는 위치.</param>
 	void BusterCreate(EBusterState _BusterState, FVector _Pos);
 
 	// ===========================================================
@@ -293,6 +299,11 @@ private :
 
 	AMiruTorearu* PreMiru = nullptr;
 	AMiruTorearu* UseMiru = nullptr;
+
+	// Sound
+	UEngineSoundPlayer Buster_Charge_Sound;
+	UEngineSoundPlayer Buster_Chargeing_Sound;
+	float BusterSountTime = 0.0f;
 
 	//===== Vector ==============
 

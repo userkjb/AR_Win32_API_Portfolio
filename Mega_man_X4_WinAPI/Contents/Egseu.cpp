@@ -64,7 +64,7 @@ void AEgseu::ChargeBeginPlay()
 {
 	MiddleChargeRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	MiddleChargeRender->SetImage("Charging_1.png");
-	MiddleChargeRender->AutoImageScale(2.0f);
+	MiddleChargeRender->AutoImageScale(2.5f);
 	MiddleChargeRender->SetPosition({ 0, -48 });
 	//UWindowImage* ChargeImage_1 = MiddleChargeRender->GetImage();
 	//FVector ChargeScale_1 = ChargeImage_1->GetScale();
@@ -72,22 +72,32 @@ void AEgseu::ChargeBeginPlay()
 
 	PullChargeRender = CreateImageRenderer(static_cast<int>(ERenderOrder::Buster));
 	PullChargeRender->SetImage("Charging_2.png");
-	PullChargeRender->AutoImageScale(2.0f);
+	PullChargeRender->AutoImageScale(2.5f);
 	PullChargeRender->SetPosition({ 0, -48 });
 	//UWindowImage* ChargeImage_2 = PullChargeRender->GetImage();
 	//FVector ChargeScale_2 = ChargeImage_2->GetScale();
 	//PullChargeRender->SetTransform({ { 0, 0 }, {ChargeScale_2.iX() / 4 , ChargeScale_2.iY()} });
 
 
-
-	MiddleChargeRender->CreateAnimation("MiddleCharge", "Charging_1.png", 0, 8, 0.05f, true);
-	PullChargeRender->CreateAnimation("PullCharge", "Charging_2.png", 0, 3, 0.05f, true);
+	// Animation
+	MiddleChargeRender->CreateAnimation("MiddleCharge", "Charging_1.png", 0, 8, 0.025f, true);
+	PullChargeRender->CreateAnimation("PullCharge", "Charging_2.png", 0, 3, 0.025f, true);
 
 	MiddleChargeRender->ChangeAnimation("MiddleCharge");
 	PullChargeRender->ChangeAnimation("PullCharge");
 
 	MiddleChargeRender->ActiveOff();
 	PullChargeRender->ActiveOff();
+
+	// Sound
+	Buster_Charge_Sound = UEngineSound::SoundPlay("Charge.mp3");
+	//Buster_Charge_Sound.SetVolume(1.0f);
+	Buster_Charge_Sound.Off();
+
+	Buster_Chargeing_Sound = UEngineSound::SoundPlay("Charging.mp3");
+	//Buster_Chargeing_Sound.SetVolume(1.0f);
+	Buster_Chargeing_Sound.Loop(100);
+	Buster_Chargeing_Sound.Off();
 }
 
 void AEgseu::PlayerBeginPlay()
@@ -4610,21 +4620,42 @@ bool AEgseu::CalWallCheck()
 
 void AEgseu::BusterChargeTime(float _DeltaTime)
 {
+	if (State == EEgseuState::None ||
+		State == EEgseuState::Summon ||
+		State == EEgseuState::Summon_Loop ||
+		State == EEgseuState::Summon_End
+		)
+	{
+		return;
+	}
+
 	if (true == UEngineInput::IsPress('X'))
 	{
 		BusterChargTime += _DeltaTime;
+	}
+	if (1.0f <= BusterChargTime)
+	{
+		BusterSountTime += _DeltaTime;
 	}
 
 	// 차지 이미지
 	if (1.0f <= BusterChargTime && BusterChargTime < 2.0f)
 	{
 		MiddleChargeRender->ActiveOn();
+		Buster_Charge_Sound.On();
 	}
 	else if (2.0f <= BusterChargTime)
 	{
 		PullChargeRender->ActiveOn();
 	}
 
+	if (3.0f <= BusterSountTime)
+	{
+		Buster_Charge_Sound.Off();
+		Buster_Chargeing_Sound.On();
+	}
+
+	
 	if (true == UEngineInput::IsFree('X'))
 	{
 		if (true == MiddleChargeRender->IsActive())
@@ -4636,6 +4667,8 @@ void AEgseu::BusterChargeTime(float _DeltaTime)
 			PullChargeRender->ActiveOff();
 		}
 		BusterChargTime = 0.0f;
+		BusterSountTime = 0.0f;
+		Buster_Chargeing_Sound.Off();
 	}
 }
 
