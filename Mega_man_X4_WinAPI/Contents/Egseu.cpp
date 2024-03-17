@@ -1124,6 +1124,7 @@ void AEgseu::IdleJump_EndStart()
 {
 	JumpVector = FVector::Zero;
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
+	UEngineSound::SoundPlay("Plat.mp3");
 }
 
 void AEgseu::IdleJump_End(float _DeltaTime)
@@ -1246,6 +1247,7 @@ void AEgseu::JumpAttack_Down_EndStart()
 {
 	int CurFrame = PlayerRender->GetCurAnimationFrame();
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
+	UEngineSound::SoundPlay("Plat.mp3");
 }
 
 void AEgseu::JumpAttack_Down_End(float _DeltaTime)
@@ -1404,6 +1406,7 @@ void AEgseu::JumpAttack_Up_Loop(float _DeltaTime)
 void AEgseu::JumpAttack_Up_EndStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
+	UEngineSound::SoundPlay("Plat.mp3");
 }
 
 void AEgseu::JumpAttack_Up_End(float _DeltaTime)
@@ -1475,7 +1478,9 @@ void AEgseu::IdleAttack_Down(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
+#pragma region IdleAttack_Down_Loop
 void AEgseu::IdleAttack_Down_LoopStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_Loop"));
@@ -1513,6 +1518,10 @@ void AEgseu::IdleAttack_Down_Loop(float _DeltaTime) // Down 이던 Press 이던 여기
 	}
 }
 
+#pragma endregion
+
+
+#pragma region IdleAttack_Down_End Up
 void AEgseu::IdleAttack_Down_EndStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle_Attack_End"));
@@ -1604,6 +1613,7 @@ void AEgseu::IdleAttack_Up_End(float _DeltaTime)
 void AEgseu::IdleDashStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Start"));
+	UEngineSound::SoundPlay("Dash.mp3");
 }
 
 void AEgseu::IdleDash_LoopStart()
@@ -2113,7 +2123,7 @@ void AEgseu::RunAttack_Up_Loop(float _DeltaTime)
 #pragma endregion
 
 #pragma region RunDash
-void AEgseu::RunDashStart() //////////
+void AEgseu::RunDashStart()
 {
 	if (State == EEgseuState::IdleRun_Loop)
 	{
@@ -2347,7 +2357,7 @@ void AEgseu::RunDash_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunDashAttack Down
+#pragma region RunDashAttack_Down
 void AEgseu::RunDashAttack_DownStart()
 {
 	DashTime = 0.0f;
@@ -2408,7 +2418,10 @@ void AEgseu::RunDashAttack_Down(float _DeltaTime)
 		}
 	}
 }
+#pragma endregion
 
+
+#pragma region RunDashAttack_Down_Loop
 void AEgseu::RunDashAttack_Down_LoopStart()
 {
 	if (BusterDelayTime == 0.0f)
@@ -2520,7 +2533,9 @@ void AEgseu::RunDashAttack_Down_Loop(float _DeltaTime)
 		}
 	}
 }
+#pragma endregion
 
+#pragma region RunDashAttack_Down_End
 void AEgseu::RunDashAttack_Down_EndStart()
 {
 	if (BusterDelayTime == 0.0f) // RunDash_End 에서 넘어 왔으니 바꿔 줘야 함.
@@ -2612,15 +2627,26 @@ void AEgseu::RunDashAttack_Up(float _DeltaTime)
 #pragma region RunDashAttack Up Loop
 void AEgseu::RunDashAttack_Up_LoopStart()
 {
-	if (BusterDelayTime == 0.0f)
+	if (State == EEgseuState::RunDash_Loop)
 	{
+		BusterDelayTime = 0.0f;
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Loop"), false, CurFrame);
 	}
-	else
+	else if (State == EEgseuState::RunDashAttack_Up)
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Loop"));
 	}
+
+	//if (BusterDelayTime == 0.0f)
+	//{
+	//	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Loop"), false, CurFrame);
+	//}
+	//else
+	//{
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Loop"));
+	//}
 }
 
 void AEgseu::RunDashAttack_Up_Loop(float _DeltaTime)
@@ -2724,18 +2750,29 @@ void AEgseu::RunDashAttack_Up_Loop(float _DeltaTime)
 }
 #pragma endregion
 
-
+#pragma region RunAttack Up
 void AEgseu::RunDashAttack_Up_EndStart()
 {
-	if (BusterDelayTime == 0.0f) // RunDash_End 에서 넘어 왔으니 바꿔 줘야 함.
+	if (State == EEgseuState::RunDash_End)
 	{
+		BusterDelayTime = 0.0f;
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_End"), false, CurFrame);
 	}
-	else // Attack_Up_Loop 에서 넘어 옴.
+	else if (State == EEgseuState::RunDashAttack_Up_Loop)
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_End"));
 	}
+
+	//if (BusterDelayTime == 0.0f) // RunDash_End 에서 넘어 왔으니 바꿔 줘야 함.
+	//{
+	//	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_End"), false, CurFrame);
+	//}
+	//else // Attack_Up_Loop 에서 넘어 옴.
+	//{
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_End"));
+	//}
 }
 
 void AEgseu::RunDashAttack_Up_End(float _DeltaTime)
@@ -2938,6 +2975,7 @@ void AEgseu::RunDashJump_EndStart()
 {
 	JumpVector = FVector::Zero;
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
+	UEngineSound::SoundPlay("Plat.mp3");
 }
 void AEgseu::RunDashJump_End(float _DeltaTime)
 {
@@ -3113,18 +3151,31 @@ void AEgseu::RunDashJumpAttack_Down_Loop(float _DeltaTime)
 
 void AEgseu::RunDashJumpAttack_Down_EndStart()
 {
-	if (BusterDelayTime == 0.0f)
-	{
-		int CurFrame = PlayerRender->GetCurAnimationFrame();
-		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
-	}
-	else
+	//if (BusterDelayTime == 0.0f)
+	//{
+	//	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
+	//}
+	//else
+	//{
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
+	//}
+
+	if (State == EEgseuState::RunDashJumpAttack_Down_Loop)
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
 	}
+	else if (State == EEgseuState::RunDashJump_End)
+	{
+		BusterDelayTime = 0.0f;
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
+	}
+
 	JumpVector = FVector::Zero;
 	RunVector = FVector::Zero;
 	DashVector = FVector::Zero;
+	UEngineSound::SoundPlay("Plat.mp3");
 }
 void AEgseu::RunDashJumpAttack_Down_End(float _DeltaTime)
 {
@@ -3166,7 +3217,7 @@ void AEgseu::RunDashJumpAttack_Down_End(float _DeltaTime)
 }
 #pragma endregion
 
-#pragma region RunDashJumpAttack Up
+#pragma region RunDashJumpAttack_Up
 void AEgseu::RunDashJumpAttack_UpStart()
 {
 	int CurFrame = PlayerRender->GetCurAnimationFrame();
@@ -3218,7 +3269,9 @@ void AEgseu::RunDashJumpAttack_Up(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
+#pragma region RunDashJumpAttack_Up_Loop
 void AEgseu::RunDashJumpAttack_Up_LoopStart()
 {
 	//if (BusterDelayTime == 0.0f)
@@ -3303,18 +3356,32 @@ void AEgseu::RunDashJumpAttack_Up_Loop(float _DeltaTime)
 		}
 	}
 }
+#pragma endregion
 
+#pragma region RunDashJumpAttack_Up_End
 void AEgseu::RunDashJumpAttack_Up_EndStart()
 {
-	if (BusterDelayTime == 0.0f)
+	if (State == EEgseuState::RunDashJump_End)
 	{
+		BusterDelayTime = 0.0f;
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
 	}
-	else
+	else if (State == EEgseuState::RunDashJumpAttack_Up_Loop)
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
 	}
+	UEngineSound::SoundPlay("Plat.mp3");
+
+	//if (BusterDelayTime == 0.0f)
+	//{
+	//	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"), false, CurFrame);
+	//}
+	//else
+	//{
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
+	//}
 }
 void AEgseu::RunDashJumpAttack_Up_End(float _DeltaTime)
 {
@@ -3513,20 +3580,73 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 		return;
 	}
 }
+#pragma endregion
 
+#pragma region RunJump_End
 void AEgseu::RunJump_EndStart()
 {
 	JumpVector = FVector::Zero;
-	if (BusterDelayTime == 0.0f)
+
+	if (State == EEgseuState::RunJump_Loop)
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
 	}
-	else
+	else if (State == EEgseuState::JumpAttack_Up_Loop)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"), false, CurFrame);
+	}
+	else if (State == EEgseuState::RunDashJumpAttack_Down)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"), false, CurFrame);
+	}
+	else if (State == EEgseuState::RunDashJumpAttack_Down_End)
 	{
 		BusterDelayTime = 0.0f;
 		int CurFrame = PlayerRender->GetCurAnimationFrame();
 		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"), false, CurFrame);
 	}
+	else if (State == EEgseuState::RunDashJumpAttack_Up)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"), false, CurFrame);
+	}
+	else if (State == EEgseuState::RunJumpAttack_Down_Loop)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"), false, CurFrame);
+	}
+	else if (State == EEgseuState::RunJumpAttack_Down_End)
+	{
+		BusterDelayTime = 0.0f;
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"), false, CurFrame);
+	}
+	else if (State == EEgseuState::RunJumpAttack_Up_Loop)
+	{
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"), false, CurFrame);
+	}
+	else if (State == EEgseuState::RunJumpAttack_Up_End)
+	{
+		BusterDelayTime = 0.0f;
+		int CurFrame = PlayerRender->GetCurAnimationFrame();
+		PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"), false, CurFrame);
+	}
+	
+	UEngineSound::SoundPlay("Plat.mp3");
+
+	//if (BusterDelayTime == 0.0f)
+	//{
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"));
+	//}
+	//else
+	//{
+	//	BusterDelayTime = 0.0f;
+	//	int CurFrame = PlayerRender->GetCurAnimationFrame();
+	//	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End"), false, CurFrame);
+	//}
 }
 
 void AEgseu::RunJump_End(float _DeltaTime)
@@ -3664,6 +3784,7 @@ void AEgseu::RunJumpAttack_Down_Loop(float _DeltaTime)
 void AEgseu::RunJumpAttack_Down_EndStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
+	UEngineSound::SoundPlay("Plat.mp3");
 }
 void AEgseu::RunJumpAttack_Down_End(float _DeltaTime) // 공격 모션 착지.
 {
@@ -3823,6 +3944,7 @@ void AEgseu::RunJumpAttack_Up_Loop(float _DeltaTime)
 void AEgseu::RunJumpAttack_Up_EndStart()
 {
 	PlayerRender->ChangeAnimation(GetAnimationName("Jump_End_Attack"));
+	UEngineSound::SoundPlay("Plat.mp3");
 }
 
 void AEgseu::RunJumpAttack_Up_End(float _DeltaTime)
