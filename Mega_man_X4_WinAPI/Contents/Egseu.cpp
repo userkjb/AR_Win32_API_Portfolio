@@ -950,6 +950,7 @@ void AEgseu::Idle(float _DeltaTime)
 			}
 			else if (2.0f <= BusterChargTime)
 			{
+				UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 				BusterCreate(EBusterState::CreatePull, Idle_Muzzle);
 			}
 			StateChange(EEgseuState::IdleAttack_Up);
@@ -1035,6 +1036,7 @@ void AEgseu::IdleJump(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -1093,6 +1095,7 @@ void AEgseu::IdleJump_Loop(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -1797,6 +1800,7 @@ void AEgseu::IdleRun(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Run_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -1861,6 +1865,7 @@ void AEgseu::IdleRun_Loop(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Run_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -2203,6 +2208,7 @@ void AEgseu::RunDash(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Run_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -2267,6 +2273,7 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Dash_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -2342,6 +2349,7 @@ void AEgseu::RunDash_End(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Dash_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -2434,6 +2442,7 @@ void AEgseu::RunDashAttack_Down_LoopStart()
 		PlayerRender->ChangeAnimation(GetAnimationName("Dash_Attack_Loop"));
 	}
 }
+
 void AEgseu::RunDashAttack_Down_Loop(float _DeltaTime)
 {
 	BusterDelayTime += _DeltaTime;
@@ -2534,6 +2543,9 @@ void AEgseu::RunDashAttack_Down_Loop(float _DeltaTime)
 	}
 }
 #pragma endregion
+
+
+
 
 #pragma region RunDashAttack_Down_End
 void AEgseu::RunDashAttack_Down_EndStart()
@@ -2852,6 +2864,7 @@ void AEgseu::RunDashJump(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Dash_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -2891,17 +2904,6 @@ void AEgseu::RunDashJump_LoopStart()
 	{
 		PlayerRender->ChangeAnimation(GetAnimationName("Jumping"));
 	}
-
-	int RandValue = UEngineRandom::MainRandom.RandomInt(0, 1); // ·£´ý ÆÐÅÏ.
-	if (RandValue == 0)
-	{
-		UEngineSound::SoundPlay("Jump_1.mp3");
-	}
-	else if (RandValue == 1)
-	{
-		UEngineSound::SoundPlay("Jump_2.mp3");
-	}
-
 	DirCheck();
 }
 void AEgseu::RunDashJump_Loop(float _DeltaTime)
@@ -2954,6 +2956,7 @@ void AEgseu::RunDashJump_Loop(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -3001,6 +3004,7 @@ void AEgseu::RunDashJump_End(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -3491,6 +3495,7 @@ void AEgseu::RunJump(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
@@ -3555,6 +3560,7 @@ void AEgseu::RunJump_Loop(float _DeltaTime)
 		}
 		else if (2.0f <= BusterChargTime)
 		{
+			UEngineSound::SoundPlay("PullBusterShot_X.mp3");
 			BusterCreate(EBusterState::CreatePull, Jump_Muzzle);
 		}
 		BusterDelayTime = 0.0f;
