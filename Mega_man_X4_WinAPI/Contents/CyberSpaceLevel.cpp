@@ -27,15 +27,15 @@ void UCyberSpaceLevel::BeginPlay()
 
 	//NewDir.MoveToSearchChild("ContentsResources\\CyberSpaceLevel");
 
-	std::list<UEngineFile> NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
+std::list<UEngineFile> NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
 
 	for (UEngineFile& File : NewList)
 	{
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
-	BGMPlayer = UEngineSound::SoundPlay("X4-CYBER_KUJACKER_STAGE.mp3");
-	BGMPlayer.Loop();
+	BGMSound = UEngineSound::SoundPlay("X4-CYBER_KUJACKER_STAGE.mp3");
+	BGMSound.Loop();
 
 	Ready_Sound = UEngineSound::SoundPlay("Ready.mp3");
 	Ready_Sound.Loop(0);

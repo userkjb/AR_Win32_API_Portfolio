@@ -69,7 +69,7 @@ private :
 	AEgseu* Player = nullptr;
 
 
-	UEngineSoundPlayer BGMPlayer;
+	UEngineSoundPlayer BGMSound;
 	UEngineSoundPlayer Ready_Sound;
 
 	ATriScan* TryScan_1 = nullptr;
