@@ -825,7 +825,17 @@ void AEgseu::WaitStart()
 
 void AEgseu::Wait(float _DeltaTime)
 {
+	// ¶¥À¸·Î.
+	FVector ToDown = FVector::Zero;
+	ToDown = FVector::Down * 500.0f * _DeltaTime;
 
+	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		ToDown = FVector::Zero;
+	}
+
+	AddActorLocation(ToDown);
 }
 #pragma endregion
 
@@ -2161,11 +2171,11 @@ void AEgseu::RunDash(float _DeltaTime)
 {
 	DashTime += _DeltaTime;
 
-	if (true == UEngineInput::IsPress(VK_RIGHT))
+	if (true == UEngineInput::IsPress(VK_RIGHT) && DirState == EActorDir::Right)
 	{
 		DashVector = FVector::Right * DashSpeed;
 	}
-	else if (true == UEngineInput::IsPress(VK_LEFT))
+	else if (true == UEngineInput::IsPress(VK_LEFT) && DirState == EActorDir::Left)
 	{
 		DashVector = FVector::Left * DashSpeed;
 	}
@@ -2233,11 +2243,11 @@ void AEgseu::RunDash_Loop(float _DeltaTime)
 {
 	DashTime += _DeltaTime;
 
-	if (true == UEngineInput::IsPress(VK_RIGHT))
+	if (true == UEngineInput::IsPress(VK_RIGHT) && DirState == EActorDir::Right)
 	{
 		DashVector = FVector::Right * DashSpeed;
 	}
-	else if (true == UEngineInput::IsPress(VK_LEFT))
+	else if (true == UEngineInput::IsPress(VK_LEFT) && DirState == EActorDir::Left)
 	{
 		DashVector = FVector::Left * DashSpeed;
 	}
