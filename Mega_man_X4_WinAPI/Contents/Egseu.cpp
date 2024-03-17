@@ -27,7 +27,8 @@ void AEgseu::BeginPlay()
 	ChargeBeginPlay();
 	PlayerBeginPlay();
 
-	StateChange(EEgseuState::Summon);
+	//StateChange(EEgseuState::Summon);
+	StateChange(EEgseuState::None);
 }
 
 void AEgseu::Tick(float _DeltaTime)

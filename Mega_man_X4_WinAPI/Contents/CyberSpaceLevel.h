@@ -2,6 +2,7 @@
 #include <EngineCore/Level.h>
 #include <EnginePlatform/EngineSound.h>
 #include <vector>
+#include "ContentsGlobalData.h"
 
 class ACyberSpaceMap;
 //class APlayer;
@@ -30,15 +31,33 @@ protected :
 	void LevelEnd(ULevel* _Level) override;
 
 private :
+	void StateChange(ECyberStageState _State);
+	void StateUpdate(float _DeltaTime);
+
+	
+	void None(float _DeltaTime);
+	void ReadyStart();
+	void Ready(float _DeltaTime);
+
+
 	/// <summary>
 	/// 카메라 움직임에 대한 함수.
 	/// </summary>
 	void MoveCameraVector();
 
-	//void EnemySpawn();
-	void EnemySpawn(bool _Test);
+	void EnemySpawn();
+	//void EnemySpawn(bool _Test);
 
 	void TestCameraMove();
+
+	// State
+	ECyberStageState LevelState = ECyberStageState::None;
+
+
+	// Time
+	float SoundTime = 0.0f;
+
+
 
 	// Map
 	ACyberSpaceMap* CyberSpaceMap = nullptr;
@@ -47,10 +66,9 @@ private :
 	// Player
 	AEgseu* Player = nullptr;
 
-	// Enemy
-	bool Test_b = false;
 
 	UEngineSoundPlayer BGMPlayer;
+	UEngineSoundPlayer Ready_Sound;
 
 	ATriScan* TryScan_1 = nullptr;
 	ATriScan* TryScan_2 = nullptr;

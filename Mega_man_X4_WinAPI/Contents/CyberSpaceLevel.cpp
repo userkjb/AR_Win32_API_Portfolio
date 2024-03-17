@@ -1,12 +1,10 @@
 #include "CyberSpaceLevel.h"
 #include "CyberSpaceMap.h"
-//#include "Player.h"
 #include "Egseu.h"
-//#include "CyberPeacock.h"
 #include "TriScan.h"
 #include "SpikeMarl.h"
 #include "MiruTorearu.h"
-//#include "PlayerFocus.h"
+#include <EngineCore/EngineResourcesManager.h>
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
@@ -39,6 +37,10 @@ void UCyberSpaceLevel::BeginPlay()
 	BGMPlayer = UEngineSound::SoundPlay("X4-CYBER_KUJACKER_STAGE.mp3");
 	BGMPlayer.Loop();
 
+	Ready_Sound = UEngineSound::SoundPlay("Ready.mp3");
+	Ready_Sound.Loop(0);
+	Ready_Sound.Off();
+
 	//UEngineSound::SoundPlay("X4-CYBER_KUJACKER_STAGE.mp3");
 }
 
@@ -54,25 +56,16 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 		GEngine->ChangeLevel("CyberSpaceBossLevel");
 	}
 
-	// Test
+	StateUpdate(_DeltaTime);
+
+	// Enemy 소환.
+	EnemySpawn();
+
+	// Change Level Test
 	//if (true == UEngineInput::IsDown('R'))
 	//{
 	//	GEngine->ChangeLevel("CyberSpaceBossLevel");
 	//}
-	if (true == UEngineInput::IsDown('F'))
-	{
-		if (false == Test_b)
-		{
-			Test_b = true;
-		}
-		else
-		{
-			Test_b = false;
-		}
-	}
-
-	// Enemy 소환.
-	EnemySpawn(Test_b);
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)
@@ -121,13 +114,9 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 
 	// Player
 	Player = SpawnActor<AEgseu>(static_cast<int>(EActorType::Player));
-	Player->SetActorLocation({ 200, 90 });
+	Player->SetActorLocation({ 200, 0 });
 	CyberSpaceMap->SetPlayer(Player);
 
-	// Boss
-	//ACyberPeacock* NewBoss = SpawnActor<ACyberPeacock>();
-	//NewBoss->SetActorLocation({ 520, 500 });
-		
 } // LevelStart
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
@@ -136,15 +125,80 @@ void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
 	// 액터 삭제.
 	ULevel::LevelEnd(_Level);
 
-	CyberSpaceMap->Destroy(0.0f);
-	Player->Destroy(0.0f);
-	TryScan_1->Destroy(0.0f);
-	TryScan_2->Destroy(0.0f);
-	CyberSpaceMap = nullptr;
-	Player = nullptr;
-	TryScan_1 = nullptr;
-	TryScan_2 = nullptr;
+	//CyberSpaceMap->Destroy(0.0f);
+	//Player->Destroy(0.0f);
+	//TryScan_1->Destroy(0.0f);
+	//TryScan_2->Destroy(0.0f);
+	//CyberSpaceMap = nullptr;
+	//Player = nullptr;
+	//TryScan_1 = nullptr;
+	//TryScan_2 = nullptr;
 }
+
+void UCyberSpaceLevel::StateChange(ECyberStageState _State)
+{
+	if (LevelState != _State)
+	{
+		switch (_State)
+		{
+		case ECyberStageState::None:
+			break;
+		case ECyberStageState::Ready:
+			ReadyStart();
+			break;
+		default :
+			break;
+		}
+	}
+	LevelState = _State;
+}
+
+void UCyberSpaceLevel::StateUpdate(float _DeltaTime)
+{
+	switch (LevelState)
+	{
+	case ECyberStageState::None:
+		None(_DeltaTime);
+		break;
+	case ECyberStageState::Ready:
+		Ready(_DeltaTime);
+		break;
+	default:
+		break;
+	}
+}
+
+
+void UCyberSpaceLevel::None(float _DeltaTime)
+{
+	StateChange(ECyberStageState::Ready);
+	return;
+}
+
+#pragma region Ready
+void UCyberSpaceLevel::ReadyStart()
+{
+	SoundTime = 0.0f;
+}
+
+void UCyberSpaceLevel::Ready(float _DeltaTime)
+{
+	SoundTime += _DeltaTime;
+	if (SoundTime >= 4.0f)
+	{
+		Ready_Sound.On();
+		if (SoundTime >= 5.0f)
+		{
+			if (Player->GetPlayerState() == EEgseuState::None)
+			{
+				Player->SetStateChange(EEgseuState::Summon);
+			}
+		}
+	}
+}
+#pragma endregion
+
+
 
 void UCyberSpaceLevel::MoveCameraVector()
 {
@@ -173,15 +227,8 @@ void UCyberSpaceLevel::MoveCameraVector()
 	SetCameraPos(CameraPos);
 }
 
-void UCyberSpaceLevel::EnemySpawn(bool _Test)
+void UCyberSpaceLevel::EnemySpawn()
 {
-	if (true == _Test)
-	{
-		//FVector PlayerPos = NewX->GetActorLocation();
-		float PlayerPos = Player->GetActorLocation().X;
-		int a = 0;
-	}
-
 	float PlayerPos = Player->GetActorLocation().X;
 	if (520.0f <= PlayerPos && PlayerPos <= 530.0f)
 	{

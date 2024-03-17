@@ -314,6 +314,14 @@ enum class ESpikeMarlState
 	Death,
 };
 
+enum class ECyberStageState
+{
+	None,
+
+	Ready,
+	GameStart,
+};
+
 /// <summary>
 /// 보스전 Level에 대한 State.
 /// </summary>
