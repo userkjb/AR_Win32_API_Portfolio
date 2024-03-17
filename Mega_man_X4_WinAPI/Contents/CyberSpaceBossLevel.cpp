@@ -4,6 +4,7 @@
 #include <EngineCore/EngineResourcesManager.h>
 
 #include "CyberSpaceBossMap.h"
+#include "CyberSpaceLevel.h"
 #include "Egseu.h"
 #include "CyberPeacock.h"
 
@@ -279,12 +280,17 @@ void UCyberSpaceBossLevel::BossRoomStart()
 	Player->SetStateChange(EEgseuState::Wait);
 	// ¿ö´×.
 	WarningTime = 0.0f;
+
+	UEngineSoundPlayer BGMSound = UCyberSpaceLevel::GetSound();
+	BGMSound.Off();
+
+	UEngineSound::SoundPlay("Warning.mp3");
 }
 
 void UCyberSpaceBossLevel::BossRoom(float _DeltaTime)
 {
 	WarningTime += _DeltaTime;
-	if (WarningTime >= 1.0f)
+	if (WarningTime >= 5.0f)
 	{
 		StateChange(EBossLevelState::BossIntro);
 		return;

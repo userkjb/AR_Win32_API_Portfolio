@@ -17,6 +17,13 @@ UCyberSpaceLevel::~UCyberSpaceLevel()
 {
 }
 
+UEngineSoundPlayer UCyberSpaceLevel::BGMSound;
+
+UEngineSoundPlayer UCyberSpaceLevel::GetSound()
+{
+	return BGMSound;
+}
+
 void UCyberSpaceLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
@@ -62,10 +69,10 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 	EnemySpawn();
 
 	// Change Level Test
-	//if (true == UEngineInput::IsDown('R'))
-	//{
-	//	GEngine->ChangeLevel("CyberSpaceBossLevel");
-	//}
+	if (true == UEngineInput::IsDown('R'))
+	{
+		GEngine->ChangeLevel("CyberSpaceBossLevel");
+	}
 }
 
 void UCyberSpaceLevel::LevelStart(ULevel* _Level)

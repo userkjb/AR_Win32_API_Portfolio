@@ -24,6 +24,8 @@ public :
 	UCyberSpaceLevel& operator=(const UCyberSpaceLevel& _Other) = delete;
 	UCyberSpaceLevel& operator=(UCyberSpaceLevel&& _Other) noexcept = delete;
 
+	static UEngineSoundPlayer GetSound();
+
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -69,7 +71,8 @@ private :
 	AEgseu* Player = nullptr;
 
 
-	UEngineSoundPlayer BGMSound;
+	//UEngineSoundPlayer BGMSound;
+	static UEngineSoundPlayer BGMSound;
 	UEngineSoundPlayer Ready_Sound;
 
 	ATriScan* TryScan_1 = nullptr;
