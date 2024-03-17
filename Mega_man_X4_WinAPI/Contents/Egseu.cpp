@@ -221,7 +221,7 @@ void AEgseu::PlayerBeginPlay()
 	// =====================================================================
 
 	PlayerRender->ChangeAnimation("Summon");
-	StateChange(EEgseuState::Summon);
+	StateChange(EEgseuState::None);
 }
 
 void AEgseu::DirCheck()
@@ -822,16 +822,6 @@ void AEgseu::SummonStart()
 	PlayerRender->ChangeAnimation("Summon");
 }
 
-void AEgseu::Summon_LoopStart()
-{
-	PlayerRender->ChangeAnimation("Summon_Loop");
-}
-
-void AEgseu::Summon_EndStart()
-{
-	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
-}
-
 void AEgseu::Summon(float _DeltaTime)
 {
 	SummonVector = FVector::Down * 1000.0f * _DeltaTime;
@@ -849,6 +839,11 @@ void AEgseu::Summon(float _DeltaTime)
 	}
 }
 
+void AEgseu::Summon_LoopStart()
+{
+	PlayerRender->ChangeAnimation("Summon_Loop");
+}
+
 void AEgseu::Summon_Loop(float _DeltaTime)
 {
 	SummonDelayTime += _DeltaTime;
@@ -861,6 +856,11 @@ void AEgseu::Summon_Loop(float _DeltaTime)
 			return;
 		}
 	}
+}
+
+void AEgseu::Summon_EndStart()
+{
+	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
 }
 
 void AEgseu::Summon_End(float _DeltaTime)
