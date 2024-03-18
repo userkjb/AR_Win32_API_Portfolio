@@ -157,8 +157,8 @@ private :
 	float DeathTime = 0.0f;
 	float AppearTime = 0.0f;
 	float ExplosionTime = 0.0f;
-	//int Hp = 48;
-	int Hp = 1;
+	int Hp = 48;
+	//int Hp = 1;
 	int MissileCreateCount = 0; // ~7
 	int BodyDamage = 5;
 	int FeatherAttackDamage = 9;

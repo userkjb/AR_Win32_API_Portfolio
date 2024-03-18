@@ -109,27 +109,32 @@ void ACyberPeacock::Tick(float _DeltaTime)
 
 	StateUpdate(_DeltaTime);
 
+	if (true == UEngineInput::IsDown('H'))
+	{
+		Hp = 1;
+	}
+
 	// test
-	if (true == UEngineInput::IsDown('K'))
-	{
-		CreateMissile(0);
-	}
-	if (true == UEngineInput::IsDown('M'))
-	{
-		if (false == b_test)
-		{
-			b_test = true;
-		}
-	}
-	TestFunction(b_test);
-	if (true == UEngineInput::IsDown('N'))
-	{
-		if (false == TestImage->IsActive())
-		{
-			TestImage->SetPosition(BossImageCenterPos);
-			TestImage->SetActive(true);
-		}
-	}
+	//if (true == UEngineInput::IsDown('K'))
+	//{
+	//	CreateMissile(0);
+	//}
+	//if (true == UEngineInput::IsDown('M'))
+	//{
+	//	if (false == b_test)
+	//	{
+	//		b_test = true;
+	//	}
+	//}
+	//TestFunction(b_test);
+	//if (true == UEngineInput::IsDown('N'))
+	//{
+	//	if (false == TestImage->IsActive())
+	//	{
+	//		TestImage->SetPosition(BossImageCenterPos);
+	//		TestImage->SetActive(true);
+	//	}
+	//}
 }
 
 void ACyberPeacock::StateChange(ECyberPeacockState _State)
