@@ -42,6 +42,7 @@ void UCyberSpaceLevel::BeginPlay()
 
 	BGMSound = UEngineSound::SoundPlay("X4-CYBER_KUJACKER_STAGE.mp3");
 	BGMSound.Loop();
+	BGMSound.Off();
 
 	Ready_Sound = UEngineSound::SoundPlay("Ready.mp3");
 	Ready_Sound.Loop(0);
@@ -71,6 +72,11 @@ void UCyberSpaceLevel::Tick(float _DeltaTime)
 	if (true == UEngineInput::IsDown('R'))
 	{
 		GEngine->ChangeLevel("CyberSpaceBossLevel");
+	}
+
+	if (true == UEngineInput::IsDown('T'))
+	{
+		BGMSound.On();
 	}
 }
 
