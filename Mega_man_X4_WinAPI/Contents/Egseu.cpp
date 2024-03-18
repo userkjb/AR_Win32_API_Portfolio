@@ -41,6 +41,7 @@ void AEgseu::Tick(float _DeltaTime)
 	StateUpdate(_DeltaTime);
 	BusterChargeTime(_DeltaTime);
 	CollisionCheck(_DeltaTime);
+	InvincibleTime(_DeltaTime);
 	// Debug
 	// Player State 출력
 	if (Debug_Num != static_cast<int>(State))
@@ -902,10 +903,9 @@ void AEgseu::IdleStart()
 	JumpVector = FVector::Zero; // 벽 타고 내려왔을 대 점프 초기화.
 	BusterDelayTime = 0.0f;
 	LastMoveVector = FVector::Zero;
-	if (State == EEgseuState::Hit)
+	if (State == EEgseuState::Hit_MiruTorearu)
 	{
-		b_IsHit = true;
-		Hit_InvincibilityTime = 0.0f;
+		LastMoveVector = FVector::Zero;
 	}
 	PlayerRender->ChangeAnimation(GetAnimationName("Idle"));
 	DirCheck();
@@ -929,22 +929,6 @@ void AEgseu::Idle(float _DeltaTime)
 	if (DashTime != 0.0f)
 	{
 		DashTime = 0.0f;
-	}
-
-	// 무적
-	if (b_IsHit == true)
-	{
-		Hit_InvincibilityTime += _DeltaTime;
-		if (Hit_InvincibilityTime >= 2.0f)
-		{
-			PlayerCollision->SetActive(true);
-			b_IsHit = false;
-			Hit_InvincibilityTime = 0.0f;
-		}
-		else
-		{
-			PlayerCollision->SetActive(false);
-		}
 	}
 
 	// 가만히 있는데 뱡향 키가 눌렸을 때.
@@ -1795,6 +1779,10 @@ void AEgseu::IdleRunStart()
 	BusterDelayTime = 0.0f;
 	PlayerRender->ChangeAnimation(GetAnimationName("Run_Ready"));
 	DirCheck();
+	if (DashTime != 0.0f)
+	{
+		DashTime = 0.0f;
+	}
 }
 
 void AEgseu::IdleRun(float _DeltaTime)
@@ -1851,32 +1839,16 @@ void AEgseu::IdleRun(float _DeltaTime)
 void AEgseu::IdleRun_LoopStart()
 {
 	JumpVector = FVector::Zero; // 벽 타고 왔을 때 점프 Vector 초기화.
-	if (State == EEgseuState::Hit)
-	{
-		b_IsHit = true;
-	}
 	PlayerRender->ChangeAnimation(GetAnimationName("Run"));
+	if (State == EEgseuState::Hit_MiruTorearu)
+	{
+		LastMoveVector = FVector::Zero;
+	}
 	DirCheck();
 }
 
 void AEgseu::IdleRun_Loop(float _DeltaTime)
 {
-	// 무적
-	if (b_IsHit == true)
-	{
-		Hit_InvincibilityTime += _DeltaTime;
-		if (Hit_InvincibilityTime >= 2.0f)
-		{
-			PlayerCollision->SetActive(true);
-			b_IsHit = false;
-			Hit_InvincibilityTime = 0.0f;
-		}
-		else
-		{
-			PlayerCollision->SetActive(false);
-		}
-	}
-
 	DirCheck();
 	if (true == UEngineInput::IsPress(VK_LEFT))
 	{
@@ -4817,6 +4789,7 @@ void AEgseu::HitStart()
 	{
 		UEngineSound::SoundPlay("Hit_2.mp3");
 	}
+	PlayerCollision->SetActive(false);
 }
 
 void AEgseu::Hit(float _DeltaTime)
@@ -4840,7 +4813,7 @@ void AEgseu::Hit(float _DeltaTime)
 	HitMove += GravityVector;
 
 
-	// 벽 체크
+	// 땅 체크
 	Color8Bit Color = UContentsGlobalData::ColMapImage->GetColor(Pos.iX(), Pos.iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
@@ -4855,19 +4828,19 @@ void AEgseu::Hit(float _DeltaTime)
 	{
 		HitDelayTime += _DeltaTime;
 	}
-	if (HitDelayTime >= 0.2f)
+	if (HitDelayTime >= 0.5f)
 	{
 		if (true == UEngineInput::IsPress(VK_RIGHT) || true == UEngineInput::IsPress(VK_LEFT))
 		{
 			Hit_Count = 0;
-			HitDelayTime = 0.0f;
+			b_IsHit = true;
 			StateChange(EEgseuState::IdleRun_Loop);
 			return;
 		}
 		else
 		{
-			HitDelayTime = 0.0f;
 			Hit_Count = 0;
+			b_IsHit = true;
 			StateChange(EEgseuState::Idle);
 			return;
 		}
@@ -5364,5 +5337,21 @@ void AEgseu::BusterCreate(EBusterState _BusterState, FVector _Pos)
 
 	A_Buster->SetActorLocation(ShotPos);
 	A_Buster->SetBusterState(_BusterState);
+}
+
+void AEgseu::InvincibleTime(float _DeltaTime)
+{
+	if (false == b_IsHit)
+	{
+		return;
+	}
+	HitDelayTime += _DeltaTime;
+
+	if (HitDelayTime >= 2.0f)
+	{
+		PlayerCollision->SetActive(true);
+		b_IsHit = false;
+		HitDelayTime = 0.0f;
+	}
 }
 

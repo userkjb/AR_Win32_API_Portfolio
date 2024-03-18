@@ -285,6 +285,8 @@ private :
 	/// <param name="_Pos">생성되는 위치.</param>
 	void BusterCreate(EBusterState _BusterState, FVector _Pos);
 
+	void InvincibleTime(float _DeltaTime);
+
 	// ===========================================================
 
 	EEgseuState State = EEgseuState::None;
