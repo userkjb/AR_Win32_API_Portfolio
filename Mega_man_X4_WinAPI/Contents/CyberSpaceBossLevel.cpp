@@ -75,6 +75,7 @@ void UCyberSpaceBossLevel::LevelStart(ULevel* _Level)
 	CyberBossMap->SetMapImage("CyberSpace_Stage_BossMap.png");
 	CyberBossMap->SetMapColImage("CyberSpace_Stage_BossMapCol.png");
 	CyberBossMap->SetDoorImage("mmx4-bossdoor.png");
+	CyberBossMap->SetWhiteImage("White_Image.png");
 
 	// Player
 	Player = SpawnActor<AEgseu>(static_cast<int>(EActorType::Player));

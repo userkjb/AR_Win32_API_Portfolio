@@ -373,6 +373,7 @@ enum class ERenderOrder
 	Player,
 	MapSub,
 	Buster,
+	WhiteImage,
 };
 
 /// <summary>

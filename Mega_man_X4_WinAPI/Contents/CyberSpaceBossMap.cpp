@@ -18,6 +18,7 @@ void ACyberSpaceBossMap::BeginPlay()
 	MapRenderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Map));
 	MapColRenderer = CreateImageRenderer(static_cast<int>(ERenderOrder::Map));
 	MapColRenderer->SetActive(false);
+	WhiteRender = CreateImageRenderer(static_cast<int>(ERenderOrder::WhiteImage));
 	BossDoor_1 = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 	BossDoor_2 = CreateImageRenderer(static_cast<int>(ERenderOrder::MapObject));
 
@@ -96,6 +97,14 @@ void ACyberSpaceBossMap::SetDoorImage(std::string_view _DoorImageName)
 	BossDoor_Coll_2->SetPosition(BossDoor_2->GetPosition());
 
 	CreateDoorAni();
+}
+
+void ACyberSpaceBossMap::SetWhiteImage(std::string_view _WhiteImageName)
+{
+	WhiteRender->SetImage(_WhiteImageName);
+	WhiteRender->AutoImageScale(2.0f);
+	WhiteRender->SetPosition({2500.0f, 100.0f});
+	WhiteRender->SetAlpha(0.0f);
 }
 
 void ACyberSpaceBossMap::CreateDoorAni()
@@ -285,15 +294,24 @@ void ACyberSpaceBossMap::White(float _DeltaTime)
 {
 	ToWhitTime += _DeltaTime;
 
+	float DefaultAlpha = 0.0f;
+	float ToWhit = DefaultAlpha + (ToWhitTime * 0.25f);
+	WhiteRender->SetAlpha(ToWhit);
+
 	// 전부 진행 되었다면,
-	if (ToWhitTime >= 3.0f && MapWhite == false)
+	if (ToWhit >= 1.0f && MapWhite == false)
 	{
 		MapWhite = true;
 	}
-	else
-	{
-		return;
-	}
+
+	//if (ToWhitTime >= 3.0f && MapWhite == false)
+	//{
+	//	MapWhite = true;
+	//}
+	//else
+	//{
+	//	return;
+	//}
 }
 #pragma endregion
 
@@ -306,10 +324,19 @@ void ACyberSpaceBossMap::Restore(float _DeltaTime)
 {
 	ToOriginalTime += _DeltaTime;
 
-	if (ToOriginalTime >= 2.0f)
+	float DefaultAlpha = 1.0f;
+	float ToWhit = DefaultAlpha - (ToOriginalTime * 0.25f);
+	WhiteRender->SetAlpha(ToWhit);
+
+	if (ToWhit <= 0.0f && MapRestore == false)
 	{
 		MapRestore = true;
 	}
+
+	//if (ToOriginalTime >= 2.0f)
+	//{
+	//	MapRestore = true;
+	//}
 }
 #pragma endregion
 

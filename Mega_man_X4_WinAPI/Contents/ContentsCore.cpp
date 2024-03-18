@@ -75,7 +75,7 @@ void ContentsCore::BeginPlay()
 	CreateLevel<UCyberSpaceLevel>("CyberSpaceLevel");
 	CreateLevel<UCyberSpaceBossLevel>("CyberSpaceBossLevel");
 
-	ChangeLevel("CyberSpaceLevel");
+	ChangeLevel("TitleLevel");
 	//ChangeLevel("CyberSpaceBossLevel");
 }
 

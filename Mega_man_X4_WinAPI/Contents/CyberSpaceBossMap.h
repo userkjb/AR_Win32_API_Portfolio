@@ -28,6 +28,8 @@ public :
 	// Door_2
 	void SetDoorImage(std::string_view _DoorImageName);
 
+	void SetWhiteImage(std::string_view _WhiteImageName);
+
 
 	/// <summary>
 	/// Debug Function
@@ -131,6 +133,8 @@ private :
 	UImageRenderer* BossDoor_2 = nullptr;
 	UCollision* BossDoor_Coll_1 = nullptr;
 	UCollision* BossDoor_Coll_2 = nullptr;
+
+	UImageRenderer* WhiteRender = nullptr;
 
 	AEgseu* Player = nullptr;
 	//AEgseu* ColPlayer = nullptr;

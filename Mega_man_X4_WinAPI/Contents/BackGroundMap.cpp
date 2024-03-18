@@ -105,6 +105,11 @@ void ABackGroundMap::Tick(float _DeltaTime)
 			break;
 		}
 	}
+
+	if (true == UEngineInput::IsDown('Q'))
+	{
+		GEngine->ChangeLevel("CyberSpaceLevel");
+	}
 }
 
 

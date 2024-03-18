@@ -33,7 +33,7 @@ void UCyberSpaceLevel::BeginPlay()
 
 	//NewDir.MoveToSearchChild("ContentsResources\\CyberSpaceLevel");
 
-std::list<UEngineFile> NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
+	std::list<UEngineFile> NewList = NewDir.AllFile({ ".png", ".bmp" }, true);
 
 	for (UEngineFile& File : NewList)
 	{
