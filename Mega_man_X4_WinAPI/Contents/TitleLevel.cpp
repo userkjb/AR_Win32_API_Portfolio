@@ -41,6 +41,7 @@ void UTitleLevel::BeginPlay()
 	BackGroundActor->SetMapImage("TitleScreen.png");
 	BackGroundActor->SetGameStartTextImage("GameStartText.png");
 	BackGroundActor->SetMenuAnimation("Menu.png");
+	BackGroundActor->SetStageChange(EBackGroundMapState::Title);
 }
 
 void UTitleLevel::Tick(float _DeltaTime)

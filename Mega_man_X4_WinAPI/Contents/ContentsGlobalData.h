@@ -58,6 +58,14 @@ enum class EPlayerState
 	//Hit,
 };
 
+enum class EBackGroundMapState
+{
+	None,
+
+	Title,
+	GameMenu,
+};
+
 /// <summary>
 /// Attack은 X 버튼이 눌렸을 때 해당 상태에서
 /// Attack이 붙은 상태로 넘어가는 간다.

@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include "ContentsGlobalData.h"
 
 class ABackGroundMap : public AActor
 {
@@ -32,14 +33,30 @@ public :
 	/// <param name="_ImageName"></param>
 	void SetGameStartTextImage(std::string_view _ImageName);
 
+	inline void SetStageChange(EBackGroundMapState _State)
+	{
+		StateChange(_State);
+	}
+
 protected :
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private :
+
+	void StateChange(EBackGroundMapState _State);
+	void StateUpdate(float _DeltaTime);
+
+	void TitleStart();
+	void Title(float _DeltaTime);
+	void GameMenuStart();
+	void GameMenu(float _DeltaTime);
+
 	UImageRenderer* TitleRenderer = nullptr;
 	UImageRenderer* GameStartTextRenderer = nullptr;
 	UImageRenderer* MenuRenderer = nullptr;
+
+	EBackGroundMapState State = EBackGroundMapState::None;
 
 	bool EnterKey = false;
 	int KeyCount = 1;

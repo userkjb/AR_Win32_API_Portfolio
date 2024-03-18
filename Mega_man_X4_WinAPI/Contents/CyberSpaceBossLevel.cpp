@@ -517,7 +517,7 @@ void UCyberSpaceBossLevel::PlayerReverseSummon(float _DeltaTime)
 	if (true == Player->GetReSummonEnd())
 	{
 		return;
-		GEngine->ChangeLevel("");
+		GEngine->ChangeLevel("TitleLevel");
 	}
 }
 #pragma endregion

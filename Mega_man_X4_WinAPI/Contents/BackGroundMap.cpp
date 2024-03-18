@@ -49,6 +49,8 @@ void ABackGroundMap::BeginPlay()
 {
 	AActor::BeginPlay();
 
+	StateChange(EBackGroundMapState::None);
+
 	// Render 순서 설정
 	TitleRenderer = CreateImageRenderer(0);
 	GameStartTextRenderer = CreateImageRenderer(1);
@@ -61,52 +63,121 @@ void ABackGroundMap::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	if (true == UEngineInput::IsDown(VK_RETURN) && false == EnterKey) // Enter 키 수정 예정.
-	{
-		GameStartTextRenderer->SetActive(false);
-		MenuRenderer->SetActive(true);
-		EnterKey = true;
-	}
+	StateUpdate(_DeltaTime);
+}
 
-	if (EnterKey == true)
+void ABackGroundMap::StateChange(EBackGroundMapState _State)
+{
+	if (State != _State)
 	{
-		if (true == UEngineInput::IsDown(VK_UP)) // Up
+		switch (_State)
 		{
-			KeyCount--;
-			if (KeyCount <= 0)
-			{
-				KeyCount = 1;
-			}
-		}
-		else if (true == UEngineInput::IsDown(VK_DOWN)) // Down
-		{
-			KeyCount++;
-			if (KeyCount > 3)
-			{
-				KeyCount = 3;
-			}
-		}
-
-		switch (KeyCount)
-		{
-		case 1 :
-			MenuRenderer->ChangeAnimation("Menu_1");
-			UEngineDebug::OutPutDebugText(std::to_string(KeyCount));
+		case EBackGroundMapState::None:
 			break;
-		case 2 :
-			MenuRenderer->ChangeAnimation("Menu_2");
-			UEngineDebug::OutPutDebugText(std::to_string(KeyCount));
+		case EBackGroundMapState::Title:
+			TitleStart();
 			break;
-		case 3 :
-			MenuRenderer->ChangeAnimation("Menu_3");
-			UEngineDebug::OutPutDebugText(std::to_string(KeyCount));
+		case EBackGroundMapState::GameMenu:
+			GameMenuStart();
 			break;
 		default :
 			break;
 		}
 	}
+	State = _State;
+}
 
-	if (true == UEngineInput::IsDown('Q'))
+void ABackGroundMap::StateUpdate(float _DeltaTime)
+{
+	switch (State)
+	{
+	case EBackGroundMapState::None:
+		break;
+	case EBackGroundMapState::Title:
+		Title(_DeltaTime);
+		break;
+	case EBackGroundMapState::GameMenu:
+		GameMenu(_DeltaTime);
+		break;
+	default:
+		break;
+	}
+}
+
+
+void ABackGroundMap::TitleStart()
+{
+	if (false == GameStartTextRenderer->IsActive())
+	{
+		GameStartTextRenderer->SetActive(true);
+	}
+	if (true == MenuRenderer->IsActive())
+	{
+		MenuRenderer->SetActive(false);
+	}
+}
+
+void ABackGroundMap::Title(float _DeltaTime)
+{
+	if (true == UEngineInput::IsDown(VK_RETURN))
+	{
+		StateChange(EBackGroundMapState::GameMenu);
+		return;
+	}
+}
+
+void ABackGroundMap::GameMenuStart()
+{
+	if (true == GameStartTextRenderer->IsActive())
+	{
+		GameStartTextRenderer->SetActive(false);
+	}
+	if (false == MenuRenderer->IsActive())
+	{
+		MenuRenderer->SetActive(true);
+	}
+
+	KeyCount = 1;
+}
+
+void ABackGroundMap::GameMenu(float _DeltaTime)
+{
+	if (true == UEngineInput::IsDown(VK_UP)) // Up
+	{
+		KeyCount--;
+		if (KeyCount <= 0)
+		{
+			KeyCount = 1;
+		}
+	}
+	else if (true == UEngineInput::IsDown(VK_DOWN)) // Down
+	{
+		KeyCount++;
+		if (KeyCount > 3)
+		{
+			KeyCount = 3;
+		}
+	}
+
+	switch (KeyCount)
+	{
+	case 1:
+		MenuRenderer->ChangeAnimation("Menu_1");
+		UEngineDebug::OutPutDebugText(std::to_string(KeyCount));
+		break;
+	case 2:
+		MenuRenderer->ChangeAnimation("Menu_2");
+		UEngineDebug::OutPutDebugText(std::to_string(KeyCount));
+		break;
+	case 3:
+		MenuRenderer->ChangeAnimation("Menu_3");
+		UEngineDebug::OutPutDebugText(std::to_string(KeyCount));
+		break;
+	default:
+		break;
+	}
+
+	if (true == UEngineInput::IsDown(VK_RETURN))
 	{
 		GEngine->ChangeLevel("CyberSpaceLevel");
 	}

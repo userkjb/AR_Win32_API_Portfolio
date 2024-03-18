@@ -129,6 +129,8 @@ void UCyberSpaceLevel::LevelStart(ULevel* _Level)
 	Player->SetActorLocation({ 200, 0 });
 	CyberSpaceMap->SetPlayer(Player);
 
+	BGMSound.On();
+
 } // LevelStart
 
 void UCyberSpaceLevel::LevelEnd(ULevel* _Level)
