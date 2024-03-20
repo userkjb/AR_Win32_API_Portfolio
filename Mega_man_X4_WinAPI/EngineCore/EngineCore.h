@@ -109,6 +109,7 @@ private :
 	void LevelInit(ULevel* _Level, std::string_view _Name);
 };
 
+// 모든 프로젝트, 파일에서 접근할 수 있도록 extern 사용.
 extern UEngineCore* GEngine;
 
 #define ENGINESTART(USERCORE) \
