@@ -65,7 +65,7 @@ public :
 	/// <param name="Order"></param>
 	/// <returns></returns>
 	template<typename EnumType>
-	UImageRenderer* CreateImageRenderer(int _Order = 0)
+	UImageRenderer* CreateImageRenderer(EnumType _Order = 0)
 	{
 		return CreateImageRenderer(static_cast<int>(_Order));
 	}
