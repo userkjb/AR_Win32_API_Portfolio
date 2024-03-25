@@ -159,7 +159,7 @@ public:
 	);
 
 	/// <summary>
-	/// 
+	/// 애니메이션 생성 원본 함수.
 	/// </summary>
 	/// <param name="_AnimationName"></param>
 	/// <param name="_ImageName"></param>
