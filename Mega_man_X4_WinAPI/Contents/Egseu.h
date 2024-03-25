@@ -53,6 +53,10 @@ public :
 	{
 		return Hp;
 	}
+	inline void SetPlayerHp(int _Value)
+	{
+		Hp -= _Value;
+	}
 
 	inline bool GetReSummonEnd() const
 	{

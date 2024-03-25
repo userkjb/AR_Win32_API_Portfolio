@@ -332,6 +332,8 @@ void AFeatherMissile::CollisionCheck()
 	std::vector<UCollision*> TargetResult;
 	if(true == MissileCollision->CollisionCheck(ECollisionOrder::Player, TargetResult))
 	{
+		AEgseu* Player = dynamic_cast<AEgseu*>(TargetResult[0]->GetOwner());
+		Player->SetPlayerHp(Damage);
 		StateChange(ECyberPeacockMissileState::Death);
 		return;
 	}
