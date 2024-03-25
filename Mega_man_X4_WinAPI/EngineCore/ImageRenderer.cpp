@@ -19,6 +19,7 @@ void UImageRenderer::SetOrder(int _Order)
 	// Actor 가 있는 Level 설정.
 	ULevel* Level = Owner->GetWorld();
 
+	// Level에 있는 Renderers에 넣어줌.
 	std::map<int, std::list<UImageRenderer*>>& Renderers = Level->Renderers;
 
 	// 나의 오더(Actor)가 바뀌기 전에 혹시나 내가 다른 곳에 속했다면

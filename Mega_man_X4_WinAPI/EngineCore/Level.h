@@ -141,7 +141,7 @@ private :
 	void LevelRelease(float _DeltaTime);
 
 	std::map<int, std::list<AActor*>> AllActor;
-	std::map<int, std::list<UImageRenderer*>> Renderers; // ImageRenderer에서 Image들을 넣어준다.
+	std::map<int, std::list<UImageRenderer*>> Renderers; // ImageRenderer에서 Image들을 넣어준다. SetOrder()
 	std::map<int, std::list<UCollision*>> Collisions;
 	std::map<int, float> TimeScale;
 
