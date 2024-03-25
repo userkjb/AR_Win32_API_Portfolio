@@ -718,6 +718,7 @@ void ACyberPeacock::TrackingShot_Loop(float _DeltaTime)
 		{
 			return;
 		}
+		TrackingShotScope->SetActive(false);
 		StateChange(ECyberPeacockState::Disappear);
 		return;
 	}
