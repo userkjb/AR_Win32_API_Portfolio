@@ -420,7 +420,6 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 			else if (PlayerDir == EActorDir::Left)
 			{
 				CyberPeacockDir = EActorDir::Left;
-				CyberPeacockDir = EActorDir::Left;
 				int x = PlayerPos.iX() + 50;
 				if (x >= 2681)
 				{
