@@ -136,7 +136,7 @@ void AActor::CheckReleaseChild()
 
 			if (nullptr == Renderer)
 			{
-				MsgBoxAssert("Collision가 nullptr인 경우가 존재했습니다");
+				MsgBoxAssert("Renderer가 nullptr인 경우가 존재했습니다");
 				return;
 			}
 
