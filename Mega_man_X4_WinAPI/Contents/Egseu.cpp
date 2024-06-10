@@ -46,7 +46,9 @@ void AEgseu::Tick(float _DeltaTime)
 	// Player State Ãâ·Â
 	if (Debug_Num != static_cast<int>(State))
 	{
-		UEngineDebug::OutPutDebugText(std::to_string(static_cast<int>(State)));
+		int PlayerStateNumber = static_cast<int>(State);
+		std::string PlayerState = "Player State Num : " + std::to_string(PlayerStateNumber);
+		UEngineDebug::OutPutDebugText(PlayerState);
 		Debug_Num = static_cast<int>(State);
 	}
 	// Debug
