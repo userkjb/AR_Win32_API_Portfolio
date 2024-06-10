@@ -115,6 +115,8 @@ void ACyberPeacock::Tick(float _DeltaTime)
 	}
 
 	// test
+	//std::string PeacockHp = "Peacock Hp : " + std::to_string(Hp);
+	//UEngineDebug::OutPutDebugText(PeacockHp.data());
 	//if (true == UEngineInput::IsDown('K'))
 	//{
 	//	CreateMissile(0);
