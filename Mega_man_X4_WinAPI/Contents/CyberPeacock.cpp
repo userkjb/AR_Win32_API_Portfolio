@@ -490,7 +490,22 @@ void ACyberPeacock::Disappear(float _DeltaTime)
 void ACyberPeacock::AppearStart()
 {
 	PeacockRenderer->SetActive(true);
-	PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
+	if (RandValue == 2)
+	{
+		if (TrackingShotDir == EActorDir::Left)
+		{
+			// 나타나는 위치가 왼쪽 일 때.
+			PeacockRenderer->ChangeAnimation("Disappear_Appear_Right");
+		}
+		else if (TrackingShotDir == EActorDir::Right)
+		{
+			PeacockRenderer->ChangeAnimation("Disappear_Appear_Left");
+		}
+	}
+	else
+	{
+		PeacockRenderer->ChangeAnimation(GetPlayerOppositeAnimationName("Disappear_Appear"));
+	}
 	AppearTime = 0.0f;
 	UEngineSound::SoundPlay("Disappear_Sound.mp3");
 }
