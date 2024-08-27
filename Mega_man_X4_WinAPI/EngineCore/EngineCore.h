@@ -102,8 +102,14 @@ private :
 
 	std::vector<std::string> DestroyLevelName;
 
+	/// <summary>
+	/// WindowMessageLoop에서 호출.
+	/// </summary>
 	static void EngineTick();
 	void CoreTick();
+	/// <summary>
+	/// WindowMessageLoop에서 호출.
+	/// </summary>
 	static void EngineEnd();
 
 	void LevelInit(ULevel* _Level, std::string_view _Name);
