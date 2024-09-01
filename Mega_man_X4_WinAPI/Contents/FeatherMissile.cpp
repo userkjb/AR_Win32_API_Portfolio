@@ -334,6 +334,7 @@ void AFeatherMissile::CollisionCheck()
 	{
 		AEgseu* Player = dynamic_cast<AEgseu*>(TargetResult[0]->GetOwner());
 		Player->SetPlayerHp(Damage);
+		Player->SetStateChange(EEgseuState::Hit);
 		StateChange(ECyberPeacockMissileState::Death);
 		return;
 	}
