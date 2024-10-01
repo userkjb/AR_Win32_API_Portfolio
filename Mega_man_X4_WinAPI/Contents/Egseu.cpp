@@ -4802,6 +4802,8 @@ void AEgseu::Hit(float _DeltaTime)
 	FVector HitMove = FVector::Zero;
 	float HitSpeed = 100.0f;
 	FVector Pos = GetActorLocation();
+	
+	// 팅겨져 나가기.
 	if (DirState == EActorDir::Right)
 	{
 		HitMove = FVector::Left * HitSpeed * _DeltaTime;
@@ -4869,6 +4871,7 @@ void AEgseu::Hit_MiruTorearu(float _DeltaTime)
 	if (OpDir >= 3)
 	{
 		OpDir = 0;
+		GravityVector = FVector::Zero;
 		StateChange(EEgseuState::Idle);
 		return;
 	}
@@ -5140,6 +5143,10 @@ void AEgseu::CollisionCheck(float _DeltaTime)
 	std::vector<UCollision*> MiruTorearuResult;
 	if (true == PlayerCollision->CollisionCheck(ECollisionOrder::MiruTorearu, MiruTorearuResult))
 	{
+		if (State == EEgseuState::Hit_MiruTorearu)
+		{
+			return;
+		}
 		//AMiruTorearu* Enemy = (AMiruTorearu*)MiruTorearuResult[0]->GetOwner();
 		AMiruTorearu* Enemy = dynamic_cast<AMiruTorearu*>(MiruTorearuResult[0]->GetOwner());
 		Enemy->SetMiruTorearuState(EMiruTorearuState::Attack);
