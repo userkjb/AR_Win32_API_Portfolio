@@ -311,13 +311,14 @@ void AFeatherMissile::Run(float _DeltaTime)
 void AFeatherMissile::DeathStart()
 {
 	MissileRenderer->ChangeAnimation("Death");
+	MissileCollision->SetActive(false);
 	DeathTime = 0.0f;
 }
 
 void AFeatherMissile::Death(float _DeltaTime)
 {
 	DeathTime += _DeltaTime;
-	if (DeathTime >= 2.0f)
+	if (DeathTime >= DeathLifeTime)
 	{
 		this->Destroy(0.0f);
 	}

@@ -65,6 +65,7 @@ private :
 
 	FVector MissileVector = FVector::Zero;
 	const float Speed = 500.0f;
+	const float DeathLifeTime = 1.5f;
 	float LifeTime = 0.0f;
 	float MissileStartDelay = 0.0f;
 	float DeathTime = 0.0f;
