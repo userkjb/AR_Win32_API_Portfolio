@@ -4814,7 +4814,7 @@ void AEgseu::Hit(float _DeltaTime)
 		HitMove = FVector::Right * HitSpeed * _DeltaTime;
 		Pos.X += 40.0f;
 	}
-	HitMove += GravityVector;
+	//HitMove += GravityVector;
 
 
 	// ¶¥ Ã¼Å©
