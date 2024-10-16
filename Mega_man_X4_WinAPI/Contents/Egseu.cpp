@@ -933,6 +933,12 @@ void AEgseu::Idle(float _DeltaTime)
 		DashTime = 0.0f;
 	}
 
+	// Hit -> Idle
+	if (PreState == EEgseuState::Hit)
+	{
+		MoveUpdate(_DeltaTime);
+	}
+
 	// 가만히 있는데 뱡향 키가 눌렸을 때.
 	if (true == UEngineInput::IsPress(VK_LEFT) ||
 		true == UEngineInput::IsPress(VK_RIGHT))
@@ -4778,6 +4784,7 @@ void AEgseu::WallKickAttack_Up(float _DeltaTime)
 #pragma region Hit
 void AEgseu::HitStart()
 {
+	PreState = EEgseuState::Hit;
 	PlayerRender->ChangeAnimation(GetAnimationName("Hit"));
 	PlayerCollision->SetActive(false);
 	Hit_InvincibilityTime = 0.0f;

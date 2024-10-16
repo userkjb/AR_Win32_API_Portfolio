@@ -294,6 +294,7 @@ private :
 	// ===========================================================
 
 	EEgseuState State = EEgseuState::None;
+	EEgseuState PreState = EEgseuState::None;
 	ERenderOrder RenderOrder = ERenderOrder::None;
 	EActorDir DirState = EActorDir::Right;
 
