@@ -293,7 +293,7 @@ private :
 	Color8Bit TransColor; // 자를 색상. / Set
 
 	bool CameraEffect = true;
-	float CameraRatio = 1.0f;
+	float CameraRatio = 1.0f; // 카메라 비율 값
 
 	// === Animation ===
 	std::map<std::string, UAnimationInfo> AnimationInfos;
