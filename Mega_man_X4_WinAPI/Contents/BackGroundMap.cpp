@@ -119,7 +119,7 @@ void ABackGroundMap::TitleStart()
 
 void ABackGroundMap::Title(float _DeltaTime)
 {
-	if (true == UEngineInput::IsDown(VK_RETURN))
+	if (true == UEngineInput::IsDown(VK_RETURN) || true == UEngineInput::IsDown(VK_SPACE))
 	{
 		StateChange(EBackGroundMapState::GameMenu);
 		return;
@@ -177,7 +177,7 @@ void ABackGroundMap::GameMenu(float _DeltaTime)
 		break;
 	}
 
-	if (true == UEngineInput::IsDown(VK_RETURN))
+	if (true == UEngineInput::IsDown(VK_RETURN) || true == UEngineInput::IsDown(VK_SPACE))
 	{
 		GEngine->ChangeLevel("CyberSpaceLevel");
 	}
