@@ -1,6 +1,7 @@
 #include "BackGroundMap.h"
 #include <EngineCore/EngineResourcesManager.h>
 #include <EngineBase/EngineDebug.h>
+#include <EnginePlatform/EngineSound.h>
 
 // Helper
 #include <EngineCore/EngineCore.h>
@@ -121,6 +122,7 @@ void ABackGroundMap::Title(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown(VK_RETURN) || true == UEngineInput::IsDown(VK_SPACE))
 	{
+		UEngineSound::SoundPlay("SelectFocus.mp3");
 		StateChange(EBackGroundMapState::GameMenu);
 		return;
 	}
@@ -144,6 +146,7 @@ void ABackGroundMap::GameMenu(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown(VK_UP)) // Up
 	{
+		UEngineSound::SoundPlay("SelectFocus.mp3");
 		KeyCount--;
 		if (KeyCount <= 0)
 		{
@@ -152,6 +155,7 @@ void ABackGroundMap::GameMenu(float _DeltaTime)
 	}
 	else if (true == UEngineInput::IsDown(VK_DOWN)) // Down
 	{
+		UEngineSound::SoundPlay("SelectFocus.mp3");
 		KeyCount++;
 		if (KeyCount > 3)
 		{
@@ -179,6 +183,7 @@ void ABackGroundMap::GameMenu(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown(VK_RETURN) || true == UEngineInput::IsDown(VK_SPACE))
 	{
+		UEngineSound::SoundPlay("Select.mp3");
 		GEngine->ChangeLevel("CyberSpaceLevel");
 	}
 }
